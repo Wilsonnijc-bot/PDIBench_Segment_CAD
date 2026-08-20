@@ -1,0 +1,10 @@
+.tmp/
+.DS_Store
+results/
+configs/*.local.env
+*.log
+*.pth
+*.safetensors
+*.npz
+__pycache__/
+.pytest_cache/

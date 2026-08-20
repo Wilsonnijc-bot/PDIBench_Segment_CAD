@@ -1,0 +1,6 @@
+[submodule "PDI-Bench-original"]
+	path = PDI-Bench-original
+	url = https://github.com/AnteaWu/PDI-Bench.git
+[submodule "PDI-Bench-edited/third_party/mega_sam"]
+	path = PDI-Bench-edited/third_party/mega_sam
+	url = https://github.com/mega-sam/mega-sam.git
