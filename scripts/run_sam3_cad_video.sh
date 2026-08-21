@@ -64,11 +64,9 @@ if [[ "${PDI_SKIP_SAM3_INSTALL:-0}" != "1" ]]; then
   "${SSH[@]}" "PDI_GPU_ROOT='$PDI_GPU_ROOT' bash '$PDI_GPU_ROOT/code/install_sam3_gpu.sh'"
 fi
 
-CHECKPOINT_ARG=""
-if [[ -n "${PDI_SAM3_CHECKPOINT:-}" ]]; then
-  CHECKPOINT_ARG="--checkpoint '$PDI_SAM3_CHECKPOINT'"
-fi
-"${SSH[@]}" "source /root/miniconda3/etc/profile.d/conda.sh && conda activate '$PDI_GPU_ROOT/env/sam3' && export HF_HOME='$PDI_GPU_ROOT/cache/huggingface' && export PYTHONPATH='$REMOTE_CODE/src' && cd '$REMOTE_CODE' && python -m pdi_eval.perception.sam3_cad_segment --project-root '$REMOTE_CODE' --manifest '$REMOTE_CODE/configs/$(basename "$MANIFEST")' --input '$REMOTE_VIDEO' --output-npz '$REMOTE_SEGMENTATION' $CHECKPOINT_ARG"
+SAM3_CHECKPOINT="${PDI_SAM3_CHECKPOINT:-$PDI_GPU_ROOT/models/sam3/sam3.pt}"
+SAM3_BPE="${PDI_SAM3_BPE:-$PDI_GPU_ROOT/models/sam3/bpe_simple_vocab_16e6.txt.gz}"
+"${SSH[@]}" "source /root/miniconda3/etc/profile.d/conda.sh && conda activate '$PDI_GPU_ROOT/env/sam3' && export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONPATH='$REMOTE_CODE/src' && cd '$REMOTE_CODE' && python -m pdi_eval.perception.sam3_cad_segment --project-root '$REMOTE_CODE' --manifest '$REMOTE_CODE/configs/$(basename "$MANIFEST")' --input '$REMOTE_VIDEO' --output-npz '$REMOTE_SEGMENTATION' --checkpoint '$SAM3_CHECKPOINT' --bpe-path '$SAM3_BPE'"
 
 if [[ "${PDI_SAM3_SEGMENT_ONLY:-0}" == "1" ]]; then
   rsync -az -e "$RSYNC_SSH" \

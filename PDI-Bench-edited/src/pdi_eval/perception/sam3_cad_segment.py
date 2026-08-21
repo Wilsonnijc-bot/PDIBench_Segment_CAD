@@ -73,6 +73,12 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     video_path = args.input.resolve()
     manifest_path = args.manifest.resolve()
     output_npz = args.output_npz.resolve()
+    checkpoint_path = args.checkpoint.resolve()
+    bpe_path = args.bpe_path.resolve()
+    if not checkpoint_path.is_file():
+        raise FileNotFoundError(f"SAM3 checkpoint is missing: {checkpoint_path}")
+    if not bpe_path.is_file():
+        raise FileNotFoundError(f"SAM3 BPE tokenizer is missing: {bpe_path}")
     output_dir = output_npz.parent
     output_dir.mkdir(parents=True, exist_ok=True)
     manifest = yaml.safe_load(manifest_path.read_text(encoding="utf-8"))
@@ -89,10 +95,10 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     except ImportError as exc:
         raise RuntimeError("Install the pinned facebookresearch/sam3 package first") from exc
 
-    predictor_kwargs = {}
-    if args.checkpoint is not None:
-        predictor_kwargs["checkpoint_path"] = str(args.checkpoint.resolve())
-    predictor = build_sam3_video_predictor(**predictor_kwargs)
+    predictor = build_sam3_video_predictor(
+        checkpoint_path=str(checkpoint_path),
+        bpe_path=str(bpe_path),
+    )
     session_id = None
     sam3_config = manifest["sam3"]
     prompt_frame = int(sam3_config["prompt_frame"])
@@ -235,14 +241,14 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "manifest_sha256": sha256_file(manifest_path),
         "manifest_config": manifest,
         "sam3_source_commit": sam3_config["source_commit"],
-        "checkpoint": (
-            {
-                "path": str(args.checkpoint.resolve()),
-                "sha256": sha256_file(args.checkpoint.resolve()),
-            }
-            if args.checkpoint is not None
-            else {"source": "facebook/sam3 Hugging Face default"}
-        ),
+        "checkpoint": {
+            "path": str(checkpoint_path),
+            "sha256": sha256_file(checkpoint_path),
+        },
+        "bpe_tokenizer": {
+            "path": str(bpe_path),
+            "sha256": sha256_file(bpe_path),
+        },
         "text_prompt": sam3_config["text_prompt"],
         "cad_meshes": manifest["cad"]["meshes"],
         "reference_render_count": len(reference_records),
@@ -270,7 +276,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--input", type=Path, required=True)
     parser.add_argument("--output-npz", type=Path, required=True)
-    parser.add_argument("--checkpoint", type=Path)
+    parser.add_argument("--checkpoint", type=Path, required=True)
+    parser.add_argument("--bpe-path", type=Path, required=True)
     return parser
 
 

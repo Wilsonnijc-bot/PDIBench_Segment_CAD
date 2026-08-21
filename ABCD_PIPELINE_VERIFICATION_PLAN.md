@@ -1,5 +1,4 @@
-# A/B/C/D Pipeline Verification Plan
-
+0
 > Status: proposed validation protocol. The shared multi-object pipeline is
 > unverified until the required GPU experiments in this document pass.
 

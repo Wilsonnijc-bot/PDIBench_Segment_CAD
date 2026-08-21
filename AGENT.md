@@ -230,7 +230,7 @@ NumPy object arrays.
 * Reject all-zero MegaSAM fallback geometry for scored runs.
 * Record exact commands, code revision, inputs, mode, cache identity, and timing.
 * Keep stage caches resumable so one failure does not require rerunning SAM3 or
-  MegaSAM.
+  MegaSAM.s
 
 ## Testing
 

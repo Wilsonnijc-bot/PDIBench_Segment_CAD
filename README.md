@@ -94,8 +94,46 @@ Generate only the SAM3/CAD archive:
 PDI_SAM3_SEGMENT_ONLY=1 bash scripts/run.sh
 ```
 
-The official SAM3 checkpoint is gated on Hugging Face. Authenticate on the GPU
-host or set `PDI_SAM3_CHECKPOINT` to an accessible checkpoint.
+## Separate DINOv2 Reference Pipeline
+
+The reference-conditioned pipeline is independent of the manual/CAD SAM3
+launcher. Supply new reference images in target-named subdirectories:
+
+```text
+/path/to/new-references/
+  target-a/
+    view-1.jpg
+    view-2.jpg
+  target-b/
+    view-1.png
+```
+
+Install the pinned DINOv2 model on the GPU, then run DINOv2 localization and
+SAM3 box-prompted video segmentation:
+
+```bash
+bash scripts/prepare_dinov2_gpu.sh
+PDI_REFERENCE_DIR=/path/to/new-references \
+PDI_VIDEO_NAME=0000.mp4 \
+bash scripts/run_dinov2_sam3_video.sh
+```
+
+This writes `dinov2_boxes.json`, a box preview, dense similarity heatmaps, the
+canonical multi-object `segmentation.npz`, and `segmentation.json` under
+`results/dinov2-sam3/`. It does not read the repository's existing `references/`
+directory unless that path is explicitly passed as `PDI_REFERENCE_DIR`.
+
+Install SAM3 and download its checkpoint from the pinned ModelScope revision:
+
+```bash
+bash scripts/install_sam3_gpu.sh
+export PDI_SAM3_CHECKPOINT=/root/autodl-tmp/pdi/models/sam3/sam3.pt
+export PDI_SAM3_BPE=/root/autodl-tmp/pdi/models/sam3/bpe_simple_vocab_16e6.txt.gz
+```
+
+This path does not require Hugging Face authentication. The installer verifies
+the checkpoint and ModelScope tokenizer merges before making them available to
+the pipeline.
 
 ## Native Benchmark CLI
 
