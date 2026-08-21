@@ -16,7 +16,10 @@ from pdi_eval.perception.dinov2_reference_boxes import (
     xyxy_to_normalized_xywh,
 )
 from pdi_eval.perception.sam3_dinov2_segment import (
+    _active_franka_groups,
+    _parse_named_text_prompts,
     _select_prompt_result,
+    _select_tracking_result,
     _validate_franka_groups,
 )
 
@@ -116,8 +119,24 @@ class BoxExtractionTests(unittest.TestCase):
 
 
 class Sam3PromptSelectionTests(unittest.TestCase):
-    def test_requires_all_seven_canonical_franka_links(self):
-        groups = {f"link{index}": [Path("reference.png")] for index in range(1, 8)}
+    def test_parses_per_link_text_prompts(self):
+        prompts = _parse_named_text_prompts(
+            ["link4=white oval joint", "link7=white gripper"],
+            {"link4", "link7"},
+        )
+        self.assertEqual(prompts["link4"], "white oval joint")
+        with self.assertRaisesRegex(ValueError, "Duplicate"):
+            _parse_named_text_prompts(
+                ["link7=one", "link7=two"], {"link7"}
+            )
+
+    def test_retires_link1_and_requires_active_franka_links(self):
+        discovered = {
+            f"link{index}": [Path("reference.png")] for index in range(1, 8)
+        }
+        groups = _active_franka_groups(discovered)
+        self.assertNotIn("link1", groups)
+        self.assertEqual(tuple(groups), tuple(f"link{index}" for index in range(2, 8)))
         _validate_franka_groups(groups)
         with self.assertRaisesRegex(ValueError, "missing=.*link7"):
             _validate_franka_groups({name: paths for name, paths in groups.items() if name != "link7"})
@@ -145,6 +164,44 @@ class Sam3PromptSelectionTests(unittest.TestCase):
                 np.asarray([0.9, 0.8]),
                 (5, 5, 15, 15),
             )
+
+    def test_tracking_prefers_the_current_sam3_identity(self):
+        masks = np.zeros((2, 20, 20), dtype=bool)
+        previous = np.zeros((20, 20), dtype=bool)
+        previous[4:12, 4:12] = True
+        masks[0, 5:13, 5:13] = True
+        masks[1, 4:12, 4:12] = True
+        selected = _select_tracking_result(
+            np.asarray([7, 8]), masks, 8, previous
+        )
+        self.assertIsNotNone(selected)
+        object_id, mask = selected
+        self.assertEqual(object_id, 8)
+        np.testing.assert_array_equal(mask, masks[1])
+
+    def test_tracking_reassociates_a_replaced_identity_by_mask_overlap(self):
+        previous = np.zeros((20, 20), dtype=bool)
+        previous[4:12, 4:12] = True
+        masks = np.zeros((2, 20, 20), dtype=bool)
+        masks[0, 5:13, 5:13] = True
+        masks[1, 12:18, 12:18] = True
+        selected = _select_tracking_result(
+            np.asarray([10, 11]), masks, 7, previous
+        )
+        self.assertIsNotNone(selected)
+        object_id, mask = selected
+        self.assertEqual(object_id, 10)
+        np.testing.assert_array_equal(mask, masks[0])
+
+    def test_tracking_rejects_an_unrelated_replacement(self):
+        previous = np.zeros((100, 100), dtype=bool)
+        previous[5:15, 5:15] = True
+        replacement = np.zeros((1, 100, 100), dtype=bool)
+        replacement[0, 40:90, 40:90] = True
+        selected = _select_tracking_result(
+            np.asarray([10]), replacement, 7, previous
+        )
+        self.assertIsNone(selected)
 
 
 if __name__ == "__main__":

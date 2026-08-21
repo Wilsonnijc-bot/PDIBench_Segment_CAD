@@ -88,7 +88,7 @@ model change cannot silently reuse stale geometry.
 seven FER CAD meshes
         |
         v
-CAD-guided SAM3 once
+CAD-guided SAM3
         |
         +--> object_masks[T, N, H, W]  (N <= 7, identity retained)
         +--> union_mask[T, H, W]        (background exclusion only)

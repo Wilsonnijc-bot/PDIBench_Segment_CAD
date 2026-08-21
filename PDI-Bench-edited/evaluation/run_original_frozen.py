@@ -56,12 +56,18 @@ def main() -> int:
     parser.add_argument("--cache-dir", type=Path, required=True)
     parser.add_argument("--tracker-checkpoint", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument("--text-query", default="gripper")
     args = parser.parse_args()
     original_root = args.original_root.resolve()
     video = args.video.resolve()
     cache_dir = args.cache_dir.resolve()
     output_dir = args.output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
+    sam_cache = cache_dir / f"{video.stem}_sam2.npz"
+    geometry_cache = cache_dir / f"{video.stem}_mega_sam.npz"
+    if not sam_cache.is_file() or not geometry_cache.is_file():
+        raise FileNotFoundError("SAM3 adapter and shared geometry caches are required")
+    (cache_dir / f"{video.stem}_cotracker.npz").unlink(missing_ok=True)
     sys.path.insert(0, str(original_root / "src"))
 
     from pdi_eval.perception.track_wrapper import TrackWrapper  # noqa: E402
@@ -115,13 +121,12 @@ def main() -> int:
     try:
         report = PDIEvaluationPipeline(config).run(
             video_path=str(video),
-            click_points=[[0, 0]],
+            text_query=args.text_query,
         )
     finally:
         TrackWrapper._load_model = original_loader
     wall_seconds = time.perf_counter() - started
 
-    sam_cache = cache_dir / f"{video.stem}_sam2.npz"
     with np.load(sam_cache, allow_pickle=False) as archive:
         first_mask = np.asarray(archive["masks"])[0].astype(np.uint8)
     queries = np.asarray(captured["queries_tracker"])
@@ -191,6 +196,7 @@ def main() -> int:
             "cache_dir": str(cache_dir),
             "tracker_checkpoint": str(args.tracker_checkpoint.resolve()),
             "segmentation_source": "frozen SAM3 cache",
+            "sam3_text_prompt": args.text_query,
             "geometry_source": "shared MegaSAM cache",
             "foreground_query_count": int(foreground_keep.sum()),
             "background_query_count": int(background_keep.sum()),

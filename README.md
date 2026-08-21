@@ -97,31 +97,56 @@ PDI_SAM3_SEGMENT_ONLY=1 bash scripts/run.sh
 ## Separate DINOv2 Reference Pipeline
 
 The reference-conditioned pipeline is independent of the manual/CAD SAM3
-launcher. Supply new reference images in target-named subdirectories:
+launcher. Its reference groups are discovered under:
 
 ```text
-/path/to/new-references/
-  target-a/
-    view-1.jpg
-    view-2.jpg
-  target-b/
-    view-1.png
+robot_link_first15/by_link/
+  link_1/
+    001_*.png ... 015_*.png
+  ...
+  link_7/
+    001_*.png ... 015_*.png
 ```
+
+`contact_sheet_15.png` files are excluded. The videos default to
+`.tmp/COSMOS_Videos/`, and both paths can still be overridden with
+`PDI_REFERENCE_DIR` and `PDI_INPUT_VIDEO`.
+
+`link1` is retired from this automatic branch. Its reference directory may
+remain present, but it is ignored; active outputs preserve the canonical names
+and IDs `link2` through `link7`.
 
 Install the pinned DINOv2 model on the GPU, then run DINOv2 localization and
 SAM3 box-prompted video segmentation:
 
 ```bash
 bash scripts/prepare_dinov2_gpu.sh
-PDI_REFERENCE_DIR=/path/to/new-references \
 PDI_VIDEO_NAME=0000.mp4 \
 bash scripts/run_dinov2_sam3_video.sh
 ```
 
-This writes `dinov2_boxes.json`, a box preview, dense similarity heatmaps, the
-canonical multi-object `segmentation.npz`, and `segmentation.json` under
-`results/dinov2-sam3/`. It does not read the repository's existing `references/`
-directory unless that path is explicitly passed as `PDI_REFERENCE_DIR`.
+Each active link is localized independently by DINOv2 and passed to an isolated SAM3
+box session, so prompts cannot reset or merge another link's identity. The
+launcher combines link-specific text with the unchanged DINOv2 boxes for
+`link4`, `link5`, and `link7`; the other links remain visual-box-only prompts.
+The launcher writes `dinov2_boxes.json`, a box preview, dense similarity
+heatmaps, `sam3_prompt_diagnostics.json`, the canonical multi-object
+`segmentation.npz`, and `segmentation.json` under `results/dinov2-sam3/`.
+The run fails if any active link is tracked on less than 80% of the video by default;
+override this only with `PDI_MINIMUM_TRACKED_FRACTION`.
+
+For a prepared 40 GB GPU, process videos in deterministic pairs. Shared code
+and model preparation runs once, each video gets an isolated remote work
+directory, and logs are kept separately under
+`results/dinov2-sam3/batch-logs/`:
+
+```bash
+bash scripts/run_dinov2_sam3_batch.sh \
+  0000.mp4 0001.mp4 0002.mp4 0003.mp4
+```
+
+The launcher starts at most two GPU jobs at a time. An odd final video runs by
+itself. Set `PDI_RUN_VARIANT` to keep differently configured batches separate.
 
 Install SAM3 and download its checkpoint from the pinned ModelScope revision:
 

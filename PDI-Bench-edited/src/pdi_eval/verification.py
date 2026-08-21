@@ -52,9 +52,9 @@ def prepare_frozen_inputs(
     canonical_archive = Path(canonical_archive).resolve()
     output_dir = Path(output_dir).resolve()
     segmentation = load_multi_object_segmentation(canonical_archive, video_path)
-    if segmentation.object_count != 7:
+    if segmentation.object_count not in (1, 7):
         raise ValueError(
-            f"A/B/C/D verification requires seven SAM3 objects, got "
+            f"link adapter requires one or seven SAM3 objects, got "
             f"{segmentation.object_count}: {segmentation.object_names}"
         )
     try:

@@ -9,6 +9,7 @@ PYTORCH_WHEEL_BASE="${PDI_PYTORCH_WHEEL_BASE:-https://mirrors.aliyun.com/pytorch
 CONDA_MAIN_CHANNEL="${PDI_CONDA_MAIN_CHANNEL:-https://mirror.sjtu.edu.cn/anaconda/pkgs/main}"
 DEPTH_CHECKPOINT_URL="${PDI_DEPTH_CHECKPOINT_URL:-https://hf-mirror.com/spaces/LiheYoung/Depth-Anything/resolve/main/checkpoints/depth_anything_vitl14.pth}"
 RAFT_CHECKPOINT_URL="${PDI_RAFT_CHECKPOINT_URL:-https://hf-mirror.com/sbalani/raft-things/resolve/main/raft-things.pth}"
+DINO_V2_COMMIT="${PDI_DINO_V2_COMMIT:-7764ea0f912e53c92e82eb78a2a1631e92725fc8}"
 
 if [[ ! -f "$PDI_CODE/requirements.txt" ]]; then
   echo "PDI source is missing at $PDI_CODE" >&2
@@ -105,11 +106,26 @@ fi
 
 mkdir -p \
   "$PDI_CODE/third_party/mega_sam/Depth-Anything/checkpoints" \
-  "$PDI_CODE/third_party/mega_sam/cvd_opt"
+  "$PDI_CODE/third_party/mega_sam/cvd_opt" \
+  "$PDI_CODE/third_party/mega_sam/torchhub"
 ln -sfn "$PDI_MODELS/depth_anything/depth_anything_vitl14.pth" \
   "$PDI_CODE/third_party/mega_sam/Depth-Anything/checkpoints/depth_anything_vitl14.pth"
 ln -sfn "$PDI_MODELS/raft/raft-things.pth" \
   "$PDI_CODE/third_party/mega_sam/cvd_opt/raft-things.pth"
+
+DINO_V2_SOURCE="$PDI_CODE/third_party/mega_sam/torchhub/facebookresearch_dinov2_main"
+if [[ ! -f "$DINO_V2_SOURCE/hubconf.py" ]]; then
+  git clone https://github.com/facebookresearch/dinov2.git "$DINO_V2_SOURCE"
+fi
+git -C "$DINO_V2_SOURCE" fetch --depth 1 origin "$DINO_V2_COMMIT"
+git -C "$DINO_V2_SOURCE" checkout --detach "$DINO_V2_COMMIT"
+
+MEGA_SAM_BASE="$PDI_CODE/third_party/mega_sam/base"
+ORIGINAL_MEGA_SAM_BASE="$PDI_GPU_ROOT/code/PDI-Bench-original/third_party/mega_sam/base"
+if [[ ! -f "$MEGA_SAM_BASE/thirdparty/lietorch/lietorch/__init__.py" ]] && \
+   [[ -f "$ORIGINAL_MEGA_SAM_BASE/thirdparty/lietorch/lietorch/__init__.py" ]]; then
+  cp -a "$ORIGINAL_MEGA_SAM_BASE/." "$MEGA_SAM_BASE/"
+fi
 
 if ! python -c 'import droid_backends; from lietorch import SE3' 2>/dev/null; then
   git config --global --add safe.directory \

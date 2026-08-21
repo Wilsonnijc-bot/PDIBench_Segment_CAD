@@ -328,6 +328,7 @@ class MegaSamWrapper(BasePerceptor):
         r1 = subprocess.run([
             sys.executable, os.path.join(self.mega_sam_root, "Depth-Anything", "run_videos.py"),
             "--img-path", frames_dir, "--outdir", da_out_dir, "--encoder", "vitl", "--load-from", self.da_ckpt,
+            "--localhub",
         ], cwd=self.mega_sam_root, env=env, capture_output=True, text=True)
         if r1.returncode != 0:
             pdi_logger.error(f"Depth-Anything failed (code {r1.returncode}):\n{r1.stderr[-2000:]}")

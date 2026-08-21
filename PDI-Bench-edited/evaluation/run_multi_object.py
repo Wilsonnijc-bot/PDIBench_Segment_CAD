@@ -74,6 +74,11 @@ def build_parser() -> argparse.ArgumentParser:
         default="both",
         help="Run one CoTracker mode or produce a direct two-mode comparison",
     )
+    parser.add_argument(
+        "--disable-replay",
+        action="store_true",
+        help="Skip replay rendering for metric-only batch runs",
+    )
     return parser
 
 
@@ -97,6 +102,8 @@ def main() -> int:
     cache_dir.mkdir(parents=True, exist_ok=True)
 
     config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
+    if args.disable_replay:
+        config.setdefault("multi_object_replay", {})["enabled"] = False
     if args.tracker_checkpoint is not None:
         checkpoint = args.tracker_checkpoint.resolve()
         if not checkpoint.is_file():

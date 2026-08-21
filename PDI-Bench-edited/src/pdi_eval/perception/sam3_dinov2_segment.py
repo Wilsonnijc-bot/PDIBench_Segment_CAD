@@ -25,7 +25,16 @@ from .dinov2_reference_boxes import (
 )
 
 
-FRANKA_LINK_NAMES = tuple(f"link{index}" for index in range(1, 8))
+FRANKA_LINK_NAMES = (
+    # "link1",  # Retired from the automatic DINOv2-to-SAM3 pipeline.
+    "link2",
+    "link3",
+    "link4",
+    "link5",
+    "link6",
+    "link7",
+)
+RETIRED_FRANKA_LINK_NAMES = {"link1"}
 MASK_COLORS = (
     (49, 130, 189),
     (57, 174, 88),
@@ -35,6 +44,7 @@ MASK_COLORS = (
     (140, 86, 75),
     (227, 119, 194),
 )
+MIN_TRACKING_ASSOCIATION_SCORE = 0.10
 
 
 def _video_metadata(video_path: Path) -> dict[str, int | float]:
@@ -114,6 +124,49 @@ def _prompt_diagnostics(
     }
 
 
+def _select_tracking_result(
+    object_ids: np.ndarray,
+    masks: np.ndarray,
+    preferred_object_id: int,
+    previous_mask: np.ndarray,
+) -> tuple[int, np.ndarray] | None:
+    if len(object_ids) != len(masks):
+        raise RuntimeError("SAM3 returned inconsistent tracking arrays")
+    if len(object_ids) == 0:
+        return None
+
+    previous_mask = np.asarray(previous_mask, dtype=bool)
+    previous_area = int(previous_mask.sum())
+    ranked: list[tuple[float, float, int, np.ndarray]] = []
+    for index, object_id in enumerate(object_ids.tolist()):
+        mask = np.asarray(masks[index], dtype=bool)
+        area = int(mask.sum())
+        if area == 0:
+            continue
+        intersection = int(np.logical_and(previous_mask, mask).sum())
+        union = previous_area + area - intersection
+        overlap = intersection / max(union, 1)
+        area_consistency = min(previous_area, area) / max(previous_area, area, 1)
+        association_score = 0.75 * overlap + 0.25 * area_consistency
+        identity_bonus = 0.10 if int(object_id) == preferred_object_id else 0.0
+        ranked.append(
+            (
+                association_score + identity_bonus,
+                association_score,
+                int(object_id),
+                mask,
+            )
+        )
+    if not ranked:
+        return None
+    _, association_score, object_id, mask = max(
+        ranked, key=lambda item: (item[0], -item[2])
+    )
+    if association_score < MIN_TRACKING_ASSOCIATION_SCORE:
+        return None
+    return object_id, mask
+
+
 def _write_json(path: Path, data: Any) -> None:
     temporary = path.with_suffix(".tmp.json")
     temporary.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -126,9 +179,44 @@ def _validate_franka_groups(groups: dict[str, list[Path]]) -> None:
         missing = sorted(set(FRANKA_LINK_NAMES).difference(groups))
         extra = sorted(set(groups).difference(FRANKA_LINK_NAMES))
         raise ValueError(
-            f"Franka references must contain exactly link1 through link7; "
+            f"Active Franka references must contain exactly link2 through link7; "
             f"missing={missing}, extra={extra}"
         )
+
+
+def _active_franka_groups(
+    groups: dict[str, list[Path]],
+) -> dict[str, list[Path]]:
+    return {
+        name: paths
+        for name, paths in groups.items()
+        if name not in RETIRED_FRANKA_LINK_NAMES
+    }
+
+
+def _parse_named_text_prompts(
+    values: list[str], allowed_names: set[str]
+) -> dict[str, str]:
+    prompts: dict[str, str] = {}
+    for value in values:
+        if "=" not in value:
+            raise ValueError(
+                f"Invalid --link-text-prompt {value!r}; expected NAME=TEXT"
+            )
+        name, prompt = (part.strip() for part in value.split("=", 1))
+        if name not in allowed_names:
+            raise ValueError(
+                f"Invalid target {name!r} in --link-text-prompt; expected one of "
+                f"{sorted(allowed_names)}"
+            )
+        if not prompt:
+            raise ValueError(
+                f"Invalid --link-text-prompt {value!r}; prompt is empty"
+            )
+        if name in prompts:
+            raise ValueError(f"Duplicate --link-text-prompt for {name}")
+        prompts[name] = prompt
+    return prompts
 
 
 def _write_object_mask_preview(
@@ -162,6 +250,8 @@ def _write_object_mask_preview(
 def run(args: argparse.Namespace) -> dict[str, Any]:
     from .segmentation_archive import frame_measurements
 
+    if not 0.0 <= args.minimum_tracked_fraction <= 1.0:
+        raise ValueError("minimum tracked fraction must be between 0 and 1")
     started = time.perf_counter()
     video_path = args.input.resolve()
     output_npz = args.output_npz.resolve()
@@ -170,6 +260,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     video = _video_metadata(video_path)
     groups = discover_reference_groups(args.reference_dir)
     if args.require_franka_links:
+        groups = _active_franka_groups(groups)
         _validate_franka_groups(groups)
     prompt_image = load_prompt_frame(video_path, args.frame_index)
 
@@ -186,6 +277,18 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         minimum_contrast=args.minimum_contrast,
         reference_spatial_priors=args.reference_spatial_priors,
     )
+    link_text_prompts = _parse_named_text_prompts(
+        args.link_text_prompt, {box.name for box in boxes}
+    )
+    if args.selected_target is not None:
+        selected_boxes = [box for box in boxes if box.name == args.selected_target]
+        if not selected_boxes:
+            raise ValueError(
+                f"selected target {args.selected_target!r} is not in "
+                f"{[box.name for box in boxes]}"
+            )
+        boxes = selected_boxes
+        heatmaps = {args.selected_target: heatmaps[args.selected_target]}
     localization_seconds = time.perf_counter() - localization_started
     del encoder
     gc.collect()
@@ -223,8 +326,13 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     predictor = build_sam3_video_predictor(
         checkpoint_path=str(args.sam3_checkpoint.resolve()),
         bpe_path=str(args.sam3_bpe.resolve()),
+        apply_temporal_disambiguation=args.sam3_temporal_disambiguation,
     )
-    archive_object_ids = np.arange(1, len(boxes) + 1, dtype=np.int64)
+    archive_object_ids = (
+        np.asarray([int(box.name.removeprefix("link")) for box in boxes], dtype=np.int64)
+        if args.require_franka_links
+        else np.arange(1, len(boxes) + 1, dtype=np.int64)
+    )
     object_masks = np.zeros(
         (int(video["frames"]), len(boxes), int(video["height"]), int(video["width"])),
         dtype=bool,
@@ -238,6 +346,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         for target_index, target in enumerate(boxes):
             session_id = None
             seen_frames: set[int] = set()
+            text_prompt = link_text_prompts.get(target.name, args.text_prompt)
             try:
                 session_id = predictor.handle_request(
                     {
@@ -251,7 +360,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                         "type": "add_prompt",
                         "session_id": session_id,
                         "frame_index": args.frame_index,
-                        "text": args.text_prompt,
+                        "text": text_prompt,
                         "bounding_boxes": [list(target.box_xywh_normalized)],
                         "bounding_box_labels": [1],
                     }
@@ -273,6 +382,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                     candidate_scores,
                     object_id,
                 )
+                diagnostic["text_prompt"] = text_prompt
                 prompt_diagnostic_records.append(diagnostic)
                 _write_json(prompt_diagnostics_path, prompt_diagnostic_records)
                 print(json.dumps({"sam3_prompt": diagnostic}, sort_keys=True), file=sys.stderr)
@@ -281,6 +391,9 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 seen_frames.add(args.frame_index)
                 sam_scores[target.name] = score
                 session_object_ids[target.name] = object_id
+                active_object_id = object_id
+                previous_mask = mask
+                reidentifications: list[dict[str, int]] = []
 
                 for response in predictor.handle_stream_request(
                     {
@@ -295,9 +408,25 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                     frame_outputs = response["outputs"]
                     frame_ids = np.asarray(frame_outputs["out_obj_ids"], dtype=np.int64)
                     frame_masks = np.asarray(frame_outputs["out_binary_masks"], dtype=bool)
-                    matches = np.flatnonzero(frame_ids == object_id)
-                    if len(matches):
-                        object_masks[frame_index, target_index] = frame_masks[int(matches[0])]
+                    selected = _select_tracking_result(
+                        frame_ids,
+                        frame_masks,
+                        active_object_id,
+                        previous_mask,
+                    )
+                    if selected is not None:
+                        next_object_id, next_mask = selected
+                        if next_object_id != active_object_id:
+                            reidentifications.append(
+                                {
+                                    "frame_index": frame_index,
+                                    "from_object_id": active_object_id,
+                                    "to_object_id": next_object_id,
+                                }
+                            )
+                        active_object_id = next_object_id
+                        previous_mask = next_mask
+                        object_masks[frame_index, target_index] = next_mask
             finally:
                 if session_id is not None:
                     predictor.handle_request(
@@ -309,6 +438,28 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 raise RuntimeError(
                     f"SAM3 propagation for {target.name} omitted {len(missing)} frames; "
                     f"first missing frame is {missing[0]}"
+                )
+            frame_areas = object_masks[:, target_index].reshape(
+                int(video["frames"]), -1
+            ).sum(axis=1)
+            tracked_frames = int(np.count_nonzero(frame_areas))
+            tracked_fraction = tracked_frames / int(video["frames"])
+            diagnostic["tracking"] = {
+                "tracked_frames": tracked_frames,
+                "total_frames": int(video["frames"]),
+                "tracked_fraction": tracked_fraction,
+                "minimum_area_pixels": int(frame_areas[frame_areas > 0].min())
+                if tracked_frames
+                else 0,
+                "maximum_area_pixels": int(frame_areas.max()),
+                "reidentifications": reidentifications,
+            }
+            _write_json(prompt_diagnostics_path, prompt_diagnostic_records)
+            if tracked_fraction < args.minimum_tracked_fraction:
+                raise RuntimeError(
+                    f"SAM3 tracked {target.name} on only {tracked_frames}/"
+                    f"{int(video['frames'])} frames ({tracked_fraction:.1%}); "
+                    f"minimum is {args.minimum_tracked_fraction:.1%}"
                 )
     finally:
         shutdown = getattr(predictor, "shutdown", None)
@@ -348,9 +499,12 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "video": video,
         "frame_index": args.frame_index,
         "reference_dir": str(args.reference_dir.resolve()),
+        "sam3_temporal_disambiguation": args.sam3_temporal_disambiguation,
+        "minimum_tracked_fraction": args.minimum_tracked_fraction,
         "targets": [
             {
                 **asdict(box),
+                "sam3_text_prompt": link_text_prompts.get(box.name, args.text_prompt),
                 "object_id": int(object_id),
                 "sam3_session_object_id": session_object_ids[box.name],
                 "sam3_score": sam_scores[box.name],
@@ -385,9 +539,21 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--sam3-bpe", type=Path, required=True)
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--frame-index", type=int, default=0)
-    parser.add_argument("--text-prompt", default="white robotic arm link")
+    parser.add_argument("--text-prompt", default="visual")
+    parser.add_argument(
+        "--selected-target",
+        help="Run SAM3 only for one localized reference target",
+    )
+    parser.add_argument(
+        "--link-text-prompt",
+        action="append",
+        default=[],
+        metavar="NAME=TEXT",
+        help="Override the SAM3 text prompt for one reference target",
+    )
     parser.add_argument("--require-franka-links", action="store_true")
-    parser.add_argument("--sam3-threshold", type=float, default=0.10)
+    parser.add_argument("--sam3-temporal-disambiguation", action="store_true")
+    parser.add_argument("--minimum-tracked-fraction", type=float, default=0.80)
     parser.add_argument("--scene-side", type=int, default=840)
     parser.add_argument("--reference-side", type=int, default=448)
     parser.add_argument("--top-fraction", type=float, default=0.12)
