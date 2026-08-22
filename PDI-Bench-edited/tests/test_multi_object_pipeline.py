@@ -122,6 +122,52 @@ class MultiObjectTrackingModeTests(unittest.TestCase):
         wrapper.model = _FakePredictor()
         return wrapper
 
+    def test_uses_targeted_dense_query_budgets_for_links_2_to_4(self):
+        counts = TrackWrapper._requested_object_query_counts(
+            tuple(f"link{index}" for index in range(2, 8)),
+            100,
+            {"link2": 256, "link3": 192, "link4": 128},
+        )
+
+        self.assertEqual(counts, (256, 192, 128, 100, 100, 100))
+
+    def test_rejects_unknown_query_budget_override(self):
+        with self.assertRaisesRegex(ValueError, "unknown objects"):
+            TrackWrapper._requested_object_query_counts(
+                ("link2", "link3"), 100, {"link7": 128}
+            )
+
+    def test_spatial_balancing_avoids_response_cluster(self):
+        candidates = np.asarray(
+            [
+                [0, 0, 0],
+                [0, 1, 0],
+                [0, 2, 0],
+                [0, 100, 0],
+                [0, 0, 100],
+            ],
+            dtype=np.float32,
+        )
+
+        selected = TrackWrapper._spatially_balance_queries(candidates, 3)
+
+        np.testing.assert_array_equal(
+            selected[:, 1:3], [[0, 0], [100, 0], [0, 100]]
+        )
+
+    def test_grid_query_fallback_is_deterministic(self):
+        mask = np.zeros((30, 60), dtype=bool)
+        mask[5:25, 10:50] = True
+        wrapper = self._wrapper()
+
+        first = wrapper._grid_sample_queries(mask, region=1, n=16)
+        second = wrapper._grid_sample_queries(mask, region=1, n=16)
+
+        np.testing.assert_array_equal(first, second)
+        self.assertEqual(len(first), 16)
+        self.assertGreater(float(np.ptp(first[:, 1])), 25)
+        self.assertGreater(float(np.ptp(first[:, 2])), 10)
+
     def test_joint_query_runs_one_forward_and_splits_objects(self):
         wrapper = self._wrapper()
         result = wrapper.track_prepared(_prepared(), "joint-query")
@@ -205,6 +251,42 @@ class ModeComparisonTests(unittest.TestCase):
         self.assertEqual(
             comparison["speed"]["exact_minus_joint_peak_gpu_memory_bytes"], 3000
         )
+
+    def test_marks_failed_link_comparison_unavailable(self):
+        failed = {
+            "objects": {
+                "link2": {"status": "failed", "error": "insufficient depth"}
+            },
+            "timing": {
+                "tracking": {
+                    "model_seconds": 1.0,
+                    "total_tracking_seconds": 1.0,
+                    "peak_gpu_memory_bytes": 100,
+                }
+            },
+        }
+        complete = {
+            "objects": {
+                "link2": {
+                    "status": "complete",
+                    "pdi_score": 0.2,
+                    "grade": "A",
+                    "breakdown": {
+                        "scale_component": 0.1,
+                        "traj_component": 0.2,
+                        "epsilon_rigidity": 0.3,
+                        "vp_component": 0.4,
+                    },
+                }
+            },
+            "timing": failed["timing"],
+        }
+
+        comparison = compare_mode_reports(
+            {"joint-query": failed, "exact-group": complete}
+        )
+
+        self.assertEqual(comparison["objects"]["link2"]["status"], "unavailable")
 
     def test_compares_only_queries_retained_by_both_modes(self):
         joint = TrackWrapper.__new__(TrackWrapper)

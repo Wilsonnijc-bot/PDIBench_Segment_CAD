@@ -27,8 +27,16 @@ def job_slug(dataset: str, relative_path: str, sha256: str) -> str:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dataset", action="append", required=True, metavar="NAME=DIR")
+    parser.add_argument(
+        "--replays-per-dataset",
+        type=int,
+        default=0,
+        help="Mark the first N sorted videos in each dataset for replay rendering",
+    )
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
+    if args.replays_per_dataset < 0:
+        parser.error("--replays-per-dataset must be non-negative")
 
     records = []
     for specification in args.dataset:
@@ -38,7 +46,13 @@ def main() -> int:
         root = Path(root_value).resolve()
         if not root.is_dir():
             parser.error(f"dataset directory is missing: {root}")
-        for video in sorted(root.rglob("*.mp4")):
+        videos = sorted(root.rglob("*.mp4"))
+        if args.replays_per_dataset > len(videos):
+            parser.error(
+                f"dataset {dataset!r} has only {len(videos)} videos, fewer than "
+                f"the requested {args.replays_per_dataset} replays"
+            )
+        for dataset_index, video in enumerate(videos):
             relative_path = video.relative_to(root).as_posix()
             digest = sha256_file(video)
             records.append(
@@ -49,15 +63,18 @@ def main() -> int:
                     "job_id": job_slug(dataset, relative_path, digest),
                     "sha256": digest,
                     "size_bytes": video.stat().st_size,
+                    "replay_selected": dataset_index < args.replays_per_dataset,
                 }
             )
     job_ids = [record["job_id"] for record in records]
     if len(job_ids) != len(set(job_ids)):
         raise RuntimeError("dataset-qualified job IDs are not unique")
     payload = {
-        "schema_version": 1,
+        "schema_version": 2,
         "video_count": len(records),
         "total_size_bytes": sum(record["size_bytes"] for record in records),
+        "replay_count": sum(record["replay_selected"] for record in records),
+        "replays_per_dataset": args.replays_per_dataset,
         "videos": records,
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)

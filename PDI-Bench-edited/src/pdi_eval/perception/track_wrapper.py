@@ -32,6 +32,7 @@ class PreparedMultiObjectTracking:
     tracker_hw: tuple[int, int]
     scale_xy: tuple[float, float]
     frames_count: int
+    requested_object_query_counts: tuple[int, ...] = ()
     timings: dict[str, float] = field(default_factory=dict)
 
 
@@ -127,34 +128,72 @@ class TrackWrapper(BasePerceptor):
         count: int,
         label: str,
     ) -> np.ndarray:
-        queries = self._sift_sample_queries(gray, mask, region=1, n=count)
-        if len(queries) < count // 2:
-            extra = self._shi_tomasi_sample_queries(
-                gray, mask, region=1, n=count - len(queries)
-            )
-            if len(extra):
-                queries = np.vstack([queries, extra]) if len(queries) else extra
-        def deduplicate(values: np.ndarray) -> np.ndarray:
-            unique = []
-            seen = set()
-            for query in values:
-                key = (round(float(query[1]), 3), round(float(query[2]), 3))
-                if key not in seen:
-                    seen.add(key)
-                    unique.append(query)
-            return np.asarray(unique[:count], dtype=np.float32).reshape(-1, 3)
-
-        queries = deduplicate(queries)
-        if len(queries) < 2:
-            pdi_logger.warning(f"Very few unique {label} features; using uniform grid")
-            grid = self._grid_sample_queries(mask, region=1, n=count)
-            candidates = np.vstack([queries, grid]) if len(queries) else grid
-            queries = deduplicate(candidates)
+        candidate_count = max(count * 4, count)
+        candidate_groups = (
+            self._sift_sample_queries(gray, mask, region=1, n=candidate_count),
+            self._shi_tomasi_sample_queries(
+                gray, mask, region=1, n=candidate_count
+            ),
+            self._grid_sample_queries(mask, region=1, n=count),
+        )
+        populated = [group for group in candidate_groups if len(group)]
+        candidates = (
+            np.vstack(populated)
+            if populated
+            else np.empty((0, 3), dtype=np.float32)
+        )
+        queries = self._spatially_balance_queries(candidates, count)
         if len(queries) < 2:
             raise ValueError(
                 f"{label} mask produced fewer than two unique CoTracker queries"
             )
         return queries
+
+    @staticmethod
+    def _requested_object_query_counts(
+        object_names: tuple[str, ...],
+        default_count: int,
+        overrides: dict[str, int] | None,
+    ) -> tuple[int, ...]:
+        configured = overrides or {}
+        unknown = sorted(set(configured).difference(object_names))
+        if unknown:
+            raise ValueError(f"query-count overrides contain unknown objects: {unknown}")
+        counts = tuple(int(configured.get(name, default_count)) for name in object_names)
+        if any(count < 2 for count in counts):
+            raise ValueError("every object query count must be at least two")
+        return counts
+
+    @staticmethod
+    def _spatially_balance_queries(values: np.ndarray, count: int) -> np.ndarray:
+        unique = []
+        seen = set()
+        for query in np.asarray(values, dtype=np.float32):
+            key = (round(float(query[1]), 3), round(float(query[2]), 3))
+            if key not in seen:
+                seen.add(key)
+                unique.append(query)
+        candidates = np.asarray(unique, dtype=np.float32).reshape(-1, 3)
+        if len(candidates) <= count:
+            return candidates
+
+        coordinates = candidates[:, 1:3].astype(np.float64)
+        selected = [0]
+        available = np.ones(len(candidates), dtype=bool)
+        available[0] = False
+        minimum_distance = np.sum(
+            (coordinates - coordinates[0]) ** 2, axis=1
+        )
+        while len(selected) < count:
+            scores = np.where(available, minimum_distance, -1.0)
+            index = int(np.argmax(scores))
+            if scores[index] < 0:
+                break
+            selected.append(index)
+            available[index] = False
+            distance = np.sum((coordinates - coordinates[index]) ** 2, axis=1)
+            minimum_distance = np.minimum(minimum_distance, distance)
+        return candidates[selected]
 
     def prepare_multi(
         self,
@@ -165,6 +204,7 @@ class TrackWrapper(BasePerceptor):
         bg_grid_size: int = 15,
         background_dilation: int = 5,
         max_dim: int = 880,
+        object_query_counts: dict[str, int] | None = None,
     ) -> PreparedMultiObjectTracking:
         """Decode once and build a common query manifest for both tracking modes."""
         started = time.perf_counter()
@@ -213,10 +253,17 @@ class TrackWrapper(BasePerceptor):
             ]
         )
         gray = cv2.cvtColor(frames[0], cv2.COLOR_RGB2GRAY)
-        foreground_count = grid_size * grid_size
+        maximum_foreground_count = grid_size * grid_size
+        requested_object_query_counts = self._requested_object_query_counts(
+            object_names,
+            maximum_foreground_count,
+            object_query_counts,
+        )
         object_queries = tuple(
-            self._sample_region_queries(gray, mask, foreground_count, name)
-            for name, mask in zip(object_names, small_masks)
+            self._sample_region_queries(gray, mask, count, name)
+            for name, mask, count in zip(
+                object_names, small_masks, requested_object_query_counts
+            )
         )
 
         union_mask = np.any(small_masks, axis=0).astype(np.uint8)
@@ -248,6 +295,7 @@ class TrackWrapper(BasePerceptor):
             tracker_hw=tracker_hw,
             scale_xy=(scale_x, scale_y),
             frames_count=len(frames),
+            requested_object_query_counts=requested_object_query_counts,
             timings={"decode_and_query_seconds": time.perf_counter() - started},
         )
 
@@ -403,6 +451,9 @@ class TrackWrapper(BasePerceptor):
             "peak_gpu_memory_bytes": peak_memory,
             "tracker_hw": list(prepared.tracker_hw),
             "source_hw": list(prepared.original_hw),
+            "requested_foreground_query_counts": list(
+                prepared.requested_object_query_counts
+            ),
             "foreground_query_counts": [len(value) for value in object_queries],
             "background_query_count": len(background[2]),
         }
@@ -634,9 +685,9 @@ class TrackWrapper(BasePerceptor):
         region: int,
         n: int,
     ) -> np.ndarray:
-        """Uniform spatial grid over region (1=foreground / 0=background).
+        """Deterministic spatial grid over region (1=foreground / 0=background).
 
-        sqrt(n) x sqrt(n) cells; one random point per occupied cell.
+        sqrt(n) x sqrt(n) cells; one center-nearest point per occupied cell.
         Returns (M, 3) [frame=0, x, y], M <= n.
         """
         yy, xx = np.where(mask == region)
@@ -647,19 +698,24 @@ class TrackWrapper(BasePerceptor):
 
         n = min(n, len(yy))
         side = max(1, int(np.ceil(np.sqrt(n))))
-        h, w = mask.shape
-        cell_h = max(1, h // side)
-        cell_w = max(1, w // side)
-
-        rng = np.random.default_rng(42)
+        y_min, y_max = int(yy.min()), int(yy.max()) + 1
+        x_min, x_max = int(xx.min()), int(xx.max()) + 1
+        y_edges = np.linspace(y_min, y_max, side + 1, dtype=int)
+        x_edges = np.linspace(x_min, x_max, side + 1, dtype=int)
         pts = []
         for gy in range(side):
             for gx in range(side):
-                y0, y1 = gy * cell_h, min((gy + 1) * cell_h, h)
-                x0, x1 = gx * cell_w, min((gx + 1) * cell_w, w)
+                y0, y1 = y_edges[gy], y_edges[gy + 1]
+                x0, x1 = x_edges[gx], x_edges[gx + 1]
                 in_cell = np.where((yy >= y0) & (yy < y1) & (xx >= x0) & (xx < x1))[0]
                 if len(in_cell) > 0:
-                    pick = rng.choice(in_cell)
+                    center_x = (x0 + x1 - 1) / 2.0
+                    center_y = (y0 + y1 - 1) / 2.0
+                    distances = (
+                        (xx[in_cell] - center_x) ** 2
+                        + (yy[in_cell] - center_y) ** 2
+                    )
+                    pick = in_cell[int(np.argmin(distances))]
                     pts.append([0.0, float(xx[pick]), float(yy[pick])])
                 if len(pts) >= n:
                     break
@@ -677,11 +733,10 @@ class TrackWrapper(BasePerceptor):
                 dtype=np.int64,
             )
             if len(available):
-                fill = rng.choice(
-                    available,
-                    size=min(n - len(pts), len(available)),
-                    replace=False,
-                )
+                fill_count = min(n - len(pts), len(available))
+                fill = available[
+                    np.linspace(0, len(available) - 1, fill_count, dtype=int)
+                ]
                 pts.extend(
                     [0.0, float(xx[index]), float(yy[index])] for index in fill
                 )

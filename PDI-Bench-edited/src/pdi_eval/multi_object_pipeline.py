@@ -270,7 +270,17 @@ def compare_mode_reports(reports: dict[str, dict[str, Any]]) -> dict[str, Any] |
     for name in joint["objects"]:
         joint_object = joint["objects"][name]
         exact_object = exact["objects"][name]
+        if (
+            joint_object.get("status") == "failed"
+            or exact_object.get("status") == "failed"
+        ):
+            comparison["objects"][name] = {
+                "status": "unavailable",
+                "error": "one or both tracking modes lack sufficient target depth",
+            }
+            continue
         comparison["objects"][name] = {
+            "status": "complete",
             "pdi_score_exact_minus_joint": exact_object["pdi_score"] - joint_object["pdi_score"],
             "scale_exact_minus_joint": (
                 exact_object["breakdown"]["scale_component"]
@@ -442,6 +452,7 @@ class MultiObjectPDIEvaluationPipeline:
             bg_grid_size=int(tracking_config.get("background_grid_size", 15)),
             background_dilation=int(tracking_config.get("background_dilation", 5)),
             max_dim=int(tracking_config.get("max_dimension", 880)),
+            object_query_counts=tracking_config.get("object_query_counts"),
         )
 
         mode_reports: dict[str, dict[str, Any]] = {}
@@ -453,7 +464,17 @@ class MultiObjectPDIEvaluationPipeline:
                 metric_started = time.perf_counter()
                 object_reports = {}
                 for object_index, object_name in enumerate(segmentation.object_names):
-                    object_reports[object_name] = evaluate_object_metrics(
+                    depth_metadata = geometry.metadata["object_depth"][object_index]
+                    if depth_metadata["status"] == "failed":
+                        object_reports[object_name] = {
+                            "object_name": object_name,
+                            "status": "failed",
+                            "error_type": "insufficient_target_depth",
+                            "error": depth_metadata["error"],
+                            "depth": depth_metadata,
+                        }
+                        continue
+                    object_report = evaluate_object_metrics(
                         object_name=object_name,
                         masks=segmentation.object_masks[:, object_index],
                         h_pixel=segmentation.h_pixel[:, object_index],
@@ -468,6 +489,9 @@ class MultiObjectPDIEvaluationPipeline:
                         lsd_exclusion_masks=segmentation.union_masks,
                         weights=self.config.get("weights", {}),
                     )
+                    object_report["status"] = "complete"
+                    object_report["depth"] = depth_metadata
+                    object_reports[object_name] = object_report
                 metric_seconds = time.perf_counter() - metric_started
                 mode_report = {
                     "tracking_mode": mode,

@@ -4,10 +4,12 @@ import sys
 import glob
 import hashlib
 import json
+import math
 import cv2
 import numpy as np
 import torch
 from pathlib import Path
+from typing import Any
 from .base import BasePerceptor, PerceptionResult, SharedGeometryResult
 from ..utils.logger import pdi_logger
 
@@ -23,11 +25,24 @@ def _sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
-def target_depth_from_world_pointmaps(
+class InsufficientTargetDepthError(ValueError):
+    def __init__(self, valid_frames: int, total_frames: int, minimum_valid_frames: int):
+        self.valid_frames = valid_frames
+        self.total_frames = total_frames
+        self.minimum_valid_frames = minimum_valid_frames
+        super().__init__(
+            f"only {valid_frames}/{total_frames} frames have valid target depths; "
+            f"need at least {minimum_valid_frames}"
+        )
+
+
+def _target_depth_from_world_pointmaps(
     pointmaps: np.ndarray,
     camera_poses: np.ndarray,
     masks: np.ndarray,
-) -> np.ndarray:
+    minimum_valid_frames: int = 2,
+    maximum_interpolated_fraction: float = 0.20,
+) -> tuple[np.ndarray, dict[str, Any]]:
     """Derive normalized target camera-Z from shared world-coordinate geometry."""
     pointmaps = np.asarray(pointmaps)
     camera_poses = np.asarray(camera_poses)
@@ -42,7 +57,7 @@ def target_depth_from_world_pointmaps(
             f"camera_poses must have shape (T,4,4), got {camera_poses.shape}"
         )
 
-    depth_z = np.empty(frame_count, dtype=np.float64)
+    depth_z = np.full(frame_count, np.nan, dtype=np.float64)
     target_height, target_width = pointmaps.shape[1:3]
     for frame_index in range(frame_count):
         mask = masks[frame_index]
@@ -56,12 +71,56 @@ def target_depth_from_world_pointmaps(
         camera_points = (pointmaps[frame_index] - pose[:3, 3]) @ pose[:3, :3]
         z_map = camera_points[..., 2]
         valid = (mask > 0) & np.isfinite(z_map) & (z_map > 0)
-        if not np.any(valid):
-            raise ValueError(f"frame {frame_index} has no valid target depths")
-        depth_z[frame_index] = float(np.median(z_map[valid]))
-    if not np.isfinite(depth_z[0]) or abs(depth_z[0]) <= 1e-8:
-        raise ValueError("first target depth is invalid")
-    return depth_z / depth_z[0]
+        if np.any(valid):
+            depth_z[frame_index] = float(np.median(z_map[valid]))
+
+    valid_indices = np.flatnonzero(np.isfinite(depth_z) & (depth_z > 0))
+    if not 0 <= maximum_interpolated_fraction < 1:
+        raise ValueError("maximum_interpolated_fraction must be in [0, 1)")
+    required_by_fraction = math.ceil(
+        frame_count * (1.0 - maximum_interpolated_fraction)
+    )
+    required = min(
+        max(1, minimum_valid_frames, required_by_fraction), frame_count
+    )
+    if len(valid_indices) < required:
+        raise InsufficientTargetDepthError(
+            int(len(valid_indices)), frame_count, required
+        )
+    missing_indices = np.flatnonzero(~np.isfinite(depth_z) | (depth_z <= 0))
+    if len(missing_indices):
+        depth_z[missing_indices] = np.interp(
+            missing_indices, valid_indices, depth_z[valid_indices]
+        )
+    depth_z /= depth_z[0]
+    interpolated_fraction = len(missing_indices) / frame_count
+    return depth_z, {
+        "strategy": (
+            "interpolation_fallback" if len(missing_indices) else "direct"
+        ),
+        "valid_frame_count": int(len(valid_indices)),
+        "interpolated_frame_count": int(len(missing_indices)),
+        "interpolated_frame_fraction": float(interpolated_fraction),
+        "interpolated_frame_indices": missing_indices.tolist(),
+        "total_frame_count": frame_count,
+    }
+
+
+def target_depth_from_world_pointmaps(
+    pointmaps: np.ndarray,
+    camera_poses: np.ndarray,
+    masks: np.ndarray,
+    minimum_valid_frames: int = 2,
+    maximum_interpolated_fraction: float = 0.20,
+) -> np.ndarray:
+    depth_z, _ = _target_depth_from_world_pointmaps(
+        pointmaps,
+        camera_poses,
+        masks,
+        minimum_valid_frames,
+        maximum_interpolated_fraction,
+    )
+    return depth_z
 
 def _masks_to_h_pixel_x_center(masks: np.ndarray):
     """Compute height and x-center time series from (T,H,W) masks."""
@@ -222,17 +281,33 @@ class MegaSamWrapper(BasePerceptor):
                 pdi_logger.info(f"Saved shared MegaSAM geometry: {cache_path}")
 
         frame_count = min(len(pointmaps), len(camera_poses), len(object_masks))
-        object_depth_z = np.stack(
-            [
-                target_depth_from_world_pointmaps(
+        object_depth_z = np.full(
+            (frame_count, object_masks.shape[1]), np.nan, dtype=np.float64
+        )
+        object_depth_metadata = []
+        for object_index in range(object_masks.shape[1]):
+            try:
+                depth_z, depth_metadata = _target_depth_from_world_pointmaps(
                     pointmaps[:frame_count],
                     camera_poses[:frame_count],
                     object_masks[:frame_count, object_index],
                 )
-                for object_index in range(object_masks.shape[1])
-            ],
-            axis=1,
-        )
+                object_depth_z[:, object_index] = depth_z
+                object_depth_metadata.append({"status": "complete", **depth_metadata})
+            except InsufficientTargetDepthError as exc:
+                object_depth_metadata.append(
+                    {
+                        "status": "failed",
+                        "strategy": "unavailable",
+                        "error": str(exc),
+                        "valid_frame_count": exc.valid_frames,
+                        "interpolated_frame_count": 0,
+                        "interpolated_frame_fraction": 0.0,
+                        "interpolated_frame_indices": [],
+                        "invalid_frame_count": exc.total_frames - exc.valid_frames,
+                        "total_frame_count": exc.total_frames,
+                    }
+                )
         return SharedGeometryResult(
             video_id=Path(video_path).stem,
             frames_count=frame_count,
@@ -246,6 +321,7 @@ class MegaSamWrapper(BasePerceptor):
                 "cache_hit": cache_hit,
                 "cache_schema": GEOMETRY_CACHE_SCHEMA,
                 "cache_identity": cache_metadata,
+                "object_depth": object_depth_metadata,
             },
         )
 

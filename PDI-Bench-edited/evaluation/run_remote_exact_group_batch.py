@@ -61,10 +61,26 @@ def valid_metrics(path: Path) -> bool:
         return False
     try:
         metrics = read_json(path)
-        names = tuple(metrics["modes"]["exact-group"]["objects"])
-        return names == LINK_NAMES
-    except (OSError, KeyError, ValueError, json.JSONDecodeError):
+        names = set(metrics["modes"]["exact-group"]["objects"])
+        return names == set(LINK_NAMES)
+    except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError):
         return False
+
+
+def valid_replay(output_dir: Path) -> bool:
+    replay_dir = output_dir / "replay"
+    paths = (
+        replay_dir / "combined_exact-group.mp4",
+        replay_dir / "combined_exact-group_first_frame.png",
+        replay_dir / "combined_exact-group.json",
+    )
+    if not all(path.is_file() and path.stat().st_size > 0 for path in paths):
+        return False
+    try:
+        read_json(paths[-1])
+    except (OSError, ValueError, json.JSONDecodeError):
+        return False
+    return True
 
 
 class BatchRunner:
@@ -112,22 +128,35 @@ class BatchRunner:
 
     def clean_transient_geometry(self, job_id: str, job_root: Path) -> None:
         mega_root = self.code_root / "third_party/mega_sam"
-        paths = [
+        directories = [
             job_root / "geometry-cache",
             mega_root / "work_space" / job_id,
             mega_root / "outputs" / job_id,
             mega_root / "outputs_cvd" / job_id,
+            mega_root / "reconstructions" / job_id,
+            mega_root / "cache_flow" / job_id,
         ]
-        for path in paths:
+        files = [
+            mega_root / "outputs" / f"{job_id}_droid.npz",
+            mega_root / "outputs_cvd" / f"{job_id}_sgd_cvd_hr.npz",
+        ]
+        for path in directories:
             if path.exists():
                 shutil.rmtree(path)
+        for path in files:
+            if path.is_file():
+                path.unlink()
 
     def run_job(self, entry: dict[str, Any]) -> str:
         job_id = entry["job_id"]
         job_root = self.batch_root / "jobs" / job_id
         status_path = job_root / "status.json"
-        metrics_path = job_root / "output/metrics.json"
-        if valid_metrics(metrics_path):
+        output_dir = job_root / "output"
+        metrics_path = output_dir / "metrics.json"
+        replay_selected = bool(entry.get("replay_selected", False))
+        if valid_metrics(metrics_path) and (
+            not replay_selected or valid_replay(output_dir)
+        ):
             self.log(f"skip complete {job_id}")
             return "complete"
 
@@ -137,6 +166,7 @@ class BatchRunner:
             "state": "running",
             "started_at": now(),
             "worker_thread": threading.current_thread().name,
+            "replay_selected": replay_selected,
         }
         write_json(status_path, status)
         self.export_csv()
@@ -201,32 +231,35 @@ class BatchRunner:
             if not valid_segmentation(segmentation):
                 raise RuntimeError("SAM3 output does not contain exactly links 2-7")
 
-            output_dir = job_root / "output"
+            pdi_command = [
+                str(self.pdi_python),
+                str(self.code_root / "evaluation/run_multi_object.py"),
+                "--config",
+                str(self.code_root / "configs/default.yaml"),
+                "--input",
+                str(video_alias),
+                "--segmentation-npz",
+                str(segmentation),
+                "--output-dir",
+                str(output_dir),
+                "--geometry-cache-dir",
+                str(job_root / "geometry-cache"),
+                "--tracker-checkpoint",
+                str(self.gpu_root / "models/tracker/scaled_offline.pth"),
+                "--tracking-mode",
+                "exact-group",
+            ]
+            if not replay_selected:
+                pdi_command.append("--disable-replay")
             self.command(
-                [
-                    str(self.pdi_python),
-                    str(self.code_root / "evaluation/run_multi_object.py"),
-                    "--config",
-                    str(self.code_root / "configs/default.yaml"),
-                    "--input",
-                    str(video_alias),
-                    "--segmentation-npz",
-                    str(segmentation),
-                    "--output-dir",
-                    str(output_dir),
-                    "--geometry-cache-dir",
-                    str(job_root / "geometry-cache"),
-                    "--tracker-checkpoint",
-                    str(self.gpu_root / "models/tracker/scaled_offline.pth"),
-                    "--tracking-mode",
-                    "exact-group",
-                    "--disable-replay",
-                ],
+                pdi_command,
                 job_root / "pdi.log",
                 common_env,
             )
             if not valid_metrics(metrics_path):
                 raise RuntimeError("PDI output does not contain exact-group metrics for links 2-7")
+            if replay_selected and not valid_replay(output_dir):
+                raise RuntimeError("selected replay output is missing or invalid")
             status.update(state="complete", completed_at=now(), error="")
             write_json(status_path, status)
             self.log(f"complete {job_id}")

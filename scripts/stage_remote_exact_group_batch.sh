@@ -4,8 +4,8 @@ set -euo pipefail
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 EDITED_ROOT="$PROJECT_ROOT/PDI-Bench-edited"
 GPU_ENV_FILE="${PDI_GPU_ENV_FILE:-$PROJECT_ROOT/configs/gpu.local.env}"
-BATCH_ID="${PDI_BATCH_ID:-exact-group-links2-7-all-v1}"
-SESSION_NAME="${PDI_TMUX_SESSION:-pdi-links2-7-all}"
+BATCH_ID="${PDI_BATCH_ID:-exact-group-links2-7-balanced-v2}"
+SESSION_NAME="${PDI_TMUX_SESSION:-pdi-links2-7-v2}"
 WORKERS="${PDI_BATCH_WORKERS:-2}"
 LOCAL_BATCH="$PROJECT_ROOT/results/remote-exact-group-batch/$BATCH_ID"
 
@@ -21,12 +21,17 @@ python "$EDITED_ROOT/evaluation/build_video_batch_manifest.py" \
   --dataset "COSMOS2.5=$PROJECT_ROOT/.tmp/COSMOS2.5_Videos" \
   --dataset "COSMOS3=$PROJECT_ROOT/.tmp/COSMOS3" \
   --dataset "LVP_ROBOWM=$PROJECT_ROOT/.tmp/LVP_ROBOWM" \
+  --replays-per-dataset 10 \
   --output "$LOCAL_BATCH/manifest.json"
 
-read -r expected_count expected_bytes < <(python -c \
-  "import json; d=json.load(open('$LOCAL_BATCH/manifest.json')); print(d['video_count'], d['total_size_bytes'])")
-if [[ "$expected_count" -ne 405 ]]; then
-  echo "Expected 405 videos, found $expected_count" >&2
+read -r expected_count expected_bytes expected_replays < <(python -c \
+  "import json; d=json.load(open('$LOCAL_BATCH/manifest.json')); print(d['video_count'], d['total_size_bytes'], d['replay_count'])")
+if [[ "$expected_count" -lt 1 ]]; then
+  echo "No videos were found in the active datasets" >&2
+  exit 1
+fi
+if [[ "$expected_replays" -ne 30 ]]; then
+  echo "Expected 30 replay videos, found $expected_replays" >&2
   exit 1
 fi
 
@@ -47,19 +52,39 @@ rsync -az --delete -e "$RSYNC_SSH" "$PROJECT_ROOT/robot_link_first15/" \
   "$PDI_GPU_USER@$PDI_GPU_HOST:$REMOTE_BATCH/references/"
 
 echo "Staging $expected_count videos ($expected_bytes bytes) to the GPU..."
-rsync -az --delete -e "$RSYNC_SSH" "$PROJECT_ROOT/.tmp/COSMOS2.5_Videos/" \
-  "$PDI_GPU_USER@$PDI_GPU_HOST:$REMOTE_BATCH/videos/COSMOS2.5/"
-rsync -az --delete -e "$RSYNC_SSH" "$PROJECT_ROOT/.tmp/COSMOS3/" \
-  "$PDI_GPU_USER@$PDI_GPU_HOST:$REMOTE_BATCH/videos/COSMOS3/"
-rsync -az --delete -e "$RSYNC_SSH" "$PROJECT_ROOT/.tmp/LVP_ROBOWM/" \
-  "$PDI_GPU_USER@$PDI_GPU_HOST:$REMOTE_BATCH/videos/LVP_ROBOWM/"
+transfer_pids=()
+for transfer in \
+  "COSMOS2.5:$PROJECT_ROOT/.tmp/COSMOS2.5_Videos" \
+  "COSMOS3:$PROJECT_ROOT/.tmp/COSMOS3" \
+  "LVP_ROBOWM:$PROJECT_ROOT/.tmp/LVP_ROBOWM"; do
+  dataset="${transfer%%:*}"
+  source_dir="${transfer#*:}"
+  rsync -a --delete --delete-excluded \
+    --include='*/' --include='*.mp4' --exclude='*' \
+    -e "$RSYNC_SSH" "$source_dir/" \
+    "$PDI_GPU_USER@$PDI_GPU_HOST:$REMOTE_BATCH/videos/$dataset/" &
+  transfer_pids+=("$!")
+done
+transfer_status=0
+for transfer_pid in "${transfer_pids[@]}"; do
+  wait "$transfer_pid" || transfer_status=1
+done
+if [[ "$transfer_status" -ne 0 ]]; then
+  echo "One or more dataset transfers failed" >&2
+  exit 1
+fi
 rsync -az -e "$RSYNC_SSH" "$LOCAL_BATCH/manifest.json" \
   "$PDI_GPU_USER@$PDI_GPU_HOST:$REMOTE_BATCH/manifest.json"
 
 remote_count="$("${SSH[@]}" "find '$REMOTE_BATCH/videos' -type f -name '*.mp4' | wc -l")"
-remote_bytes="$("${SSH[@]}" "find '$REMOTE_BATCH/videos' -type f -name '*.mp4' -printf '%s\\n' | awk '{s+=\$1} END {print s+0}'")"
-if [[ "$remote_count" -ne "$expected_count" || "$remote_bytes" -ne "$expected_bytes" ]]; then
+remote_bytes="$("${SSH[@]}" "find '$REMOTE_BATCH/videos' -type f -name '*.mp4' -printf '%s\\n' | awk '{s+=\$1} END {printf \"%.0f\\n\", s}'")"
+if [[ "$remote_count" != "$expected_count" || "$remote_bytes" != "$expected_bytes" ]]; then
   echo "Remote staging verification failed: count=$remote_count bytes=$remote_bytes" >&2
+  exit 1
+fi
+remote_non_video_count="$("${SSH[@]}" "find '$REMOTE_BATCH/videos' -type f ! -name '*.mp4' | wc -l")"
+if [[ "$remote_non_video_count" != "0" ]]; then
+  echo "Remote staging contains $remote_non_video_count unexpected non-video files" >&2
   exit 1
 fi
 

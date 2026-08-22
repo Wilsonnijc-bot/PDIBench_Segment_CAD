@@ -27,6 +27,10 @@ multi_object_tracking:
   background_grid_size: 15
   background_dilation: 5
   max_dimension: 880
+  object_query_counts:
+    link2: 256
+    link3: 192
+    link4: 128
 
 multi_object_replay:
   enabled: true

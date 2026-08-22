@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import shlex
 import shutil
 import subprocess
@@ -86,7 +87,8 @@ def main() -> int:
     args = build_parser().parse_args()
     started = datetime.now(timezone.utc)
     wall_started = time.perf_counter()
-    video = args.input.resolve()
+    # Keep the dataset-qualified symlink name as MegaSAM's scene identifier.
+    video = Path(os.path.abspath(args.input))
     segmentation = args.segmentation_npz.resolve()
     output_dir = args.output_dir.resolve()
     cache_dir = args.geometry_cache_dir.resolve()

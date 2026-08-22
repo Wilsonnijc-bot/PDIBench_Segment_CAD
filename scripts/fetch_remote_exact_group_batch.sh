@@ -3,7 +3,7 @@ set -euo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 GPU_ENV_FILE="${PDI_GPU_ENV_FILE:-$PROJECT_ROOT/configs/gpu.local.env}"
-BATCH_ID="${PDI_BATCH_ID:-exact-group-links2-7-all-v1}"
+BATCH_ID="${PDI_BATCH_ID:-exact-group-links2-7-balanced-v2}"
 LOCAL_BATCH="$PROJECT_ROOT/results/remote-exact-group-batch/$BATCH_ID"
 
 source "$GPU_ENV_FILE"
@@ -17,4 +17,9 @@ rsync -az -e "$RSYNC_SSH" \
   "$PDI_GPU_USER@$PDI_GPU_HOST:$REMOTE_BATCH/manifest.json" \
   "$PDI_GPU_USER@$PDI_GPU_HOST:$REMOTE_BATCH/batch.log" \
   "$LOCAL_BATCH/"
-echo "Fetched current batch CSV: $LOCAL_BATCH/metrics.csv"
+rsync -az --prune-empty-dirs \
+  --include='*/' --include='output/replay/***' --exclude='*' \
+  -e "$RSYNC_SSH" \
+  "$PDI_GPU_USER@$PDI_GPU_HOST:$REMOTE_BATCH/jobs/" \
+  "$LOCAL_BATCH/jobs/"
+echo "Fetched current batch CSV and completed selected replays: $LOCAL_BATCH"

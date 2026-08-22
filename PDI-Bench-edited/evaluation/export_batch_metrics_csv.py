@@ -12,6 +12,13 @@ from typing import Any
 
 LINK_NAMES = tuple(f"link{index}" for index in range(2, 8))
 METRIC_FIELDS = (
+    "status",
+    "error",
+    "depth_strategy",
+    "depth_valid_frame_count",
+    "depth_interpolated_frame_count",
+    "depth_interpolated_frame_fraction",
+    "depth_total_frame_count",
     "pdi_score",
     "grade",
     "scale_component",
@@ -38,6 +45,9 @@ def export_batch_csv(manifest_path: Path, batch_root: Path, output: Path) -> Non
         "video_sha256",
         "status",
         "error",
+        "replay_selected",
+        "replay_status",
+        "replay_video",
         *metric_columns(),
         "geometry_seconds",
         "query_preparation_seconds",
@@ -54,12 +64,27 @@ def export_batch_csv(manifest_path: Path, batch_root: Path, output: Path) -> Non
         metrics_path = job_root / "output" / "metrics.json"
         diagnostics_path = job_root / "intermediate" / "sam3_prompt_diagnostics.json"
         status = read_json(status_path) if status_path.is_file() else {"state": "pending"}
+        replay_selected = bool(entry.get("replay_selected", False))
+        replay_path = job_root / "output/replay/combined_exact-group.mp4"
         row: dict[str, Any] = {
             "dataset": entry["dataset"],
             "relative_path": entry["relative_path"],
             "video_sha256": entry["sha256"],
             "status": status.get("state", "pending"),
             "error": status.get("error", ""),
+            "replay_selected": replay_selected,
+            "replay_status": (
+                "complete"
+                if replay_selected and replay_path.is_file() and replay_path.stat().st_size > 0
+                else "pending"
+                if replay_selected
+                else "not_selected"
+            ),
+            "replay_video": (
+                replay_path.relative_to(batch_root).as_posix()
+                if replay_selected and replay_path.is_file()
+                else ""
+            ),
         }
         tracked = {}
         if diagnostics_path.is_file():
@@ -74,6 +99,28 @@ def export_batch_csv(manifest_path: Path, batch_root: Path, output: Path) -> Non
             for link in LINK_NAMES:
                 report = objects.get(link)
                 if report is None:
+                    continue
+                row[f"{link}_status"] = report.get("status", "complete")
+                row[f"{link}_error"] = report.get("error", "")
+                depth = report.get("depth", {})
+                row.update(
+                    {
+                        f"{link}_depth_strategy": depth.get("strategy", ""),
+                        f"{link}_depth_valid_frame_count": depth.get(
+                            "valid_frame_count"
+                        ),
+                        f"{link}_depth_interpolated_frame_count": depth.get(
+                            "interpolated_frame_count"
+                        ),
+                        f"{link}_depth_interpolated_frame_fraction": depth.get(
+                            "interpolated_frame_fraction"
+                        ),
+                        f"{link}_depth_total_frame_count": depth.get(
+                            "total_frame_count"
+                        ),
+                    }
+                )
+                if report.get("status") == "failed":
                     continue
                 breakdown = report["breakdown"]
                 row.update(
