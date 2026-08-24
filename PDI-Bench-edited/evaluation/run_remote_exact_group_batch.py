@@ -61,8 +61,15 @@ def valid_metrics(path: Path) -> bool:
         return False
     try:
         metrics = read_json(path)
-        names = set(metrics["modes"]["exact-group"]["objects"])
-        return names == set(LINK_NAMES)
+        objects = metrics["modes"]["exact-group"]["objects"]
+        names = set(objects)
+        cad = metrics.get("cad_canonicalization", {})
+        return (
+            names == set(LINK_NAMES)
+            and cad.get("enabled") is True
+            and isinstance(cad.get("foundation_pose"), dict)
+            and all("cad_rigidity" in objects[name] for name in LINK_NAMES)
+        )
     except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError):
         return False
 
@@ -73,11 +80,16 @@ def valid_replay(output_dir: Path) -> bool:
         replay_dir / "combined_exact-group.mp4",
         replay_dir / "combined_exact-group_first_frame.png",
         replay_dir / "combined_exact-group.json",
+        replay_dir / "cad/cotracker_cad_replay.mp4",
+        replay_dir / "cad/cad_replay.json",
+        replay_dir / "cad/initial_sam_masks.png",
+        replay_dir / "cad/point_cloud_frame_0000.png",
     )
     if not all(path.is_file() and path.stat().st_size > 0 for path in paths):
         return False
     try:
-        read_json(paths[-1])
+        read_json(replay_dir / "combined_exact-group.json")
+        read_json(replay_dir / "cad/cad_replay.json")
     except (OSError, ValueError, json.JSONDecodeError):
         return False
     return True
@@ -149,6 +161,7 @@ class BatchRunner:
 
     def run_job(self, entry: dict[str, Any]) -> str:
         job_id = entry["job_id"]
+        scene_id = job_id.replace(".", "_")
         job_root = self.batch_root / "jobs" / job_id
         status_path = job_root / "status.json"
         output_dir = job_root / "output"
@@ -157,6 +170,18 @@ class BatchRunner:
         if valid_metrics(metrics_path) and (
             not replay_selected or valid_replay(output_dir)
         ):
+            write_json(
+                status_path,
+                {
+                    **entry,
+                    "state": "complete",
+                    "completed_at": now(),
+                    "error": "",
+                    "replay_selected": replay_selected,
+                    "recovered_from_existing_output": True,
+                },
+            )
+            self.export_csv()
             self.log(f"skip complete {job_id}")
             return "complete"
 
@@ -181,7 +206,8 @@ class BatchRunner:
 
             input_dir = job_root / "input"
             input_dir.mkdir(parents=True, exist_ok=True)
-            video_alias = input_dir / f"{job_id}.mp4"
+            # MegaSAM derives its global workspace name from text before the first dot.
+            video_alias = input_dir / f"{scene_id}.mp4"
             if video_alias.is_symlink() or video_alias.exists():
                 video_alias.unlink()
             video_alias.symlink_to(staged_video)
@@ -190,8 +216,12 @@ class BatchRunner:
 
             common_env = os.environ.copy()
             common_env["PYTHONPATH"] = str(self.code_root / "src")
+            common_env.update(
+                HF_HOME=str(self.gpu_root / "cache/huggingface"),
+                HF_HUB_OFFLINE="1",
+                TRANSFORMERS_OFFLINE="1",
+            )
             sam3_env = common_env.copy()
-            sam3_env.update(HF_HUB_OFFLINE="1", TRANSFORMERS_OFFLINE="1")
             if not valid_segmentation(segmentation):
                 self.command(
                     [
@@ -242,6 +272,7 @@ class BatchRunner:
                 str(self.gpu_root / "models/tracker/scaled_offline.pth"),
                 "--tracking-mode",
                 "exact-group",
+                "--run-foundation-pose",
             ]
             if not replay_selected:
                 pdi_command.append("--disable-replay")
@@ -269,7 +300,7 @@ class BatchRunner:
             self.log(f"failed {job_id}: {exc}")
             return "failed"
         finally:
-            self.clean_transient_geometry(job_id, job_root)
+            self.clean_transient_geometry(scene_id, job_root)
             self.export_csv()
 
     def run(self) -> int:

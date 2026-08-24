@@ -17,7 +17,11 @@ from pdi_eval.multi_object_pipeline import (
 )
 from pdi_eval.perception.base import MultiObjectTrackResult
 from pdi_eval.perception.segmentation_archive import load_multi_object_segmentation
-from pdi_eval.perception.track_wrapper import PreparedMultiObjectTracking, TrackWrapper
+from pdi_eval.perception.track_wrapper import (
+    PreparedMultiObjectTracking,
+    TrackWrapper,
+    map_tracker_pixels_to_source,
+)
 
 
 class MultiObjectSegmentationTests(unittest.TestCase):
@@ -131,6 +135,15 @@ class MultiObjectTrackingModeTests(unittest.TestCase):
 
         self.assertEqual(counts, (256, 192, 128, 100, 100, 100))
 
+    def test_tracker_coordinates_use_pixel_center_resize_mapping(self):
+        mapped = map_tracker_pixels_to_source(
+            np.asarray([[0.0, 0.0], [99.0, 49.0]]),
+            tracker_hw=(50, 100),
+            source_hw=(100, 200),
+        )
+
+        np.testing.assert_allclose(mapped, [[0.5, 0.5], [198.5, 98.5]])
+
     def test_rejects_unknown_query_budget_override(self):
         with self.assertRaisesRegex(ValueError, "unknown objects"):
             TrackWrapper._requested_object_query_counts(
@@ -205,6 +218,10 @@ class MultiObjectTrackingModeTests(unittest.TestCase):
             save_track_result(path, result)
             with np.load(path, allow_pickle=False) as archive:
                 np.testing.assert_array_equal(archive["object_offsets"], [0, 2, 4])
+                np.testing.assert_array_equal(archive["query_ids"], [0, 1, 0, 1])
+                np.testing.assert_array_equal(
+                    archive["query_object_ids"], [0, 0, 1, 1]
+                )
                 metadata = json.loads(str(archive["metadata_json"].item()))
         self.assertEqual(metadata["model_forward_count"], 1)
 

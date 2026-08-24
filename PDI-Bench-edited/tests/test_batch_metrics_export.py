@@ -67,6 +67,26 @@ class PartialLinkMetricsExportTests(unittest.TestCase):
                     "interpolated_frame_fraction": 0.2,
                     "total_frame_count": 5,
                 },
+                "cad_rigidity": {
+                    "status": "uncalibrated",
+                    "method": "cad-canonical-v1",
+                    "deformed": None,
+                    "epsilon_cad_mean": 0.12,
+                    "epsilon_cad_p90": 0.20,
+                    "scored_frame_count": 5,
+                    "scored_frame_fraction": 1.0,
+                    "pose_valid_frame_count": 5,
+                    "mask_present_frame_count": 5,
+                },
+                "pose_discontinuity": {
+                    "pose_discontinuity": False,
+                    "event_count": 0,
+                    "event_rate": 0.0,
+                    "valid_innovation_count": 3,
+                    "severity_max": 0.1,
+                    "severity_median": 0.05,
+                    "severity_p95": 0.09,
+                },
             }
             (job_root / "output/metrics.json").write_text(
                 json.dumps(
@@ -77,7 +97,12 @@ class PartialLinkMetricsExportTests(unittest.TestCase):
                                 "timing": {"tracking": {}},
                             }
                         },
-                        "timing": {},
+                        "cad_canonicalization": {
+                            "enabled": True,
+                            "video_depth_scale": 1.25,
+                            "foundation_pose": {"scale_policy": "video-global-cad"},
+                        },
+                        "timing": {"foundation_pose_seconds": 12.5},
                     }
                 ),
                 encoding="utf-8",
@@ -91,6 +116,10 @@ class PartialLinkMetricsExportTests(unittest.TestCase):
             self.assertEqual(row["link2_status"], "complete")
             self.assertEqual(row["link2_depth_strategy"], "interpolation_fallback")
             self.assertEqual(row["link2_depth_interpolated_frame_count"], "1")
+            self.assertEqual(row["link2_cad_status"], "uncalibrated")
+            self.assertEqual(row["link2_cad_epsilon_mean"], "0.12")
+            self.assertEqual(row["link2_pose_discontinuity"], "False")
+            self.assertEqual(row["foundation_pose_video_depth_scale"], "1.25")
             self.assertEqual(row["link3_status"], "failed")
             self.assertEqual(row["link3_error"], "insufficient depth")
             self.assertEqual(row["link3_pdi_score"], "")

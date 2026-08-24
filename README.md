@@ -18,6 +18,31 @@ PDI run. CAD-guided SAM3 segments every link once, MegaSAM reconstructs the
 full video once, and PDI reports scale, trajectory, rigidity, and perspective
 metrics separately for each link in the same world-coordinate frame.
 
+## Perception Models
+
+The active perception path uses three complementary foundation models:
+
+* **DINOv2** performs reference-conditioned, per-link localization and emits
+  the initial boxes for the canonical Franka link identities.
+* **SAM3** consumes those boxes (and the configured link text where enabled),
+  then propagates one isolated mask session per link through the video.
+* **FoundationPose** estimates each link's per-frame 6D rigid pose relative to
+  its official CAD mesh. The pose is removed before the CAD-relative shape
+  score is calculated; pose discontinuity is reported as a separate diagnostic
+  and is not treated as deformation by itself.
+
+SAM3 and DINOv2 share the isolated `sam3` environment. MegaSAM, Depth Anything,
+UniDepth, CoTracker, and the PDI evaluator use the pinned `pdi-bench`
+PyTorch 2.1.0/cu118 environment. FoundationPose uses a third isolated
+environment because its CUDA extensions and dependency pins must not modify
+either evaluation stack.
+
+The checked-in pipeline currently validates and consumes FoundationPose's
+pickle-free numeric pose archive (`T_C_from_L`, validity/source arrays, quality
+signals, timestamps, and video depth scale). The worker that generates that
+archive and its held-out thresholds are still under development, so CAD
+canonicalization remains disabled by default.
+
 All editable model and metric code is native to `PDI-Bench-edited/`. The
 upstream comparison checkout is pinned as the read-only `PDI-Bench-original/`
 submodule. The former
@@ -94,7 +119,7 @@ Generate only the SAM3/CAD archive:
 PDI_SAM3_SEGMENT_ONLY=1 bash scripts/run.sh
 ```
 
-## Separate DINOv2 Reference Pipeline
+## DINOv2 + SAM3 Reference Pipeline
 
 The reference-conditioned pipeline is independent of the manual/CAD SAM3
 launcher. Its reference groups are discovered under:
@@ -159,6 +184,21 @@ export PDI_SAM3_BPE=/root/autodl-tmp/pdi/models/sam3/bpe_simple_vocab_16e6.txt.g
 This path does not require Hugging Face authentication. The installer verifies
 the checkpoint and ModelScope tokenizer merges before making them available to
 the pipeline.
+
+Install the isolated FoundationPose runtime and compile its CUDA extensions:
+
+```bash
+bash scripts/install_foundationpose_gpu.sh
+```
+
+The installer pins the FoundationPose, PyTorch3D, and NVDiffRast source
+revisions. The upstream scorer and refiner weights must then exist under the
+deployed FoundationPose checkout's `weights/` directory before pose inference.
+Download the mirrored, hash-verified upstream weight sets with:
+
+```bash
+bash scripts/download_foundationpose_weights_gpu.sh
+```
 
 ## Native Benchmark CLI
 

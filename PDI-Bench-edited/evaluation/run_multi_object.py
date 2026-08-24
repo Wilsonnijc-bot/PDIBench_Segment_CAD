@@ -26,6 +26,7 @@ from pdi_eval.multi_object_pipeline import (  # noqa: E402
     write_report,
 )
 from pdi_eval.perception.track_wrapper import TRACKING_MODES  # noqa: E402
+from pdi_eval.utils.cad_replay import main as render_cad_replay  # noqa: E402
 from pdi_eval.utils.reconstruct_replay import main as render_replay  # noqa: E402
 
 
@@ -80,6 +81,21 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Skip replay rendering for metric-only batch runs",
     )
+    parser.add_argument(
+        "--run-foundation-pose",
+        action="store_true",
+        help="Run the isolated FoundationPose worker and enable CAD diagnostics",
+    )
+    parser.add_argument(
+        "--foundation-pose-scale-policy",
+        choices=("metric-prior", "video-global-cad"),
+        default="video-global-cad",
+    )
+    parser.add_argument(
+        "--force-foundation-pose",
+        action="store_true",
+        help="Regenerate the FoundationPose pose archive even when it exists",
+    )
     return parser
 
 
@@ -111,6 +127,16 @@ def main() -> int:
         if not checkpoint.is_file():
             raise FileNotFoundError(f"tracker checkpoint is missing: {checkpoint}")
         config["tracker_ckpt"] = str(checkpoint)
+    if args.run_foundation_pose:
+        cad_config = config.setdefault("cad_canonicalization", {})
+        cad_config.update(
+            {
+                "enabled": True,
+                "auto_run": True,
+                "scale_policy": args.foundation_pose_scale_policy,
+                "force_foundation_pose": args.force_foundation_pose,
+            }
+        )
     modes = TRACKING_MODES if args.tracking_mode == "both" else (args.tracking_mode,)
     report = MultiObjectPDIEvaluationPipeline(config).run(
         video_path=str(video),
@@ -197,6 +223,50 @@ def main() -> int:
             report["modes"][mode]["timing"]["replay_seconds"] = (
                 time.perf_counter() - replay_started
             )
+        cad_summary = report.get("cad_canonicalization", {})
+        if cad_summary.get("enabled", False):
+            cad_started = time.perf_counter()
+            cad_tracking_mode = (
+                "exact-group" if "exact-group" in modes else modes[0]
+            )
+            manifest_value = Path(
+                config.get("cad_canonicalization", {}).get(
+                    "cad_manifest", "configs/sam3-cad-franka.yaml"
+                )
+            )
+            cad_manifest = (
+                manifest_value.resolve()
+                if manifest_value.is_absolute()
+                else (BENCHMARK_ROOT / manifest_value).resolve()
+            )
+            cad_replay_dir = replay_dir / "cad"
+            render_cad_replay(
+                [
+                    "--video",
+                    str(video),
+                    "--segmentation-npz",
+                    str(segmentation),
+                    "--geometry-npz",
+                    str(report["geometry"]["cache_path"]),
+                    "--cotracker-npz",
+                    str(output_dir / f"cotracker_{cad_tracking_mode}.npz"),
+                    "--foundation-pose-npz",
+                    str(cad_summary["foundation_pose"]["archive"]),
+                    "--cad-manifest",
+                    str(cad_manifest),
+                    "--output-dir",
+                    str(cad_replay_dir),
+                    "--fps",
+                    str(float(replay_config.get("fps", 16))),
+                ]
+            )
+            replay_artifacts["cad-canonical-v1"] = {
+                "video": str(cad_replay_dir / "cotracker_cad_replay.mp4"),
+                "metadata": str(cad_replay_dir / "cad_replay.json"),
+                "initial_sam_masks": str(cad_replay_dir / "initial_sam_masks.png"),
+                "point_cloud": str(cad_replay_dir / "point_cloud_frame_0000.png"),
+            }
+            report["timing"]["cad_replay_seconds"] = time.perf_counter() - cad_started
     report["timing"]["total_with_replay_seconds"] = time.perf_counter() - wall_started
     write_report(metrics_path, report)
     write_report(

@@ -19,6 +19,29 @@ except ImportError:
 TRACKING_MODES = ("joint-query", "exact-group")
 
 
+def map_tracker_pixels_to_source(
+    pixels_xy: np.ndarray,
+    tracker_hw: tuple[int, int],
+    source_hw: tuple[int, int],
+) -> np.ndarray:
+    """Map pixel centers without treating the last pixel as an image boundary."""
+    pixels = np.asarray(pixels_xy, dtype=np.float64)
+    if pixels.shape[-1:] != (2,) or not np.isfinite(pixels).all():
+        raise ValueError("pixels_xy must be a finite array ending in (x,y)")
+    tracker_height, tracker_width = tracker_hw
+    source_height, source_width = source_hw
+    if min(tracker_height, tracker_width, source_height, source_width) < 1:
+        raise ValueError("tracker and source dimensions must be positive")
+    mapped = pixels.copy()
+    mapped[..., 0] = (
+        (pixels[..., 0] + 0.5) * source_width / tracker_width - 0.5
+    )
+    mapped[..., 1] = (
+        (pixels[..., 1] + 0.5) * source_height / tracker_height - 0.5
+    )
+    return mapped
+
+
 @dataclass
 class PreparedMultiObjectTracking:
     """Decoded video and deterministic query manifest shared by tracking modes."""
@@ -33,6 +56,7 @@ class PreparedMultiObjectTracking:
     scale_xy: tuple[float, float]
     frames_count: int
     requested_object_query_counts: tuple[int, ...] = ()
+    object_query_ids: tuple[np.ndarray, ...] = ()
     timings: dict[str, float] = field(default_factory=dict)
 
 
@@ -296,6 +320,9 @@ class TrackWrapper(BasePerceptor):
             scale_xy=(scale_x, scale_y),
             frames_count=len(frames),
             requested_object_query_counts=requested_object_query_counts,
+            object_query_ids=tuple(
+                np.arange(len(queries), dtype=np.int32) for queries in object_queries
+            ),
             timings={"decode_and_query_seconds": time.perf_counter() - started},
         )
 
@@ -342,16 +369,25 @@ class TrackWrapper(BasePerceptor):
         tracks: np.ndarray,
         visibility: np.ndarray,
         queries: np.ndarray,
-        scale_xy: tuple[float, float],
-    ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+        source_hw: tuple[int, int],
+        tracker_hw: tuple[int, int],
+        query_ids: np.ndarray | None = None,
+    ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
         tracks = tracks.copy()
         queries = queries.copy()
-        tracks[:, :, 0] *= scale_xy[0]
-        tracks[:, :, 1] *= scale_xy[1]
-        queries[:, 1] *= scale_xy[0]
-        queries[:, 2] *= scale_xy[1]
+        tracks = map_tracker_pixels_to_source(tracks, tracker_hw, source_hw)
+        queries[:, 1:3] = map_tracker_pixels_to_source(
+            queries[:, 1:3], tracker_hw, source_hw
+        )
+        ids = (
+            np.arange(len(queries), dtype=np.int32)
+            if query_ids is None
+            else np.asarray(query_ids, dtype=np.int32)
+        )
+        if ids.shape != (len(queries),) or len(np.unique(ids)) != len(ids):
+            raise ValueError("query IDs must be unique and align with queries")
         keep = self._track_keep_mask(tracks, visibility)
-        return tracks[:, keep], visibility[:, keep], queries[keep]
+        return tracks[:, keep], visibility[:, keep], queries[keep], ids[keep]
 
     def track_prepared(
         self,
@@ -416,22 +452,39 @@ class TrackWrapper(BasePerceptor):
         object_tracks = []
         object_visibility = []
         object_queries = []
-        for tracks, visibility, queries in zip(
+        object_query_ids = []
+        prepared_ids = (
+            prepared.object_query_ids
+            if prepared.object_query_ids
+            else tuple(
+                np.arange(len(queries), dtype=np.int32)
+                for queries in prepared.object_queries
+            )
+        )
+        for tracks, visibility, queries, query_ids in zip(
             raw_object_tracks,
             raw_object_visibility,
             prepared.object_queries,
+            prepared_ids,
         ):
             filtered = self._scale_and_filter_group(
-                tracks, visibility, queries, prepared.scale_xy
+                tracks,
+                visibility,
+                queries,
+                prepared.original_hw,
+                prepared.tracker_hw,
+                query_ids,
             )
             object_tracks.append(filtered[0])
             object_visibility.append(filtered[1])
             object_queries.append(filtered[2])
+            object_query_ids.append(filtered[3])
         background = self._scale_and_filter_group(
             raw_background_tracks,
             raw_background_visibility,
             prepared.background_queries,
-            prepared.scale_xy,
+            prepared.original_hw,
+            prepared.tracker_hw,
         )
         filter_seconds = time.perf_counter() - filter_started
         peak_memory = (
@@ -473,6 +526,7 @@ class TrackWrapper(BasePerceptor):
             background_visibility=background[1],
             background_queries=background[2],
             frames_count=prepared.frames_count,
+            object_query_ids=tuple(object_query_ids),
             metadata=metadata,
         )
 

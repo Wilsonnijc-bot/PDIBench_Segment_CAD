@@ -126,6 +126,9 @@ if [[ ! -f "$MEGA_SAM_BASE/thirdparty/lietorch/lietorch/__init__.py" ]] && \
    [[ -f "$ORIGINAL_MEGA_SAM_BASE/thirdparty/lietorch/lietorch/__init__.py" ]]; then
   cp -a "$ORIGINAL_MEGA_SAM_BASE/." "$MEGA_SAM_BASE/"
 fi
+if [[ -d "$MEGA_SAM_BASE/.git" ]]; then
+  git -C "$MEGA_SAM_BASE" submodule update --init --recursive
+fi
 
 if ! python -c 'import droid_backends; from lietorch import SE3' 2>/dev/null; then
   git config --global --add safe.directory \

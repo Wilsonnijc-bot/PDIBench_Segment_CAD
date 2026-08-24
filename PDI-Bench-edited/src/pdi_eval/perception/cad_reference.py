@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-import hashlib
 import json
 import math
 from pathlib import Path
@@ -11,41 +10,12 @@ from typing import Any, Iterable
 
 import numpy as np
 
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as stream:
-        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+from ..geometry.cad_mesh import load_cad_mesh, sha256_file
 
 
 def _load_triangle_mesh(path: Path) -> tuple[np.ndarray, np.ndarray]:
-    try:
-        import trimesh
-    except ImportError as exc:
-        raise RuntimeError("CAD rendering requires trimesh and pycollada") from exc
-
-    loaded = trimesh.load(path, force="scene", process=False)
-    meshes = []
-    if isinstance(loaded, trimesh.Trimesh):
-        meshes.append(loaded)
-    else:
-        for node_name in loaded.graph.nodes_geometry:
-            transform, geometry_name = loaded.graph[node_name]
-            geometry = loaded.geometry[geometry_name].copy()
-            geometry.apply_transform(transform)
-            meshes.append(geometry)
-    if not meshes:
-        raise ValueError(f"CAD mesh contains no triangle geometry: {path}")
-    combined = trimesh.util.concatenate(meshes)
-    vertices = np.asarray(combined.vertices, dtype=np.float64)
-    faces = np.asarray(combined.faces, dtype=np.int64)
-    if vertices.ndim != 2 or vertices.shape[1] != 3 or faces.ndim != 2 or faces.shape[1] != 3:
-        raise ValueError(f"CAD mesh is not triangulated: {path}")
-    if not np.isfinite(vertices).all():
-        raise ValueError(f"CAD mesh has non-finite vertices: {path}")
-    return vertices, faces
+    mesh = load_cad_mesh(path)
+    return mesh.vertices, mesh.faces
 
 
 def _view_basis(azimuth_degrees: float, elevation_degrees: float) -> np.ndarray:

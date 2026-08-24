@@ -1,0 +1,1178 @@
+[
+  {
+    "azimuth_degrees": 0.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link1",
+    "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az000_el-30.png"
+  },
+  {
+    "azimuth_degrees": 45.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link1",
+    "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az045_el-30.png"
+  },
+  {
+    "azimuth_degrees": 90.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link1",
+    "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az090_el-30.png"
+  },
+  {
+    "azimuth_degrees": 135.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link1",
+    "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az135_el-30.png"
+  },
+  {
+    "azimuth_degrees": 180.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link1",
+    "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az180_el-30.png"
+  },
+  {
+    "azimuth_degrees": 225.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link1",
+    "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az225_el-30.png"
+  },
+  {
+    "azimuth_degrees": 270.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link1",
+    "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az270_el-30.png"
+  },
+  {
+    "azimuth_degrees": 315.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link1",
+    "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az315_el-30.png"
+  },
+  {
+    "azimuth_degrees": 0.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link1",
+    "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az000_el+00.png"
+  },
+  {
+    "azimuth_degrees": 45.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link1",
+    "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az045_el+00.png"
+  },
+  {
+    "azimuth_degrees": 90.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link1",
+    "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az090_el+00.png"
+  },
+  {
+    "azimuth_degrees": 135.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link1",
+    "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az135_el+00.png"
+  },
+  {
+    "azimuth_degrees": 180.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link1",
+    "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az180_el+00.png"
+  },
+  {
+    "azimuth_degrees": 225.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link1",
+    "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az225_el+00.png"
+  },
+  {
+    "azimuth_degrees": 270.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link1",
+    "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az270_el+00.png"
+  },
+  {
+    "azimuth_degrees": 315.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link1",
+    "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az315_el+00.png"
+  },
+  {
+    "azimuth_degrees": 0.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link1",
+    "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az000_el+30.png"
+  },
+  {
+    "azimuth_degrees": 45.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link1",
+    "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az045_el+30.png"
+  },
+  {
+    "azimuth_degrees": 90.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link1",
+    "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az090_el+30.png"
+  },
+  {
+    "azimuth_degrees": 135.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link1",
+    "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az135_el+30.png"
+  },
+  {
+    "azimuth_degrees": 180.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link1",
+    "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az180_el+30.png"
+  },
+  {
+    "azimuth_degrees": 225.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link1",
+    "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az225_el+30.png"
+  },
+  {
+    "azimuth_degrees": 270.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link1",
+    "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az270_el+30.png"
+  },
+  {
+    "azimuth_degrees": 315.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link1",
+    "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az315_el+30.png"
+  },
+  {
+    "azimuth_degrees": 0.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link2",
+    "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az000_el-30.png"
+  },
+  {
+    "azimuth_degrees": 45.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link2",
+    "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az045_el-30.png"
+  },
+  {
+    "azimuth_degrees": 90.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link2",
+    "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az090_el-30.png"
+  },
+  {
+    "azimuth_degrees": 135.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link2",
+    "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az135_el-30.png"
+  },
+  {
+    "azimuth_degrees": 180.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link2",
+    "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az180_el-30.png"
+  },
+  {
+    "azimuth_degrees": 225.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link2",
+    "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az225_el-30.png"
+  },
+  {
+    "azimuth_degrees": 270.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link2",
+    "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az270_el-30.png"
+  },
+  {
+    "azimuth_degrees": 315.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link2",
+    "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az315_el-30.png"
+  },
+  {
+    "azimuth_degrees": 0.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link2",
+    "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az000_el+00.png"
+  },
+  {
+    "azimuth_degrees": 45.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link2",
+    "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az045_el+00.png"
+  },
+  {
+    "azimuth_degrees": 90.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link2",
+    "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az090_el+00.png"
+  },
+  {
+    "azimuth_degrees": 135.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link2",
+    "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az135_el+00.png"
+  },
+  {
+    "azimuth_degrees": 180.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link2",
+    "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az180_el+00.png"
+  },
+  {
+    "azimuth_degrees": 225.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link2",
+    "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az225_el+00.png"
+  },
+  {
+    "azimuth_degrees": 270.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link2",
+    "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az270_el+00.png"
+  },
+  {
+    "azimuth_degrees": 315.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link2",
+    "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az315_el+00.png"
+  },
+  {
+    "azimuth_degrees": 0.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link2",
+    "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az000_el+30.png"
+  },
+  {
+    "azimuth_degrees": 45.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link2",
+    "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az045_el+30.png"
+  },
+  {
+    "azimuth_degrees": 90.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link2",
+    "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az090_el+30.png"
+  },
+  {
+    "azimuth_degrees": 135.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link2",
+    "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az135_el+30.png"
+  },
+  {
+    "azimuth_degrees": 180.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link2",
+    "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az180_el+30.png"
+  },
+  {
+    "azimuth_degrees": 225.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link2",
+    "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az225_el+30.png"
+  },
+  {
+    "azimuth_degrees": 270.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link2",
+    "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az270_el+30.png"
+  },
+  {
+    "azimuth_degrees": 315.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link2",
+    "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az315_el+30.png"
+  },
+  {
+    "azimuth_degrees": 0.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link3",
+    "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az000_el-30.png"
+  },
+  {
+    "azimuth_degrees": 45.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link3",
+    "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az045_el-30.png"
+  },
+  {
+    "azimuth_degrees": 90.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link3",
+    "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az090_el-30.png"
+  },
+  {
+    "azimuth_degrees": 135.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link3",
+    "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az135_el-30.png"
+  },
+  {
+    "azimuth_degrees": 180.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link3",
+    "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az180_el-30.png"
+  },
+  {
+    "azimuth_degrees": 225.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link3",
+    "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az225_el-30.png"
+  },
+  {
+    "azimuth_degrees": 270.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link3",
+    "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az270_el-30.png"
+  },
+  {
+    "azimuth_degrees": 315.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link3",
+    "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az315_el-30.png"
+  },
+  {
+    "azimuth_degrees": 0.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link3",
+    "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az000_el+00.png"
+  },
+  {
+    "azimuth_degrees": 45.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link3",
+    "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az045_el+00.png"
+  },
+  {
+    "azimuth_degrees": 90.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link3",
+    "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az090_el+00.png"
+  },
+  {
+    "azimuth_degrees": 135.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link3",
+    "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az135_el+00.png"
+  },
+  {
+    "azimuth_degrees": 180.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link3",
+    "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az180_el+00.png"
+  },
+  {
+    "azimuth_degrees": 225.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link3",
+    "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az225_el+00.png"
+  },
+  {
+    "azimuth_degrees": 270.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link3",
+    "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az270_el+00.png"
+  },
+  {
+    "azimuth_degrees": 315.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link3",
+    "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az315_el+00.png"
+  },
+  {
+    "azimuth_degrees": 0.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link3",
+    "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az000_el+30.png"
+  },
+  {
+    "azimuth_degrees": 45.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link3",
+    "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az045_el+30.png"
+  },
+  {
+    "azimuth_degrees": 90.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link3",
+    "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az090_el+30.png"
+  },
+  {
+    "azimuth_degrees": 135.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link3",
+    "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az135_el+30.png"
+  },
+  {
+    "azimuth_degrees": 180.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link3",
+    "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az180_el+30.png"
+  },
+  {
+    "azimuth_degrees": 225.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link3",
+    "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az225_el+30.png"
+  },
+  {
+    "azimuth_degrees": 270.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link3",
+    "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az270_el+30.png"
+  },
+  {
+    "azimuth_degrees": 315.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link3",
+    "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az315_el+30.png"
+  },
+  {
+    "azimuth_degrees": 0.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link4",
+    "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az000_el-30.png"
+  },
+  {
+    "azimuth_degrees": 45.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link4",
+    "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az045_el-30.png"
+  },
+  {
+    "azimuth_degrees": 90.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link4",
+    "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az090_el-30.png"
+  },
+  {
+    "azimuth_degrees": 135.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link4",
+    "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az135_el-30.png"
+  },
+  {
+    "azimuth_degrees": 180.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link4",
+    "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az180_el-30.png"
+  },
+  {
+    "azimuth_degrees": 225.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link4",
+    "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az225_el-30.png"
+  },
+  {
+    "azimuth_degrees": 270.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link4",
+    "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az270_el-30.png"
+  },
+  {
+    "azimuth_degrees": 315.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link4",
+    "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az315_el-30.png"
+  },
+  {
+    "azimuth_degrees": 0.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link4",
+    "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az000_el+00.png"
+  },
+  {
+    "azimuth_degrees": 45.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link4",
+    "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az045_el+00.png"
+  },
+  {
+    "azimuth_degrees": 90.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link4",
+    "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az090_el+00.png"
+  },
+  {
+    "azimuth_degrees": 135.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link4",
+    "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az135_el+00.png"
+  },
+  {
+    "azimuth_degrees": 180.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link4",
+    "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az180_el+00.png"
+  },
+  {
+    "azimuth_degrees": 225.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link4",
+    "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az225_el+00.png"
+  },
+  {
+    "azimuth_degrees": 270.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link4",
+    "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az270_el+00.png"
+  },
+  {
+    "azimuth_degrees": 315.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link4",
+    "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az315_el+00.png"
+  },
+  {
+    "azimuth_degrees": 0.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link4",
+    "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az000_el+30.png"
+  },
+  {
+    "azimuth_degrees": 45.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link4",
+    "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az045_el+30.png"
+  },
+  {
+    "azimuth_degrees": 90.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link4",
+    "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az090_el+30.png"
+  },
+  {
+    "azimuth_degrees": 135.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link4",
+    "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az135_el+30.png"
+  },
+  {
+    "azimuth_degrees": 180.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link4",
+    "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az180_el+30.png"
+  },
+  {
+    "azimuth_degrees": 225.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link4",
+    "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az225_el+30.png"
+  },
+  {
+    "azimuth_degrees": 270.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link4",
+    "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az270_el+30.png"
+  },
+  {
+    "azimuth_degrees": 315.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link4",
+    "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az315_el+30.png"
+  },
+  {
+    "azimuth_degrees": 0.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link5",
+    "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az000_el-30.png"
+  },
+  {
+    "azimuth_degrees": 45.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link5",
+    "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az045_el-30.png"
+  },
+  {
+    "azimuth_degrees": 90.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link5",
+    "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az090_el-30.png"
+  },
+  {
+    "azimuth_degrees": 135.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link5",
+    "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az135_el-30.png"
+  },
+  {
+    "azimuth_degrees": 180.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link5",
+    "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az180_el-30.png"
+  },
+  {
+    "azimuth_degrees": 225.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link5",
+    "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az225_el-30.png"
+  },
+  {
+    "azimuth_degrees": 270.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link5",
+    "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az270_el-30.png"
+  },
+  {
+    "azimuth_degrees": 315.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link5",
+    "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az315_el-30.png"
+  },
+  {
+    "azimuth_degrees": 0.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link5",
+    "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az000_el+00.png"
+  },
+  {
+    "azimuth_degrees": 45.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link5",
+    "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az045_el+00.png"
+  },
+  {
+    "azimuth_degrees": 90.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link5",
+    "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az090_el+00.png"
+  },
+  {
+    "azimuth_degrees": 135.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link5",
+    "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az135_el+00.png"
+  },
+  {
+    "azimuth_degrees": 180.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link5",
+    "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az180_el+00.png"
+  },
+  {
+    "azimuth_degrees": 225.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link5",
+    "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az225_el+00.png"
+  },
+  {
+    "azimuth_degrees": 270.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link5",
+    "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az270_el+00.png"
+  },
+  {
+    "azimuth_degrees": 315.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link5",
+    "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az315_el+00.png"
+  },
+  {
+    "azimuth_degrees": 0.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link5",
+    "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az000_el+30.png"
+  },
+  {
+    "azimuth_degrees": 45.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link5",
+    "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az045_el+30.png"
+  },
+  {
+    "azimuth_degrees": 90.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link5",
+    "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az090_el+30.png"
+  },
+  {
+    "azimuth_degrees": 135.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link5",
+    "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az135_el+30.png"
+  },
+  {
+    "azimuth_degrees": 180.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link5",
+    "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az180_el+30.png"
+  },
+  {
+    "azimuth_degrees": 225.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link5",
+    "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az225_el+30.png"
+  },
+  {
+    "azimuth_degrees": 270.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link5",
+    "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az270_el+30.png"
+  },
+  {
+    "azimuth_degrees": 315.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link5",
+    "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az315_el+30.png"
+  },
+  {
+    "azimuth_degrees": 0.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link6",
+    "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az000_el-30.png"
+  },
+  {
+    "azimuth_degrees": 45.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link6",
+    "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az045_el-30.png"
+  },
+  {
+    "azimuth_degrees": 90.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link6",
+    "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az090_el-30.png"
+  },
+  {
+    "azimuth_degrees": 135.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link6",
+    "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az135_el-30.png"
+  },
+  {
+    "azimuth_degrees": 180.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link6",
+    "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az180_el-30.png"
+  },
+  {
+    "azimuth_degrees": 225.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link6",
+    "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az225_el-30.png"
+  },
+  {
+    "azimuth_degrees": 270.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link6",
+    "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az270_el-30.png"
+  },
+  {
+    "azimuth_degrees": 315.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link6",
+    "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az315_el-30.png"
+  },
+  {
+    "azimuth_degrees": 0.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link6",
+    "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az000_el+00.png"
+  },
+  {
+    "azimuth_degrees": 45.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link6",
+    "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az045_el+00.png"
+  },
+  {
+    "azimuth_degrees": 90.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link6",
+    "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az090_el+00.png"
+  },
+  {
+    "azimuth_degrees": 135.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link6",
+    "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az135_el+00.png"
+  },
+  {
+    "azimuth_degrees": 180.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link6",
+    "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az180_el+00.png"
+  },
+  {
+    "azimuth_degrees": 225.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link6",
+    "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az225_el+00.png"
+  },
+  {
+    "azimuth_degrees": 270.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link6",
+    "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az270_el+00.png"
+  },
+  {
+    "azimuth_degrees": 315.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link6",
+    "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az315_el+00.png"
+  },
+  {
+    "azimuth_degrees": 0.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link6",
+    "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az000_el+30.png"
+  },
+  {
+    "azimuth_degrees": 45.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link6",
+    "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az045_el+30.png"
+  },
+  {
+    "azimuth_degrees": 90.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link6",
+    "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az090_el+30.png"
+  },
+  {
+    "azimuth_degrees": 135.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link6",
+    "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az135_el+30.png"
+  },
+  {
+    "azimuth_degrees": 180.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link6",
+    "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az180_el+30.png"
+  },
+  {
+    "azimuth_degrees": 225.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link6",
+    "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az225_el+30.png"
+  },
+  {
+    "azimuth_degrees": 270.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link6",
+    "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az270_el+30.png"
+  },
+  {
+    "azimuth_degrees": 315.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link6",
+    "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az315_el+30.png"
+  },
+  {
+    "azimuth_degrees": 0.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link7",
+    "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az000_el-30.png"
+  },
+  {
+    "azimuth_degrees": 45.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link7",
+    "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az045_el-30.png"
+  },
+  {
+    "azimuth_degrees": 90.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link7",
+    "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az090_el-30.png"
+  },
+  {
+    "azimuth_degrees": 135.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link7",
+    "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az135_el-30.png"
+  },
+  {
+    "azimuth_degrees": 180.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link7",
+    "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az180_el-30.png"
+  },
+  {
+    "azimuth_degrees": 225.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link7",
+    "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az225_el-30.png"
+  },
+  {
+    "azimuth_degrees": 270.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link7",
+    "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az270_el-30.png"
+  },
+  {
+    "azimuth_degrees": 315.0,
+    "elevation_degrees": -30.0,
+    "mesh": "link7",
+    "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az315_el-30.png"
+  },
+  {
+    "azimuth_degrees": 0.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link7",
+    "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az000_el+00.png"
+  },
+  {
+    "azimuth_degrees": 45.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link7",
+    "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az045_el+00.png"
+  },
+  {
+    "azimuth_degrees": 90.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link7",
+    "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az090_el+00.png"
+  },
+  {
+    "azimuth_degrees": 135.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link7",
+    "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az135_el+00.png"
+  },
+  {
+    "azimuth_degrees": 180.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link7",
+    "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az180_el+00.png"
+  },
+  {
+    "azimuth_degrees": 225.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link7",
+    "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az225_el+00.png"
+  },
+  {
+    "azimuth_degrees": 270.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link7",
+    "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az270_el+00.png"
+  },
+  {
+    "azimuth_degrees": 315.0,
+    "elevation_degrees": 0.0,
+    "mesh": "link7",
+    "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az315_el+00.png"
+  },
+  {
+    "azimuth_degrees": 0.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link7",
+    "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az000_el+30.png"
+  },
+  {
+    "azimuth_degrees": 45.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link7",
+    "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az045_el+30.png"
+  },
+  {
+    "azimuth_degrees": 90.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link7",
+    "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az090_el+30.png"
+  },
+  {
+    "azimuth_degrees": 135.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link7",
+    "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az135_el+30.png"
+  },
+  {
+    "azimuth_degrees": 180.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link7",
+    "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az180_el+30.png"
+  },
+  {
+    "azimuth_degrees": 225.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link7",
+    "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az225_el+30.png"
+  },
+  {
+    "azimuth_degrees": 270.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link7",
+    "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az270_el+30.png"
+  },
+  {
+    "azimuth_degrees": 315.0,
+    "elevation_degrees": 30.0,
+    "mesh": "link7",
+    "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+    "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az315_el+30.png"
+  }
+]

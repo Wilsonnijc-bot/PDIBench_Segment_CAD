@@ -32,6 +32,32 @@ multi_object_tracking:
     link3: 192
     link4: 128
 
+# CAD canonicalization is opt-in until a pinned FoundationPose worker archive
+# and held-out per-link thresholds are available. It reuses the shared MegaSAM
+# RGB-D/K cache and the existing CoTracker query manifest.
+cad_canonicalization:
+  enabled: false
+  auto_run: false
+  force_foundation_pose: false
+  rigidity_method: legacy-point-pair
+  link_names: [link2, link3, link4, link5, link6, link7]
+  cad_manifest: configs/sam3-cad-franka.yaml
+  foundation_pose_archive: null
+  scale_policy: video-global-cad
+  registration_iterations: 5
+  tracking_iterations: 2
+  reregister_interval: 10
+  coordinate_validation_samples_per_frame: 64
+  mask_erosion_radius: 2
+  minimum_anchors: 16
+  minimum_pairs: 30
+  maximum_pairs: 512
+  minimum_scored_frames: 5
+  minimum_scored_fraction: 0.60
+  pose_quality_threshold: 0.40
+  pose_discontinuity: {}
+  shape_thresholds: {}
+
 multi_object_replay:
   enabled: true
   view_mode: camera-pov

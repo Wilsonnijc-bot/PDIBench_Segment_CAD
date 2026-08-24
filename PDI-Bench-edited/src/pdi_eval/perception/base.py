@@ -1,8 +1,12 @@
 from dataclasses import dataclass, field
 from abc import ABC, abstractmethod
 import numpy as np
-import torch
 from typing import Optional, Dict, Any
+
+try:
+    import torch
+except ModuleNotFoundError:
+    torch = None
 
 @dataclass
 class PerceptionResult:
@@ -21,6 +25,10 @@ class PerceptionResult:
     focal_length: Optional[float] = None   # implicit focal length f (e.g. from Dust3R)
     camera_poses: Optional[np.ndarray] = None # (T, 4, 4) camera extrinsics
     pointmaps: Optional[np.ndarray] = None # (T, H, W, 3) scene point map (Dust3R-style)
+    rgb_camera: Optional[np.ndarray] = None # (T, Hg, Wg, 3), RGB uint8
+    depth_camera: Optional[np.ndarray] = None # (T, Hg, Wg), camera-Z
+    intrinsics_camera: Optional[np.ndarray] = None # (3, 3) or (T, 3, 3)
+    frame_times_seconds: Optional[np.ndarray] = None # (T,)
     
     # --- Quality / state ---
     confidence: Optional[np.ndarray] = None   # (T,) or (T, N) confidence
@@ -62,6 +70,13 @@ class SharedGeometryResult:
     camera_poses: np.ndarray
     focal_length: float
     object_depth_z: np.ndarray
+    rgb_camera: Optional[np.ndarray] = None
+    depth_camera: Optional[np.ndarray] = None
+    intrinsics_camera: Optional[np.ndarray] = None
+    frame_times_seconds: Optional[np.ndarray] = None
+    source_hw: Optional[tuple[int, int]] = None
+    resized_hw_before_crop: Optional[tuple[int, int]] = None
+    crop_xywh: Optional[tuple[int, int, int, int]] = None
     cache_path: Optional[str] = None
     metadata: Dict[str, Any] = field(default_factory=dict)
 
@@ -80,11 +95,31 @@ class MultiObjectTrackResult:
     background_visibility: np.ndarray
     background_queries: np.ndarray
     frames_count: int
+    object_query_ids: tuple[np.ndarray, ...] = ()
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass
+class FoundationPoseResult:
+    """Validated FoundationPose artifact in original CAD link coordinates."""
+
+    link_names: tuple[str, ...]
+    frame_indices: np.ndarray
+    frame_times_seconds: np.ndarray
+    T_C_from_L: np.ndarray
+    pose_valid: np.ndarray
+    pose_source: np.ndarray
+    pose_objective: np.ndarray
+    silhouette_iou: np.ndarray
+    pose_depth_residual: np.ndarray
+    video_depth_scale: float
     metadata: Dict[str, Any] = field(default_factory=dict)
 
 class BasePerceptor(ABC):
     """Abstract base class for perception backends."""
     def __init__(self, device: Optional[str] = None):
+        if torch is None:
+            raise RuntimeError("this perception backend requires PyTorch")
         if device is None:
             self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         else:

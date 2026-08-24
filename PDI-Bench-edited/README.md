@@ -1,10 +1,81 @@
-# PDI-Bench: Perspective Distortion Index for AI Video World Models
+# 6D CAD Deformation Detection
 
 > [!WARNING]
-> **UNVERIFIED DEVELOPMENT PIPELINE.** The shared seven-link SAM3/MegaSAM/
-> CoTracker implementation has not yet passed the A/B/C/D GPU verification
-> protocol. Do not treat its metrics, grades, or performance results as
-> validated until those comparison runs pass and this notice is removed.
+> **UNVERIFIED DEVELOPMENT PIPELINE.** The CAD canonicalization path has not
+> yet passed its FoundationPose GPU and held-out threshold-calibration gates.
+> Continuous diagnostics are experimental until those gates pass.
+
+This is a standalone, end-to-end extension of PDI-Bench for detecting whether
+generated Franka robot links deform relative to their official CAD geometry.
+It intentionally reuses the existing perception and PDI stages instead of
+reimplementing them.
+
+```text
+generated video
+  -> SAM3 named link masks
+  -> one shared MegaSAM RGB-D/world reconstruction
+  -> one shared CoTracker query manifest
+  -> existing PDI scale and trajectory metrics
+  -> CAD canonicalization for link2 through link7
+       -> FoundationPose 6D rigid pose
+       -> CAD-relative proportional-shape score
+       -> separate pose-discontinuity diagnostic
+```
+
+FoundationPose estimates rigid translation and rotation. The deformation
+decision comes from the CAD-relative shape metric after that rigid pose is
+removed. Pose discontinuity is reported separately and is never treated as
+deformation by itself.
+
+## Foundation Model Roles
+
+- **DINOv2** performs reference-conditioned localization independently for each
+  canonical Franka link and supplies initial boxes.
+- **SAM3** consumes the DINOv2 boxes (plus configured link text where enabled)
+  and propagates one isolated video mask session per link.
+- **FoundationPose** estimates per-frame `T_C_from_L` 6D rigid transforms from
+  the link CAD meshes, RGB, depth, intrinsics, and masks. These poses establish
+  the rigid CAD frame used by canonical shape scoring.
+
+SAM3 and DINOv2 run together in an isolated `sam3` environment. The MegaSAM,
+Depth Anything, UniDepth, CoTracker, and PDI stages run in the pinned
+`pdi-bench` PyTorch 2.1.0/cu118 environment. FoundationPose runs in a third
+isolated environment so its compiled CUDA extensions cannot change either
+stack.
+
+## Repository Boundary
+
+This repository owns:
+
+- the complete video-level orchestration and artifact contracts;
+- the adapted SAM3, MegaSAM, CoTracker, and PDI integration code;
+- strict Franka DAE loading and coordinate validation;
+- `cad-canonical-v1` proportional-shape scoring;
+- `foundationpose-pose-discontinuity-v1` diagnostics;
+- configuration, tests, reports, and cache schemas.
+
+The boundaries are deliberate:
+
+- `third_party/mega_sam` remains an upstream Git submodule;
+- SAM3 runs in its isolated environment and produces `segmentation.npz`;
+- FoundationPose runs in its isolated environment and produces a numeric pose
+  archive;
+- model checkpoints, videos, caches, and generated results are not source code
+  and are excluded from Git;
+- there is no runtime import or Git-history dependency on
+  `PDIBench_Segment_CAD`. Reused PDI pipeline code is versioned and tested in
+  this repository.
+
+The current implementation consumes a validated, pickle-free FoundationPose
+archive containing `T_C_from_L`, pose validity and source, optional objective
+and residual signals, ordered timestamps, and one positive video depth scale.
+The isolated FoundationPose worker that generates this archive, video-global
+scale calibration, and pinned held-out thresholds are the next implementation
+phase. Until those are ready, the default configuration keeps the legacy PDI
+rigidity method active.
+
+See [CAD_BASED_ROBOT_LINK_CANONICALIZATION_DESIGN.md](CAD_BASED_ROBOT_LINK_CANONICALIZATION_DESIGN.md)
+for the coordinate, scale, scoring, and validation contracts.
 
 ## Native Multi-Object Franka Evaluation
 
@@ -12,7 +83,7 @@ This checkout includes a native video-level pipeline for CAD-guided SAM3 masks,
 one shared MegaSAM reconstruction, and per-link PDI metrics. It supports two
 CoTracker methods over the same deterministic query manifest:
 
-- `joint-query`: all seven link groups and shared background in one predictor call;
+- `joint-query`: all six scored link groups and shared background in one predictor call;
 - `exact-group`: one cached video backbone pass followed by isolated link and
   background update groups.
 
@@ -29,10 +100,12 @@ PYTHONPATH=src python evaluation/run_multi_object.py \
   --tracking-mode both
 ```
 
-The union of the seven masks is used only for background exclusion and combined
+The union of the six link masks is used only for background exclusion and combined
 replay. Rigidity is always calculated independently per rigid link.
 
-**PDI-Bench** is an automated evaluation framework designed to quantify **spatial scale and perspective consistency** in AI video generation models (such as Sora, Seedance, Flow). The active Franka workflow integrates **CAD-guided SAM3**, **Co-Tracker**, and **Mega-SAM** from segmentation through shared 3D reconstruction.
+The retained PDI metrics quantify spatial scale and perspective consistency in
+AI-generated videos. In this project they complement, rather than replace, the
+CAD-relative deformation score.
 
 ![Demo Preview](figures/bus_hero.gif)
 
@@ -69,12 +142,34 @@ where $\sum_{i=1}^{3} w_i = 1$. Each component is designed to be scale-invariant
 
 ## 1. Environment Requirements
 
-This project is highly sensitive to CUDA versions. **You must strictly follow the version combination below**:
+This project is highly sensitive to CUDA versions. The following combination is
+for the `pdi-bench` environment only; do not install SAM3/DINOv2 or
+FoundationPose into it:
 
 - **Python**: 3.10
 - **CUDA Toolkit**: 11.8
 - **PyTorch**: 2.1.0
 - **Conda environment name**: `pdi-bench`
+
+The complete deployment uses three environments:
+
+| Environment | Models/stages | Compatibility boundary |
+| --- | --- | --- |
+| `pdi-bench` | MegaSAM, Depth Anything, UniDepth, CoTracker, PDI | Python 3.10, PyTorch 2.1.0, CUDA 11.8 |
+| `sam3` | SAM3 and DINOv2 | Current SAM3 package and its supported PyTorch CUDA wheels |
+| `foundationpose` | FoundationPose and its CUDA extensions | Isolated from both stacks; use the revision recorded by deployment |
+
+On the GPU host, create the FoundationPose environment with the repository-level
+installer:
+
+```bash
+bash ../scripts/install_foundationpose_gpu.sh
+```
+
+This pins the FoundationPose, PyTorch3D, and NVDiffRast revisions and compiles
+the model-based CUDA extensions. FoundationPose's upstream scorer and refiner
+weights are separate model artifacts and must be placed in the deployed
+FoundationPose checkout's `weights/` directory.
 
 Do **not** rely on a system-wide CUDA installation such as `/usr/local/cuda-12.x` or `/usr/local/cuda-13.x`. PDI-Bench should use the CUDA 11.8 toolkit installed inside the conda environment. If your shell startup file (`~/.bashrc`, `~/.zshrc`, etc.) contains a line like the following, remove it or comment it out before continuing:
 
@@ -91,8 +186,8 @@ Also do **not** create the environment from `third_party/mega_sam/environment.ym
 This project includes nested submodules: `third_party/mega_sam` itself depends on `third_party/mega_sam/base` (the DROID-SLAM core).
 
 ```bash
-git clone --recursive https://github.com/AnteaWu/PDI-Bench.git
-cd PDI-Bench
+git clone --recursive https://github.com/Wilsonnijc-bot/6D_CAD_deformation_detection.git
+cd 6D_CAD_deformation_detection
 
 # If the main repo is already cloned, initialize submodules recursively (including nested ones)
 git submodule update --init --recursive

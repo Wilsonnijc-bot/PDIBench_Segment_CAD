@@ -14,7 +14,7 @@ from .base import BasePerceptor, PerceptionResult, SharedGeometryResult
 from ..utils.logger import pdi_logger
 
 
-GEOMETRY_CACHE_SCHEMA = 3
+GEOMETRY_CACHE_SCHEMA = 4
 
 
 def _sha256_file(path: Path) -> str:
@@ -154,6 +154,52 @@ def _extract_frames(video_path: str, out_dir: str) -> int:
     cap.release()
     return count
 
+
+def _video_timing_metadata(video_path: str) -> dict[str, float | str]:
+    capture = cv2.VideoCapture(video_path)
+    fps = float(capture.get(cv2.CAP_PROP_FPS))
+    capture.release()
+    if not np.isfinite(fps) or fps <= 0.0:
+        fps = 24.0
+        provenance = "constant_fps_fallback"
+    else:
+        provenance = "constant_fps_metadata"
+    return {
+        "fps": fps,
+        "timestamp_provenance": provenance,
+    }
+
+
+def _frame_times_from_video(video_path: str, frame_count: int) -> tuple[np.ndarray, dict]:
+    timing = _video_timing_metadata(video_path)
+    return np.arange(frame_count, dtype=np.float64) / timing["fps"], timing
+
+
+def _mega_sam_image_transform(
+    source_hw: tuple[int, int],
+    geometry_hw: tuple[int, int],
+) -> tuple[tuple[int, int], tuple[int, int, int, int]]:
+    source_height, source_width = source_hw
+    geometry_height, geometry_width = geometry_hw
+    scale = math.sqrt((384.0 * 512.0) / (source_height * source_width))
+    resized_height = int(source_height * scale)
+    resized_width = int(source_width * scale)
+    expected_geometry = (
+        resized_height - resized_height % 8,
+        resized_width - resized_width % 8,
+    )
+    if expected_geometry != geometry_hw:
+        raise ValueError(
+            "MegaSAM geometry shape does not match its resize/crop contract: "
+            f"expected {expected_geometry}, got {geometry_hw}"
+        )
+    return (resized_height, resized_width), (
+        0,
+        0,
+        geometry_width,
+        geometry_height,
+    )
+
 class MegaSamWrapper(BasePerceptor):
     def __init__(self, checkpoint=None, device="cuda"):
         super().__init__(device)
@@ -204,6 +250,7 @@ class MegaSamWrapper(BasePerceptor):
             "megasam": self._file_identity(self.megasam_weights),
             "raft": self._file_identity(self.raft_weights),
             "code": self._reconstruction_code_identity(),
+            "timing": _video_timing_metadata(str(video)),
             "settings": {
                 "depth_encoder": "vitl",
                 "droid_disable_vis": True,
@@ -230,6 +277,9 @@ class MegaSamWrapper(BasePerceptor):
         cache_path = None
         cache_metadata = None
         pointmaps = camera_poses = None
+        rgb_camera = depth_camera = intrinsics_camera = frame_times_seconds = None
+        source_hw = resized_hw_before_crop = crop_xywh = None
+        timing_metadata = None
         focal_length = None
         if cache_dir is not None:
             cache_key, cache_metadata = self._geometry_cache_identity(video_path)
@@ -239,6 +289,24 @@ class MegaSamWrapper(BasePerceptor):
                     pointmaps = np.asarray(archive["pointmaps"])
                     camera_poses = np.asarray(archive["camera_poses"])
                     focal_length = float(np.asarray(archive["focal_length"]).reshape(-1)[0])
+                    rgb_camera = np.asarray(archive["rgb_camera"], dtype=np.uint8)
+                    depth_camera = np.asarray(archive["depth_camera"], dtype=np.float32)
+                    intrinsics_camera = np.asarray(
+                        archive["intrinsics_camera"], dtype=np.float64
+                    )
+                    frame_times_seconds = np.asarray(
+                        archive["frame_times_seconds"], dtype=np.float64
+                    )
+                    source_hw = tuple(
+                        int(value) for value in np.asarray(archive["source_hw"])
+                    )
+                    resized_hw_before_crop = tuple(
+                        int(value)
+                        for value in np.asarray(archive["resized_hw_before_crop"])
+                    )
+                    crop_xywh = tuple(
+                        int(value) for value in np.asarray(archive["crop_xywh"])
+                    )
                     stored_metadata = json.loads(str(np.asarray(archive["metadata_json"]).item()))
                 if stored_metadata != cache_metadata:
                     raise ValueError(f"MegaSAM cache metadata mismatch: {cache_path}")
@@ -254,6 +322,20 @@ class MegaSamWrapper(BasePerceptor):
                     raise ValueError(f"Invalid cached focal length: {focal_length}")
                 if not np.any(np.isfinite(pointmaps) & (pointmaps != 0)):
                     raise ValueError(f"Cached pointmaps contain no valid geometry: {cache_path}")
+                if rgb_camera.shape != (*pointmaps.shape[:3], 3):
+                    raise ValueError(f"Invalid cached RGB shape: {rgb_camera.shape}")
+                if depth_camera.shape != pointmaps.shape[:3]:
+                    raise ValueError(f"Invalid cached depth shape: {depth_camera.shape}")
+                if intrinsics_camera.shape not in (
+                    (3, 3),
+                    (len(pointmaps), 3, 3),
+                ):
+                    raise ValueError(
+                        f"Invalid cached intrinsics shape: {intrinsics_camera.shape}"
+                    )
+                if frame_times_seconds.shape != (len(pointmaps),):
+                    raise ValueError("Cached frame timestamps do not match geometry")
+                timing_metadata = stored_metadata.get("timing")
                 pdi_logger.info(f"Reusing shared MegaSAM geometry: {cache_path}")
 
         cache_hit = pointmaps is not None
@@ -267,6 +349,20 @@ class MegaSamWrapper(BasePerceptor):
             pointmaps = np.asarray(geometry.pointmaps)
             camera_poses = np.asarray(geometry.camera_poses)
             focal_length = float(geometry.focal_length)
+            rgb_camera = np.asarray(geometry.rgb_camera, dtype=np.uint8)
+            depth_camera = np.asarray(geometry.depth_camera, dtype=np.float32)
+            intrinsics_camera = np.asarray(
+                geometry.intrinsics_camera, dtype=np.float64
+            )
+            frame_times_seconds = np.asarray(
+                geometry.frame_times_seconds, dtype=np.float64
+            )
+            source_hw = tuple(int(value) for value in geometry.metadata["source_hw"])
+            resized_hw_before_crop = tuple(
+                int(value) for value in geometry.metadata["resized_hw_before_crop"]
+            )
+            crop_xywh = tuple(int(value) for value in geometry.metadata["crop_xywh"])
+            timing_metadata = geometry.metadata.get("timing")
             if cache_path is not None:
                 cache_path.parent.mkdir(parents=True, exist_ok=True)
                 temporary = cache_path.with_suffix(".tmp.npz")
@@ -275,12 +371,28 @@ class MegaSamWrapper(BasePerceptor):
                     pointmaps=pointmaps,
                     camera_poses=camera_poses,
                     focal_length=focal_length,
+                    rgb_camera=rgb_camera,
+                    depth_camera=depth_camera,
+                    intrinsics_camera=intrinsics_camera,
+                    frame_times_seconds=frame_times_seconds,
+                    source_hw=np.asarray(source_hw, dtype=np.int32),
+                    resized_hw_before_crop=np.asarray(
+                        resized_hw_before_crop, dtype=np.int32
+                    ),
+                    crop_xywh=np.asarray(crop_xywh, dtype=np.int32),
                     metadata_json=np.asarray(json.dumps(cache_metadata, sort_keys=True)),
                 )
                 temporary.replace(cache_path)
                 pdi_logger.info(f"Saved shared MegaSAM geometry: {cache_path}")
 
-        frame_count = min(len(pointmaps), len(camera_poses), len(object_masks))
+        frame_count = min(
+            len(pointmaps),
+            len(camera_poses),
+            len(object_masks),
+            len(rgb_camera),
+            len(depth_camera),
+            len(frame_times_seconds),
+        )
         object_depth_z = np.full(
             (frame_count, object_masks.shape[1]), np.nan, dtype=np.float64
         )
@@ -315,6 +427,17 @@ class MegaSamWrapper(BasePerceptor):
             camera_poses=camera_poses[:frame_count],
             focal_length=focal_length,
             object_depth_z=object_depth_z,
+            rgb_camera=rgb_camera[:frame_count],
+            depth_camera=depth_camera[:frame_count],
+            intrinsics_camera=(
+                intrinsics_camera[:frame_count]
+                if intrinsics_camera.ndim == 3
+                else intrinsics_camera
+            ),
+            frame_times_seconds=frame_times_seconds[:frame_count],
+            source_hw=source_hw,
+            resized_hw_before_crop=resized_hw_before_crop,
+            crop_xywh=crop_xywh,
             cache_path=str(cache_path) if cache_path is not None else None,
             metadata={
                 "engine": "Mega-SAM-Shared-Multi-Object",
@@ -322,6 +445,7 @@ class MegaSamWrapper(BasePerceptor):
                 "cache_schema": GEOMETRY_CACHE_SCHEMA,
                 "cache_identity": cache_metadata,
                 "object_depth": object_depth_metadata,
+                "timing": timing_metadata,
             },
         )
 
@@ -467,10 +591,12 @@ class MegaSamWrapper(BasePerceptor):
         npz_path = cvd_npz_path if use_cvd else os.path.join(self.mega_sam_root, "outputs", f"{video_id}_droid.npz")
         if not os.path.exists(npz_path): return self._fallback_result(video_path, masks)
 
-        data = np.load(npz_path, allow_pickle=True)
-        depths = data["depths"]     # (T, H, W)
-        cam_c2w = data["cam_c2w"]   # (T, 4, 4)
-        fx, fy, cx, cy = self._parse_intrinsic(data["intrinsic"])
+        with np.load(npz_path, allow_pickle=False) as data:
+            depths = np.asarray(data["depths"], dtype=np.float32)
+            cam_c2w = np.asarray(data["cam_c2w"], dtype=np.float64)
+            rgb_camera = np.asarray(data["images"], dtype=np.uint8)
+            intrinsics_camera = np.asarray(data["intrinsic"], dtype=np.float64)
+        fx, fy, cx, cy = self._parse_intrinsic(intrinsics_camera)
         
         T_out = min(depths.shape[0], len(masks))
         pdi_logger.info("Running 3D reprojection and scale normalization...")
@@ -490,6 +616,13 @@ class MegaSamWrapper(BasePerceptor):
 
         depth_z_norm = np.array(depth_z) / (depth_z[0] + 1e-8)
         h_pixel, x_center = _masks_to_h_pixel_x_center(masks[:T_out])
+        source_hw = tuple(int(value) for value in masks.shape[1:3])
+        resized_hw, crop_xywh = _mega_sam_image_transform(
+            source_hw, tuple(int(value) for value in depths.shape[1:3])
+        )
+        frame_times_seconds, timing_metadata = _frame_times_from_video(
+            video_path, T_out
+        )
 
         return PerceptionResult(
             video_id=video_id,
@@ -501,7 +634,17 @@ class MegaSamWrapper(BasePerceptor):
             focal_length=fx,
             camera_poses=cam_c2w[:T_out],
             pointmaps=pointmaps,
-            metadata={"engine": "Mega-SAM-Complete-Logic"}
+            rgb_camera=rgb_camera[:T_out],
+            depth_camera=depths[:T_out],
+            intrinsics_camera=intrinsics_camera,
+            frame_times_seconds=frame_times_seconds,
+            metadata={
+                "engine": "Mega-SAM-Complete-Logic",
+                "source_hw": list(source_hw),
+                "resized_hw_before_crop": list(resized_hw),
+                "crop_xywh": list(crop_xywh),
+                "timing": timing_metadata,
+            },
         )
 
     def _fallback_result(self, video_path: str, masks: np.ndarray) -> PerceptionResult:

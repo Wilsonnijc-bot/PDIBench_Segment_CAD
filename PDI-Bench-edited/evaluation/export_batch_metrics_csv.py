@@ -26,6 +26,22 @@ METRIC_FIELDS = (
     "rigidity_component",
     "vanishing_point_component",
     "sam3_tracked_fraction",
+    "cad_status",
+    "cad_method",
+    "cad_deformed",
+    "cad_epsilon_mean",
+    "cad_epsilon_p90",
+    "cad_scored_frame_count",
+    "cad_scored_frame_fraction",
+    "cad_pose_valid_frame_count",
+    "cad_mask_present_frame_count",
+    "pose_discontinuity",
+    "pose_event_count",
+    "pose_event_rate",
+    "pose_valid_innovation_count",
+    "pose_severity_max",
+    "pose_severity_median",
+    "pose_severity_p95",
 )
 
 
@@ -48,7 +64,11 @@ def export_batch_csv(manifest_path: Path, batch_root: Path, output: Path) -> Non
         "replay_selected",
         "replay_status",
         "replay_video",
+        "cad_replay_video",
         *metric_columns(),
+        "foundation_pose_scale_policy",
+        "foundation_pose_video_depth_scale",
+        "foundation_pose_seconds",
         "geometry_seconds",
         "query_preparation_seconds",
         "tracker_load_seconds",
@@ -66,6 +86,13 @@ def export_batch_csv(manifest_path: Path, batch_root: Path, output: Path) -> Non
         status = read_json(status_path) if status_path.is_file() else {"state": "pending"}
         replay_selected = bool(entry.get("replay_selected", False))
         replay_path = job_root / "output/replay/combined_exact-group.mp4"
+        cad_replay_path = job_root / "output/replay/cad/cotracker_cad_replay.mp4"
+        replay_complete = (
+            replay_path.is_file()
+            and replay_path.stat().st_size > 0
+            and cad_replay_path.is_file()
+            and cad_replay_path.stat().st_size > 0
+        )
         row: dict[str, Any] = {
             "dataset": entry["dataset"],
             "relative_path": entry["relative_path"],
@@ -75,7 +102,7 @@ def export_batch_csv(manifest_path: Path, batch_root: Path, output: Path) -> Non
             "replay_selected": replay_selected,
             "replay_status": (
                 "complete"
-                if replay_selected and replay_path.is_file() and replay_path.stat().st_size > 0
+                if replay_selected and replay_complete
                 else "pending"
                 if replay_selected
                 else "not_selected"
@@ -83,6 +110,11 @@ def export_batch_csv(manifest_path: Path, batch_root: Path, output: Path) -> Non
             "replay_video": (
                 replay_path.relative_to(batch_root).as_posix()
                 if replay_selected and replay_path.is_file()
+                else ""
+            ),
+            "cad_replay_video": (
+                cad_replay_path.relative_to(batch_root).as_posix()
+                if replay_selected and cad_replay_path.is_file()
                 else ""
             ),
         }
@@ -120,6 +152,28 @@ def export_batch_csv(manifest_path: Path, batch_root: Path, output: Path) -> Non
                         ),
                     }
                 )
+                cad = report.get("cad_rigidity") or {}
+                pose = report.get("pose_discontinuity") or {}
+                row.update(
+                    {
+                        f"{link}_cad_status": cad.get("status"),
+                        f"{link}_cad_method": cad.get("method"),
+                        f"{link}_cad_deformed": cad.get("deformed"),
+                        f"{link}_cad_epsilon_mean": cad.get("epsilon_cad_mean"),
+                        f"{link}_cad_epsilon_p90": cad.get("epsilon_cad_p90"),
+                        f"{link}_cad_scored_frame_count": cad.get("scored_frame_count"),
+                        f"{link}_cad_scored_frame_fraction": cad.get("scored_frame_fraction"),
+                        f"{link}_cad_pose_valid_frame_count": cad.get("pose_valid_frame_count"),
+                        f"{link}_cad_mask_present_frame_count": cad.get("mask_present_frame_count"),
+                        f"{link}_pose_discontinuity": pose.get("pose_discontinuity"),
+                        f"{link}_pose_event_count": pose.get("event_count"),
+                        f"{link}_pose_event_rate": pose.get("event_rate"),
+                        f"{link}_pose_valid_innovation_count": pose.get("valid_innovation_count"),
+                        f"{link}_pose_severity_max": pose.get("severity_max"),
+                        f"{link}_pose_severity_median": pose.get("severity_median"),
+                        f"{link}_pose_severity_p95": pose.get("severity_p95"),
+                    }
+                )
                 if report.get("status") == "failed":
                     continue
                 breakdown = report["breakdown"]
@@ -135,9 +189,14 @@ def export_batch_csv(manifest_path: Path, batch_root: Path, output: Path) -> Non
                     }
                 )
             shared = metrics.get("timing", {})
+            cad_summary = metrics.get("cad_canonicalization", {})
+            foundation_pose = cad_summary.get("foundation_pose", {})
             tracking = mode.get("timing", {}).get("tracking", {})
             row.update(
                 {
+                    "foundation_pose_scale_policy": foundation_pose.get("scale_policy"),
+                    "foundation_pose_video_depth_scale": cad_summary.get("video_depth_scale"),
+                    "foundation_pose_seconds": shared.get("foundation_pose_seconds"),
                     "geometry_seconds": shared.get("geometry_seconds"),
                     "query_preparation_seconds": shared.get("query_preparation_seconds"),
                     "tracker_load_seconds": shared.get("tracker_load_seconds"),

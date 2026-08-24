@@ -17,6 +17,8 @@ kornia==0.7.4
 scikit-learn
 open3d
 ninja
+trimesh==4.4.9
+pycollada==0.8
 
 # --- Image and video I/O ---
 opencv-python>=4.8.0

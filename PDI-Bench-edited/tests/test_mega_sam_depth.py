@@ -82,7 +82,13 @@ class SharedGeometryIsolationTests(unittest.TestCase):
         pointmaps, poses, _ = _fixture([2.0, 3.0, 4.0, 5.0, 6.0])
         object_masks = np.ones((5, 2, 2, 2), dtype=bool)
         object_masks[1:, 1] = False
-        metadata = {"fixture": True}
+        metadata = {
+            "fixture": True,
+            "timing": {
+                "fps": 24.0,
+                "timestamp_provenance": "constant_fps_metadata",
+            },
+        }
 
         with tempfile.TemporaryDirectory() as temporary:
             cache_path = Path(temporary) / "fixture.npz"
@@ -91,6 +97,15 @@ class SharedGeometryIsolationTests(unittest.TestCase):
                 pointmaps=pointmaps,
                 camera_poses=poses,
                 focal_length=np.asarray(100.0),
+                rgb_camera=np.zeros((5, 2, 2, 3), dtype=np.uint8),
+                depth_camera=pointmaps[..., 2].astype(np.float32),
+                intrinsics_camera=np.asarray(
+                    [[100.0, 0.0, 1.0], [0.0, 100.0, 1.0], [0.0, 0.0, 1.0]]
+                ),
+                frame_times_seconds=np.arange(5, dtype=np.float64) / 24.0,
+                source_hw=np.asarray([2, 2], dtype=np.int32),
+                resized_hw_before_crop=np.asarray([2, 2], dtype=np.int32),
+                crop_xywh=np.asarray([0, 0, 2, 2], dtype=np.int32),
                 metadata_json=np.asarray(json.dumps(metadata, sort_keys=True)),
             )
             wrapper = MegaSamWrapper.__new__(MegaSamWrapper)
@@ -106,6 +121,7 @@ class SharedGeometryIsolationTests(unittest.TestCase):
         self.assertEqual(result.metadata["object_depth"][0]["strategy"], "direct")
         self.assertEqual(result.metadata["object_depth"][1]["status"], "failed")
         self.assertEqual(result.metadata["object_depth"][1]["valid_frame_count"], 1)
+        self.assertEqual(result.metadata["timing"], metadata["timing"])
 
 if __name__ == "__main__":
     unittest.main()
