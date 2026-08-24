@@ -1,0 +1,298 @@
+{
+  "artifacts": {
+    "cad_comparison": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/seven-link-cad-comparison.jpg",
+    "overlay": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/seven-mask-overlay.jpg"
+  },
+  "cad_role": "per-link silhouette validation and candidate ranking",
+  "duration_seconds": 6.171642400033306,
+  "frame_index": 0,
+  "input_video": "/root/autodl-tmp/pdi/runs/cosmos-2.5/videos/0000.mp4",
+  "link_count": 7,
+  "links": {
+    "link1": {
+      "area_pixels": 11969,
+      "cad_distance": 0.19352433894673002,
+      "cad_similarity": 0.37998568625025136,
+      "candidate_count": 2,
+      "combined_score": 0.6522435915951678,
+      "mask_box_xywh": [
+        851,
+        595,
+        255,
+        109
+      ],
+      "mask_inside_prompt_box": 0.9560531372712842,
+      "matched_cad_render": {
+        "azimuth_degrees": 135.0,
+        "elevation_degrees": -30.0,
+        "mesh": "link1",
+        "mesh_sha256": "92bc7949d546c2e34a7f1af54df7b4f91c34d3012a74c6133020013a544cfd74",
+        "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link1/az135_el-30.png"
+      },
+      "prompt_box_fill": 0.4779866332497911,
+      "prompt_box_xywh": [
+        875,
+        590,
+        210,
+        114
+      ],
+      "sam3_score": 0.8750000596046448,
+      "status": "mask"
+    },
+    "link2": {
+      "area_pixels": 19620,
+      "cad_distance": 0.13152868108970286,
+      "cad_similarity": 0.5180707798352637,
+      "candidate_count": 2,
+      "combined_score": 0.7358200353063999,
+      "mask_box_xywh": [
+        921,
+        465,
+        183,
+        188
+      ],
+      "mask_inside_prompt_box": 1.0,
+      "matched_cad_render": {
+        "azimuth_degrees": 270.0,
+        "elevation_degrees": -30.0,
+        "mesh": "link2",
+        "mesh_sha256": "e5427e7e0c5f2f0de631650347b7e4e2acef40b8b8d6cc52d98e055bba422da7",
+        "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link2/az270_el-30.png"
+      },
+      "prompt_box_fill": 0.45574912891986064,
+      "prompt_box_xywh": [
+        915,
+        455,
+        205,
+        210
+      ],
+      "sam3_score": 0.9139785170555115,
+      "status": "mask"
+    },
+    "link3": {
+      "area_pixels": 34212,
+      "cad_distance": 0.0729954248811582,
+      "cad_similarity": 0.694212531220501,
+      "candidate_count": 1,
+      "combined_score": 0.7999842771164709,
+      "mask_box_xywh": [
+        997,
+        250,
+        224,
+        299
+      ],
+      "mask_inside_prompt_box": 0.9902958026423477,
+      "matched_cad_render": {
+        "azimuth_degrees": 90.0,
+        "elevation_degrees": 30.0,
+        "mesh": "link3",
+        "mesh_sha256": "feca6e5e97002d454eb1b6482bf07e2574fcf066b8a3cfe81f64e25a23d40573",
+        "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link3/az090_el+30.png"
+      },
+      "prompt_box_fill": 0.4562962962962963,
+      "prompt_box_xywh": [
+        980,
+        225,
+        225,
+        330
+      ],
+      "sam3_score": 0.8865247964859009,
+      "status": "mask"
+    },
+    "link4": {
+      "area_pixels": 30179,
+      "cad_distance": 0.068581384471708,
+      "cad_similarity": 0.7097042660852826,
+      "candidate_count": 2,
+      "combined_score": 0.8220551041189085,
+      "mask_box_xywh": [
+        1113,
+        47,
+        167,
+        256
+      ],
+      "mask_inside_prompt_box": 0.9827694754630704,
+      "matched_cad_render": {
+        "azimuth_degrees": 180.0,
+        "elevation_degrees": -30.0,
+        "mesh": "link4",
+        "mesh_sha256": "1ef9069b94d0d26fbf166654789559006d9ff61ae6de056956b469886697ce70",
+        "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link4/az180_el-30.png"
+      },
+      "prompt_box_fill": 0.5703653846153847,
+      "prompt_box_xywh": [
+        1080,
+        55,
+        200,
+        260
+      ],
+      "sam3_score": 0.9139785170555115,
+      "status": "mask"
+    },
+    "link5": {
+      "area_pixels": 23181,
+      "cad_distance": 0.47981795758802026,
+      "cad_similarity": 0.09080056345522701,
+      "candidate_count": 1,
+      "combined_score": 0.5156465828242613,
+      "mask_box_xywh": [
+        917,
+        0,
+        299,
+        115
+      ],
+      "mask_inside_prompt_box": 0.9973685345757302,
+      "matched_cad_render": {
+        "azimuth_degrees": 315.0,
+        "elevation_degrees": 30.0,
+        "mesh": "link5",
+        "mesh_sha256": "9e3f45fd1a7366949e8e8aa25cee6f90842793276e2d62ac4489f6c58c7f6376",
+        "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link5/az315_el+30.png"
+      },
+      "prompt_box_fill": 0.526951566951567,
+      "prompt_box_xywh": [
+        880,
+        0,
+        325,
+        135
+      ],
+      "sam3_score": 0.8632478713989258,
+      "status": "mask"
+    },
+    "link6": {
+      "area_pixels": 27860,
+      "cad_distance": 0.13743536083205393,
+      "cad_similarity": 0.5029941173096304,
+      "candidate_count": 1,
+      "combined_score": 0.6967093484863552,
+      "mask_box_xywh": [
+        664,
+        18,
+        376,
+        140
+      ],
+      "mask_inside_prompt_box": 0.9561019382627423,
+      "matched_cad_render": {
+        "azimuth_degrees": 270.0,
+        "elevation_degrees": 0.0,
+        "mesh": "link6",
+        "mesh_sha256": "3b55327b084952b49beb6f1f730494f16de6bd4d4b5464cbf1d4f3cd590162b7",
+        "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link6/az270_el+00.png"
+      },
+      "prompt_box_fill": 0.49100460829493087,
+      "prompt_box_xywh": [
+        680,
+        15,
+        310,
+        175
+      ],
+      "sam3_score": 0.8552036285400391,
+      "status": "mask"
+    },
+    "link7": {
+      "area_pixels": 11022,
+      "cad_distance": 0.08098385610160269,
+      "cad_similarity": 0.6670306510607613,
+      "candidate_count": 1,
+      "combined_score": 0.7965052747821904,
+      "mask_box_xywh": [
+        637,
+        94,
+        106,
+        186
+      ],
+      "mask_inside_prompt_box": 1.0,
+      "matched_cad_render": {
+        "azimuth_degrees": 180.0,
+        "elevation_degrees": -30.0,
+        "mesh": "link7",
+        "mesh_sha256": "5fa145c2c900a3f4c2b328e6ac2e642b7d78461b88f8d19eb9908baa4aa75f79",
+        "render": "/root/autodl-tmp/pdi/tmp/seven-link-masking-performance/0000/cad-renders/link7/az180_el-30.png"
+      },
+      "prompt_box_fill": 0.3628641975308642,
+      "prompt_box_xywh": [
+        625,
+        70,
+        135,
+        225
+      ],
+      "sam3_score": 0.9024390578269958,
+      "status": "mask"
+    }
+  },
+  "maximum_pairwise_iou": 0.05033949894638258,
+  "mean_offdiagonal_iou": 0.0063776483536976,
+  "nonempty_mask_count": 7,
+  "overlap_fraction_of_union": 0.037919734154686774,
+  "overlap_pixels": 5774,
+  "pairwise_iou": {
+    "link1": {
+      "link1": 1.0,
+      "link2": 0.02541712653379212,
+      "link3": 0.0,
+      "link4": 0.0,
+      "link5": 0.0,
+      "link6": 0.0,
+      "link7": 0.0
+    },
+    "link2": {
+      "link1": 0.02541712653379212,
+      "link2": 1.0,
+      "link3": 0.05033949894638258,
+      "link4": 0.0,
+      "link5": 0.0,
+      "link6": 0.0,
+      "link7": 0.0
+    },
+    "link3": {
+      "link1": 0.0,
+      "link2": 0.05033949894638258,
+      "link3": 1.0,
+      "link4": 6.212434187025331e-05,
+      "link5": 0.0,
+      "link6": 0.0,
+      "link7": 0.0
+    },
+    "link4": {
+      "link1": 0.0,
+      "link2": 0.0,
+      "link3": 6.212434187025331e-05,
+      "link4": 1.0,
+      "link5": 0.005388702566228285,
+      "link6": 0.0,
+      "link7": 0.0
+    },
+    "link5": {
+      "link1": 0.0,
+      "link2": 0.0,
+      "link3": 0.0,
+      "link4": 0.005388702566228285,
+      "link5": 1.0,
+      "link6": 0.011594260345647693,
+      "link7": 0.0
+    },
+    "link6": {
+      "link1": 0.0,
+      "link2": 0.0,
+      "link3": 0.0,
+      "link4": 0.0,
+      "link5": 0.011594260345647693,
+      "link6": 1.0,
+      "link7": 0.041128902693728916
+    },
+    "link7": {
+      "link1": 0.0,
+      "link2": 0.0,
+      "link3": 0.0,
+      "link4": 0.0,
+      "link5": 0.0,
+      "link6": 0.041128902693728916,
+      "link7": 1.0
+    }
+  },
+  "prompt_strategy": "one SAM3 model; seven independent text+positive-box queries",
+  "status": "diagnostic-only",
+  "summed_area_pixels": 158043,
+  "text_prompt": "white robotic arm link",
+  "union_area_pixels": 152269
+}
