@@ -1,0 +1,14 @@
+{
+  "completed_at": "2026-08-22T04:25:42.907795+00:00",
+  "dataset": "COSMOS2.5",
+  "error": "",
+  "job_id": "COSMOS2.5_0003-33de9f935326",
+  "relative_path": "0003.mp4",
+  "replay_selected": true,
+  "sha256": "33de9f9353260ab23742fc0e8e8b603b0027107145a1b9f02023b4a6b7d35db6",
+  "size_bytes": 865121,
+  "staged_relative_path": "COSMOS2.5/0003.mp4",
+  "started_at": "2026-08-22T04:15:16.751684+00:00",
+  "state": "complete",
+  "worker_thread": "gpu_1"
+}

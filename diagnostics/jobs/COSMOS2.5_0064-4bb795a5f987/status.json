@@ -1,0 +1,15 @@
+{
+  "completed_at": "2026-08-22T14:11:38.140401+00:00",
+  "dataset": "COSMOS2.5",
+  "error": "command failed with status 1; see /root/autodl-tmp/pdi/batches/exact-group-links2-7-balanced-v2/jobs/COSMOS2.5_0064-4bb795a5f987/sam3.log",
+  "job_id": "COSMOS2.5_0064-4bb795a5f987",
+  "relative_path": "0064.mp4",
+  "replay_selected": false,
+  "sha256": "4bb795a5f9879c12a4673b99f81575a7239502f49d72af720048e2b5dad2cb41",
+  "size_bytes": 740596,
+  "staged_relative_path": "COSMOS2.5/0064.mp4",
+  "started_at": "2026-08-22T14:10:19.524619+00:00",
+  "state": "failed",
+  "traceback": "Traceback (most recent call last):\n  File \"/root/autodl-tmp/pdi/code/PDI-Bench-edited/evaluation/run_remote_exact_group_batch.py\", line 196, in run_job\n    self.command(\n  File \"/root/autodl-tmp/pdi/code/PDI-Bench-edited/evaluation/run_remote_exact_group_batch.py\", line 125, in command\n    raise RuntimeError(\nRuntimeError: command failed with status 1; see /root/autodl-tmp/pdi/batches/exact-group-links2-7-balanced-v2/jobs/COSMOS2.5_0064-4bb795a5f987/sam3.log\n",
+  "worker_thread": "gpu_1"
+}

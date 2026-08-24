@@ -1,0 +1,15 @@
+{
+  "completed_at": "2026-08-22T20:06:10.583934+00:00",
+  "dataset": "LVP_ROBOWM",
+  "error": "command failed with status 1; see /root/autodl-tmp/pdi/batches/exact-group-links2-7-balanced-v2/jobs/LVP_ROBOWM_videos_0018-2f1d209d82a2/sam3.log",
+  "job_id": "LVP_ROBOWM_videos_0018-2f1d209d82a2",
+  "relative_path": "videos/0018.mp4",
+  "replay_selected": false,
+  "sha256": "2f1d209d82a2659e38d2425580827fe82baa423a359efacec9da251422181d4e",
+  "size_bytes": 255278,
+  "staged_relative_path": "LVP_ROBOWM/videos/0018.mp4",
+  "started_at": "2026-08-22T20:04:46.788862+00:00",
+  "state": "failed",
+  "traceback": "Traceback (most recent call last):\n  File \"/root/autodl-tmp/pdi/code/PDI-Bench-edited/evaluation/run_remote_exact_group_batch.py\", line 196, in run_job\n    self.command(\n  File \"/root/autodl-tmp/pdi/code/PDI-Bench-edited/evaluation/run_remote_exact_group_batch.py\", line 125, in command\n    raise RuntimeError(\nRuntimeError: command failed with status 1; see /root/autodl-tmp/pdi/batches/exact-group-links2-7-balanced-v2/jobs/LVP_ROBOWM_videos_0018-2f1d209d82a2/sam3.log\n",
+  "worker_thread": "gpu_1"
+}

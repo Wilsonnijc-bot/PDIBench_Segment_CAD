@@ -19,8 +19,9 @@ REMOTE_BATCH="$PDI_GPU_ROOT/batches/$BATCH_ID"
 mkdir -p "$LOCAL_BATCH"
 python "$EDITED_ROOT/evaluation/build_video_batch_manifest.py" \
   --dataset "COSMOS2.5=$PROJECT_ROOT/.tmp/COSMOS2.5_Videos" \
-  --dataset "COSMOS3=$PROJECT_ROOT/.tmp/COSMOS3" \
-  --dataset "LVP_ROBOWM=$PROJECT_ROOT/.tmp/LVP_ROBOWM" \
+  --dataset "COSMOS3=$PROJECT_ROOT/.tmp/COSMOS3/seed101" \
+  --dataset "COSMOS3=$PROJECT_ROOT/.tmp/COSMOS3/seed101 2" \
+  --dataset "LVP_ROBOWM=$PROJECT_ROOT/.tmp/LVP_ROBOWM/robowm_lvp_68_numbered" \
   --replays-per-dataset 10 \
   --output "$LOCAL_BATCH/manifest.json"
 
@@ -52,21 +53,31 @@ rsync -az --delete -e "$RSYNC_SSH" "$PROJECT_ROOT/robot_link_first15/" \
   "$PDI_GPU_USER@$PDI_GPU_HOST:$REMOTE_BATCH/references/"
 
 echo "Staging $expected_count videos ($expected_bytes bytes) to the GPU..."
-transfer_pids=()
-for transfer in \
-  "COSMOS2.5:$PROJECT_ROOT/.tmp/COSMOS2.5_Videos" \
-  "COSMOS3:$PROJECT_ROOT/.tmp/COSMOS3" \
-  "LVP_ROBOWM:$PROJECT_ROOT/.tmp/LVP_ROBOWM"; do
-  dataset="${transfer%%:*}"
-  source_dir="${transfer#*:}"
-  rsync -a --delete --delete-excluded \
+stage_videos() {
+  local source_dir="$1"
+  local dataset="$2"
+  shift 2
+  rsync -a "$@" \
     --include='*/' --include='*.mp4' --exclude='*' \
     -e "$RSYNC_SSH" "$source_dir/" \
-    "$PDI_GPU_USER@$PDI_GPU_HOST:$REMOTE_BATCH/videos/$dataset/" &
-  transfer_pids+=("$!")
-done
+    "$PDI_GPU_USER@$PDI_GPU_HOST:$REMOTE_BATCH/videos/$dataset/"
+}
+
+stage_videos "$PROJECT_ROOT/.tmp/COSMOS2.5_Videos" COSMOS2.5 \
+  --delete --delete-excluded &
+cosmos25_pid="$!"
+(
+  stage_videos "$PROJECT_ROOT/.tmp/COSMOS3/seed101" COSMOS3 \
+    --delete --delete-excluded
+  stage_videos "$PROJECT_ROOT/.tmp/COSMOS3/seed101 2" COSMOS3
+) &
+cosmos3_pid="$!"
+stage_videos "$PROJECT_ROOT/.tmp/LVP_ROBOWM/robowm_lvp_68_numbered" \
+  LVP_ROBOWM --delete --delete-excluded &
+lvp_pid="$!"
+
 transfer_status=0
-for transfer_pid in "${transfer_pids[@]}"; do
+for transfer_pid in "$cosmos25_pid" "$cosmos3_pid" "$lvp_pid"; do
   wait "$transfer_pid" || transfer_status=1
 done
 if [[ "$transfer_status" -ne 0 ]]; then

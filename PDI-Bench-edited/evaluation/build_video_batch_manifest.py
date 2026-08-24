@@ -38,7 +38,7 @@ def main() -> int:
     if args.replays_per_dataset < 0:
         parser.error("--replays-per-dataset must be non-negative")
 
-    records = []
+    datasets: dict[str, dict[str, dict[str, object]]] = {}
     for specification in args.dataset:
         if "=" not in specification:
             parser.error(f"invalid dataset specification: {specification!r}")
@@ -47,25 +47,41 @@ def main() -> int:
         if not root.is_dir():
             parser.error(f"dataset directory is missing: {root}")
         videos = sorted(root.rglob("*.mp4"))
-        if args.replays_per_dataset > len(videos):
-            parser.error(
-                f"dataset {dataset!r} has only {len(videos)} videos, fewer than "
-                f"the requested {args.replays_per_dataset} replays"
-            )
-        for dataset_index, video in enumerate(videos):
+        dataset_records = datasets.setdefault(dataset, {})
+        for video in videos:
             relative_path = video.relative_to(root).as_posix()
             digest = sha256_file(video)
-            records.append(
-                {
-                    "dataset": dataset,
-                    "relative_path": relative_path,
-                    "staged_relative_path": f"{dataset}/{relative_path}",
-                    "job_id": job_slug(dataset, relative_path, digest),
-                    "sha256": digest,
-                    "size_bytes": video.stat().st_size,
-                    "replay_selected": dataset_index < args.replays_per_dataset,
-                }
+            record = {
+                "dataset": dataset,
+                "relative_path": relative_path,
+                "staged_relative_path": f"{dataset}/{relative_path}",
+                "job_id": job_slug(dataset, relative_path, digest),
+                "sha256": digest,
+                "size_bytes": video.stat().st_size,
+            }
+            existing = dataset_records.get(relative_path)
+            if existing is not None:
+                if (
+                    existing["sha256"] != record["sha256"]
+                    or existing["size_bytes"] != record["size_bytes"]
+                ):
+                    raise RuntimeError(
+                        f"conflicting duplicate video for {dataset}/{relative_path}"
+                    )
+                continue
+            dataset_records[relative_path] = record
+
+    records = []
+    for dataset, dataset_records in datasets.items():
+        if args.replays_per_dataset > len(dataset_records):
+            parser.error(
+                f"dataset {dataset!r} has only {len(dataset_records)} videos, "
+                f"fewer than the requested {args.replays_per_dataset} replays"
             )
+        for dataset_index, relative_path in enumerate(sorted(dataset_records)):
+            record = dict(dataset_records[relative_path])
+            record["replay_selected"] = dataset_index < args.replays_per_dataset
+            records.append(record)
     job_ids = [record["job_id"] for record in records]
     if len(job_ids) != len(set(job_ids)):
         raise RuntimeError("dataset-qualified job IDs are not unique")

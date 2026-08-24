@@ -13,10 +13,12 @@ SAM3_MERGES_SHA256="9fd691f7c8039210e0fced15865466c65820d09b63988b0174bfe25de299
 SAM3_MERGES_URL="https://www.modelscope.cn/models/facebook/sam3/resolve/$SAM3_MODELSCOPE_REVISION/merges.txt"
 SAM3_BPE="$PDI_GPU_ROOT/models/sam3/bpe_simple_vocab_16e6.txt.gz"
 ALIYUN_PYPI="http://mirrors.aliyun.com/pypi/simple"
+CONDA_MAIN_CHANNEL="${PDI_CONDA_MAIN_CHANNEL:-https://mirror.sjtu.edu.cn/anaconda/pkgs/main}"
 
 source /root/miniconda3/etc/profile.d/conda.sh
 if [[ ! -x "$SAM3_ENV/bin/python" ]]; then
-  conda create -y -p "$SAM3_ENV" python=3.12 pip
+  conda create -y -p "$SAM3_ENV" --override-channels \
+    -c "$CONDA_MAIN_CHANNEL" python=3.12 pip
 fi
 conda activate "$SAM3_ENV"
 

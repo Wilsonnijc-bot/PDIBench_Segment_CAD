@@ -1,0 +1,14 @@
+{
+  "completed_at": "2026-08-22T20:00:40.731275+00:00",
+  "dataset": "LVP_ROBOWM",
+  "error": "",
+  "job_id": "LVP_ROBOWM_videos_0015-c47e55fa351b",
+  "relative_path": "videos/0015.mp4",
+  "replay_selected": false,
+  "sha256": "c47e55fa351b9c302fba125edf9839efb57dd2985c08070f6ea455f2128ae7b0",
+  "size_bytes": 275265,
+  "staged_relative_path": "LVP_ROBOWM/videos/0015.mp4",
+  "started_at": "2026-08-22T19:55:50.792066+00:00",
+  "state": "complete",
+  "worker_thread": "gpu_0"
+}

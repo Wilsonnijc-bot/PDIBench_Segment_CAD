@@ -1,0 +1,14 @@
+{
+  "completed_at": "2026-08-22T10:28:02.521456+00:00",
+  "dataset": "COSMOS3",
+  "error": "",
+  "job_id": "COSMOS3_0008-432cd6fbc05e",
+  "relative_path": "0008.mp4",
+  "replay_selected": true,
+  "sha256": "432cd6fbc05eb96aa7487c119839bf9a816f87d22ad2be702727a3615fc4e532",
+  "size_bytes": 50888775,
+  "staged_relative_path": "COSMOS3/0008.mp4",
+  "started_at": "2026-08-22T10:09:51.163355+00:00",
+  "state": "complete",
+  "worker_thread": "gpu_1"
+}

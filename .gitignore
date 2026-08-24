@@ -1,4 +1,5 @@
 .tmp/
+.pipeline_artifacts/
 .DS_Store
 results/
 configs/*.local.env
