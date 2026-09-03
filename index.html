@@ -1,0 +1,832 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>CAD Rigidity × Human Robot Deformation</title>
+  <style>
+    :root {
+      --bg: oklch(0.975 0.004 250);
+      --surface: oklch(0.995 0.002 250);
+      --surface-muted: oklch(0.948 0.007 250);
+      --ink: oklch(0.235 0.018 255);
+      --ink-soft: oklch(0.43 0.018 255);
+      --line: oklch(0.86 0.01 250);
+      --blue: oklch(0.55 0.15 252);
+      --blue-soft: oklch(0.92 0.035 250);
+      --coral: oklch(0.61 0.19 27);
+      --coral-soft: oklch(0.93 0.045 28);
+      --green: oklch(0.53 0.13 158);
+      --green-soft: oklch(0.92 0.035 158);
+      --amber: oklch(0.69 0.15 80);
+      --amber-soft: oklch(0.94 0.045 82);
+      --nav-h: 58px;
+      --max: 1240px;
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.58;
+      letter-spacing: 0;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+
+    button, video { font: inherit; }
+
+    button:focus-visible,
+    a:focus-visible,
+    video:focus-visible {
+      outline: 3px solid color-mix(in oklch, var(--blue), white 30%);
+      outline-offset: 3px;
+    }
+
+    .skip-link {
+      position: fixed;
+      left: 16px;
+      top: -80px;
+      z-index: 50;
+      padding: 9px 12px;
+      background: var(--ink);
+      color: var(--surface);
+      border-radius: 5px;
+    }
+
+    .skip-link:focus { top: 12px; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      height: var(--nav-h);
+      background: color-mix(in oklch, var(--surface) 92%, transparent);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar-inner {
+      width: min(var(--max), calc(100% - 36px));
+      height: 100%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      min-width: 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 22px;
+      height: 22px;
+      border: 1px solid var(--ink);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      padding: 3px;
+      border-radius: 4px;
+    }
+
+    .brand-mark span { background: var(--ink); border-radius: 1px; }
+    .brand-mark span:nth-child(2), .brand-mark span:nth-child(4) { background: var(--coral); }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      min-width: 0;
+    }
+
+    nav::-webkit-scrollbar { display: none; }
+
+    nav a {
+      color: var(--ink-soft);
+      text-decoration: none;
+      font-size: 0.84rem;
+      font-weight: 560;
+      white-space: nowrap;
+    }
+
+    nav a:hover { color: var(--ink); }
+
+    .hero {
+      min-height: min(760px, calc(100vh - var(--nav-h)));
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      color: oklch(0.97 0.005 250);
+      background:
+        linear-gradient(90deg, oklch(0.17 0.02 255 / 0.97) 0%, oklch(0.17 0.02 255 / 0.86) 46%, oklch(0.17 0.02 255 / 0.3) 100%),
+        linear-gradient(0deg, oklch(0.13 0.015 255 / 0.92) 0%, transparent 60%),
+        url("cad_report_assets/hero-cad.jpg") center / cover no-repeat;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 9px;
+      background: linear-gradient(90deg, var(--blue) 0 34%, var(--coral) 34% 58%, var(--amber) 58% 76%, var(--green) 76%);
+    }
+
+    .hero-inner {
+      width: min(var(--max), calc(100% - 36px));
+      margin: 0 auto;
+      padding: clamp(88px, 12vw, 150px) 0 clamp(58px, 8vw, 96px);
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(270px, 0.55fr);
+      gap: clamp(40px, 8vw, 110px);
+      align-items: end;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      margin: 0;
+      max-width: 820px;
+      font-size: clamp(2.65rem, 6.5vw, 5.8rem);
+      line-height: 0.98;
+      letter-spacing: -0.035em;
+      text-wrap: balance;
+      overflow-wrap: anywhere;
+    }
+
+    .hero-lede {
+      margin: 28px 0 0;
+      max-width: 68ch;
+      color: oklch(0.89 0.01 250);
+      font-size: clamp(1.02rem, 1.5vw, 1.28rem);
+      line-height: 1.55;
+      text-wrap: pretty;
+    }
+
+    .snapshot {
+      border-top: 1px solid oklch(0.72 0.02 250 / 0.55);
+      padding-top: 18px;
+      display: grid;
+      gap: 15px;
+    }
+
+    .snapshot-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 13px;
+      border-bottom: 1px solid oklch(0.72 0.02 250 / 0.28);
+    }
+
+    .snapshot-row span { color: oklch(0.77 0.015 250); font-size: 0.82rem; }
+    .snapshot-row strong { font-size: 0.95rem; text-align: right; }
+
+    .hero-inner > *,
+    .section-head > *,
+    .case-study > *,
+    .sources > * { min-width: 0; }
+
+    .content-band {
+      padding: clamp(72px, 9vw, 118px) 0;
+      scroll-margin-top: calc(var(--nav-h) + 14px);
+    }
+
+    .content-band.white { background: var(--surface); }
+    .content-band.dark { background: oklch(0.2 0.02 255); color: oklch(0.95 0.008 250); }
+
+    .container { width: min(var(--max), calc(100% - 36px)); margin: 0 auto; }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(240px, 0.7fr) minmax(0, 1.3fr);
+      gap: clamp(28px, 7vw, 92px);
+      align-items: start;
+      margin-bottom: clamp(40px, 6vw, 72px);
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.6rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      text-wrap: balance;
+    }
+
+    .section-head p {
+      margin: 4px 0 0;
+      max-width: 69ch;
+      color: var(--ink-soft);
+      font-size: clamp(1rem, 1.3vw, 1.16rem);
+      text-wrap: pretty;
+    }
+
+    .dark .section-head p { color: oklch(0.76 0.012 250); }
+
+    .verdict-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .verdict-main,
+    .verdict-side { background: var(--surface); padding: clamp(26px, 4vw, 48px); }
+
+    .verdict-main h3 {
+      margin: 0 0 18px;
+      font-size: clamp(1.55rem, 3vw, 2.5rem);
+      line-height: 1.16;
+      letter-spacing: -0.025em;
+      max-width: 28ch;
+    }
+
+    .verdict-main p { max-width: 68ch; color: var(--ink-soft); margin: 0; }
+
+    .finding-list { display: grid; gap: 0; }
+
+    .finding {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .finding:first-child { padding-top: 0; }
+    .finding:last-child { border-bottom: 0; padding-bottom: 0; }
+    .finding strong { display: block; margin-bottom: 4px; }
+    .finding span { color: var(--ink-soft); font-size: 0.92rem; }
+
+    .evidence-strip {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--surface);
+    }
+
+    .evidence-item { padding: 21px 22px; border-right: 1px solid var(--line); }
+    .evidence-item:last-child { border-right: 0; }
+    .evidence-item strong { display: block; font-size: 1.55rem; line-height: 1; margin-bottom: 7px; }
+    .evidence-item span { color: var(--ink-soft); font-size: 0.82rem; }
+
+    .method-flow { display: grid; gap: 48px; }
+
+    .method-step {
+      display: grid;
+      grid-template-columns: 110px minmax(0, 1fr);
+      gap: clamp(20px, 4vw, 52px);
+      align-items: start;
+    }
+
+    .step-label strong {
+      display: block;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      line-height: 0.85;
+      color: oklch(0.78 0.14 78);
+    }
+
+    .step-label span { display: block; margin-top: 12px; font-size: 0.9rem; font-weight: 650; }
+    .method-media { display: grid; gap: 12px; }
+    .method-media.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .method-media.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .method-media figure {
+      margin: 0;
+      overflow: hidden;
+      background: oklch(0.15 0.012 255);
+      border: 1px solid oklch(0.37 0.025 255);
+      border-radius: var(--radius);
+    }
+
+    .method-media img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      background: oklch(0.12 0.01 255);
+    }
+
+    .method-media video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: contain;
+      background: oklch(0.12 0.01 255);
+    }
+
+    .method-media figcaption { padding: 10px 12px; color: oklch(0.83 0.012 250); font-size: 0.82rem; }
+
+    .pose-logic {
+      min-height: 100%;
+      padding: clamp(22px, 3vw, 34px);
+      display: grid;
+      align-content: center;
+      gap: 18px;
+      background: oklch(0.235 0.022 255);
+      border: 1px solid oklch(0.37 0.025 255);
+      border-radius: var(--radius);
+    }
+
+    .pose-logic strong { font-size: clamp(1.1rem, 2vw, 1.55rem); line-height: 1.2; }
+    .pose-logic code { color: oklch(0.78 0.14 78); font-size: clamp(1rem, 1.7vw, 1.3rem); }
+    .pose-logic span { color: oklch(0.76 0.012 250); font-size: 0.88rem; }
+
+    .equation-panel {
+      display: block;
+      border: 1px solid oklch(0.37 0.025 255);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .equation {
+      display: grid;
+      gap: 14px;
+      padding: clamp(24px, 4vw, 42px);
+      background: oklch(0.235 0.022 255);
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: clamp(0.78rem, 1.2vw, 1rem);
+      color: oklch(0.91 0.02 250);
+      overflow-x: auto;
+    }
+
+    .equation .accent { color: oklch(0.78 0.14 78); }
+
+    .result-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-bottom: 26px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+    .result-metric { padding: clamp(22px, 3vw, 34px); background: var(--surface); }
+    .result-metric span { display: block; color: var(--ink-soft); font-size: 0.86rem; font-weight: 650; }
+    .result-metric strong { display: block; margin-top: 8px; color: var(--coral); font-size: clamp(2.5rem, 5vw, 4.7rem); line-height: 0.95; font-variant-numeric: tabular-nums; }
+    .result-metric small { display: block; margin-top: 10px; color: var(--ink-soft); font-size: 0.9rem; }
+
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); }
+
+    table { width: 100%; border-collapse: collapse; background: var(--surface); min-width: 680px; }
+    th, td { padding: clamp(17px, 2.2vw, 26px) clamp(14px, 2vw, 24px); text-align: left; border-bottom: 1px solid var(--line); }
+    th { background: var(--surface-muted); font-size: 0.9rem; color: var(--ink-soft); font-weight: 650; }
+    td { font-size: clamp(1rem, 1.6vw, 1.32rem); font-weight: 560; }
+    tbody tr:last-child td { border-bottom: 0; }
+    .numeric { font-variant-numeric: tabular-nums; }
+    .weak { color: var(--coral); font-size: clamp(1.35rem, 2.3vw, 2rem); font-weight: 750; }
+
+    .diagnosis-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--line);
+      gap: 1px;
+    }
+
+    .diagnosis {
+      background: var(--surface);
+      padding: clamp(24px, 4vw, 38px);
+      min-height: 210px;
+    }
+
+    .diagnosis-index {
+      display: inline-grid;
+      place-items: center;
+      width: 31px;
+      height: 31px;
+      margin-bottom: 18px;
+      border-radius: 50%;
+      background: var(--surface-muted);
+      color: var(--ink-soft);
+      font-size: 0.77rem;
+      font-weight: 700;
+    }
+
+    .diagnosis h3 { margin: 0 0 10px; font-size: 1.15rem; }
+    .diagnosis p { margin: 0; color: var(--ink-soft); font-size: 0.92rem; max-width: 62ch; }
+    .diagnosis .mechanism { display: block; margin-top: 15px; color: var(--coral); font-size: 0.78rem; font-weight: 650; }
+
+    .replay-stack { display: grid; gap: 58px; }
+    .case-cluster { display: grid; gap: 24px; }
+    .case-cluster-head { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+    .case-cluster-head h3 { margin: 0; font-size: clamp(1.35rem, 2.5vw, 2rem); }
+    .case-cluster-head span { color: var(--ink-soft); font-size: 0.86rem; }
+    .case-cluster-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .case-cluster-grid .case-study { grid-template-columns: 1fr; gap: 20px; padding: 22px; border: 1px solid var(--line); border-radius: var(--radius); }
+
+    .case-study {
+      display: grid;
+      grid-template-columns: minmax(300px, 0.78fr) minmax(0, 1.22fr);
+      gap: clamp(28px, 6vw, 70px);
+      align-items: start;
+      padding-bottom: 42px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .case-study:last-child { padding-bottom: 0; border-bottom: 0; }
+    .case-id { font: 0.78rem "SFMono-Regular", Consolas, monospace; color: var(--ink-soft); }
+    .case-study h3 { margin: 10px 0 10px; font-size: clamp(1.35rem, 2.3vw, 1.95rem); line-height: 1.12; letter-spacing: -0.025em; }
+    .case-summary { margin: 0 0 20px; color: var(--ink-soft); max-width: 56ch; }
+
+    .tag-row { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 20px; }
+    .tag { padding: 4px 8px; border-radius: 4px; font-size: 0.74rem; font-weight: 620; background: var(--surface-muted); color: var(--ink-soft); }
+    .tag.human { background: var(--coral-soft); color: oklch(0.45 0.17 27); }
+    .tag.detected { background: var(--green-soft); color: oklch(0.38 0.11 158); }
+    .tag.missing { background: var(--amber-soft); color: oklch(0.43 0.12 76); }
+
+    .case-metrics { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; margin-bottom: 20px; }
+    .case-metric { padding: 12px; border-right: 1px solid var(--line); background: var(--surface); }
+    .case-metric:last-child { border-right: 0; }
+    .case-metric span { display: block; font-size: 0.68rem; color: var(--ink-soft); margin-bottom: 4px; }
+    .case-metric strong { font: 1.2rem "SFMono-Regular", Consolas, monospace; }
+
+    .case-note { margin: 0; padding-top: 16px; border-top: 1px solid var(--line); font-size: 0.88rem; color: var(--ink-soft); }
+    .case-note strong { color: var(--ink); }
+
+    .media-shell { background: oklch(0.17 0.012 255); border-radius: var(--radius); overflow: hidden; }
+    .media-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 10px 12px; color: oklch(0.88 0.008 250); }
+    .media-title { font-size: 0.75rem; color: oklch(0.7 0.01 250); }
+    .segmented { display: inline-flex; padding: 3px; border: 1px solid oklch(0.38 0.02 255); border-radius: 6px; background: oklch(0.22 0.018 255); }
+    .segmented button { border: 0; border-radius: 4px; padding: 6px 9px; color: oklch(0.72 0.01 250); background: transparent; cursor: pointer; font-size: 0.73rem; }
+    .segmented button[aria-pressed="true"] { color: oklch(0.96 0.005 250); background: oklch(0.36 0.045 250); }
+    .media-shell video { display: block; width: 100%; aspect-ratio: 16 / 9; background: oklch(0.12 0.01 255); object-fit: contain; }
+    .media-shell video[hidden] { display: none; }
+
+    .next-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .next-step { background: oklch(0.245 0.022 255); border: 1px solid oklch(0.36 0.025 255); border-radius: var(--radius); padding: 26px; }
+    .next-step strong { display: block; margin-bottom: 9px; }
+    .next-step p { margin: 0; color: oklch(0.73 0.012 250); font-size: 0.89rem; }
+
+    .sources { display: grid; grid-template-columns: 0.75fr 1.25fr; gap: 38px; }
+    .sources h2 { margin: 0; font-size: 2rem; letter-spacing: -0.025em; }
+    .source-list { display: grid; gap: 10px; }
+    .source-list a { display: flex; justify-content: space-between; gap: 20px; padding: 13px 0; border-bottom: 1px solid var(--line); text-decoration: none; }
+    .source-list a:hover span:first-child { color: var(--blue); }
+    .source-list span:last-child { color: var(--ink-soft); font-size: 0.8rem; text-align: right; }
+
+    footer { padding: 30px 0 42px; color: var(--ink-soft); font-size: 0.8rem; border-top: 1px solid var(--line); }
+    footer .container { display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+
+    @media (max-width: 980px) {
+      .hero-inner, .section-head, .case-study, .sources { grid-template-columns: 1fr; }
+      .snapshot { max-width: 500px; }
+      .method-media.three { grid-template-columns: 1fr 1fr; }
+      .method-media.three figure:first-child { grid-column: 1 / -1; }
+      .case-cluster-grid { grid-template-columns: 1fr; }
+      .case-study { gap: 24px; }
+    }
+
+    @media (max-width: 720px) {
+      :root { --nav-h: 54px; }
+      .topbar-inner { width: min(var(--max), calc(100% - 24px)); }
+      .brand span:last-child { display: none; }
+      nav { gap: 16px; }
+      nav a:nth-child(2), nav a:nth-child(5) { display: none; }
+      .hero { min-height: 700px; background-position: 58% center; }
+      .hero-inner, .container { width: min(var(--max), calc(100% - 24px)); }
+      .hero h1 { font-size: clamp(2.35rem, 10.5vw, 3.35rem); line-height: 1.01; }
+      .hero-lede { font-size: 0.98rem; }
+      .snapshot-row { flex-wrap: wrap; }
+      .snapshot-row strong { width: 100%; text-align: left; overflow-wrap: anywhere; }
+      .verdict-grid, .diagnosis-grid { grid-template-columns: 1fr; }
+      .evidence-strip { grid-template-columns: repeat(2, 1fr); }
+      .evidence-item:nth-child(2) { border-right: 0; }
+      .evidence-item:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .method-step { grid-template-columns: 1fr; gap: 16px; }
+      .step-label { display: flex; align-items: baseline; gap: 14px; }
+      .step-label strong { font-size: 2.8rem; }
+      .step-label span { margin-top: 0; }
+      .method-media.two, .method-media.three { grid-template-columns: 1fr; }
+      .method-media.three figure:first-child { grid-column: auto; }
+      .result-metrics { grid-template-columns: 1fr; }
+      .case-metrics { grid-template-columns: 1fr; }
+      .case-metric { border-right: 0; border-bottom: 1px solid var(--line); }
+      .case-metric:last-child { border-bottom: 0; }
+      .media-toolbar { align-items: flex-start; flex-direction: column; }
+      .next-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to report</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand" aria-label="CAD deformation experiment report">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></span>
+        <span>CAD Deformation Atlas</span>
+      </div>
+      <nav aria-label="Report sections">
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+        <a href="#replays">Cases</a>
+        <a href="#diagnosis">Failure</a>
+        <a href="#next">Next steps</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="report-title">
+      <div class="hero-inner">
+        <div>
+          <h1 id="report-title">CAD rigidity does not detect human-labeled robot deformation.</h1>
+          <p class="hero-lede">30 labeled videos. Weak AUROC. Near-zero correlation.</p>
+        </div>
+        <aside class="snapshot" aria-label="Experiment snapshot">
+          <div class="snapshot-row"><span>Analysis date</span><strong>September 2, 2026</strong></div>
+          <div class="snapshot-row"><span>Videos</span><strong>30 labeled · 16 replayed</strong></div>
+          <div class="snapshot-row"><span>Best AUROC</span><strong>0.580</strong></div>
+          <div class="snapshot-row"><span>Pearson r</span><strong>−0.032 to 0.068</strong></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="content-band" id="overview">
+      <div class="container">
+        <div class="section-head">
+          <h2>Result</h2>
+          <p>The score does not separate deformed from non-deformed robot segments.</p>
+        </div>
+
+        <div class="verdict-grid">
+          <article class="verdict-main">
+            <h3>No validated deformation signal.</h3>
+            <p>All segment AUROCs are close to chance. All matched Pearson correlations are near zero.</p>
+          </article>
+          <aside class="verdict-side">
+            <div class="finding-list">
+              <div class="finding"><strong>AUROC</strong><span>Upper arm 0.522 · Forearm 0.580 · Gripper 0.452</span></div>
+              <div class="finding"><strong>Pearson r</strong><span>Upper arm 0.008 · Forearm 0.068 · Gripper −0.032</span></div>
+              <div class="finding"><strong>Coverage</strong><span>41 of 180 link outputs are unscorable.</span></div>
+            </div>
+          </aside>
+        </div>
+
+        <div class="evidence-strip" aria-label="Key experiment counts">
+          <div class="evidence-item"><strong>30</strong><span>labeled videos</span></div>
+          <div class="evidence-item"><strong>16</strong><span>replay cases</span></div>
+          <div class="evidence-item"><strong>22.8%</strong><span>unscorable link outputs</span></div>
+          <div class="evidence-item"><strong>0</strong><span>validated thresholds</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-band dark" id="method">
+      <div class="container">
+        <div class="section-head">
+          <h2>How the method works</h2>
+          <p>Four steps.</p>
+        </div>
+
+        <div class="method-flow" aria-label="Four-step experiment method">
+          <div class="method-step">
+            <div class="step-label"><strong>1</strong><span>SAM + MegaSAM</span></div>
+            <div class="method-media two">
+              <figure><img src="clear_replays/COSMOS2.5_0000/initial_sam_masks.png" alt="SAM3 masks separating robot links"><figcaption>SAM3 link masks</figcaption></figure>
+              <figure><video controls preload="metadata" poster="cad_report_assets/COSMOS2.5_0030-pointcloud.jpg" aria-label="3D reconstruction replay"><source src="balanced_10x3_results/COSMOS2.5_0030/point_cloud_replay.mp4" type="video/mp4"></video><figcaption>3D reconstruction</figcaption></figure>
+            </div>
+          </div>
+
+          <div class="method-step">
+            <div class="step-label"><strong>2</strong><span>CAD + FoundationPose</span></div>
+            <div class="method-media three">
+              <figure><img src="clear_replays/COSMOS2.5_0001/cad_comparison_frame_0000.png" alt="Per-link CAD meshes and observed geometry"><figcaption>CAD link targets</figcaption></figure>
+              <figure><img src="clear_replays/COSMOS2.5_0000/foundationpose_frame_0000.png" alt="FoundationPose registration on the first frame"><figcaption>FoundationPose registration</figcaption></figure>
+              <div class="pose-logic">
+                <strong>Pose relative to the camera frame</strong>
+                <code>T<sub>camera←link</sub> = [R | t]</code>
+                <span>R = rotation · t = translation</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="method-step">
+            <div class="step-label"><strong>3</strong><span>Point mapping</span></div>
+            <div class="method-media">
+              <figure><img src="clear_replays/COSMOS2.5_0000/cotracker_cad_frame_0030.png" alt="CoTracker observations mapped to fixed CAD anchor points"><figcaption>CoTracker points mapped to CAD points</figcaption></figure>
+            </div>
+          </div>
+
+          <div class="method-step">
+            <div class="step-label"><strong>4</strong><span>Calculation</span></div>
+            <div class="equation-panel">
+              <div class="equation" aria-label="CAD epsilon equations">
+                <div>ℓ<sub>jk</sub>(t) = log((‖p<sub>j</sub>(t) − p<sub>k</sub>(t)‖ + δ) / (‖q<sub>j</sub> − q<sub>k</sub>‖ + δ))</div>
+                <div>μ(t) = median(ℓ<sub>jk</sub>(t))</div>
+                <div class="accent">ε<sub>CAD</sub>(t) = √ mean(min((ℓ<sub>jk</sub>(t) − μ(t))², log(1.5)²))</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-band white" id="results">
+      <div class="container">
+        <div class="section-head">
+          <h2>Relationship with human labels</h2>
+          <p>AUROC near 0.5 and Pearson r near 0 show no useful relationship.</p>
+        </div>
+
+        <div class="result-metrics" aria-label="AUROC and Pearson correlation by segment">
+          <div class="result-metric"><span>Upper arm AUROC</span><strong>0.522</strong><small>Pearson r = 0.008</small></div>
+          <div class="result-metric"><span>Forearm AUROC</span><strong>0.580</strong><small>Pearson r = 0.068</small></div>
+          <div class="result-metric"><span>Gripper AUROC</span><strong>0.452</strong><small>Pearson r = −0.032</small></div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Human label</th><th>CAD links</th><th>No deformation</th><th>Deformation</th><th>AUROC</th><th>Permutation p</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Upper arm</td><td>2 + 3</td><td class="numeric">0.1631</td><td class="numeric">0.1635</td><td class="numeric weak">0.522</td><td class="numeric">0.968</td></tr>
+              <tr><td>Forearm</td><td>4 + 5</td><td class="numeric">0.1252</td><td class="numeric">0.1299</td><td class="numeric weak">0.580</td><td class="numeric">0.724</td></tr>
+              <tr><td>Gripper</td><td>7</td><td class="numeric">0.2212</td><td class="numeric">0.2171</td><td class="numeric weak">0.452</td><td class="numeric">0.898</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-band" id="replays">
+      <div class="container">
+        <div class="section-head">
+          <h2>Cases</h2>
+          <p>Four replays show where the score fails and where it works.</p>
+        </div>
+
+        <div class="replay-stack">
+          <section class="case-cluster" aria-labelledby="gripper-failures-title">
+            <div class="case-cluster-head">
+              <h3 id="gripper-failures-title">Gripper deformation escapes scoring</h3>
+              <span>2 cases</span>
+            </div>
+            <div class="case-cluster-grid">
+              <article class="case-study">
+                <div>
+                  <span class="case-id">COSMOS2.5_0022 · PICK</span>
+                  <h3>Gripper deforms. CoTracker fails. Link 7 is unscorable.</h3>
+                  <div class="tag-row"><span class="tag human">Gripper deformation</span><span class="tag missing">Link 7 N/A</span></div>
+                  <div class="case-metrics"><div class="case-metric"><span>LINK 7</span><strong>N/A</strong></div><div class="case-metric"><span>LINK 2</span><strong>0.1717</strong></div><div class="case-metric"><span>LINK 3</span><strong>0.1298</strong></div></div>
+                  <p class="case-note">The deformation escapes measurement because the tracked points fail.</p>
+                </div>
+                <div class="media-shell" data-case="c0022">
+                  <div class="media-toolbar"><span class="media-title">Gripper tracking failure</span><div class="segmented" aria-label="Replay view"><button type="button" data-view="original" aria-pressed="false">Original</button><button type="button" data-view="cad" aria-pressed="true">CAD mapping</button><button type="button" data-view="cloud" aria-pressed="false">3D reconstruction</button></div></div>
+                  <video controls preload="metadata" data-video="original" hidden><source src="balanced_10x3_results/COSMOS2.5_0022/original.mp4" type="video/mp4"></video>
+                  <video controls preload="metadata" poster="cad_report_assets/COSMOS2.5_0022.jpg" data-video="cad"><source src="balanced_10x3_results/COSMOS2.5_0022/cotracker_cad_replay.mp4" type="video/mp4"></video>
+                  <video controls preload="metadata" poster="cad_report_assets/COSMOS2.5_0022-pointcloud.jpg" data-video="cloud" hidden><source src="balanced_10x3_results/COSMOS2.5_0022/point_cloud_replay.mp4" type="video/mp4"></video>
+                </div>
+              </article>
+
+              <article class="case-study">
+                <div>
+                  <span class="case-id">COSMOS3_0004 · DISCARD TRASH</span>
+                  <h3>Gripper deforms. CoTracker fails. Link 7 is unscorable.</h3>
+                  <div class="tag-row"><span class="tag human">Gripper deformation</span><span class="tag missing">Link 7 N/A</span></div>
+                  <div class="case-metrics"><div class="case-metric"><span>LINK 7</span><strong>N/A</strong></div><div class="case-metric"><span>LINK 4</span><strong>N/A</strong></div><div class="case-metric"><span>LINK 5</span><strong>0.0940</strong></div></div>
+                  <p class="case-note">The deformation escapes measurement because the tracked points fail.</p>
+                </div>
+                <div class="media-shell" data-case="c30004">
+                  <div class="media-toolbar"><span class="media-title">Gripper tracking failure</span><div class="segmented" aria-label="Replay view"><button type="button" data-view="original" aria-pressed="false">Original</button><button type="button" data-view="cad" aria-pressed="true">CAD mapping</button><button type="button" data-view="cloud" aria-pressed="false">3D reconstruction</button></div></div>
+                  <video controls preload="metadata" data-video="original" hidden><source src="balanced_10x3_results/COSMOS3_0004/original.mp4" type="video/mp4"></video>
+                  <video controls preload="metadata" poster="cad_report_assets/COSMOS3_0004.jpg" data-video="cad"><source src="balanced_10x3_results/COSMOS3_0004/cotracker_cad_replay.mp4" type="video/mp4"></video>
+                  <video controls preload="metadata" poster="cad_report_assets/COSMOS3_0004-pointcloud.jpg" data-video="cloud" hidden><source src="balanced_10x3_results/COSMOS3_0004/point_cloud_replay.mp4" type="video/mp4"></video>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="case-cluster" aria-labelledby="forearm-failure-title">
+            <div class="case-cluster-head">
+              <h3 id="forearm-failure-title">Forearm deformation gets a low score</h3>
+              <span>1 case</span>
+            </div>
+            <article class="case-study">
+              <div>
+                <span class="case-id">COSMOS2.5_0027 · PULL</span>
+                <h3>The forearm deforms, but link 5 stays low.</h3>
+                <div class="tag-row"><span class="tag human">Forearm deformation</span><span class="tag missing">Link 4 N/A</span></div>
+                <div class="case-metrics"><div class="case-metric"><span>LINK 4</span><strong>N/A</strong></div><div class="case-metric"><span>LINK 5</span><strong>0.0752</strong></div><div class="case-metric"><span>LINK 7</span><strong>0.3037</strong></div></div>
+                <p class="case-note">The anatomical score moves in the wrong direction. The score is not meaningful here.</p>
+              </div>
+              <div class="media-shell" data-case="c0027">
+                <div class="media-toolbar"><span class="media-title">Low forearm score</span><div class="segmented" aria-label="Replay view"><button type="button" data-view="original" aria-pressed="false">Original</button><button type="button" data-view="cad" aria-pressed="true">CAD mapping</button><button type="button" data-view="cloud" aria-pressed="false">3D reconstruction</button></div></div>
+                <video controls preload="metadata" data-video="original" hidden><source src="balanced_10x3_results/COSMOS2.5_0027/original.mp4" type="video/mp4"></video>
+                <video controls preload="metadata" poster="cad_report_assets/COSMOS2.5_0027.jpg" data-video="cad"><source src="balanced_10x3_results/COSMOS2.5_0027/cotracker_cad_replay.mp4" type="video/mp4"></video>
+                <video controls preload="metadata" poster="cad_report_assets/COSMOS2.5_0027-pointcloud.jpg" data-video="cloud" hidden><source src="balanced_10x3_results/COSMOS2.5_0027/point_cloud_replay.mp4" type="video/mp4"></video>
+              </div>
+            </article>
+          </section>
+
+          <section class="case-cluster" aria-labelledby="success-title">
+            <div class="case-cluster-head">
+              <h3 id="success-title">Success case</h3>
+              <span>1 case</span>
+            </div>
+            <article class="case-study">
+              <div>
+                <span class="case-id">COSMOS2.5_0030 · PULL</span>
+                <h3>Gripper deformation raises the link-7 score.</h3>
+                <div class="tag-row"><span class="tag human">Gripper deformation</span><span class="tag detected">Detected</span></div>
+                <div class="case-metrics"><div class="case-metric"><span>LINK 7 MEAN</span><strong>0.2778</strong></div><div class="case-metric"><span>LINK 7 P90</span><strong>0.2954</strong></div><div class="case-metric"><span>STATUS</span><strong>UNCAL.</strong></div></div>
+                <p class="case-note">The score rises in the expected direction.</p>
+              </div>
+              <div class="media-shell" data-case="c0030">
+                <div class="media-toolbar"><span class="media-title">Successful gripper signal</span><div class="segmented" aria-label="Replay view"><button type="button" data-view="original" aria-pressed="false">Original</button><button type="button" data-view="cad" aria-pressed="true">CAD mapping</button><button type="button" data-view="cloud" aria-pressed="false">3D reconstruction</button></div></div>
+                <video controls preload="metadata" data-video="original" hidden><source src="balanced_10x3_results/COSMOS2.5_0030/original.mp4" type="video/mp4"></video>
+                <video controls preload="metadata" poster="cad_report_assets/COSMOS2.5_0030.jpg" data-video="cad"><source src="balanced_10x3_results/COSMOS2.5_0030/cotracker_cad_replay.mp4" type="video/mp4"></video>
+                <video controls preload="metadata" poster="cad_report_assets/COSMOS2.5_0030-pointcloud.jpg" data-video="cloud" hidden><source src="balanced_10x3_results/COSMOS2.5_0030/point_cloud_replay.mp4" type="video/mp4"></video>
+              </div>
+            </article>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-band white" id="diagnosis">
+      <div class="container">
+        <div class="section-head">
+          <h2>Why the approach fails here</h2>
+          <p>Two main reasons.</p>
+        </div>
+
+        <div class="diagnosis-grid">
+          <article class="diagnosis"><span class="diagnosis-index">1</span><h3>CoTracker points are unstable</h3><p>Tracking fails most often during real deformation. The affected link becomes unscorable, so the deformation escapes measurement.</p><span class="mechanism">MISSED DEFORMATION</span></article>
+          <article class="diagnosis"><span class="diagnosis-index">2</span><h3>Estimation noise stacks up</h3><p>SAM masks, MegaSAM depth, FoundationPose alignment, CoTracker motion, and CAD binding all add error. The final score mixes these errors with deformation.</p><span class="mechanism">NOISY SCORE</span></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-band dark" id="next">
+      <div class="container">
+        <div class="section-head">
+          <h2>Next</h2>
+          <p>Fix tracking before tuning the score.</p>
+        </div>
+        <div class="next-grid">
+          <article class="next-step"><strong>1. Stabilize CoTracker</strong><p>Keep points valid through real deformation.</p></article>
+          <article class="next-step"><strong>2. Isolate each error source</strong><p>Test masks, depth, pose, tracking, and CAD binding separately.</p></article>
+          <article class="next-step"><strong>3. Calibrate last</strong><p>Set per-link thresholds only after coverage is reliable.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-band" id="sources">
+      <div class="container sources">
+        <h2>Experiment sources</h2>
+        <div class="source-list">
+          <a href="humanlabel_selected_rows.csv"><span>Human labels</span><span>30 videos · task, contact, geometry, penetration annotations</span></a>
+          <a href="metricsCAD_merged.csv"><span>Merged CAD metrics</span><span>link-level PDI, CAD mean/p90, pose diagnostics</span></a>
+          <a href="balanced_10x3_results/metrics.csv"><span>Balanced replay metrics</span><span>16 cases · exact subset of merged metrics</span></a>
+          <a href="PDI-Bench-edited/src/pdi_eval/evaluator/cad_rigidity_audit.py"><span>CAD rigidity implementation</span><span>anchor binding, pair selection, proportional-strain score</span></a>
+          <a href="PDI-Bench-edited/src/pdi_eval/perception/foundation_pose_worker.py"><span>FoundationPose worker</span><span>depth-scale calibration, registration, tracking, validity gates</span></a>
+          <a href="CAD_BASED_ROBOT_LINK_CANONICALIZATION_DESIGN.md"><span>Method design</span><span>coordinate conventions, score semantics, validation gates</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container"><span>CAD deformation experiment report</span><span>Research evaluation snapshot · September 2, 2026</span></div>
+  </footer>
+
+  <script>
+    document.querySelectorAll(".media-shell").forEach(shell => {
+      const buttons = shell.querySelectorAll("[data-view]");
+      const videos = shell.querySelectorAll("[data-video]");
+      buttons.forEach(button => {
+        button.addEventListener("click", () => {
+          const view = button.dataset.view;
+          buttons.forEach(item => item.setAttribute("aria-pressed", String(item === button)));
+          videos.forEach(video => {
+            const active = video.dataset.video === view;
+            if (!active) video.pause();
+            video.hidden = !active;
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>
