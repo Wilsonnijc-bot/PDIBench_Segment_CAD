@@ -17,9 +17,11 @@ from pdi_eval.perception.dinov2_reference_boxes import (
 )
 from pdi_eval.perception.sam3_dinov2_segment import (
     _active_franka_groups,
+    _link5_seed_points,
     _parse_named_text_prompts,
     _select_prompt_result,
     _select_tracking_result,
+    _text_prompt_for_target,
     _validate_franka_groups,
 )
 
@@ -119,6 +121,25 @@ class BoxExtractionTests(unittest.TestCase):
 
 
 class Sam3PromptSelectionTests(unittest.TestCase):
+    def test_link5_defaults_to_approved_wrist_point_seed(self):
+        self.assertIn(
+            "entire white elongated robot arm link",
+            _text_prompt_for_target("link5", {}, "visual"),
+        )
+        self.assertEqual(
+            _text_prompt_for_target("link5", {"link5": "override"}, "visual"),
+            "override",
+        )
+        points, labels, normalized = _link5_seed_points(
+            (702, 0, 1113, 183), (720, 1280)
+        )
+        self.assertEqual(
+            points.tolist(),
+            [[751, 101], [875, 101], [1055, 64], [727, 51], [710, 104]],
+        )
+        self.assertEqual(labels, [1, 1, 1, 0, 0])
+        self.assertAlmostEqual(normalized[3][0], 727 / 1280)
+
     def test_parses_per_link_text_prompts(self):
         prompts = _parse_named_text_prompts(
             ["link4=white oval joint", "link7=white gripper"],

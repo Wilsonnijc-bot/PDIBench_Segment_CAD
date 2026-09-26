@@ -2,6 +2,12 @@
 .pipeline_artifacts/
 .DS_Store
 results/
+archive/
+pastresults/
+lineart_coarse_video/
+robot_link2_diagnostic/
+outputs/
+seven-link-masking-performance/
 configs/*.local.env
 *.log
 *.pth

@@ -17,7 +17,7 @@ REMOTE_CODE="$PDI_GPU_ROOT/code/PDI-Bench-edited"
 REMOTE_BATCH="$PDI_GPU_ROOT/batches/$BATCH_ID"
 
 mkdir -p "$LOCAL_BATCH"
-python "$EDITED_ROOT/evaluation/build_video_batch_manifest.py" \
+PYTHONPATH="$EDITED_ROOT/src" python -m pdi_eval.experiment video-manifest \
   --dataset "COSMOS2.5=$PROJECT_ROOT/.tmp/COSMOS2.5_Videos" \
   --dataset "COSMOS3=$PROJECT_ROOT/.tmp/COSMOS3/seed101" \
   --dataset "COSMOS3=$PROJECT_ROOT/.tmp/COSMOS3/seed101 2" \
@@ -110,7 +110,7 @@ if "${SSH[@]}" "tmux has-session -t '$SESSION_NAME' 2>/dev/null"; then
 fi
 "${SSH[@]}" "tmux new-session -d -s '$SESSION_NAME' \"PDI_GPU_ROOT='$PDI_GPU_ROOT' bash '$REMOTE_CODE/scripts/run_remote_exact_group_batch.sh' '$REMOTE_BATCH' '$WORKERS'\""
 sleep 2
-"${SSH[@]}" "tmux has-session -t '$SESSION_NAME' && pgrep -af run_remote_exact_group_batch.py && tail -n 8 '$REMOTE_BATCH/batch.log'"
+"${SSH[@]}" "tmux has-session -t '$SESSION_NAME' && pgrep -af pdi_eval.experiment && tail -n 8 '$REMOTE_BATCH/batch.log'"
 
 echo "Remote batch detached successfully"
 echo "tmux session: $SESSION_NAME"

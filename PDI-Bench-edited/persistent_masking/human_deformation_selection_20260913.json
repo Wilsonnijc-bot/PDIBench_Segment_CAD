@@ -1,0 +1,16 @@
+{
+  "source": "deformationhumanlabel.xlsx",
+  "selection_policy": "Ten additional videos with explicit human comments describing gripper, forearm, or upper-arm deformation; include Cosmos3_0048 as requested; no case-specific prompt changes.",
+  "cases": [
+    {"case":"Cosmos3_0006","human_note":"gripper and forearm deformation at sec 1"},
+    {"case":"Cosmos3_0014","human_note":"gripper deformation at second 1; second gripper deformation at 05"},
+    {"case":"Cosmos3_0028","human_note":"gripper and forearm deform at second half of second 0"},
+    {"case":"Cosmos3_0048","human_note":"gripper, forearm, upperarm deform at second half of sec0"},
+    {"case":"Cosmos3_0049","human_note":"gripper, forearm deform start at sec1"},
+    {"case":"Cosmos25_0027","human_note":"deformation at sec 1; forearm and gripper finger"},
+    {"case":"Cosmos25_0032","human_note":"gripper deformation, finger and palm at sec1"},
+    {"case":"Cosmos25_0047","human_note":"gripper and forearm deform at sec0 and 1"},
+    {"case":"LVP_0042","human_note":"deformation at sec1, forearm deformation and gripper disappear"},
+    {"case":"LVP_0051","human_note":"gripper deform at sec1"}
+  ]
+}

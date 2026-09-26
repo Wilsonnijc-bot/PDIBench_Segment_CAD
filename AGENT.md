@@ -1,5 +1,10 @@
 # PDI Benchmark Project
 
+> The active V1 pipeline, tracker, and rigidity scorer live under
+> `PDI-Bench-edited/src/pdi_eval/v1/`. The D tracking contract is specified in
+> [D_PIPELINE_SPEC.md](D_PIPELINE_SPEC.md). Shared model and geometry utilities
+> stay outside the version package.
+
 ## Objective
 
 Maintain one native video-level PDI pipeline for the seven Franka FER links:
@@ -7,7 +12,7 @@ Maintain one native video-level PDI pipeline for the seven Franka FER links:
 ```text
 Google Drive input
   -> Mac staging
-  -> GPU-local CAD-guided SAM3
+  -> GPU-local DINOv2-guided SAM3
   -> one shared MegaSAM reconstruction
   -> joint-query and/or exact-group CoTracker
   -> seven isolated PDI metric reports
@@ -33,7 +38,7 @@ Native behavior belongs under:
 
 ```text
 PDI-Bench-edited/src/pdi_eval/
-PDI-Bench-edited/evaluation/
+PDI-Bench-edited/src/pdi_eval/experiment/
 PDI-Bench-edited/configs/
 PDI-Bench-edited/assets/
 ```
@@ -50,8 +55,9 @@ single-link fan-out as fallback paths.
 
 ### Segmentation
 
-Use the seven pinned FER visual meshes `link1.dae` through `link7.dae` as CAD
-references. CAD-guided SAM3 runs once per video and writes:
+Use DINOv2 reference images to localize the active links, then run SAM3 video
+segmentation. The current automatic frontend emits `link2` through `link7`
+and writes:
 
 ```text
 object_masks: bool[T, N, H, W]
@@ -142,18 +148,18 @@ definition changes, version the method and document the expected score impact.
 
 ## Active Entry Points
 
-From the Mac:
+From the Mac, generate named SAM3 masks with:
 
 ```bash
-PDI_VIDEO_NAME=0000.mp4 PDI_TRACKING_MODE=both bash scripts/run.sh
+PDI_VIDEO_NAME=0000.mp4 bash scripts/run_dinov2_sam3_video.sh
 ```
 
-`scripts/run.sh` delegates to `scripts/run_sam3_cad_video.sh`.
+Then run `python -m pdi_eval.experiment score` for V1 per-link metrics and replays.
 
 On a prepared compute host, the native benchmark CLI is:
 
 ```bash
-PYTHONPATH=src python evaluation/run_multi_object.py \
+PYTHONPATH=src python -m pdi_eval.experiment score \
   --config configs/default.yaml \
   --input /path/video.mp4 \
   --segmentation-npz /path/segmentation.npz \
@@ -172,7 +178,7 @@ Valid tracking mode values are `joint-query`, `exact-group`, and `both`.
 The Mac owns:
 
 * orchestration and benchmark source;
-* pinned CAD assets and configs;
+* DINOv2 reference images and segmentation inputs;
 * selected Google Drive inputs;
 * final metrics, timing comparisons, manifests, and replays.
 
@@ -222,7 +228,7 @@ NumPy object arrays.
 ## Reliability Rules
 
 * Validate video dimensions and frame counts against segmentation tensors.
-* Preserve stable CAD link names and IDs through every output.
+* Preserve stable link names and IDs through every output.
 * Use nearest-neighbor interpolation for masks.
 * Sample background outside a recorded dilation of the union mask.
 * Keep at least two usable foreground tracks per link and report retained counts.

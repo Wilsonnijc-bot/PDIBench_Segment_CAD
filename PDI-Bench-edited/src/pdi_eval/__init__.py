@@ -3,16 +3,12 @@
 __version__ = "0.2.0"
 __author__ = "PDI-Eval Team"
 
-__all__ = ["PDIEvaluationPipeline", "MultiObjectPDIEvaluationPipeline"]
+__all__ = ["MultiObjectPDIEvaluationPipeline"]
 
 
 def __getattr__(name):
-    if name == "PDIEvaluationPipeline":
-        from .pipeline import PDIEvaluationPipeline
-
-        return PDIEvaluationPipeline
     if name == "MultiObjectPDIEvaluationPipeline":
-        from .multi_object_pipeline import MultiObjectPDIEvaluationPipeline
+        from .v1.pipeline import MultiObjectPDIEvaluationPipeline
 
         return MultiObjectPDIEvaluationPipeline
     raise AttributeError(name)

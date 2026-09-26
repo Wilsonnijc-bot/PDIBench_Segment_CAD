@@ -1,0 +1,11 @@
+{
+  "workbook": "deformationhumanlabel.xlsx",
+  "workbook_sha256": "c4000eb68dd57a46d3130d56ede0bf6296200205f3ee3a99c063aa97858a7577",
+  "sheet": "Selected Annotations",
+  "policy": "Three additional LVP videos explicitly labeled gripper deformation; no normal controls; positives only",
+  "videos": [
+    {"id":"LVP_0033","file":"0033.mp4","row":20,"gripper_deformation":1,"severity":2,"task":"push","note":"gripper, forearm deform at sec0"},
+    {"id":"LVP_0051","file":"0051.mp4","row":30,"gripper_deformation":1,"severity":2,"task":"put_in_drawer","note":"gripper deform at sec1"},
+    {"id":"LVP_0059","file":"0059.mp4","row":33,"gripper_deformation":1,"severity":2,"task":"put_on_plate","note":"gripper deform at begin of sec1, forearm deform at end of sec 1"}
+  ]
+}

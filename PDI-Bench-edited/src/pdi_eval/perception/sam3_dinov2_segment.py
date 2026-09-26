@@ -45,6 +45,25 @@ MASK_COLORS = (
     (227, 119, 194),
 )
 MIN_TRACKING_ASSOCIATION_SCORE = 0.10
+SKIPPABLE_EMPTY_PROMPT_LINKS = frozenset({"link3", "link4"})
+LINK5_TEXT_PROMPT = (
+    "entire white elongated robot arm link surrounding and to the right "
+    "of the black inset"
+)
+# Fractions of the DINOv2 link5 box: three points on link5, then two on the
+# adjacent wrist cap. The latter must be removed before video propagation.
+LINK5_POINT_RATIOS = (
+    (0.12, 0.55, 1),
+    (0.42, 0.55, 1),
+    (0.86, 0.35, 1),
+    (0.06, 0.28, 0),
+    (0.02, 0.57, 0),
+)
+MIN_LINK5_SHAFT_RETENTION = 0.85
+
+
+class EmptySam3PromptError(RuntimeError):
+    """SAM3 produced no usable object for one localized link prompt."""
 
 
 def _video_metadata(video_path: Path) -> dict[str, int | float]:
@@ -86,7 +105,7 @@ def _select_prompt_result(
         rank_score = 0.45 * inside + 0.35 * overlap + 0.20 * score
         ranked.append((rank_score, int(object_id), mask, score))
     if not ranked:
-        raise RuntimeError("SAM3 returned no non-empty object for a DINOv2 box")
+        raise EmptySam3PromptError("SAM3 returned no non-empty object for a DINOv2 box")
     _, object_id, mask, score = max(ranked, key=lambda item: (item[0], -item[1]))
     return object_id, mask, score
 
@@ -97,7 +116,7 @@ def _prompt_diagnostics(
     object_ids: np.ndarray,
     masks: np.ndarray,
     scores: np.ndarray,
-    selected_object_id: int,
+    selected_object_id: int | None,
 ) -> dict[str, Any]:
     x1, y1, x2, y2 = box_xyxy
     box_area = max((x2 - x1) * (y2 - y1), 1)
@@ -122,6 +141,119 @@ def _prompt_diagnostics(
         "selected_object_id": selected_object_id,
         "candidates": candidates,
     }
+
+
+def _text_prompt_for_target(
+    name: str, overrides: dict[str, str], default: str,
+) -> str:
+    return overrides.get(name, LINK5_TEXT_PROMPT if name == "link5" else default)
+
+
+def _link5_seed_points(
+    box_xyxy: tuple[int, int, int, int], mask_shape: tuple[int, int],
+) -> tuple[np.ndarray, list[int], list[list[float]]]:
+    height, width = mask_shape
+    x1, y1, x2, y2 = box_xyxy
+    points = np.asarray([
+        (
+            int(np.clip(round(x1 + rx * (x2 - x1)), 0, width - 1)),
+            int(np.clip(round(y1 + ry * (y2 - y1)), 0, height - 1)),
+        )
+        for rx, ry, _ in LINK5_POINT_RATIOS
+    ], dtype=np.int32)
+    labels = [label for _, _, label in LINK5_POINT_RATIOS]
+    normalized = (points / np.asarray([width, height])).tolist()
+    return points, labels, normalized
+
+
+def _refine_link5_wrist_prompt(
+    predictor: Any, session_id: str, frame_index: int, object_id: int,
+    initial_mask: np.ndarray, box_xyxy: tuple[int, int, int, int],
+) -> tuple[np.ndarray, dict[str, Any]]:
+    initial_mask = np.asarray(initial_mask, dtype=bool)
+    points, labels, normalized = _link5_seed_points(box_xyxy, initial_mask.shape)
+    initial_membership = [bool(initial_mask[y, x]) for x, y in points]
+    if not all(initial_membership):
+        raise RuntimeError(
+            "link5 box-relative points are outside the initial mask: "
+            f"{list(zip(points.tolist(), labels, initial_membership))}"
+        )
+    outputs = predictor.handle_request({
+        "type": "add_prompt",
+        "session_id": session_id,
+        "frame_index": frame_index,
+        "obj_id": object_id,
+        "points": normalized,
+        "point_labels": labels,
+    })["outputs"]
+    candidate_ids = np.asarray(outputs["out_obj_ids"], dtype=np.int64)
+    candidate_masks = np.asarray(outputs["out_binary_masks"], dtype=bool)
+    matches = np.flatnonzero(candidate_ids == object_id)
+    if len(matches) != 1 or len(candidate_ids) != len(candidate_masks):
+        raise RuntimeError(
+            f"link5 point refinement did not return object {object_id} once: "
+            f"{candidate_ids.tolist()}"
+        )
+    refined = candidate_masks[int(matches[0])]
+    if refined.shape != initial_mask.shape:
+        raise RuntimeError(
+            f"link5 refined mask shape {refined.shape} differs from "
+            f"initial shape {initial_mask.shape}"
+        )
+    refined_membership = [bool(refined[y, x]) for x, y in points]
+    if refined_membership != [True, True, True, False, False]:
+        raise RuntimeError(
+            f"link5 point refinement did not honor point labels: "
+            f"{refined_membership}"
+        )
+    x1, _, x2, _ = box_xyxy
+    shaft_start = round(x1 + 0.20 * (x2 - x1))
+    initial_shaft = initial_mask[:, shaft_start:x2]
+    refined_shaft = refined[:, shaft_start:x2]
+    retained = float(np.logical_and(initial_shaft, refined_shaft).sum()) / max(
+        int(initial_shaft.sum()), 1
+    )
+    if retained < MIN_LINK5_SHAFT_RETENTION:
+        raise RuntimeError(
+            f"link5 point refinement retained only {retained:.1%} of the "
+            "initial shaft mask"
+        )
+    return refined, {
+        "method": "box_relative_three_positive_two_wrist_negative",
+        "frame_index": frame_index,
+        "point_ratios": [list(item) for item in LINK5_POINT_RATIOS],
+        "points_xy": points.tolist(),
+        "points_normalized": normalized,
+        "point_labels": labels,
+        "initial_point_membership": initial_membership,
+        "refined_point_membership": refined_membership,
+        "initial_area_pixels": int(initial_mask.sum()),
+        "refined_area_pixels": int(refined.sum()),
+        "shaft_retained_fraction": retained,
+    }
+
+
+def _prime_link5_tracker_cache(
+    predictor: Any, session_id: str, frame_index: int, total_frames: int,
+) -> int:
+    # SAM3's point-refinement propagation merges with the cached video pass.
+    # A text/box seed alone does not populate that cache beyond its prompt frame.
+    primed = {
+        int(response["frame_index"])
+        for response in predictor.handle_stream_request({
+            "type": "propagate_in_video",
+            "session_id": session_id,
+            "propagation_direction": "both",
+            "start_frame_index": frame_index,
+        })
+    }
+    if len(primed) != total_frames:
+        missing = sorted(set(range(total_frames)).difference(primed))
+        raise RuntimeError(
+            f"link5 cache priming omitted {len(missing)} frames; "
+            f"first missing frame is {missing[0] if missing else 'unknown'}"
+        )
+    return len(primed)
 
 
 def _select_tracking_result(
@@ -339,6 +471,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     )
     sam_scores: dict[str, float] = {}
     session_object_ids: dict[str, int] = {}
+    skipped_targets: dict[str, str] = {}
     prompt_diagnostic_records: list[dict[str, Any]] = []
     prompt_diagnostics_path = output_dir / "sam3_prompt_diagnostics.json"
     sam_started = time.perf_counter()
@@ -346,7 +479,9 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         for target_index, target in enumerate(boxes):
             session_id = None
             seen_frames: set[int] = set()
-            text_prompt = link_text_prompts.get(target.name, args.text_prompt)
+            text_prompt = _text_prompt_for_target(
+                target.name, link_text_prompts, args.text_prompt
+            )
             try:
                 session_id = predictor.handle_request(
                     {
@@ -368,12 +503,28 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 candidate_ids = np.asarray(outputs["out_obj_ids"], dtype=np.int64)
                 candidate_masks = np.asarray(outputs["out_binary_masks"], dtype=bool)
                 candidate_scores = np.asarray(outputs["out_probs"], dtype=np.float64)
-                object_id, mask, score = _select_prompt_result(
-                    candidate_ids,
-                    candidate_masks,
-                    candidate_scores,
-                    target.box_xyxy,
-                )
+                try:
+                    object_id, mask, score = _select_prompt_result(
+                        candidate_ids,
+                        candidate_masks,
+                        candidate_scores,
+                        target.box_xyxy,
+                    )
+                except EmptySam3PromptError as exc:
+                    if target.name not in SKIPPABLE_EMPTY_PROMPT_LINKS:
+                        raise RuntimeError(f"{target.name}: {exc}") from exc
+                    diagnostic = _prompt_diagnostics(
+                        target.name, target.box_xyxy, candidate_ids,
+                        candidate_masks, candidate_scores, None,
+                    )
+                    diagnostic.update(status="skipped", error_type="empty_sam3_prompt",
+                                      error=str(exc), text_prompt=text_prompt)
+                    skipped_targets[target.name] = "empty_sam3_prompt"
+                    prompt_diagnostic_records.append(diagnostic)
+                    _write_json(prompt_diagnostics_path, prompt_diagnostic_records)
+                    print(json.dumps({"sam3_prompt": diagnostic}, sort_keys=True),
+                          file=sys.stderr)
+                    continue
                 diagnostic = _prompt_diagnostics(
                     target.name,
                     target.box_xyxy,
@@ -383,6 +534,25 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                     object_id,
                 )
                 diagnostic["text_prompt"] = text_prompt
+                if target.name == "link5":
+                    try:
+                        primed_frames = _prime_link5_tracker_cache(
+                            predictor, session_id, args.frame_index,
+                            int(video["frames"]),
+                        )
+                        mask, refinement = _refine_link5_wrist_prompt(
+                            predictor, session_id, args.frame_index, object_id,
+                            mask, target.box_xyxy,
+                        )
+                    except Exception as exc:
+                        diagnostic.update(status="failed_point_refinement",
+                                          point_refinement_error=str(exc))
+                        prompt_diagnostic_records.append(diagnostic)
+                        _write_json(prompt_diagnostics_path, prompt_diagnostic_records)
+                        raise
+                    refinement["cache_primed_frames"] = primed_frames
+                    diagnostic["point_refinement"] = refinement
+                diagnostic["status"] = "complete"
                 prompt_diagnostic_records.append(diagnostic)
                 _write_json(prompt_diagnostics_path, prompt_diagnostic_records)
                 print(json.dumps({"sam3_prompt": diagnostic}, sort_keys=True), file=sys.stderr)
@@ -504,10 +674,14 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "targets": [
             {
                 **asdict(box),
-                "sam3_text_prompt": link_text_prompts.get(box.name, args.text_prompt),
+                "sam3_text_prompt": _text_prompt_for_target(
+                    box.name, link_text_prompts, args.text_prompt
+                ),
                 "object_id": int(object_id),
-                "sam3_session_object_id": session_object_ids[box.name],
-                "sam3_score": sam_scores[box.name],
+                "sam3_session_object_id": session_object_ids.get(box.name),
+                "sam3_score": sam_scores.get(box.name),
+                "sam3_status": "skipped" if box.name in skipped_targets else "complete",
+                "sam3_skip_reason": skipped_targets.get(box.name),
             }
             for box, object_id in zip(boxes, archive_object_ids)
         ],

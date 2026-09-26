@@ -1,5 +1,11 @@
 # PDI-Bench Native Multi-Object Pipeline
 
+The active V1 tracking contract is in [D_PIPELINE_SPEC.md](D_PIPELINE_SPEC.md).
+The earlier A/B/C/D experiment proposal is archived at
+[archive/verification/ABCD_PIPELINE_VERIFICATION_PLAN.md](archive/verification/ABCD_PIPELINE_VERIFICATION_PLAN.md).
+The only editable Python pipeline is `PDI-Bench-edited/src/pdi_eval/v1/`, with
+`pdi_eval.v1.evaluate(...)` as its short Python interface.
+
 > [!WARNING]
 > **UNVERIFIED DEVELOPMENT PIPELINE.** The edited seven-link pipeline has not
 > yet passed the A/B/C/D GPU verification protocol. Its metrics, grades, and
@@ -13,8 +19,8 @@ git clone --recurse-submodules \
   https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD.git
 ```
 
-This repository evaluates the seven rigid Franka FER links in one video-level
-PDI run. CAD-guided SAM3 segments every link once, MegaSAM reconstructs the
+This repository evaluates the rigid Franka FER links in one video-level
+PDI run. DINOv2-guided SAM3 segments the active links, MegaSAM reconstructs the
 full video once, and PDI reports scale, trajectory, rigidity, and perspective
 metrics separately for each link in the same world-coordinate frame.
 
@@ -24,13 +30,74 @@ submodule. The former
 `scripts/adapters/` layer and retired manual, RobotSeg, DINO, and SAM2 launch
 paths have been removed.
 
+
+## Robot-Deformation Evaluation Decision
+
+For the robot-deformation study, the validation metric is the per-link
+**rigidity component only**. Scale,
+trajectory, the combined PDI score, and PDI grades are not used as deformation
+targets. They measure other geometric consistency properties and can be
+dominated by mask or depth artifacts that are not deformation.
+
+The decision recorded on September 6, 2026 is:
+
+- Human target: `Robot deformation (0/1)`.
+- Upper arm rigidity: mean of valid `link2` and `link3` rigidity.
+- Forearm rigidity: mean of valid `link4` and `link5` rigidity.
+- Gripper rigidity: valid `link7` rigidity.
+- Whole-robot rigidity: equal-weight mean of upper arm, forearm, and gripper.
+- `link6` is excluded because no supplied component label maps to it.
+- Failed links and insufficient-evidence rigidity values are missing data, not
+  maximum deformation.
+- In the historical `outputs/metrics.csv`, `rigidity_component == 1.0` is the
+  insufficient-evidence sentinel and is excluded from the primary analysis.
+- Direct-depth and full-SAM filters are reported only as sensitivity analyses;
+  they are not the primary rigidity validity rule.
+- Raw rigidity values remain unchanged in CSV and JSON artifacts. The HTML
+  report displays `100 * raw rigidity` as **rigidity deviation (%)** so values
+  such as `0.027` read as `2.70%`. This is a relative pair-distance dispersion
+  index, not a probability or confidence score.
+- The report's low, middle, and high labels are descriptive tertiles of the
+  primary valid whole-robot cohort. They are not universal deformation
+  thresholds and do not affect correlation or AUROC.
+
+
+On the completed LVP_ROBOWM + COSMOS3 label cohort, the primary
+sentinel-excluded rigidity result is `n = 45`, Pearson `r = 0.293`, Spearman
+`rho = 0.372`, and AUROC `0.769`. Component AUROC is `0.536` for upper arm,
+`0.467` for forearm, and `0.756` for gripper. The whole-robot association is
+therefore driven mainly by gripper rigidity and must not be described as broad
+robot-link deformation detection.
+
+The active scorer is the V1 multi-object pipeline. It reports each link's
+rigidity alongside the other PDI components. For deformation analysis, use the
+per-link rigidity component under the evidence rules above; the combined PDI
+score is not a deformation label.
+
+```bash
+cd PDI-Bench-edited
+PYTHONPATH=src python -m pdi_eval.experiment score \
+  --config configs/default.yaml \
+  --input /path/video.mp4 \
+  --segmentation-npz /path/segmentation.npz \
+  --output-dir /path/output \
+  --geometry-cache-dir /path/megasam-cache \
+  --tracker-checkpoint checkpoints/tracker/scaled_offline.pth \
+  --tracking-mode exact-group
+```
+
+The [ten-case V1 experiment](PDI-Bench-edited/docs/v1_replay_batch.md) retains
+persistent masking, two workers, resume, MP4 replay, and interactive scored-pair
+replay. Prior comparison results remain historical records; do not combine
+scores from different methods in one correlation cohort.
+
 ## Dataflow
 
 ```text
-link1.dae ... link7.dae
+DINOv2 link reference images
         |
         v
-CAD-guided SAM3 once
+DINOv2-guided SAM3 once
         |
         +--> object_masks[T,N,H,W]
         +--> union mask for background exclusion only
@@ -54,50 +121,9 @@ CAD-guided SAM3 once
 The articulated union is never scored for rigidity. Each rigidity call receives
 only one link's mask, tracks, and visibility.
 
-## CAD Inputs
+## DINOv2 Reference Pipeline
 
-The benchmark includes `link1.dae` through `link7.dae` from Franka's
-[`franka_description`](https://github.com/frankarobotics/franka_description/tree/main/meshes/robots/fer/visual),
-pinned at commit `7aeeddc449edf8d62b594f9e36a81da53e7796f9`.
-
-Files and expected hashes are stored under:
-
-```text
-PDI-Bench-edited/assets/cad/franka_fer/
-PDI-Bench-edited/configs/sam3-cad-franka.yaml
-```
-
-SAM3 does not consume Collada directly. The native CAD module renders
-deterministic multiview silhouettes and matches SAM3 proposals to unique links.
-
-## Run From The Mac
-
-Run both CoTracker modes for a direct metric and speed comparison:
-
-```bash
-PDI_SKIP_SAM3_INSTALL=1 \
-PDI_VIDEO_NAME=0000.mp4 \
-PDI_TRACKING_MODE=both \
-bash scripts/run.sh
-```
-
-Run one mode only:
-
-```bash
-PDI_TRACKING_MODE=joint-query bash scripts/run.sh
-PDI_TRACKING_MODE=exact-group bash scripts/run.sh
-```
-
-Generate only the SAM3/CAD archive:
-
-```bash
-PDI_SAM3_SEGMENT_ONLY=1 bash scripts/run.sh
-```
-
-## Separate DINOv2 Reference Pipeline
-
-The reference-conditioned pipeline is independent of the manual/CAD SAM3
-launcher. Its reference groups are discovered under:
+Reference groups are discovered under:
 
 ```text
 robot_link_first15/by_link/
@@ -166,7 +192,7 @@ Inside a prepared PDI environment:
 
 ```bash
 cd PDI-Bench-edited
-PYTHONPATH=src python evaluation/run_multi_object.py \
+PYTHONPATH=src python -m pdi_eval.experiment score \
   --config configs/default.yaml \
   --input /path/video.mp4 \
   --segmentation-npz /path/segmentation.npz \
@@ -178,10 +204,10 @@ PYTHONPATH=src python evaluation/run_multi_object.py \
 
 ## Outputs
 
-Mac-local results are written to:
+The scorer writes results to the requested `--output-dir`:
 
 ```text
-results/sam3-cad-multi/<video>/<manifest-hash>/
+/path/output/
 |-- metrics.json
 |-- timing.json
 |-- manifest.json
@@ -191,7 +217,8 @@ results/sam3-cad-multi/<video>/<manifest-hash>/
 |-- console.log
 `-- replay/
     |-- combined_joint-query.mp4
-    `-- combined_exact-group.mp4
+    |-- combined_exact-group.mp4
+    `-- interactive_exact-group/index.html
 ```
 
 `metrics.json` contains seven reports under each requested mode and, when both

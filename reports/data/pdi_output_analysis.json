@@ -1,0 +1,1390 @@
+{
+  "ablations": {
+    "cohort_rule": "LVP_ROBOWM and COSMOS3 labels; completed videos only",
+    "missing_rule": "A failed or filtered link is omitted from its component; a video is omitted from whole-robot analysis if any component has no usable mapped link",
+    "primary_ablation": "exclude_rigidity_sentinel",
+    "results": {
+      "baseline": {
+        "components": {
+          "forearm": {
+            "auroc": 0.466931,
+            "n": 55,
+            "pearson_r": -0.074354,
+            "positive_labels": 28,
+            "spearman_rho": -0.057277
+          },
+          "gripper": {
+            "auroc": 0.815331,
+            "n": 55,
+            "pearson_r": 0.379725,
+            "positive_labels": 41,
+            "spearman_rho": 0.477339
+          },
+          "upper_arm": {
+            "auroc": 0.536,
+            "n": 55,
+            "pearson_r": 0.174619,
+            "positive_labels": 5,
+            "spearman_rho": 0.035857
+          }
+        },
+        "description": "Historical rigidity, including the 1.0 sentinel",
+        "robot": {
+          "auroc": 0.818841,
+          "n": 55,
+          "pearson_r": 0.300844,
+          "positive_labels": 46,
+          "spearman_rho": 0.408671
+        }
+      },
+      "direct_depth_full_sam": {
+        "components": {
+          "forearm": {
+            "auroc": 0.513889,
+            "n": 55,
+            "pearson_r": 0.034663,
+            "positive_labels": 28,
+            "spearman_rho": 0.024057
+          },
+          "gripper": {
+            "auroc": 0.810714,
+            "n": 54,
+            "pearson_r": 0.384217,
+            "positive_labels": 40,
+            "spearman_rho": 0.473266
+          },
+          "upper_arm": {
+            "auroc": 0.532,
+            "n": 55,
+            "pearson_r": 0.171283,
+            "positive_labels": 5,
+            "spearman_rho": 0.031873
+          }
+        },
+        "description": "Sensitivity: direct depth and full SAM coverage",
+        "robot": {
+          "auroc": 0.792593,
+          "n": 54,
+          "pearson_r": 0.299502,
+          "positive_labels": 45,
+          "spearman_rho": 0.3778
+        }
+      },
+      "exclude_rigidity_sentinel": {
+        "components": {
+          "forearm": {
+            "auroc": 0.466931,
+            "n": 55,
+            "pearson_r": -0.074354,
+            "positive_labels": 28,
+            "spearman_rho": -0.057277
+          },
+          "gripper": {
+            "auroc": 0.75576,
+            "n": 45,
+            "pearson_r": 0.344947,
+            "positive_labels": 31,
+            "spearman_rho": 0.410278
+          },
+          "upper_arm": {
+            "auroc": 0.536,
+            "n": 55,
+            "pearson_r": 0.174619,
+            "positive_labels": 5,
+            "spearman_rho": 0.035857
+          }
+        },
+        "description": "Primary: exclude rigidity 1.0 sentinels",
+        "robot": {
+          "auroc": 0.768519,
+          "n": 45,
+          "pearson_r": 0.293094,
+          "positive_labels": 36,
+          "spearman_rho": 0.372162
+        }
+      },
+      "strict_quality": {
+        "components": {
+          "forearm": {
+            "auroc": 0.513889,
+            "n": 55,
+            "pearson_r": 0.034663,
+            "positive_labels": 28,
+            "spearman_rho": 0.024057
+          },
+          "gripper": {
+            "auroc": 0.747619,
+            "n": 44,
+            "pearson_r": 0.341398,
+            "positive_labels": 30,
+            "spearman_rho": 0.399645
+          },
+          "upper_arm": {
+            "auroc": 0.532,
+            "n": 55,
+            "pearson_r": 0.171283,
+            "positive_labels": 5,
+            "spearman_rho": 0.031873
+          }
+        },
+        "description": "Sensitivity: direct depth, full SAM, and no sentinel",
+        "robot": {
+          "auroc": 0.733333,
+          "n": 44,
+          "pearson_r": 0.277281,
+          "positive_labels": 35,
+          "spearman_rho": 0.326124
+        }
+      }
+    },
+    "score_rule": "Rigidity only: mean valid links 2+3 for upper arm, links 4+5 for forearm, link 7 for gripper; then equal-weight mean of all three components"
+  },
+  "cases": [
+    {
+      "cohort": "negative_control",
+      "components": [
+        {
+          "historical_rigidity": 0.0172,
+          "human": {
+            "normalized": 0,
+            "raw": null,
+            "was_blank": true
+          },
+          "id": "upper_arm",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link2",
+              "rigidity": 0.0282,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            },
+            {
+              "depth_strategy": "direct",
+              "id": "link3",
+              "rigidity": 0.0062,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.0172,
+          "valid_rigidity": 0.0172
+        },
+        {
+          "historical_rigidity": 0.05685,
+          "human": {
+            "normalized": 0,
+            "raw": null,
+            "was_blank": true
+          },
+          "id": "forearm",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link4",
+              "rigidity": 0.0998,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            },
+            {
+              "depth_strategy": "direct",
+              "id": "link5",
+              "rigidity": 0.0139,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.05685,
+          "valid_rigidity": 0.05685
+        },
+        {
+          "historical_rigidity": 0.0304,
+          "human": {
+            "normalized": 0,
+            "raw": null,
+            "was_blank": true
+          },
+          "id": "gripper",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link7",
+              "rigidity": 0.0304,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.0304,
+          "valid_rigidity": 0.0304
+        }
+      ],
+      "error_description": null,
+      "exact_model_input": false,
+      "historical_robot_rigidity": 0.034817,
+      "human_robot_deformation": 0,
+      "media_kind": "diagnostic reconstruction replay",
+      "note": null,
+      "poster": "../outputs/LVP_ROBOWM_0003/replay.png",
+      "sample_id": "LVP_ROBOWM_0003",
+      "selection_reason": "Highest valid whole-robot rigidity among reliable labeled negative cases with a published replay.",
+      "strict_quality_robot_rigidity": 0.034817,
+      "title": "Highest-rigidity negative control reaches the middle range",
+      "valid_robot_rigidity": 0.034817,
+      "video": "../outputs/LVP_ROBOWM_0003/replay.mp4",
+      "workbook_row": 5
+    },
+    {
+      "cohort": "negative_control",
+      "components": [
+        {
+          "historical_rigidity": 0.0127,
+          "human": {
+            "normalized": 0,
+            "raw": 0,
+            "was_blank": false
+          },
+          "id": "upper_arm",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link2",
+              "rigidity": 0.0151,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            },
+            {
+              "depth_strategy": "direct",
+              "id": "link3",
+              "rigidity": 0.0103,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.0127,
+          "valid_rigidity": 0.0127
+        },
+        {
+          "historical_rigidity": 0.0117,
+          "human": {
+            "normalized": 0,
+            "raw": 0,
+            "was_blank": false
+          },
+          "id": "forearm",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link4",
+              "rigidity": 0.0105,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            },
+            {
+              "depth_strategy": "direct",
+              "id": "link5",
+              "rigidity": 0.0129,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.0117,
+          "valid_rigidity": 0.0117
+        },
+        {
+          "historical_rigidity": 0.0458,
+          "human": {
+            "normalized": 0,
+            "raw": 0,
+            "was_blank": false
+          },
+          "id": "gripper",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link7",
+              "rigidity": 0.0458,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.0458,
+          "valid_rigidity": 0.0458
+        }
+      ],
+      "error_description": "The gripper chooses the wrong contact point and starts inside the drawer. The drawer is then pulled closed with non-contact motion. Finally, the gripper penetrates the drawer, and the drawer deforms.",
+      "exact_model_input": false,
+      "historical_robot_rigidity": 0.0234,
+      "human_robot_deformation": 0,
+      "media_kind": "diagnostic reconstruction replay",
+      "note": "negligible gripper finger deformation",
+      "poster": "../outputs/COSMOS3_0002/replay.png",
+      "sample_id": "COSMOS3_0002",
+      "selection_reason": "Deterministic negative control with complete direct depth and full SAM coverage.",
+      "strict_quality_robot_rigidity": 0.0234,
+      "title": "A fully labeled negative control stays low",
+      "valid_robot_rigidity": 0.0234,
+      "video": "../outputs/COSMOS3_0002/replay.mp4",
+      "workbook_row": 70
+    },
+    {
+      "cohort": "deformation_miss",
+      "components": [
+        {
+          "historical_rigidity": 0.0091,
+          "human": {
+            "normalized": 0,
+            "raw": 0,
+            "was_blank": false
+          },
+          "id": "upper_arm",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link2",
+              "rigidity": 0.0089,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            },
+            {
+              "depth_strategy": "direct",
+              "id": "link3",
+              "rigidity": 0.0093,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.0091,
+          "valid_rigidity": 0.0091
+        },
+        {
+          "historical_rigidity": 0.0135,
+          "human": {
+            "normalized": 1,
+            "raw": 1,
+            "was_blank": false
+          },
+          "id": "forearm",
+          "links": [
+            {
+              "depth_strategy": "unavailable",
+              "id": "link4",
+              "rigidity": null,
+              "sam_tracked_fraction": null,
+              "status": "failed",
+              "valid_rigidity": false
+            },
+            {
+              "depth_strategy": "direct",
+              "id": "link5",
+              "rigidity": 0.0135,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.0135,
+          "valid_rigidity": 0.0135
+        },
+        {
+          "historical_rigidity": 0.0053,
+          "human": {
+            "normalized": 0,
+            "raw": 0,
+            "was_blank": false
+          },
+          "id": "gripper",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link7",
+              "rigidity": 0.0053,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.0053,
+          "valid_rigidity": 0.0053
+        }
+      ],
+      "error_description": null,
+      "exact_model_input": false,
+      "historical_robot_rigidity": 0.0093,
+      "human_robot_deformation": 1,
+      "media_kind": "diagnostic reconstruction replay",
+      "note": null,
+      "poster": "../outputs/LVP_ROBOWM_0000/replay.png",
+      "sample_id": "LVP_ROBOWM_0000",
+      "selection_reason": "Lowest valid whole-robot rigidity among reliable labeled positive cases with a published replay.",
+      "strict_quality_robot_rigidity": 0.0093,
+      "title": "Human forearm deformation has near-zero rigidity",
+      "valid_robot_rigidity": 0.0093,
+      "video": "../outputs/LVP_ROBOWM_0000/replay.mp4",
+      "workbook_row": 3
+    },
+    {
+      "cohort": "deformation_miss",
+      "components": [
+        {
+          "historical_rigidity": 0.00925,
+          "human": {
+            "normalized": 0,
+            "raw": 0,
+            "was_blank": false
+          },
+          "id": "upper_arm",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link2",
+              "rigidity": 0.007,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            },
+            {
+              "depth_strategy": "direct",
+              "id": "link3",
+              "rigidity": 0.0115,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.00925,
+          "valid_rigidity": 0.00925
+        },
+        {
+          "historical_rigidity": 0.0537,
+          "human": {
+            "normalized": 1,
+            "raw": 1,
+            "was_blank": false
+          },
+          "id": "forearm",
+          "links": [
+            {
+              "depth_strategy": "unavailable",
+              "id": "link4",
+              "rigidity": null,
+              "sam_tracked_fraction": null,
+              "status": "failed",
+              "valid_rigidity": false
+            },
+            {
+              "depth_strategy": "direct",
+              "id": "link5",
+              "rigidity": 0.0537,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.0537,
+          "valid_rigidity": 0.0537
+        },
+        {
+          "historical_rigidity": 0.0195,
+          "human": {
+            "normalized": 1,
+            "raw": 1,
+            "was_blank": false
+          },
+          "id": "gripper",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link7",
+              "rigidity": 0.0195,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.0195,
+          "valid_rigidity": 0.0195
+        }
+      ],
+      "error_description": "The robot's forearm deforms and becomes significantly lengthen in ratio",
+      "exact_model_input": false,
+      "historical_robot_rigidity": 0.027483,
+      "human_robot_deformation": 1,
+      "media_kind": "diagnostic reconstruction replay",
+      "note": "gripper and forearm deformation at sec 1",
+      "poster": "../outputs/COSMOS3_0006/replay.png",
+      "sample_id": "COSMOS3_0006",
+      "selection_reason": "Positive forearm and gripper labels with low surviving rigidity and one unavailable forearm link.",
+      "strict_quality_robot_rigidity": 0.027483,
+      "title": "Forearm and gripper deformation produce weak rigidity",
+      "valid_robot_rigidity": 0.027483,
+      "video": "../outputs/COSMOS3_0006/replay.mp4",
+      "workbook_row": 72
+    },
+    {
+      "cohort": "tracking_sentinel",
+      "components": [
+        {
+          "historical_rigidity": 0.016,
+          "human": {
+            "normalized": 0,
+            "raw": 0,
+            "was_blank": false
+          },
+          "id": "upper_arm",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link2",
+              "rigidity": 0.0246,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            },
+            {
+              "depth_strategy": "direct",
+              "id": "link3",
+              "rigidity": 0.0074,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.016,
+          "valid_rigidity": 0.016
+        },
+        {
+          "historical_rigidity": 0.0388,
+          "human": {
+            "normalized": 1,
+            "raw": 1,
+            "was_blank": false
+          },
+          "id": "forearm",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link4",
+              "rigidity": 0.0616,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            },
+            {
+              "depth_strategy": "direct",
+              "id": "link5",
+              "rigidity": 0.016,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.0388,
+          "valid_rigidity": 0.0388
+        },
+        {
+          "historical_rigidity": 1.0,
+          "human": {
+            "normalized": 1,
+            "raw": 1,
+            "was_blank": false
+          },
+          "id": "gripper",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link7",
+              "rigidity": 1.0,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": false
+            }
+          ],
+          "strict_quality_rigidity": null,
+          "valid_rigidity": null
+        }
+      ],
+      "error_description": "The gripper grasps the yellow cube, but before finishing the task it releases the cube back onto the table. A duplicate of the cube then appears on the gripper, leading to task completion.",
+      "exact_model_input": false,
+      "historical_robot_rigidity": 0.3516,
+      "human_robot_deformation": 1,
+      "media_kind": "diagnostic reconstruction replay",
+      "note": null,
+      "poster": "../outputs/COSMOS3_0003/replay.png",
+      "sample_id": "COSMOS3_0003",
+      "selection_reason": "Published replay with human forearm and gripper deformation and a link-7 rigidity sentinel.",
+      "strict_quality_robot_rigidity": null,
+      "title": "Insufficient rigidity evidence is recorded as 1.0",
+      "valid_robot_rigidity": null,
+      "video": "../outputs/COSMOS3_0003/replay.mp4",
+      "workbook_row": 71
+    },
+    {
+      "cohort": "label_provenance",
+      "components": [
+        {
+          "historical_rigidity": 0.06705,
+          "human": {
+            "normalized": 0,
+            "raw": 0,
+            "was_blank": false
+          },
+          "id": "upper_arm",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link2",
+              "rigidity": 0.0292,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            },
+            {
+              "depth_strategy": "direct",
+              "id": "link3",
+              "rigidity": 0.1049,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.06705,
+          "valid_rigidity": 0.06705
+        },
+        {
+          "historical_rigidity": 0.1633,
+          "human": {
+            "normalized": 0,
+            "raw": null,
+            "was_blank": true
+          },
+          "id": "forearm",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link4",
+              "rigidity": 0.1942,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            },
+            {
+              "depth_strategy": "direct",
+              "id": "link5",
+              "rigidity": 0.1324,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.1633,
+          "valid_rigidity": 0.1633
+        },
+        {
+          "historical_rigidity": 0.1198,
+          "human": {
+            "normalized": 1,
+            "raw": 1,
+            "was_blank": false
+          },
+          "id": "gripper",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link7",
+              "rigidity": 0.1198,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.1198,
+          "valid_rigidity": 0.1198
+        }
+      ],
+      "error_description": "The forearm deforms and becomes much shorter while picking up the object, and the yellow cube penetrates the bin while moving inward.",
+      "exact_model_input": false,
+      "historical_robot_rigidity": 0.116717,
+      "human_robot_deformation": 1,
+      "media_kind": "diagnostic reconstruction replay",
+      "note": "minor deform at sec1",
+      "poster": "../outputs/COSMOS2.5_0002/replay.png",
+      "sample_id": "COSMOS2.5_0002",
+      "selection_reason": "Published replay where the structured forearm cell is blank but the annotation prose says the forearm shortens.",
+      "strict_quality_robot_rigidity": 0.116717,
+      "title": "Structured and prose forearm labels conflict",
+      "valid_robot_rigidity": 0.116717,
+      "video": "../outputs/COSMOS2.5_0002/replay.mp4",
+      "workbook_row": 36
+    },
+    {
+      "cohort": "true_positive",
+      "components": [
+        {
+          "historical_rigidity": 0.01645,
+          "human": {
+            "normalized": 0,
+            "raw": 0,
+            "was_blank": false
+          },
+          "id": "upper_arm",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link2",
+              "rigidity": 0.0189,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            },
+            {
+              "depth_strategy": "direct",
+              "id": "link3",
+              "rigidity": 0.014,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.01645,
+          "valid_rigidity": 0.01645
+        },
+        {
+          "historical_rigidity": 0.0293,
+          "human": {
+            "normalized": 0,
+            "raw": 0,
+            "was_blank": false
+          },
+          "id": "forearm",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link4",
+              "rigidity": 0.0451,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            },
+            {
+              "depth_strategy": "direct",
+              "id": "link5",
+              "rigidity": 0.0135,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.0293,
+          "valid_rigidity": 0.0293
+        },
+        {
+          "historical_rigidity": 0.4543,
+          "human": {
+            "normalized": 1,
+            "raw": 1,
+            "was_blank": false
+          },
+          "id": "gripper",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link7",
+              "rigidity": 0.4543,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.4543,
+          "valid_rigidity": 0.4543
+        }
+      ],
+      "error_description": "The execution matches the prompt exactly.",
+      "exact_model_input": false,
+      "historical_robot_rigidity": 0.166683,
+      "human_robot_deformation": 1,
+      "media_kind": "diagnostic reconstruction replay",
+      "note": null,
+      "poster": "../outputs/COSMOS3_0001/replay.png",
+      "sample_id": "COSMOS3_0001",
+      "selection_reason": "Highest valid whole-robot rigidity among labeled cases with a published replay after excluding 1.0 sentinels.",
+      "strict_quality_robot_rigidity": 0.166683,
+      "title": "The strongest published valid score is gripper-dominated",
+      "valid_robot_rigidity": 0.166683,
+      "video": "../outputs/COSMOS3_0001/replay.mp4",
+      "workbook_row": 69
+    },
+    {
+      "cohort": "component_mismatch",
+      "components": [
+        {
+          "historical_rigidity": 0.0167,
+          "human": {
+            "normalized": 0,
+            "raw": 0,
+            "was_blank": false
+          },
+          "id": "upper_arm",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link2",
+              "rigidity": 0.0151,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            },
+            {
+              "depth_strategy": "direct",
+              "id": "link3",
+              "rigidity": 0.0183,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.0167,
+          "valid_rigidity": 0.0167
+        },
+        {
+          "historical_rigidity": 0.0154,
+          "human": {
+            "normalized": 1,
+            "raw": 1,
+            "was_blank": false
+          },
+          "id": "forearm",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link4",
+              "rigidity": 0.0191,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            },
+            {
+              "depth_strategy": "direct",
+              "id": "link5",
+              "rigidity": 0.0117,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.0154,
+          "valid_rigidity": 0.0154
+        },
+        {
+          "historical_rigidity": 0.2346,
+          "human": {
+            "normalized": 1,
+            "raw": 1,
+            "was_blank": false
+          },
+          "id": "gripper",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link7",
+              "rigidity": 0.2346,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.2346,
+          "valid_rigidity": 0.2346
+        }
+      ],
+      "error_description": "The execution matches the prompt exactly.",
+      "exact_model_input": false,
+      "historical_robot_rigidity": 0.0889,
+      "human_robot_deformation": 1,
+      "media_kind": "diagnostic reconstruction replay",
+      "note": "minor forearm deformation and gripper deformatoin at sec2",
+      "poster": "../outputs/COSMOS3_0000/replay.png",
+      "sample_id": "COSMOS3_0000",
+      "selection_reason": "Published high-band positive with forearm and gripper labels, where the gripper score dominates the whole-robot average.",
+      "strict_quality_robot_rigidity": 0.0889,
+      "title": "A high whole-robot score hides weak forearm rigidity",
+      "valid_robot_rigidity": 0.0889,
+      "video": "../outputs/COSMOS3_0000/replay.mp4",
+      "workbook_row": 68
+    },
+    {
+      "cohort": "component_mismatch",
+      "components": [
+        {
+          "historical_rigidity": 0.009,
+          "human": {
+            "normalized": 0,
+            "raw": null,
+            "was_blank": true
+          },
+          "id": "upper_arm",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link2",
+              "rigidity": 0.0073,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            },
+            {
+              "depth_strategy": "direct",
+              "id": "link3",
+              "rigidity": 0.0107,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.009,
+          "valid_rigidity": 0.009
+        },
+        {
+          "historical_rigidity": 0.0234,
+          "human": {
+            "normalized": 0,
+            "raw": null,
+            "was_blank": true
+          },
+          "id": "forearm",
+          "links": [
+            {
+              "depth_strategy": "unavailable",
+              "id": "link4",
+              "rigidity": null,
+              "sam_tracked_fraction": null,
+              "status": "failed",
+              "valid_rigidity": false
+            },
+            {
+              "depth_strategy": "direct",
+              "id": "link5",
+              "rigidity": 0.0234,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.0234,
+          "valid_rigidity": 0.0234
+        },
+        {
+          "historical_rigidity": 0.057,
+          "human": {
+            "normalized": 1,
+            "raw": 1,
+            "was_blank": false
+          },
+          "id": "gripper",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link7",
+              "rigidity": 0.057,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.057,
+          "valid_rigidity": 0.057
+        }
+      ],
+      "error_description": "The robot arm changes its shape suddenly, and the block disappear when approaching the trash can.",
+      "exact_model_input": false,
+      "historical_robot_rigidity": 0.0298,
+      "human_robot_deformation": 1,
+      "media_kind": "diagnostic reconstruction replay",
+      "note": null,
+      "poster": "../outputs/LVP_ROBOWM_0004/replay.png",
+      "sample_id": "LVP_ROBOWM_0004",
+      "selection_reason": "Published middle-band positive where a strong gripper measurement is diluted by lower upper-arm and forearm scores.",
+      "strict_quality_robot_rigidity": 0.0298,
+      "title": "Localized gripper rigidity is diluted by averaging",
+      "valid_robot_rigidity": 0.0298,
+      "video": "../outputs/LVP_ROBOWM_0004/replay.mp4",
+      "workbook_row": 6
+    },
+    {
+      "cohort": "deformation_miss",
+      "components": [
+        {
+          "historical_rigidity": 0.0299,
+          "human": {
+            "normalized": 0,
+            "raw": 0,
+            "was_blank": false
+          },
+          "id": "upper_arm",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link2",
+              "rigidity": 0.0324,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            },
+            {
+              "depth_strategy": "direct",
+              "id": "link3",
+              "rigidity": 0.0274,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.0299,
+          "valid_rigidity": 0.0299
+        },
+        {
+          "historical_rigidity": 0.0075,
+          "human": {
+            "normalized": 1,
+            "raw": 1,
+            "was_blank": false
+          },
+          "id": "forearm",
+          "links": [
+            {
+              "depth_strategy": "unavailable",
+              "id": "link4",
+              "rigidity": null,
+              "sam_tracked_fraction": null,
+              "status": "failed",
+              "valid_rigidity": false
+            },
+            {
+              "depth_strategy": "direct",
+              "id": "link5",
+              "rigidity": 0.0075,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.0075,
+          "valid_rigidity": 0.0075
+        },
+        {
+          "historical_rigidity": 0.0151,
+          "human": {
+            "normalized": 1,
+            "raw": 1,
+            "was_blank": false
+          },
+          "id": "gripper",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link7",
+              "rigidity": 0.0151,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.0151,
+          "valid_rigidity": 0.0151
+        }
+      ],
+      "error_description": "The drawer is closed, but the robot over-pushes the box, so the task outcome is not ideal.",
+      "exact_model_input": false,
+      "historical_robot_rigidity": 0.0175,
+      "human_robot_deformation": 1,
+      "media_kind": "diagnostic reconstruction replay",
+      "note": null,
+      "poster": "../outputs/COSMOS2.5_0000/replay.png",
+      "sample_id": "COSMOS2.5_0000",
+      "selection_reason": "Published low-band positive with forearm and gripper labels, while the unlabeled upper arm has the largest component score.",
+      "strict_quality_robot_rigidity": 0.0175,
+      "title": "Two positive component labels still produce a low score",
+      "valid_robot_rigidity": 0.0175,
+      "video": "../outputs/COSMOS2.5_0000/replay.mp4",
+      "workbook_row": 35
+    },
+    {
+      "cohort": "tracking_sentinel",
+      "components": [
+        {
+          "historical_rigidity": 0.03335,
+          "human": {
+            "normalized": 1,
+            "raw": 1,
+            "was_blank": false
+          },
+          "id": "upper_arm",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link2",
+              "rigidity": 0.038,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            },
+            {
+              "depth_strategy": "direct",
+              "id": "link3",
+              "rigidity": 0.0287,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.03335,
+          "valid_rigidity": 0.03335
+        },
+        {
+          "historical_rigidity": 0.0205,
+          "human": {
+            "normalized": 1,
+            "raw": 1,
+            "was_blank": false
+          },
+          "id": "forearm",
+          "links": [
+            {
+              "depth_strategy": "unavailable",
+              "id": "link4",
+              "rigidity": null,
+              "sam_tracked_fraction": null,
+              "status": "failed",
+              "valid_rigidity": false
+            },
+            {
+              "depth_strategy": "direct",
+              "id": "link5",
+              "rigidity": 0.0205,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": true
+            }
+          ],
+          "strict_quality_rigidity": 0.0205,
+          "valid_rigidity": 0.0205
+        },
+        {
+          "historical_rigidity": 1.0,
+          "human": {
+            "normalized": 1,
+            "raw": 1,
+            "was_blank": false
+          },
+          "id": "gripper",
+          "links": [
+            {
+              "depth_strategy": "direct",
+              "id": "link7",
+              "rigidity": 1.0,
+              "sam_tracked_fraction": 1.0,
+              "status": "complete",
+              "valid_rigidity": false
+            }
+          ],
+          "strict_quality_rigidity": null,
+          "valid_rigidity": null
+        }
+      ],
+      "error_description": "The forearm deforms and becomes much shorter while picking up the object, and the yellow cube penetrates the bin while moving inward.",
+      "exact_model_input": false,
+      "historical_robot_rigidity": 0.351283,
+      "human_robot_deformation": 1,
+      "media_kind": "diagnostic reconstruction replay",
+      "note": "deform at sec0",
+      "poster": "../outputs/COSMOS2.5_0003/replay.png",
+      "sample_id": "COSMOS2.5_0003",
+      "selection_reason": "Published all-components-positive case whose link-7 1.0 sentinel makes the primary whole-robot score unavailable.",
+      "strict_quality_robot_rigidity": null,
+      "title": "The link-7 sentinel repeats in COSMOS2.5",
+      "valid_robot_rigidity": null,
+      "video": "../outputs/COSMOS2.5_0003/replay.mp4",
+      "workbook_row": 37
+    }
+  ],
+  "generated_on": "2026-09-06",
+  "inventory": {
+    "segments": {
+      "failed_by_link": {
+        "link2": 0,
+        "link3": 5,
+        "link4": 51,
+        "link5": 1,
+        "link6": 1,
+        "link7": 1
+      },
+      "interpolation_fallback_by_link": {
+        "link2": 0,
+        "link3": 8,
+        "link4": 21,
+        "link5": 1,
+        "link6": 6,
+        "link7": 4
+      },
+      "possible_in_complete_videos": 1122,
+      "rigidity_one_sentinel_by_link": {
+        "link2": 0,
+        "link3": 0,
+        "link4": 2,
+        "link5": 0,
+        "link6": 3,
+        "link7": 34
+      },
+      "rigidity_one_sentinel_total": 39,
+      "scored": 1063,
+      "unavailable": 59
+    },
+    "videos": {
+      "by_dataset": {
+        "COSMOS2.5": {
+          "complete": 60,
+          "failed": 1,
+          "total": 61
+        },
+        "COSMOS3": {
+          "complete": 68,
+          "failed": 0,
+          "total": 68
+        },
+        "LVP_ROBOWM": {
+          "complete": 59,
+          "failed": 9,
+          "total": 68
+        }
+      },
+      "complete": 187,
+      "failed": 10,
+      "failure_error_counts": {
+        "command failed with status 1; see /root/autodl-tmp/pdi/batches/exact-group-links2-7-balanced-v2/jobs/COSMOS2.5_0064-4bb795a5f987/sam3.log": 1,
+        "command failed with status 1; see /root/autodl-tmp/pdi/batches/exact-group-links2-7-balanced-v2/jobs/LVP_ROBOWM_videos_0005-2745c1be7979/sam3.log": 1,
+        "command failed with status 1; see /root/autodl-tmp/pdi/batches/exact-group-links2-7-balanced-v2/jobs/LVP_ROBOWM_videos_0007-532fafefbbdc/sam3.log": 1,
+        "command failed with status 1; see /root/autodl-tmp/pdi/batches/exact-group-links2-7-balanced-v2/jobs/LVP_ROBOWM_videos_0018-2f1d209d82a2/sam3.log": 1,
+        "command failed with status 1; see /root/autodl-tmp/pdi/batches/exact-group-links2-7-balanced-v2/jobs/LVP_ROBOWM_videos_0022-30d056b87507/sam3.log": 1,
+        "command failed with status 1; see /root/autodl-tmp/pdi/batches/exact-group-links2-7-balanced-v2/jobs/LVP_ROBOWM_videos_0048-25388f365bfa/sam3.log": 1,
+        "command failed with status 1; see /root/autodl-tmp/pdi/batches/exact-group-links2-7-balanced-v2/jobs/LVP_ROBOWM_videos_0050-e26529e42537/sam3.log": 1,
+        "command failed with status 1; see /root/autodl-tmp/pdi/batches/exact-group-links2-7-balanced-v2/jobs/LVP_ROBOWM_videos_0052-99481b583a9f/sam3.log": 1,
+        "command failed with status 1; see /root/autodl-tmp/pdi/batches/exact-group-links2-7-balanced-v2/jobs/LVP_ROBOWM_videos_0056-8e7bcdcdacd4/sam3.log": 1,
+        "command failed with status 1; see /root/autodl-tmp/pdi/batches/exact-group-links2-7-balanced-v2/jobs/LVP_ROBOWM_videos_0062-dc6ba4061be8/sam3.log": 1
+      },
+      "total": 197
+    }
+  },
+  "labels": {
+    "matched_rows": 90,
+    "reliable_cohort_rows": 57,
+    "reliable_completed_rows": 55,
+    "rows": 90
+  },
+  "limitations": [
+    "The exported CSV predates the new CoTracker retained-track fields, so exact track-count ablations cannot be reconstructed for this run.",
+    "SAM tracked fraction measures non-empty masks, not CoTracker validity; a value of 1.0 does not prove successful point tracking.",
+    "Direct-depth/full-SAM filtering is a sensitivity analysis, not the primary rigidity validity rule, because later mask coverage does not directly establish CoTracker rigidity quality.",
+    "The ten whole-video SAM3 failures retain remote log paths that are not available in this local artifact bundle.",
+    "Replay media are diagnostic reconstructions, not exact saved model inputs; no pixel hashes are available for exact-input validation."
+  ],
+  "provenance": {
+    "analysis_metric": "rigidity_component only",
+    "blank_component_policy": "Blank upper-arm, forearm, or gripper cells normalize to no deformation while preserving raw blank provenance",
+    "git_commit": "cdea516ef99130fc1559d5d798fcb1b388ea9bb0",
+    "human_label_target": "Robot deformation (0/1)",
+    "labels_path": "/Users/nijiachen/Downloads/deformationhumanlabel.xlsx",
+    "labels_sha256": "c4000eb68dd57a46d3130d56ede0bf6296200205f3ee3a99c063aa97858a7577",
+    "link_mapping": {
+      "forearm": [
+        "link4",
+        "link5"
+      ],
+      "gripper": [
+        "link7"
+      ],
+      "upper_arm": [
+        "link2",
+        "link3"
+      ]
+    },
+    "metrics_path": "/Users/nijiachen/Downloads/PDIbenchpipelinev2/outputs/metrics.csv",
+    "metrics_sha256": "43ea44de825fe6b2a042f219105233c8bfcca2683a6ce20328f00ae38b571275",
+    "primary_ablation": "exclude_rigidity_sentinel"
+  },
+  "rigidity_distribution": {
+    "baseline": {
+      "mean_rigidity": 0.077898,
+      "rigidity_at_least_0_1": 124,
+      "rigidity_at_least_0_3": 54,
+      "rigidity_equal_to_1_0": 39,
+      "segments": 1063
+    },
+    "direct_depth_full_sam": {
+      "mean_rigidity": 0.078106,
+      "rigidity_at_least_0_1": 116,
+      "rigidity_at_least_0_3": 53,
+      "rigidity_equal_to_1_0": 38,
+      "segments": 1023
+    },
+    "exclude_rigidity_sentinel": {
+      "mean_rigidity": 0.042779,
+      "rigidity_at_least_0_1": 85,
+      "rigidity_at_least_0_3": 15,
+      "rigidity_equal_to_1_0": 0,
+      "segments": 1024
+    },
+    "strict_quality": {
+      "mean_rigidity": 0.04254,
+      "rigidity_at_least_0_1": 78,
+      "rigidity_at_least_0_3": 15,
+      "rigidity_equal_to_1_0": 0,
+      "segments": 985
+    }
+  },
+  "schema_version": 3,
+  "score_display": {
+    "band_method": "Tertiles: low is the bottom third, middle is the middle third, and high is the top third.",
+    "band_sample_size": 45,
+    "band_scope": "Primary valid whole-robot scores in the completed LVP_ROBOWM + COSMOS3 label cohort",
+    "bands": [
+      {
+        "id": "low",
+        "label": "Relatively low",
+        "maximum_exclusive": 2.499444,
+        "minimum": null
+      },
+      {
+        "id": "middle",
+        "label": "Middle range",
+        "maximum_exclusive": 4.602778,
+        "minimum": 2.499444
+      },
+      {
+        "id": "high",
+        "label": "Relatively high",
+        "maximum_exclusive": null,
+        "minimum": 4.602778
+      }
+    ],
+    "direction": "Higher means more relative pair-distance dispersion and therefore more deformation-like motion.",
+    "factor": 100.0,
+    "formula": "display score = raw rigidity_component \u00d7 100",
+    "high_lower_inclusive": 4.602778,
+    "low_upper_exclusive": 2.499444,
+    "name": "Rigidity deviation",
+    "not_a_probability": true,
+    "unit": "%"
+  }
+}

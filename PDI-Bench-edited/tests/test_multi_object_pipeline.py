@@ -9,7 +9,7 @@ try:
 except ModuleNotFoundError as exc:
     raise unittest.SkipTest("multi-object tracker tests require the PDI PyTorch environment") from exc
 
-from pdi_eval.multi_object_pipeline import (
+from pdi_eval.v1.pipeline import (
     _map_tracks_between_grids,
     compare_mode_reports,
     compare_track_results,
@@ -17,7 +17,7 @@ from pdi_eval.multi_object_pipeline import (
 )
 from pdi_eval.perception.base import MultiObjectTrackResult
 from pdi_eval.perception.segmentation_archive import load_multi_object_segmentation
-from pdi_eval.perception.track_wrapper import PreparedMultiObjectTracking, TrackWrapper
+from pdi_eval.v1.tracking import PreparedMultiObjectTracking, TrackWrapper
 
 
 class MultiObjectSegmentationTests(unittest.TestCase):

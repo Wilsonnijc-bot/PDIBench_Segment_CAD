@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>V1 rigidity evidence replay</title>
+<script src="plotly.min.js"></script>
+<style>
+  :root { color-scheme: dark; font-family: ui-sans-serif, system-ui, sans-serif; background:#12181a; color:#edf2ed; }
+  * { box-sizing:border-box; }
+  body { margin:0; }
+  header { padding:18px 25px 13px; display:flex; align-items:baseline; gap:22px; border-bottom:1px solid #3c4644; }
+  h1 { font-size:22px; font-weight:600; margin:0; letter-spacing:-.03em; }
+  header span, .muted { color:#aab9b1; font-size:13px; }
+  main { padding:18px 24px 28px; }
+  .top { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(350px,.85fr); gap:18px; }
+  .panel { background:#1c2525; border:1px solid #3b4845; min-width:0; }
+  .label { padding:11px 14px; font-size:12px; letter-spacing:.11em; text-transform:uppercase; color:#b4c4bb; border-bottom:1px solid #3b4845; }
+  #cloud { width:100%; height:520px; }
+  video { width:100%; height:520px; object-fit:contain; background:#090e0f; display:block; }
+  .transport { display:flex; align-items:center; gap:12px; margin:18px 0; }
+  button, select { background:#294036; color:#eff7ec; border:1px solid #688779; padding:8px 12px; cursor:pointer; }
+  button:hover, select:hover { background:#365448; }
+  #reset-view, #view-mode { float:right; margin:-4px 0 0 6px; padding:3px 8px; font-size:11px; letter-spacing:0; text-transform:none; }
+  button:focus-visible, select:focus-visible, input:focus-visible { outline:2px solid #f1b454; outline-offset:2px; }
+  input[type=range] { flex:1; accent-color:#e9b65f; }
+  #time { min-width:122px; font-variant-numeric:tabular-nums; }
+  .summary { display:flex; gap:28px; align-items:baseline; flex-wrap:wrap; margin-bottom:18px; }
+  .summary strong { font-size:29px; color:#f3c77c; font-variant-numeric:tabular-nums; }
+  .summary small { display:block; color:#acbeb4; }
+  .bottom { display:grid; grid-template-columns:minmax(0,1fr) minmax(440px,.7fr); gap:18px; }
+  #history { height:230px; }
+  .pair-list { height:230px; overflow:auto; padding:8px 12px; font-size:12px; font-variant-numeric:tabular-nums; }
+  .pair-row { display:grid; grid-template-columns:14px minmax(105px,1fr) 48px 48px 43px 44px 43px; gap:5px; align-items:center; padding:5px 3px; border-bottom:1px solid #34403d; white-space:nowrap; }
+  .pair-row:hover { background:#2c3834; cursor:pointer; }
+  .pair-row.active { background:#455047; }
+  .swatch { display:block; width:12px; height:12px; border-radius:50%; }
+  .legend { padding:9px 13px; color:#b9c8bf; font-size:12px; line-height:1.5; }
+  @media(max-width:1050px) { .top,.bottom { grid-template-columns:1fr; } video,#cloud {height:430px;} }
+</style>
+</head>
+<body>
+<header><h1 id="title"></h1><span id="version"></span></header>
+<main>
+  <div class="top">
+    <section class="panel"><div class="label">Whole-robot cloud · source camera view <button id="reset-view" type="button">Reset view</button><button id="view-mode" type="button">3D orbit</button></div><div id="cloud"></div></section>
+    <section class="panel"><div class="label">Original source video · synchronized</div><video id="video" src="source.mp4" preload="metadata" playsinline></video></section>
+  </div>
+  <div class="transport">
+    <button id="play" type="button">Play</button>
+    <input id="frame" type="range" min="0" value="0" aria-label="Frame">
+    <span id="time"></span>
+    <label>Window <select id="window"></select></label>
+  </div>
+  <div class="summary">
+    <div><small id="final-label">Final rigidity score</small><strong id="final"></strong></div>
+    <div><small>Current frame score</small><strong id="current"></strong></div>
+    <div><small id="coverage-label">Scored frame coverage</small><strong id="coverage"></strong></div>
+  </div>
+  <div class="bottom">
+    <section class="panel"><div class="label">Rigidity through time · click to seek</div><div id="history"></div></section>
+    <section class="panel"><div class="label">Selected CoTracker pairs · <span id="used-count"></span> · <span id="median"></span></div><div class="pair-list"><div class="pair-row muted"><span></span><span>Pair · point IDs</span><span>Ref m</span><span>Now m</span><span>Ratio</span><span>Dev</span><span>Used</span></div><div id="pairs"></div></div></section>
+  </div>
+  <p class="legend"><a id="evidence" download>Download exact selected pairs and per-frame scoring evidence (JSON)</a></p>
+  <p class="legend" id="replay-explanation">The source camera view projects the reconstructed scene and whole robot at the original image scale. Bright points show the selected link; 3D orbit reveals depth. V1 selects its scoring pairs at frame 0. Each pair has one reference color; orange and red show increasing deviation from the frame median. Both endpoints and their line share the color. Grey means the pair did not contribute a fresh measurement. When fewer than three pairs are visible, V1 carries the previous frame score forward; carried scores remain in the final mean. The JSON contains the exact selected track indices, original point-ID mapping, baselines, per-frame ratios, and carried-frame IDs.</p>
+</main>
+<script>
+const data=__REPLAY_DATA__;
+document.getElementById('evidence').href=data.evidence_file;
+document.getElementById('version').textContent='V1 / selected CoTracker pairs / camera-aligned point cloud';
+document.getElementById('final-label').textContent='Final rigidity score · mean of frames after reference';
+document.getElementById('coverage-label').textContent='Frames with fresh pair measurements';
+const video=document.getElementById('video'), slider=document.getElementById('frame');
+const play=document.getElementById('play'), windowSelect=document.getElementById('window');
+const defaultCamera={eye:{x:0,y:0,z:-2.25},up:{x:0,y:-1,z:0},projection:{type:'perspective'}};
+let frame=0, activePair=null, camera=defaultCamera, orbit=false, playing=false, timer=null;
+const n=data.points.length, fps=data.fps;
+slider.max=n-1;
+document.getElementById('title').textContent=data.object+' · rigidity replay';
+document.getElementById('final').textContent=(100*data.score).toFixed(2)+'%';
+document.getElementById('coverage').textContent=(100*data.coverage).toFixed(1)+'%';
+for(let i=0;i<data.windows.length;i++) {
+  const w=data.windows[i], option=document.createElement('option');
+  option.value=i; option.textContent=`${i+1}: frames ${w.start}–${w.end-1}, reference ${w.query_frame}`;
+  windowSelect.append(option);
+}
+function clamp(x,a,b){return Math.max(a,Math.min(b,x));}
+function palette(i){return `hsl(${(i*137.508+165)%360} 48% 65%)`;}
+function originalId(i){return data.point_ids?.[i]??i;}
+function signal(deviation,base){
+  if(deviation===null)return '#6c7775';
+  const q=clamp(deviation/.15,0,1);
+  if(q<.08)return base;
+  return q<.55?`hsl(${42-30*(q-.08)/.47} 90% ${68-14*q}%)`:`hsl(${12-12*(q-.55)/.45} 88% ${60-10*q}%)`;
+}
+function selectedWindow(){
+  const chosen=Number(windowSelect.value);
+  if(data.windows[chosen] && frame>=data.windows[chosen].start && frame<data.windows[chosen].end)return chosen;
+  const candidate=data.windows.findIndex(w=>frame>=w.start && frame<w.end);
+  return candidate>=0?candidate:chosen;
+}
+function pointTrace(points,color,size,name,opacity=1){
+  return {type:'scatter3d',mode:'markers',x:points.map(p=>p[0]),y:points.map(p=>p[1]),z:points.map(p=>p[2]),
+    marker:{size,color,opacity},name,hoverinfo:'name',showlegend:false};
+}
+function projected(point){
+  if(!point||point[2]<=0)return null;
+  const [height,width]=data.image_hw, focal=data.focal_length;
+  return [focal*point[0]/point[2]+width/2,focal*point[1]/point[2]+height/2];
+}
+function imageTrace(points,color,size,name,opacity=1){
+  const pixels=points.map(projected);
+  return {type:'scattergl',mode:'markers',x:pixels.map(p=>p?.[0]??null),y:pixels.map(p=>p?.[1]??null),
+    marker:{size,color,opacity},name,hoverinfo:'name',showlegend:false};
+}
+function render(){
+  slider.value=frame;
+  document.getElementById('time').textContent=`${frame+1} / ${n} · ${(frame/fps).toFixed(2)} s`;
+  const observed=data.observed[frame];
+  const carried=(data.carried_frames||[]).includes(frame);
+  document.getElementById('current').textContent=carried?(100*data.history[frame]).toFixed(2)+'% carried':observed===null?'—':(100*observed).toFixed(2)+'%';
+  const wi=selectedWindow(), w=data.windows[wi];
+  windowSelect.value=wi;
+  const cloud=data.clouds[frame], robotCloud=(data.robot_clouds||data.clouds)[frame],
+    sceneCloud=(data.scene_clouds||[])[frame]||[], traces=[];
+  const cloudTrace=orbit?pointTrace:imageTrace;
+  if(sceneCloud.length)traces.push(cloudTrace(sceneCloud,data.scene_colors?.[frame]||'#64716d',orbit?1.8:2,'reconstructed scene',.32));
+  if(robotCloud.length)traces.push(cloudTrace(robotCloud,data.robot_colors?.[frame]||'#9eb6aa',orbit?2.5:3,'whole robot',.88));
+  if(cloud.length)traces.push(cloudTrace(cloud,'#b9edcc',orbit?2.7:3.4,'selected link',.7));
+  const row=document.getElementById('pairs');row.replaceChildren();
+  if(w){
+    const record=w.pair_frames.find(x=>x.frame===frame);
+    document.getElementById('median').textContent=record?`median ratio ${record.median_ratio.toFixed(3)}× · MAD ${(100*record.rigidity_score).toFixed(2)}%`:'reference or unscored frame';
+    const ratios=new Map();
+    if(record)record.pair_indices.forEach((p,k)=>ratios.set(p,record.distance_ratios[k]));
+    document.getElementById('used-count').textContent=record?`${record.pair_indices.length}/${w.selected_pairs.length} used this frame`:`0/${w.selected_pairs.length} used this frame`;
+    w.selected_pairs.forEach((pair,i)=>{
+      const a=data.points[frame][pair.track_i], b=data.points[frame][pair.track_j];
+      const ratio=ratios.has(i)?ratios.get(i):(frame===w.query_frame?1:null);
+      const deviation=!record||ratio===null?null:Math.abs(ratio-record.median_ratio)/(record.median_ratio+1e-6);
+      const color=frame===w.query_frame?palette(i):signal(deviation,palette(i));
+      if(a&&b){
+        const screenA=projected(a),screenB=projected(b);
+        traces.push({type:orbit?'scatter3d':'scatter',mode:'lines+markers',
+          x:orbit?[a[0],b[0]]:[screenA?.[0]??null,screenB?.[0]??null],
+          y:orbit?[a[1],b[1]]:[screenA?.[1]??null,screenB?.[1]??null],
+          ...(orbit?{z:[a[2],b[2]]}:{}),
+          line:{color,width:activePair===i?6:3},marker:{size:activePair===i?7:4,color},
+          name:`pair ${i+1}: points ${originalId(pair.track_i)}, ${originalId(pair.track_j)}`,showlegend:false,
+          hovertemplate:`pair ${i+1}<br>ratio ${ratio===null?'unscored':ratio.toFixed(3)}<br>deviation ${deviation===null?'—':(100*deviation).toFixed(1)+'%'}<extra></extra>`});
+      }
+      const item=document.createElement('div');item.className='pair-row'+(activePair===i?' active':'');
+      const swatch=document.createElement('span');swatch.className='swatch';swatch.style.background=color;
+      const id=document.createElement('span');id.textContent=`#${i+1} · ${originalId(pair.track_i)}↔${originalId(pair.track_j)}`;id.title=`Original point IDs ${originalId(pair.track_i)} and ${originalId(pair.track_j)}`;
+      const baseline=document.createElement('span');baseline.textContent=pair.baseline_distance.toFixed(2);baseline.title='Reference 3D distance';
+      const distance=document.createElement('span');distance.textContent=ratio===null?'—':(ratio*pair.baseline_distance).toFixed(2);distance.title='Current 3D distance';
+      const value=document.createElement('span');value.textContent=ratio===null?'—':ratio.toFixed(2)+'×';value.title='Distance ratio';
+      const dev=document.createElement('span');dev.textContent=deviation===null?'—':(100*deviation).toFixed(0)+'%';dev.title='Deviation from frame median';
+      const used=document.createElement('span');used.textContent=ratios.has(i)?'yes':'—';used.title=ratios.has(i)?'This pair contributed to the frame score':'This pair did not contribute to the frame score';
+      item.append(swatch,id,baseline,distance,value,dev,used);item.onclick=()=>{activePair=activePair===i?null:i;render();};row.append(item);
+    });
+  } else {
+    document.getElementById('used-count').textContent='no scored window';
+    document.getElementById('median').textContent='';
+  }
+  const bounds=data.scene_bounds;
+  const scene={aspectmode:'data',xaxis:{title:'camera X',color:'#9faeaa',range:bounds?bounds[0]:undefined,autorange:!bounds},yaxis:{title:'camera Y',color:'#9faeaa',range:bounds?bounds[1]:undefined,autorange:!bounds},zaxis:{title:'depth',color:'#9faeaa',range:bounds?bounds[2]:undefined,autorange:!bounds},bgcolor:'#1c2525'};
+  if(camera)scene.camera=camera;
+  const [height,width]=data.image_hw;
+  const layout=orbit
+    ?{paper_bgcolor:'#1c2525',scene,margin:{l:0,r:0,t:0,b:0},uirevision:'keep-camera'}
+    :{paper_bgcolor:'#1c2525',plot_bgcolor:'#1c2525',margin:{l:0,r:0,t:0,b:0},
+      xaxis:{range:[0,width],visible:false,constrain:'domain'},
+      yaxis:{range:[height,0],visible:false,scaleanchor:'x',scaleratio:1},
+      showlegend:false};
+  Plotly.react('cloud',traces,layout,{responsive:true,displaylogo:false})
+    .then(()=>{if(!document.getElementById('cloud').dataset.bound){document.getElementById('cloud').on('plotly_relayout',ev=>{if(ev['scene.camera'])camera=ev['scene.camera'];});document.getElementById('cloud').dataset.bound='1';}});
+  Plotly.restyle('history',{'x':[[frame,frame]],'y':[[0,100*Math.max(...data.history.filter(Number.isFinite),.01)]]},[1]);
+}
+const chart=[{x:data.observed.map((_,i)=>i),y:data.observed.map(v=>v===null?null:100*v),mode:'lines+markers',line:{color:'#efbd68',width:2},marker:{size:4},connectgaps:false,name:'Observed rigidity'},
+  {x:[0,0],y:[0,100*Math.max(...data.history.filter(Number.isFinite),.01)],mode:'lines',line:{color:'#e96b54',width:1,dash:'dash'},hoverinfo:'skip',showlegend:false}];
+Plotly.newPlot('history',chart,{paper_bgcolor:'#1c2525',plot_bgcolor:'#1c2525',font:{color:'#c7d4cb'},margin:{l:55,r:15,t:15,b:38},xaxis:{title:'Frame',gridcolor:'#34423e'},yaxis:{title:'Score %',gridcolor:'#34423e'}},{responsive:true,displaylogo:false})
+  .then(()=>{document.getElementById('history').on('plotly_click',ev=>seek(ev.points[0].x));render();});
+function seek(value){frame=clamp(Math.round(value),0,n-1);video.currentTime=frame/fps;render();}
+slider.oninput=()=>seek(Number(slider.value));
+windowSelect.onchange=()=>{const w=data.windows[Number(windowSelect.value)];if(w)seek(w.query_frame);};
+function stop(){playing=false;play.textContent='Play';video.pause();if(timer)clearInterval(timer);timer=null;}
+play.onclick=()=>{if(playing){stop();return;}playing=true;play.textContent='Pause';video.currentTime=frame/fps;video.play().catch(()=>stop());timer=setInterval(()=>{const next=Math.min(n-1,Math.floor(video.currentTime*fps));if(next!==frame){frame=next;render();}if(video.ended||frame===n-1)stop();},40);};
+video.onseeked=()=>{const next=clamp(Math.round(video.currentTime*fps),0,n-1);if(next!==frame){frame=next;render();}};
+video.onpause=()=>{if(playing&&!video.ended)stop();};
+document.getElementById('view-mode').onclick=()=>{orbit=!orbit;document.getElementById('view-mode').textContent=orbit?'Camera view':'3D orbit';render();};
+document.getElementById('reset-view').onclick=()=>{camera=defaultCamera;if(orbit)Plotly.relayout('cloud',{'scene.camera':defaultCamera});else render();};
+</script>
+</body></html>

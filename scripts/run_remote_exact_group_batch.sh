@@ -9,8 +9,8 @@ CODE_ROOT="$PDI_GPU_ROOT/code/PDI-Bench-edited"
 mkdir -p "$BATCH_ROOT"
 exec >>"$BATCH_ROOT/batch.log" 2>&1
 echo "[$(date --iso-8601=seconds)] detached batch launcher started"
-PYTHONUNBUFFERED=1 "$PDI_GPU_ROOT/env/pdi-bench/bin/python" \
-  "$CODE_ROOT/evaluation/run_remote_exact_group_batch.py" \
+PYTHONPATH="$CODE_ROOT/src" PYTHONUNBUFFERED=1 "$PDI_GPU_ROOT/env/pdi-bench/bin/python" \
+  -m pdi_eval.experiment batch-v1 \
   --gpu-root "$PDI_GPU_ROOT" \
   --code-root "$CODE_ROOT" \
   --batch-root "$BATCH_ROOT" \

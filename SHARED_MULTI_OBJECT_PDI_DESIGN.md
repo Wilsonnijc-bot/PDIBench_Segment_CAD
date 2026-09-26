@@ -1,5 +1,9 @@
 # Shared Multi-Object PDI Design for Seven Franka Links
 
+> Historical design record for the V1 multi-metric pipeline. The implemented
+> D contract is in [D_PIPELINE_SPEC.md](D_PIPELINE_SPEC.md). V1 code lives under
+> `PDI-Bench-edited/src/pdi_eval/v1/`.
+
 > Implementation update (2026-08-20): this architecture is now implemented
 > directly inside `PDI-Bench-edited/`. References below to an outer adapter
 > describe the pre-implementation state and are superseded by the native modules
@@ -33,12 +37,10 @@ coherent way to put all seven links in the same 3D coordinate frame.
 
 ## What the local pipeline does now
 
-The active code already avoids rerunning SAM3. `sam3_cad_segment.py` constructs
-`object_masks` with shape `(T, N, H, W)`, constructs a union mask with
-`np.any(object_masks, axis=1)`, and also writes one archive per matched link
-([source](PDI-Bench-edited/src/pdi_eval/perception/sam3_cad_segment.py#L185)). The old launcher then
-loops over those link archives and invokes the complete single-target PDI runner
-once per link ([source](scripts/run_sam3_cad_video.sh#L61)).
+The following table describes the retired CAD and single-target workflow that
+motivated this design. Its CAD frontend and launcher have been removed from the
+edited checkout. The current DINOv2-guided SAM3 frontend writes named masks to
+one archive, and the V1 pipeline evaluates links from that shared archive.
 
 For seven matched links, the current effective computation is:
 
@@ -59,16 +61,16 @@ For seven matched links, the current effective computation is:
 The upstream `MegaSamWrapper` runs the expensive scene pipeline before it uses
 the target mask: frame extraction, Depth Anything, UniDepth, DROID camera
 tracking, RAFT/CVD refinement, and world-pointmap construction
-([source](PDI-Bench-edited/src/pdi_eval/perception/mega_sam_wrapper.py#L106)).
+([source](PDI-Bench-edited/src/pdi_eval/perception/mega_sam_wrapper.py)).
 Only after pointmaps have been built does it mask depth pixels to obtain a
 target-specific median depth sequence
-([source](PDI-Bench-edited/src/pdi_eval/perception/mega_sam_wrapper.py#L193)).
+([source](PDI-Bench-edited/src/pdi_eval/perception/mega_sam_wrapper.py)).
 
 The former outer implementation exploited this separation. The native implementation now keys a geometry archive
 by source-video SHA-256, stores `pointmaps`, `camera_poses`, and `focal_length`,
 then derives a new target depth sequence from the cached world pointmaps and the
 current link mask
-([source](PDI-Bench-edited/src/pdi_eval/perception/mega_sam_wrapper.py#L30)).
+([source](PDI-Bench-edited/src/pdi_eval/perception/mega_sam_wrapper.py)).
 `run.sh` places this cache outside individual run directories.
 
 Consequently, the current seven-process implementation should not execute Depth
@@ -175,7 +177,7 @@ link_visibility = visibility[:, selector]
 ### 1. Scale consistency
 
 PDI evaluates the constancy of `log(pixel_height) + log(depth)`
-([source](PDI-Bench-edited/src/pdi_eval/evaluator/scale_audit.py#L4)). For link
+([source](PDI-Bench-edited/src/pdi_eval/evaluator/scale_audit.py)). For link
 `i`, retain:
 
 ```text
@@ -186,14 +188,14 @@ z_i[t] = median positive camera-Z under object_masks[t, i]
 The world pointmap and camera pose are shared, but mask selection is per link.
 The native MegaSAM wrapper implements the world-to-camera conversion and
 per-mask median operation
-([source](PDI-Bench-edited/src/pdi_eval/perception/mega_sam_wrapper.py#L30)). Therefore sharing geometry
+([source](PDI-Bench-edited/src/pdi_eval/perception/mega_sam_wrapper.py)). Therefore sharing geometry
 does not mix scale measurements between links.
 
 ### 2. 3D trajectory consistency
 
 The current trajectory audit takes the median world-space point beneath the
 foreground mask on each frame, then evaluates velocity and acceleration
-smoothness ([source](PDI-Bench-edited/src/pdi_eval/evaluator/motion_audit.py#L13)).
+smoothness ([source](PDI-Bench-edited/src/pdi_eval/evaluator/motion_audit.py)).
 For every link, compute:
 
 ```text
@@ -208,7 +210,7 @@ solutions could differ.
 
 The primary rigidity strategy samples each foreground CoTracker point from the
 shared world pointmap and measures invariance of pairwise 3D distances
-([source](PDI-Bench-edited/src/pdi_eval/evaluator/volume_audit.py#L7)). It also
+([source](PDI-Bench-edited/src/pdi_eval/v1/rigidity.py)). It also
 uses the target mask's distance transform to prefer points away from boundaries.
 
 For link `i`, call the existing audit with only:
@@ -229,7 +231,7 @@ must likewise index the individual link mask, not the union.
 
 The PDI pipeline estimates a foreground VP from target tracks and a background
 VP from background tracks plus line segments outside the target mask
-([source](PDI-Bench-edited/src/pdi_eval/pipeline.py#L118)). The proposed split
+([source](PDI-Bench-edited/src/pdi_eval/pipeline.py)). The proposed split
 is:
 
 ```text
@@ -252,7 +254,7 @@ method revision and record it in the output manifest.
 
 The final score is only a weighted combination of four per-target values:
 scale, trajectory, rigidity, and VP coupling
-([source](PDI-Bench-edited/src/pdi_eval/metrics/pdi_index.py#L42)). Once the
+([source](PDI-Bench-edited/src/pdi_eval/metrics/pdi_index.py)). Once the
 shared inference products have been sliced into per-link inputs, the existing
 calculator can be called unchanged for every link. One run can therefore emit
 seven complete reports with the same schema and weighting.
@@ -277,7 +279,7 @@ bundle.
 
 The current wrapper uses 100 requested foreground points and 225 requested
 background points per link, and sends both groups through one CoTracker call
-([source](PDI-Bench-edited/src/pdi_eval/perception/track_wrapper.py#L39)). Across
+([source](PDI-Bench-edited/src/pdi_eval/v1/tracking.py)). Across
 seven runs, that is up to 700 foreground queries and 1,575 repeated background
 queries, or 2,275 explicit queries total. A joint run needs at most 700
 foreground queries plus 225 shared background queries, or 925 explicit queries.
@@ -342,8 +344,8 @@ The implementation now lives directly in the benchmark:
 
 ```text
 PDI-Bench-edited/evaluation/run_multi_object.py
-PDI-Bench-edited/src/pdi_eval/multi_object_pipeline.py
-PDI-Bench-edited/src/pdi_eval/perception/track_wrapper.py
+PDI-Bench-edited/src/pdi_eval/v1/pipeline.py
+PDI-Bench-edited/src/pdi_eval/v1/tracking.py
 ```
 
 Implemented responsibilities:

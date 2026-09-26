@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from evaluation.export_batch_metrics_csv import LINK_NAMES, export_batch_csv
+from pdi_eval.experiment.export_v1_batch import LINK_NAMES, export_batch_csv
 
 
 class PartialLinkMetricsExportTests(unittest.TestCase):
@@ -67,6 +67,12 @@ class PartialLinkMetricsExportTests(unittest.TestCase):
                     "interpolated_frame_fraction": 0.2,
                     "total_frame_count": 5,
                 },
+                "tracking": {
+                    "requested_foreground_query_count": 100,
+                    "foreground_track_count": 72,
+                    "retained_track_fraction": 0.72,
+                    "mean_visibility": 0.84,
+                },
             }
             (job_root / "output/metrics.json").write_text(
                 json.dumps(
@@ -91,6 +97,10 @@ class PartialLinkMetricsExportTests(unittest.TestCase):
             self.assertEqual(row["link2_status"], "complete")
             self.assertEqual(row["link2_depth_strategy"], "interpolation_fallback")
             self.assertEqual(row["link2_depth_interpolated_frame_count"], "1")
+            self.assertEqual(row["link2_cotracker_requested_query_count"], "100")
+            self.assertEqual(row["link2_cotracker_retained_track_count"], "72")
+            self.assertEqual(row["link2_cotracker_retained_fraction"], "0.72")
+            self.assertEqual(row["link2_cotracker_mean_visibility"], "0.84")
             self.assertEqual(row["link3_status"], "failed")
             self.assertEqual(row["link3_error"], "insufficient depth")
             self.assertEqual(row["link3_pdi_score"], "")

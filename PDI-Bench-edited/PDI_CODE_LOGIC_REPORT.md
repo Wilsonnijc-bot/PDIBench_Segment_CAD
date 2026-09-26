@@ -1,8 +1,12 @@
 # PDI-Bench-edited: CoTracker, Rigidity, and Missing-Mask Logic
 
+> Historical V1 analysis. Implementation links below now point into
+> `src/pdi_eval/v1/` or the shared CoTracker core. Deformation V2 has a
+> separate tracker and rigidity scorer under `src/pdi_eval/v2/`.
+
 ## Scope
 
-This report describes the current native multi-object path:
+This report describes the historical V1 native multi-object path:
 
 ```text
 SAM3 segmentation archive
@@ -13,9 +17,9 @@ SAM3 segmentation archive
   -> PDIIndexCalculator.compute_pdi()
 ```
 
-The entry point is [`evaluation/run_multi_object.py`](evaluation/run_multi_object.py#L86), and the orchestration is in [`multi_object_pipeline.py`](src/pdi_eval/multi_object_pipeline.py#L402). The older single-object path in `pipeline.py` is not the active Franka workflow.
+The entry point is [`score_v1.py`](src/pdi_eval/experiment/score_v1.py), and the orchestration is in [`v1/pipeline.py`](src/pdi_eval/v1/pipeline.py). The older single-object path in `pipeline.py` is not the active Franka workflow.
 
-The current automated batch evaluates `link2` through `link7`; `link1` is retired from the DINOv2-to-SAM3 frontend ([`sam3_dinov2_segment.py`](src/pdi_eval/perception/sam3_dinov2_segment.py#L28), [`export_batch_metrics_csv.py`](evaluation/export_batch_metrics_csv.py#L13)).
+The current automated batch evaluates `link2` through `link7`; `link1` is retired from the DINOv2-to-SAM3 frontend ([`sam3_dinov2_segment.py`](src/pdi_eval/perception/sam3_dinov2_segment.py), [`export_v1_batch.py`](src/pdi_eval/experiment/export_v1_batch.py)).
 
 ## Executive summary
 
@@ -34,15 +38,15 @@ The multi-object pipeline passes exactly this mask slice to CoTracker preparatio
 segmentation.object_masks[0]  # shape (number_of_links, H, W)
 ```
 
-See [`multi_object_pipeline.py`](src/pdi_eval/multi_object_pipeline.py#L447). No later SAM mask is used to initialize, add, remove, or re-seed CoTracker points.
+See [`v1/pipeline.py`](src/pdi_eval/v1/pipeline.py). No later SAM mask is used to initialize, add, remove, or re-seed CoTracker points.
 
-The video is decoded and each frame is downscaled only when its largest dimension is greater than `max_dimension` (default `880`). The aspect ratio is preserved. Every frame-0 link mask is resized from the original video/mask resolution to the CoTracker resolution with nearest-neighbor interpolation ([`track_wrapper.py`](src/pdi_eval/perception/track_wrapper.py#L226)).
+The video is decoded and each frame is downscaled only when its largest dimension is greater than `max_dimension` (default `880`). The aspect ratio is preserved. Every frame-0 link mask is resized from the original video/mask resolution to the CoTracker resolution with nearest-neighbor interpolation ([`tracking.py`](src/pdi_eval/v1/tracking.py)).
 
 The first resized RGB frame is converted to grayscale. All point detection is performed on that grayscale frame and constrained by each resized binary link mask.
 
 ### 1.2 Requested point counts
 
-The default count is `grid_size ** 2 = 10 ** 2 = 100` points per link. The current configuration overrides three links ([`configs/default.yaml`](configs/default.yaml#L24)):
+The default count is `grid_size ** 2 = 10 ** 2 = 100` points per link. The current configuration overrides three links ([`configs/default.yaml`](configs/default.yaml)):
 
 | Link | Requested queries |
 |---|---:|
@@ -53,21 +57,21 @@ The default count is `grid_size ** 2 = 10 ** 2 = 100` points per link. The curre
 | `link6` | 100 |
 | `link7` | 100 |
 
-These are budgets, not guaranteed output counts. A small or feature-poor mask can yield fewer unique points, but each link must yield at least two or preparation raises `ValueError` and the entire run stops. Unknown link names in the override map also raise an error ([`track_wrapper.py`](src/pdi_eval/perception/track_wrapper.py#L152)).
+These are budgets, not guaranteed output counts. A small or feature-poor mask can yield fewer unique points, but each link must yield at least two or preparation raises `ValueError` and the entire run stops. Unknown link names in the override map also raise an error ([`tracking.py`](src/pdi_eval/v1/tracking.py)).
 
 ### 1.3 Candidate generation inside each link mask
 
-For a requested count `C`, `_sample_region_queries()` creates three candidate groups ([`track_wrapper.py`](src/pdi_eval/perception/track_wrapper.py#L124)):
+For a requested count `C`, `_sample_region_queries()` creates three candidate groups ([`tracking.py`](src/pdi_eval/perception/cotracker_core.py)):
 
-1. **SIFT:** ask for up to `4C` accepted points inside the mask. Internally OpenCV SIFT is created with `nfeatures=16C`, detections are sorted by descending response, and only keypoints whose rounded pixel lies on mask value `1` are retained ([`track_wrapper.py`](src/pdi_eval/perception/track_wrapper.py#L629)).
-2. **Shi-Tomasi:** ask for up to `4C` corners inside the mask, using `qualityLevel=0.01` and `minDistance=5` pixels ([`track_wrapper.py`](src/pdi_eval/perception/track_wrapper.py#L657)).
-3. **Deterministic spatial grid:** ask for `C` points. The mask bounding box is divided into `ceil(sqrt(C))` rows and columns. Each occupied cell contributes the foreground pixel nearest its cell center. If fewer than `C` cells contribute, remaining mask pixels are filled at evenly spaced indices ([`track_wrapper.py`](src/pdi_eval/perception/track_wrapper.py#L682)).
+1. **SIFT:** ask for up to `4C` accepted points inside the mask. Internally OpenCV SIFT is created with `nfeatures=16C`, detections are sorted by descending response, and only keypoints whose rounded pixel lies on mask value `1` are retained ([`tracking.py`](src/pdi_eval/perception/cotracker_core.py)).
+2. **Shi-Tomasi:** ask for up to `4C` corners inside the mask, using `qualityLevel=0.01` and `minDistance=5` pixels ([`tracking.py`](src/pdi_eval/perception/cotracker_core.py)).
+3. **Deterministic spatial grid:** ask for `C` points. The mask bounding box is divided into `ceil(sqrt(C))` rows and columns. Each occupied cell contributes the foreground pixel nearest its cell center. If fewer than `C` cells contribute, remaining mask pixels are filled at evenly spaced indices ([`tracking.py`](src/pdi_eval/perception/cotracker_core.py)).
 
 Despite the older docstring calling this a fallback hierarchy, the current multi-object method **always runs and pools all three groups** in this order: SIFT, Shi-Tomasi, grid.
 
 ### 1.4 Deduplication and spatial balancing
 
-The pooled candidates are deduplicated by `(x, y)` rounded to three decimal places, preserving first occurrence. Because SIFT candidates are stacked first, an exact duplicate keeps the SIFT version ([`track_wrapper.py`](src/pdi_eval/perception/track_wrapper.py#L167)).
+The pooled candidates are deduplicated by `(x, y)` rounded to three decimal places, preserving first occurrence. Because SIFT candidates are stacked first, an exact duplicate keeps the SIFT version ([`tracking.py`](src/pdi_eval/perception/cotracker_core.py)).
 
 If at most `C` unique candidates remain, all are used. Otherwise selection is deterministic farthest-point sampling:
 
@@ -91,13 +95,13 @@ Coordinates at this stage are in the downscaled CoTracker image.
 
 ### 1.5 Background initialization
 
-The first-frame masks of all links are unioned. With the default `background_dilation=5`, the union is dilated using an `11 x 11` elliptical kernel. The background region is the complement of that dilated union ([`track_wrapper.py`](src/pdi_eval/perception/track_wrapper.py#L269)).
+The first-frame masks of all links are unioned. With the default `background_dilation=5`, the union is dilated using an `11 x 11` elliptical kernel. The background region is the complement of that dilated union ([`tracking.py`](src/pdi_eval/v1/tracking.py)).
 
 The background uses the same SIFT + Shi-Tomasi + grid pooling and spatial-balancing logic, with a requested budget of `background_grid_size ** 2 = 15 ** 2 = 225` points.
 
 ### 1.6 CoTracker call and the two tracking modes
 
-Queries are passed explicitly as a tensor of shape `(1, N, 3)`. The predictor call is ([`track_wrapper.py`](src/pdi_eval/perception/track_wrapper.py#L302)):
+Queries are passed explicitly as a tensor of shape `(1, N, 3)`. The predictor call is ([`tracking.py`](src/pdi_eval/perception/cotracker_core.py)):
 
 ```python
 tracks, visibility = model(
@@ -113,11 +117,11 @@ tracks, visibility = model(
 Both modes use the same prepared query arrays:
 
 - `joint-query` concatenates all link groups and the background, runs one predictor call, then splits the output by the original counts.
-- `exact-group` runs each link and background as a separate query group. It caches and replays the video backbone (`model.fnet`) so the image features are computed once, while the query-update computation remains isolated by link ([`track_wrapper.py`](src/pdi_eval/perception/track_wrapper.py#L356)).
+- `exact-group` runs each link and background as a separate query group. It caches and replays the video backbone (`model.fnet`) so the image features are computed once, while the query-update computation remains isolated by link ([`tracking.py`](src/pdi_eval/v1/tracking.py)).
 
 ### 1.7 Post-tracking filtering
 
-Tracks and query coordinates are first scaled back to the original video/mask resolution. A track is normally retained only if all of the following hold across the whole clip ([`track_wrapper.py`](src/pdi_eval/perception/track_wrapper.py#L772)):
+Tracks and query coordinates are first scaled back to the original video/mask resolution. A track is normally retained only if all of the following hold across the whole clip ([`tracking.py`](src/pdi_eval/v1/tracking.py)):
 
 - all track coordinates and visibility values are finite;
 - mean CoTracker visibility is at least `0.3`;
@@ -129,18 +133,18 @@ If fewer than two tracks pass, the code keeps the two best finite tracks, ranked
 
 ### 2.1 Active call path
 
-For each link, `evaluate_object_metrics()` maps that link's CoTracker tracks from original-video coordinates to the MegaSAM pointmap grid, preserving image endpoints ([`multi_object_pipeline.py`](src/pdi_eval/multi_object_pipeline.py#L103)):
+For each link, `evaluate_object_metrics()` maps that link's CoTracker tracks from original-video coordinates to the MegaSAM pointmap grid, preserving image endpoints ([`v1/pipeline.py`](src/pdi_eval/v1/pipeline.py)):
 
 ```text
 u_pointmap = u_video * (W_pointmap - 1) / (W_video - 1)
 v_pointmap = v_video * (H_pointmap - 1) / (H_video - 1)
 ```
 
-It then calls `audit_3d_volume_stability(pointmaps, link_masks, tracks, h_seq, visibility)` ([`multi_object_pipeline.py`](src/pdi_eval/multi_object_pipeline.py#L180)). In a normal multi-object run, pointmaps, tracks, and visibility are all supplied and frame-0 geometry is valid, so **Strategy 1: 3D rigid pairwise ratios** is used ([`volume_audit.py`](src/pdi_eval/evaluator/volume_audit.py#L209)).
+It then calls `audit_3d_volume_stability(pointmaps, link_masks, tracks, h_seq, visibility)` ([`v1/pipeline.py`](src/pdi_eval/v1/pipeline.py)). In a normal multi-object run, pointmaps, tracks, and visibility are all supplied and frame-0 geometry is valid, so **Strategy 1: 3D rigid pairwise ratios** is used ([`rigidity.py`](src/pdi_eval/v1/rigidity.py)).
 
 ### 2.2 Turning CoTracker points into 3D trajectories
 
-MegaSAM provides `pointmaps[t, v, u]`, a world-coordinate XYZ point for every pointmap pixel. For every frame `t` and every CoTracker anchor `n`, the code rounds and clips the mapped 2D track coordinate and samples one XYZ value ([`volume_audit.py`](src/pdi_eval/evaluator/volume_audit.py#L37)):
+MegaSAM provides `pointmaps[t, v, u]`, a world-coordinate XYZ point for every pointmap pixel. For every frame `t` and every CoTracker anchor `n`, the code rounds and clips the mapped 2D track coordinate and samples one XYZ value ([`rigidity.py`](src/pdi_eval/v1/rigidity.py)):
 
 ```text
 u_tn = clip(round(track_x[t,n]), 0, W-1)
@@ -171,7 +175,7 @@ d_ij(0) = ||P_0i - P_0j||_2
 pair_quality_ij = d_ij(0) * min(edge_distance_i, edge_distance_j)
 ```
 
-All unique pairs are sorted by descending `pair_quality`, and the best 30 are retained. This favors long 3D baselines, which improve deformation signal-to-noise, and points far from the SAM boundary, which are less likely to contain depth bleeding ([`volume_audit.py`](src/pdi_eval/evaluator/volume_audit.py#L85)).
+All unique pairs are sorted by descending `pair_quality`, and the best 30 are retained. This favors long 3D baselines, which improve deformation signal-to-noise, and points far from the SAM boundary, which are less likely to contain depth bleeding ([`rigidity.py`](src/pdi_eval/v1/rigidity.py)).
 
 Pairs with `d_ij(0) <= 1e-3` are dropped. If fewer than three pairs remain, the function again returns `1.0` for every frame.
 
@@ -195,7 +199,7 @@ The final scalar is:
 epsilon_rigidity = mean(epsilon_rigidity(t) for t = 1 ... T-1)
 ```
 
-Frame 0 is deliberately excluded from this mean ([`volume_audit.py`](src/pdi_eval/evaluator/volume_audit.py#L122)).
+Frame 0 is deliberately excluded from this mean ([`rigidity.py`](src/pdi_eval/v1/rigidity.py)).
 
 ### 2.6 What the formula does and does not measure
 
@@ -208,7 +212,7 @@ There is no Kabsch alignment, rigid transform fitting, Procrustes residual, or d
 `audit_3d_volume_stability()` defines two fallbacks, though they are normally unreachable in the active multi-object path when valid pointmaps and CoTracker output exist:
 
 - **Strategy 2, point-cloud extent:** when pointmaps exist but tracks/visibility do not, take the masked world-Y extent `percentile_95(Y) - percentile_5(Y)` per frame, forward-fill an empty-mask frame, and return `std(extent) / mean(extent)`.
-- **Strategy 3, 2D CoTracker:** sample up to 30 unique random anchor pairs with NumPy seed `42`; calculate `d_ij(t)/d_ij(0)` in 2D; score each frame as `std(ratios)/(mean(ratios)+1e-6)`. Its history starts with `1.0`, and the returned mean includes that frame-0 value ([`volume_audit.py`](src/pdi_eval/evaluator/volume_audit.py#L149)).
+- **Strategy 3, 2D CoTracker:** sample up to 30 unique random anchor pairs with NumPy seed `42`; calculate `d_ij(t)/d_ij(0)` in 2D; score each frame as `std(ratios)/(mean(ratios)+1e-6)`. Its history starts with `1.0`, and the returned mean includes that frame-0 value ([`rigidity.py`](src/pdi_eval/v1/rigidity.py)).
 
 The strategy selector returns immediately from Strategy 1 even when Strategy 1 returns the hard failure score `1.0`; it does not retry Strategy 2 or 3 in that case.
 
@@ -218,20 +222,18 @@ The strategy selector returns immediately from Strategy 1 even when Strategy 1 r
 
 The archive has shape `(T, links, H, W)`. If SAM3 returns a frame but no acceptable mask is associated with a link, that link's preallocated mask remains all false.
 
-In the DINOv2/SAM3 frontend, an output can be rejected when it is empty or when its association to the last good mask is below `0.10`. Association is `0.75 * IoU + 0.25 * area_consistency`; matching the preferred SAM object ID adds `0.10` only for ranking and does not lower the `0.10` acceptance threshold ([`sam3_dinov2_segment.py`](src/pdi_eval/perception/sam3_dinov2_segment.py#L127)). On rejection, the previous good mask is retained only as the reference for a possible later reassociation; it is **not copied into the failed frame** ([`sam3_dinov2_segment.py`](src/pdi_eval/perception/sam3_dinov2_segment.py#L398)).
+In the DINOv2/SAM3 frontend, an output can be rejected when it is empty or when its association to the last good mask is below `0.10`. Association is `0.75 * IoU + 0.25 * area_consistency`; matching the preferred SAM object ID adds `0.10` only for ranking and does not lower the `0.10` acceptance threshold ([`sam3_dinov2_segment.py`](src/pdi_eval/perception/sam3_dinov2_segment.py)). On rejection, the previous good mask is retained only as the reference for a possible later reassociation; it is **not copied into the failed frame** ([`sam3_dinov2_segment.py`](src/pdi_eval/perception/sam3_dinov2_segment.py)).
 
 There are two distinct failure cases:
 
 - If SAM3 omits the frame response entirely, segmentation raises and no PDI run occurs.
 - If the frame response exists but that link has no accepted mask, the archive contains an all-false mask for that link and frame.
 
-The DINOv2/SAM3 CLI normally requires masks on at least 80% of frames. However, the current remote exact-group batch explicitly passes `--minimum-tracked-fraction 0.0`, disabling this segmentation-stage rejection ([`run_remote_exact_group_batch.py`](evaluation/run_remote_exact_group_batch.py#L195)). Therefore the downstream PDI depth gate described below is the effective per-link validity gate in that batch.
-
-The older CAD/SAM3 frontend behaves similarly for per-link absence: it aborts if a whole frame response is missing, but writes zeros for a selected object ID absent from a returned frame ([`sam3_cad_segment.py`](src/pdi_eval/perception/sam3_cad_segment.py#L160)). It has no tracked-fraction check.
+The DINOv2/SAM3 CLI normally requires masks on at least 80% of frames. However, the current remote exact-group batch explicitly passes `--minimum-tracked-fraction 0.0`, disabling this segmentation-stage rejection ([`batch_v1.py`](src/pdi_eval/experiment/batch_v1.py)). Therefore the downstream PDI depth gate described below is the effective per-link validity gate in that batch.
 
 ### 3.2 Measurements derived from an empty link mask
 
-When the archive is loaded, stored aggregate `h_pixel` values are ignored and measurements are recomputed independently for each link ([`segmentation_archive.py`](src/pdi_eval/perception/segmentation_archive.py#L92)).
+When the archive is loaded, stored aggregate `h_pixel` values are ignored and measurements are recomputed independently for each link ([`segmentation_archive.py`](src/pdi_eval/perception/segmentation_archive.py)).
 
 For a mask with at most 10 pixels, including an empty mask:
 
@@ -243,7 +245,7 @@ There is no interpolation of the SAM mask itself and no interpolation of `h_pixe
 
 ### 3.3 Per-link target-depth gate
 
-For each frame, the shared world pointmap is transformed back into that frame's camera coordinates. A target depth is valid only where all three conditions hold ([`mega_sam_wrapper.py`](src/pdi_eval/perception/mega_sam_wrapper.py#L39)):
+For each frame, the shared world pointmap is transformed back into that frame's camera coordinates. A target depth is valid only where all three conditions hold ([`mega_sam_wrapper.py`](src/pdi_eval/perception/mega_sam_wrapper.py)):
 
 ```text
 link mask is true
@@ -268,7 +270,7 @@ If the link passes this gate:
 - the completed sequence is normalized by its frame-0 value;
 - metadata records the exact interpolated frame indices and fraction.
 
-If the link fails this gate, `object_depth_z` remains `NaN` for that link. The metric loop writes `status: failed`, `error_type: insufficient_target_depth`, and **does not call `evaluate_object_metrics()`**, so that link has no PDI score. Other links continue and receive their own reports ([`multi_object_pipeline.py`](src/pdi_eval/multi_object_pipeline.py#L464)).
+If the link fails this gate, `object_depth_z` remains `NaN` for that link. The metric loop writes `status: failed`, `error_type: insufficient_target_depth`, and **does not call `evaluate_object_metrics()`**, so that link has no PDI score. Other links continue and receive their own reports ([`v1/pipeline.py`](src/pdi_eval/v1/pipeline.py)).
 
 ### 3.4 What happens in each PDI component when the link passes the depth gate
 
@@ -280,7 +282,7 @@ If the link fails this gate, `object_depth_z` remains `NaN` for that link. The m
 | VP coupling | Foreground/background VPs come primarily from CoTracker. Masks only affect the early-frame object-bbox degeneracy test and union-mask exclusion for LSD background lines. Default PDI weight is `0.0`. | No general skip |
 | Scale-jump audit | Empty mask gives foreground median depth `0.0`; this can create a jump. This audit is reported but is not part of the PDI weighted sum. | No |
 
-The exact scale formula is ([`scale_audit.py`](src/pdi_eval/evaluator/scale_audit.py#L4)):
+The exact scale formula is ([`scale_audit.py`](src/pdi_eval/evaluator/scale_audit.py)):
 
 ```text
 s(t) = log(max(h(t), 1e-6)) + log(max(Z(t), 1e-6))
@@ -288,11 +290,11 @@ baseline = median(s(t)) over the first min(5,T) frames
 epsilon_scale(t) = |s(t) - baseline|, t = 1 ... T-1
 ```
 
-The exact missing-centroid branch is in [`motion_audit.py`](src/pdi_eval/evaluator/motion_audit.py#L53): more than 10 masked pointmap samples are required to compute a median centroid; otherwise the previous centroid is used.
+The exact missing-centroid branch is in [`motion_audit.py`](src/pdi_eval/evaluator/motion_audit.py): more than 10 masked pointmap samples are required to compute a median centroid; otherwise the previous centroid is used.
 
 ### 3.5 Final PDI synthesis
 
-For a link that remains valid, array-valued scale and trajectory errors are converted to RMSE. Rigidity is already a scalar. The current default configuration is ([`configs/default.yaml`](configs/default.yaml#L8)):
+For a link that remains valid, array-valued scale and trajectory errors are converted to RMSE. Rigidity is already a scalar. The current default configuration is ([`configs/default.yaml`](configs/default.yaml)):
 
 ```text
 PDI = 0.4 * RMSE(scale)

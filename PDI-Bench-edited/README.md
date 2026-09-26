@@ -6,9 +6,36 @@
 > protocol. Do not treat its metrics, grades, or performance results as
 > validated until those comparison runs pass and this notice is removed.
 
-## Native Multi-Object Franka Evaluation
+## V1 code and interfaces
 
-This checkout includes a native video-level pipeline for CAD-guided SAM3 masks,
+The only executable PDI pipeline lives in `src/pdi_eval/v1/`. Shared perception,
+geometry, and replay modules remain under `src/pdi_eval/`. Existing unversioned
+V1 imports are compatibility aliases.
+
+```python
+from pdi_eval.v1 import evaluate
+
+report = evaluate(
+    config, video_path=video, segmentation_npz=masks,
+    output_dir=output, geometry_cache_dir=cache,
+    tracking_modes=("exact-group",),
+)
+```
+
+The supported command is `PYTHONPATH=src python -m pdi_eval.experiment score`.
+See the [experiment interface](src/pdi_eval/experiment/README.md) for the
+persistent-mask runner and V1 batch commands. The [D specification](../D_PIPELINE_SPEC.md)
+records the isolated multi-link tracking contract.
+
+For an optional full-video `link7` mask refinement, see
+[persistent mask add-on](docs/persistent_mask_addon.md). V1 produces a combined
+MP4 and an [interactive rigidity replay](docs/rigidity_replay_contract.md)
+with verified selected pairs and synchronized source video. The ten-video
+workflow is in [V1 replay experiment](docs/v1_replay_batch.md).
+
+## Historical Multi-Object Franka Evaluation
+
+This checkout includes a native video-level pipeline for named SAM3 masks,
 one shared MegaSAM reconstruction, and per-link PDI metrics. It supports two
 CoTracker methods over the same deterministic query manifest:
 
@@ -19,7 +46,7 @@ CoTracker methods over the same deterministic query manifest:
 Run both and emit metric/speed deltas with:
 
 ```bash
-PYTHONPATH=src python evaluation/run_multi_object.py \
+PYTHONPATH=src python -m pdi_eval.experiment score \
   --config configs/default.yaml \
   --input /path/video.mp4 \
   --segmentation-npz /path/segmentation.npz \
@@ -32,7 +59,7 @@ PYTHONPATH=src python evaluation/run_multi_object.py \
 The union of the seven masks is used only for background exclusion and combined
 replay. Rigidity is always calculated independently per rigid link.
 
-**PDI-Bench** is an automated evaluation framework designed to quantify **spatial scale and perspective consistency** in AI video generation models (such as Sora, Seedance, Flow). The active Franka workflow integrates **CAD-guided SAM3**, **Co-Tracker**, and **Mega-SAM** from segmentation through shared 3D reconstruction.
+**PDI-Bench** is an automated evaluation framework designed to quantify **spatial scale and perspective consistency** in AI video generation models (such as Sora, Seedance, Flow). The active Franka workflow integrates **DINOv2-guided SAM3**, **Co-Tracker**, and **Mega-SAM** from segmentation through shared 3D reconstruction.
 
 ![Demo Preview](figures/bus_hero.gif)
 
@@ -316,12 +343,12 @@ snapshot_download(
 
 ## 7. Quick Start
 
-Run the native multi-object evaluator after CAD-guided SAM3 has written the
+Run the native multi-object evaluator after SAM3 has written the
 canonical segmentation archive:
 
 ```bash
 conda activate pdi-bench
-PYTHONPATH=src python evaluation/run_multi_object.py \
+PYTHONPATH=src python -m pdi_eval.experiment score \
   --config configs/default.yaml \
   --input your_video.mp4 \
   --segmentation-npz segmentation.npz \
@@ -343,7 +370,7 @@ PYTHONPATH=src python evaluation/run_multi_object.py \
 | `--tracker-checkpoint` | Config value | CoTracker3 offline checkpoint |
 | `--tracking-mode` | `both` | `joint-query`, `exact-group`, or `both` |
 
-The old prompt-based `evaluation/main.py` path is retained only as upstream
-history and is not part of the active Franka workflow.
+The old prompt-based single-object runner is available only in the read-only
+`PDI-Bench-original/` checkout; it has been removed from this edited checkout.
 
 ---

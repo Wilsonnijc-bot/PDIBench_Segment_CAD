@@ -1,20 +1,23 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
 
 
-SCRIPT = Path(__file__).parents[1] / "evaluation" / "build_video_batch_manifest.py"
+ROOT = Path(__file__).parents[1]
 
 
 def run_builder(output: Path, *datasets: tuple[str, Path]) -> subprocess.CompletedProcess[str]:
-    command = [sys.executable, str(SCRIPT)]
+    command = [sys.executable, "-m", "pdi_eval.experiment.video_manifest"]
     for name, root in datasets:
         command.extend(["--dataset", f"{name}={root}"])
     command.extend(["--replays-per-dataset", "2", "--output", str(output)])
-    return subprocess.run(command, text=True, capture_output=True, check=False)
+    environment = os.environ.copy()
+    environment["PYTHONPATH"] = str(ROOT / "src")
+    return subprocess.run(command, text=True, capture_output=True, check=False, env=environment)
 
 
 def test_repeated_dataset_roots_deduplicate_identical_relative_paths(tmp_path: Path):

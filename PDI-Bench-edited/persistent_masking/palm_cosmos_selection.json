@@ -1,0 +1,12 @@
+{
+  "workbook":"deformationhumanlabel.xlsx",
+  "workbook_sha256":"c4000eb68dd57a46d3130d56ede0bf6296200205f3ee3a99c063aa97858a7577",
+  "sheet":"Selected Annotations",
+  "policy":"All selected cases have gripper deformation=1 and severity=3. Three Cosmos2.5 tasks plus the only Cosmos3 severe gripper case. No normal cases.",
+  "videos":[
+    {"id":"Cosmos25_0003","file":"0003.mp4","row":37,"gripper_deformation":1,"severity":3,"task":"discard_trash","directory":"/root/autodl-tmp/hierarchical-deformation-gdrive/1rXdVXrwIjf9wMeCVxbmFWN7cZNcfdtb9"},
+    {"id":"Cosmos25_0023","file":"0023.mp4","row":47,"gripper_deformation":1,"severity":3,"task":"pull","directory":"/root/autodl-tmp/hierarchical-deformation-gdrive/1rXdVXrwIjf9wMeCVxbmFWN7cZNcfdtb9"},
+    {"id":"Cosmos25_0053","file":"0053.mp4","row":62,"gripper_deformation":1,"severity":3,"task":"put_in_drawer","directory":"/root/autodl-tmp/hierarchical-deformation-gdrive/1rXdVXrwIjf9wMeCVxbmFWN7cZNcfdtb9"},
+    {"id":"Cosmos3_0048","file":"0048.mp4","row":83,"gripper_deformation":1,"severity":3,"task":"put_in_drawer","directory":"/root/autodl-tmp/hierarchical-deformation-gdrive/15sRTmHwkBQO0FmDRnp0BePAArCad2_Gj"}
+  ]
+}

@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Auditable diagnosis of the six-link PDI robot-deformation pipeline, using rigidity-only validation, quality ablations, and representative cases.">
+  <meta name="color-scheme" content="light">
+  <title>PDI Robot-Deformation Pipeline Atlas</title>
+  <style>
+    :root {
+      --bg: #f3f5f7;
+      --surface: #ffffff;
+      --surface-soft: #e9edf1;
+      --ink: #17212b;
+      --muted: #526170;
+      --line: #cbd3db;
+      --blue: #155fa8;
+      --red: #aa2934;
+      --green: #15704c;
+      --amber: #946000;
+      --dark: #111a22;
+      --dark-soft: #27333d;
+      --max: 78rem;
+      --nav-h: 4rem;
+      --radius: 0.5rem;
+      --sans: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+      --mono: "SFMono-Regular", Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 1rem); }
+    body { margin: 0; min-width: 20rem; color: var(--ink); background: var(--bg); font: 1rem/1.6 var(--sans); letter-spacing: 0; }
+    a { color: var(--blue); text-underline-offset: 0.2em; }
+    a:hover { color: #0e477f; }
+    button, video { font: inherit; }
+    img, video { max-width: 100%; }
+    h1, h2, h3, p, blockquote { margin-top: 0; }
+    h1, h2, h3 { text-wrap: balance; }
+    p { text-wrap: pretty; }
+    :focus-visible { outline: 3px solid #66a9e8; outline-offset: 3px; }
+    .container { width: min(var(--max), calc(100% - 2rem)); margin-inline: auto; }
+    .mono { font-family: var(--mono); }
+    .muted { color: var(--muted); }
+
+    .progress { position: fixed; inset: 0 0 auto; z-index: 50; height: 3px; background: var(--blue); transform: scaleX(0); transform-origin: left; }
+    .topbar { position: sticky; top: 0; z-index: 40; height: var(--nav-h); border-bottom: 1px solid var(--line); background: rgb(255 255 255 / 0.96); backdrop-filter: blur(10px); }
+    .topbar .container { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+    .brand { display: flex; align-items: center; gap: 0.7rem; min-width: 0; color: var(--ink); font-weight: 700; text-decoration: none; white-space: nowrap; }
+    .brand-mark { width: 1.55rem; height: 1.55rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 3px; border: 1px solid var(--ink); border-radius: 4px; }
+    .brand-mark span { background: var(--ink); }
+    .brand-mark span:nth-child(2), .brand-mark span:nth-child(4) { background: var(--red); }
+    nav { display: flex; gap: 1.25rem; overflow-x: auto; scrollbar-width: none; }
+    nav::-webkit-scrollbar { display: none; }
+    nav a { color: var(--muted); font-size: 0.9rem; font-weight: 650; text-decoration: none; white-space: nowrap; }
+
+    .hero { position: relative; min-height: clamp(36rem, 78vh, 45rem); display: flex; align-items: flex-end; overflow: hidden; color: #f7f9fb; background: var(--dark); }
+    .hero-media, .hero-shade { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .hero-media { object-fit: cover; object-position: center; opacity: 0.45; }
+    .hero-shade { background: rgb(10 17 23 / 0.62); }
+    .hero-inner { position: relative; z-index: 1; width: min(var(--max), calc(100% - 2rem)); margin-inline: auto; padding: clamp(6rem, 12vw, 9rem) 0 clamp(3rem, 7vw, 5rem); display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.65fr); gap: clamp(2.5rem, 7vw, 6rem); align-items: end; }
+    .hero h1 { max-width: 13ch; margin-bottom: 1.5rem; font-size: clamp(3rem, 6.4vw, 5.8rem); line-height: 0.98; letter-spacing: -0.035em; overflow-wrap: anywhere; }
+    .hero-lede { max-width: 62ch; margin-bottom: 1rem; color: #e2e8ed; font-size: clamp(1.15rem, 2vw, 1.45rem); }
+    .hero-caption { margin: 0; color: #bdc8d0; font-size: 0.85rem; }
+    .snapshot { border-top: 1px solid rgb(255 255 255 / 0.45); }
+    .snapshot-row { display: flex; justify-content: space-between; gap: 1rem; padding: 0.95rem 0; border-bottom: 1px solid rgb(255 255 255 / 0.24); }
+    .snapshot-row span { color: #c4ced6; }
+    .snapshot-row strong { text-align: right; font-variant-numeric: tabular-nums; }
+
+    .band { padding: clamp(4.5rem, 8vw, 7rem) 0; border-bottom: 1px solid var(--line); }
+    .band.white { background: var(--surface); }
+    .band.dark { color: #f2f5f7; background: var(--dark); border-color: var(--dark-soft); }
+    .section-head { display: grid; grid-template-columns: minmax(15rem, 0.7fr) minmax(0, 1.3fr); gap: clamp(2rem, 7vw, 5rem); align-items: start; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+    .section-head h2 { margin: 0; font-size: clamp(2.25rem, 4vw, 3.5rem); line-height: 1.06; letter-spacing: -0.03em; }
+    .section-head p { max-width: 68ch; margin: 0.25rem 0 0; color: var(--muted); font-size: clamp(1.08rem, 1.5vw, 1.3rem); }
+    .dark .section-head p { color: #bdc8d0; }
+
+    .contract { display: grid; grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.8fr); gap: clamp(2rem, 6vw, 5rem); align-items: start; }
+    .contract-copy { max-width: 65ch; }
+    .contract-copy h3 { margin-bottom: 0.8rem; font-size: clamp(1.55rem, 2.5vw, 2.2rem); }
+    .mapping { margin: 0; border-top: 1px solid var(--line); }
+    .mapping div { display: grid; grid-template-columns: 1fr auto; gap: 1.5rem; padding: 1rem 0; border-bottom: 1px solid var(--line); }
+    .mapping dt { font-weight: 700; }
+    .mapping dd { margin: 0; color: var(--muted); font-family: var(--mono); text-align: right; }
+
+    .score-guide { display: grid; grid-template-columns: minmax(16rem, 0.72fr) minmax(0, 1.28fr); gap: clamp(2rem, 6vw, 5rem); margin-top: clamp(3rem, 6vw, 5rem); padding-top: clamp(2rem, 4vw, 3rem); border-top: 1px solid var(--line); }
+    .score-guide h3 { margin-bottom: 0.7rem; font-size: clamp(1.55rem, 2.5vw, 2.2rem); }
+    .score-guide p { max-width: 65ch; margin-bottom: 0.75rem; color: var(--muted); }
+    .score-bands { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0; border-top: 1px solid var(--line); }
+    .score-band { position: relative; min-width: 0; padding: 1.25rem 1rem 1rem; border-bottom: 1px solid var(--line); }
+    .score-band::before { content: ""; position: absolute; inset: 0 1rem auto; height: 4px; background: currentColor; }
+    .score-band.low { color: var(--green); }
+    .score-band.middle { color: var(--amber); }
+    .score-band.high { color: var(--red); }
+    .score-band dt { font-weight: 750; }
+    .score-band dd { margin: 0.35rem 0 0; color: var(--ink); }
+    .score-band strong { display: block; font-size: clamp(1.35rem, 2.3vw, 1.8rem); font-variant-numeric: tabular-nums; }
+    .score-band small { display: block; margin-top: 0.35rem; color: var(--muted); }
+    .score-level { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.45rem; font-size: 0.78rem; font-weight: 750; }
+    .score-level::before { content: ""; width: 0.55rem; height: 0.55rem; border-radius: 50%; background: currentColor; }
+    .score-level.low { color: var(--green); }
+    .score-level.middle { color: var(--amber); }
+    .score-level.high { color: var(--red); }
+
+    .metric-strip { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); background: var(--line); gap: 1px; }
+    .metric { min-width: 0; padding: clamp(1.4rem, 3vw, 2.2rem); background: var(--surface); }
+    .metric span { display: block; color: var(--muted); font-weight: 650; }
+    .metric strong { display: block; margin-top: 0.5rem; font-size: clamp(2.25rem, 4vw, 4rem); line-height: 1; font-variant-numeric: tabular-nums; }
+    .metric small { display: block; margin-top: 0.7rem; color: var(--muted); }
+    .danger { color: var(--red); }
+    .caution { color: var(--amber); }
+    .good { color: var(--green); }
+
+    .table-block { margin-top: 2.5rem; }
+    .table-block h3 { margin-bottom: 0.85rem; font-size: clamp(1.35rem, 2.3vw, 1.85rem); }
+    .table-wrap { min-width: 0; max-width: 100%; overflow-x: auto; border: 1px solid var(--line); background: var(--surface); }
+    table { width: 100%; min-width: 45rem; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+    th, td { padding: 1rem 1.15rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { color: var(--muted); background: var(--surface-soft); font-size: 0.88rem; font-weight: 750; }
+    td:not(:first-child), th:not(:first-child) { text-align: right; }
+    tbody tr:last-child td { border-bottom: 0; }
+    .table-note { max-width: 75ch; margin: 1rem 0 0; color: var(--muted); }
+
+    .finding-list { border-top: 1px solid var(--line); }
+    .finding { display: grid; grid-template-columns: 3rem minmax(12rem, 0.55fr) minmax(0, 1.45fr); gap: 1.5rem; padding: 1.5rem 0; border-bottom: 1px solid var(--line); }
+    .finding-index { color: var(--red); font-family: var(--mono); font-weight: 750; }
+    .finding h3 { margin: 0; font-size: 1.3rem; line-height: 1.3; }
+    .finding p { max-width: 68ch; margin: 0; color: var(--muted); }
+
+    .case-list { display: grid; gap: clamp(4rem, 8vw, 7rem); }
+    .case { min-width: 0; padding-top: 1.5rem; border-top: 2px solid var(--ink); }
+    .case-head { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(17rem, 0.7fr); gap: 2rem; align-items: start; margin-bottom: 1.75rem; }
+    .case-id { display: block; margin-bottom: 0.55rem; color: var(--blue); font: 700 0.9rem/1.4 var(--mono); overflow-wrap: anywhere; }
+    .case h3 { margin-bottom: 0.6rem; font-size: clamp(1.65rem, 3vw, 2.45rem); line-height: 1.12; letter-spacing: -0.025em; }
+    .case-reason { max-width: 66ch; margin: 0; color: var(--muted); }
+    .case-status { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.5rem; }
+    .tag { display: inline-flex; align-items: center; min-height: 2rem; padding: 0.35rem 0.65rem; border: 1px solid currentColor; border-radius: 999px; font-size: 0.82rem; font-weight: 750; white-space: nowrap; }
+    .tag.positive { color: var(--red); background: #fff5f5; }
+    .tag.negative { color: var(--green); background: #f2fbf6; }
+    .tag.audit { color: var(--amber); background: #fff9ed; }
+    .tag.neutral { color: var(--muted); background: var(--surface); }
+    .case-grid { display: grid; grid-template-columns: minmax(18rem, 0.78fr) minmax(0, 1.22fr); gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+    .case-grid > *, .contract > *, .score-guide > * { min-width: 0; }
+    .media-shell { overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: #0b1116; }
+    .media-shell video { display: block; width: 100%; aspect-ratio: 20 / 11; object-fit: contain; background: #0b1116; }
+    .media-caption { padding: 0.75rem 0.9rem; color: #c8d1d8; background: #18222b; font-size: 0.83rem; }
+    .case-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-bottom: 1.5rem; border: 1px solid var(--line); background: var(--line); }
+    .case-summary div { padding: 1rem; background: var(--surface); }
+    .case-summary span { display: block; color: var(--muted); font-size: 0.8rem; }
+    .case-summary strong { display: block; margin-top: 0.25rem; font-size: 1.15rem; }
+    .annotation { margin: 1.5rem 0 0; padding: 1rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); color: var(--muted); }
+    .annotation strong { color: var(--ink); }
+    .component-table table { min-width: 42rem; }
+    .component-table td:first-child { width: 20%; }
+    .component-table .human-positive { color: var(--red); font-weight: 750; }
+    .component-table .human-negative { color: var(--green); font-weight: 750; }
+    .link-detail { display: block; margin-top: 0.3rem; color: var(--muted); font: 0.78rem/1.45 var(--mono); text-align: left; }
+
+    .provenance { display: grid; grid-template-columns: minmax(14rem, 0.55fr) minmax(0, 1.45fr); gap: clamp(2rem, 7vw, 5rem); }
+    .provenance h2 { margin: 0; font-size: clamp(2.1rem, 4vw, 3.2rem); letter-spacing: -0.03em; }
+    .provenance-list { border-top: 1px solid var(--line); }
+    .provenance-row { display: grid; grid-template-columns: 12rem minmax(0, 1fr); gap: 1.5rem; padding: 1rem 0; border-bottom: 1px solid var(--line); }
+    .provenance-row dt { font-weight: 700; }
+    .provenance-row dd { margin: 0; color: var(--muted); overflow-wrap: anywhere; }
+    .limitations { margin: 2rem 0 0; padding-left: 1.25rem; color: var(--muted); }
+    .limitations li + li { margin-top: 0.65rem; }
+    .source-links { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; margin-top: 2rem; }
+    footer { padding: 2rem 0 2.75rem; color: var(--muted); background: var(--surface); font-size: 0.9rem; }
+    .error-message { padding: 1rem; border: 1px solid var(--red); color: var(--red); background: #fff5f5; }
+
+    @media (max-width: 58rem) {
+      .hero-inner, .section-head, .contract, .score-guide, .case-head, .case-grid, .provenance { grid-template-columns: 1fr; }
+      .hero { min-height: 42rem; }
+      .snapshot { max-width: 34rem; }
+      .metric-strip { grid-template-columns: repeat(2, 1fr); }
+      .finding { grid-template-columns: 2.5rem 1fr; }
+      .finding p { grid-column: 2; }
+      .case-status { justify-content: flex-start; }
+    }
+    @media (max-width: 42rem) {
+      nav { display: none; }
+      .brand { overflow: hidden; text-overflow: ellipsis; }
+      .hero h1 { font-size: clamp(2.75rem, 14vw, 4.2rem); }
+      .metric-strip, .score-bands, .case-summary { grid-template-columns: 1fr; }
+      .finding { grid-template-columns: 1fr; gap: 0.5rem; }
+      .finding p { grid-column: auto; }
+      .provenance-row { grid-template-columns: 1fr; gap: 0.25rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"></div>
+  <header class="topbar">
+    <div class="container">
+      <a class="brand" href="#top" aria-label="PDI experiment atlas home">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></span>
+        <span>PDI Pipeline Atlas</span>
+      </a>
+      <nav aria-label="Report sections">
+        <a href="#contract">Contract</a><a href="#health">Outputs</a><a href="#ablations">Ablations</a><a href="#diagnosis">Diagnosis</a><a href="#cases">Cases</a><a href="#provenance">Provenance</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <img class="hero-media" src="../outputs/COSMOS3_0003/replay.png" alt="Diagnostic reconstruction replay for COSMOS3 0003">
+      <div class="hero-shade" aria-hidden="true"></div>
+      <div class="hero-inner">
+        <div>
+          <h1>Rigidity is informative mainly for gripper deformation.</h1>
+          <p class="hero-lede">A reproducible rigidity-only audit using the human <strong>Robot deformation (0/1)</strong> target and the supplied anatomical link mapping.</p>
+          <p class="hero-caption">Background: diagnostic reconstruction replay, not an exact model input.</p>
+        </div>
+        <aside class="snapshot" aria-label="Experiment snapshot">
+          <div class="snapshot-row"><span>Updated</span><strong>September 6, 2026</strong></div>
+          <div class="snapshot-row"><span>Metrics file</span><strong class="mono">outputs/metrics.csv</strong></div>
+          <div class="snapshot-row"><span>Completed videos</span><strong id="hero-complete">187 / 197</strong></div>
+          <div class="snapshot-row"><span>Primary evaluated cohort</span><strong id="hero-cohort">45 videos</strong></div>
+          <div class="snapshot-row"><span>Primary rigidity AUROC</span><strong id="hero-correlation">0.769</strong></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="band white" id="contract"><div class="container">
+      <div class="section-head"><h2>Evaluation contract</h2><p>The validation target and aggregation rule are fixed before any case is selected. This prevents report copy from silently changing what the benchmark measures.</p></div>
+      <div class="contract">
+        <div class="contract-copy">
+          <h3>Human target: Robot deformation (0/1)</h3>
+          <p>The primary comparison uses only <code>rigidity_component</code> against the <code>Robot deformation (0/1)</code> workbook field. Scale, trajectory, combined PDI, and grades are excluded from deformation validation.</p>
+          <p>Whole-robot rigidity gives equal weight to upper arm, forearm, and gripper. Failed links and historical rigidity <code>1.0</code> sentinels are missing data; a video is omitted when an entire component has no valid mapped link.</p>
+        </div>
+        <dl class="mapping">
+          <div><dt>Upper arm</dt><dd>link2 + link3</dd></div>
+          <div><dt>Forearm</dt><dd>link4 + link5</dd></div>
+          <div><dt>Gripper</dt><dd>link7</dd></div>
+          <div><dt>Not mapped</dt><dd>link6</dd></div>
+        </dl>
+      </div>
+      <div class="score-guide" aria-labelledby="score-guide-title">
+        <div>
+          <h3 id="score-guide-title">How to read the rigidity score</h3>
+          <p><strong id="score-formula">Rigidity deviation (%) = raw rigidity_component × 100.</strong> <span id="score-direction">Higher values mean more deformation-like pair-distance dispersion, not a probability or confidence.</span></p>
+          <p id="score-scope">Relative bands use tertiles of the 45 primary valid whole-robot scores. They describe this benchmark cohort and are not universal deformation thresholds.</p>
+        </div>
+        <dl class="score-bands" id="score-bands" aria-label="Relative rigidity score bands">
+          <div class="score-band low"><dt>Relatively low</dt><dd><strong>&lt; 2.50%</strong><small>Bottom third of the primary cohort</small></dd></div>
+          <div class="score-band middle"><dt>Middle range</dt><dd><strong>2.50–&lt; 4.60%</strong><small>Middle third of the primary cohort</small></dd></div>
+          <div class="score-band high"><dt>Relatively high</dt><dd><strong>≥ 4.60%</strong><small>Top third of the primary cohort</small></dd></div>
+        </dl>
+      </div>
+    </div></section>
+
+    <section class="band" id="health"><div class="container">
+      <div class="section-head"><h2>Output health</h2><p>The first failure is coverage: some videos never produce metrics, and many completed videos still lose individual links. The second failure is validity: insufficient tracking evidence can appear as a maximum rigidity score.</p></div>
+      <div class="metric-strip" aria-label="Output health summary">
+        <div class="metric"><span>Whole-video failures</span><strong class="danger" id="metric-video-failures">10</strong><small>all stop during SAM3</small></div>
+        <div class="metric"><span>Unavailable link scores</span><strong class="danger" id="metric-link-failures">59</strong><small>of 1,122 possible in completed videos</small></div>
+        <div class="metric"><span>Link-4 failures</span><strong class="caution" id="metric-link4-failures">51</strong><small>86% of unavailable links</small></div>
+        <div class="metric"><span>Rigidity 1.0 sentinels</span><strong class="caution" id="metric-sentinels">39</strong><small>34 occur on link 7</small></div>
+      </div>
+      <div class="table-block"><h3>Coverage by dataset</h3><div class="table-wrap"><table><thead><tr><th>Dataset</th><th>Total</th><th>Complete</th><th>Failed</th></tr></thead><tbody id="dataset-table"></tbody></table></div></div>
+      <div class="table-block"><h3>Failure concentration by link</h3><div class="table-wrap"><table><thead><tr><th>Link</th><th>Unavailable</th><th>Interpolation fallback</th><th>Rigidity 1.0</th></tr></thead><tbody id="link-table"></tbody></table></div><p class="table-note">Interpolation is retained here as pipeline-health context, but scale is not used in the deformation analysis. The primary rigidity rule excludes failed links and the historical <code>1.0</code> sentinel.</p></div>
+    </div></section>
+
+    <section class="band white" id="ablations"><div class="container">
+      <div class="section-head"><h2>Rigidity validation</h2><p>The historical baseline is shown for auditability, but the primary result excludes rigidity <code>1.0</code> sentinels because they encode insufficient evidence.</p></div>
+      <div class="table-wrap"><table><thead><tr><th>Condition</th><th>Role</th><th>n</th><th>Pearson r</th><th>Spearman rho</th><th>AUROC</th></tr></thead><tbody id="ablation-table"></tbody></table></div>
+      <p class="table-note">Primary result: <strong>AUROC 0.769</strong>, Pearson <strong>r = 0.293</strong>, and Spearman <strong>rho = 0.372</strong> on 45 videos. The historical AUROC of 0.819 is not primary because it includes invalid rigidity sentinels.</p>
+      <div class="table-block"><h3>Primary component results</h3><div class="table-wrap"><table><thead><tr><th>Component</th><th>n</th><th>Pearson r</th><th>Spearman rho</th><th>AUROC</th></tr></thead><tbody id="component-table"></tbody></table></div><p class="table-note">Gripper AUROC is 0.756. Upper-arm and forearm AUROC remain near chance, so the whole-robot signal must not be presented as broad link-level deformation detection.</p></div>
+    </div></section>
+
+    <section class="band" id="diagnosis"><div class="container">
+      <div class="section-head"><h2>Failure diagnosis</h2><p>The observed score failures come from separate mechanisms. Each needs its own validity rule rather than another global threshold.</p></div>
+      <div class="finding-list">
+        <article class="finding"><span class="finding-index">01</span><h3>Insufficient CoTracker evidence becomes 1.0</h3><p>The historical rigidity function returns a maximum error when fewer than five anchors or three valid 3D pairs remain. The caller records that fallback as a successful score. Link 7 contains 34 of the 39 sentinels.</p></article>
+        <article class="finding"><span class="finding-index">02</span><h3>Link 4 loses target depth</h3><p>Link 4 accounts for 51 of 59 unavailable measurements in otherwise completed videos. This makes forearm coverage asymmetric because link 5 often becomes the only surviving forearm measurement.</p></article>
+        <article class="finding"><span class="finding-index">03</span><h3>Interpolation creates scale outliers</h3><p>Forty scored links use interpolation fallback, and all 40 are among the 51 combined PDI scores at or above 0.6. A missing mask produces zero pixel height, and the scale audit log-clamps that value instead of treating the frame as unavailable.</p></article>
+        <article class="finding"><span class="finding-index">04</span><h3>The CSV cannot prove CoTracker quality</h3><p>The historical export contains SAM mask coverage but not requested and retained CoTracker counts. A SAM tracked fraction of 1.0 does not establish that enough point tracks survived for rigidity.</p></article>
+      </div>
+    </div></section>
+
+    <section class="band white" id="cases"><div class="container">
+      <div class="section-head"><h2>Representative rigidity cases</h2><p>Eleven cases span negative controls, high-score positives, low-score misses, component mismatches, repeated sentinel failures, and label-provenance conflicts. Each case is selected from frozen outcomes and rendered from structured data; case tables contain rigidity only.</p></div>
+      <div id="case-list" class="case-list" aria-live="polite"><p class="muted">Loading frozen case records...</p></div>
+    </div></section>
+
+    <section class="band dark" id="repair"><div class="container">
+      <div class="section-head"><h2>Implemented repair</h2><p>Future runs now preserve insufficient evidence as missing data and export the quality fields needed for exact tracking ablations.</p></div>
+      <div class="finding-list">
+        <article class="finding"><span class="finding-index">A</span><h3>Reject insufficient tracks</h3><p>A link is unavailable when fewer than five CoTracker tracks survive.</p></article>
+        <article class="finding"><span class="finding-index">B</span><h3>Raise on invalid rigidity evidence</h3><p>The active multi-object path no longer converts insufficient anchors or pairs into a rigidity score of 1.0.</p></article>
+        <article class="finding"><span class="finding-index">C</span><h3>Export tracking provenance</h3><p>Requested and retained track counts, retained fraction, mean visibility, and SAM mask coverage are added to future CSV exports.</p></article>
+      </div>
+    </div></section>
+
+    <section class="band" id="provenance"><div class="container provenance">
+      <h2>Provenance and limits</h2>
+      <div>
+        <dl class="provenance-list" id="provenance-list"></dl>
+        <ul class="limitations" id="limitations"></ul>
+        <div class="source-links">
+          <a href="data/pdi_output_analysis.json">Analysis JSON</a>
+          <a href="pdi_pipeline_diagnosis.md">Diagnosis notes</a>
+          <a href="../outputs/metrics.csv">Source metrics CSV</a>
+          <a href="../scripts/analyze_pdi_outputs.py">Analysis script</a>
+          <a href="../PDI-Bench-edited/src/pdi_eval/evaluator/volume_audit.py">Rigidity implementation</a>
+        </div>
+      </div>
+    </div></section>
+  </main>
+
+  <footer><div class="container">PDI robot-deformation pipeline atlas · September 6, 2026</div></footer>
+
+  <script>
+    const format = (value, digits = 3) => value == null ? "Unavailable" : Number(value).toFixed(digits);
+    const escapeHtml = value => String(value ?? "").replace(/[&<>'"]/g, character => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"})[character]);
+    const title = value => value.replaceAll("_", " ").replace(/\b\w/g, character => character.toUpperCase());
+    const humanText = value => value === 1 ? "Human: deform" : "Human: no deform";
+    const cohortText = {
+      negative_control: "Negative control",
+      deformation_miss: "Deformation miss",
+      tracking_sentinel: "Tracking sentinel",
+      label_provenance: "Label provenance",
+      true_positive: "High-score positive",
+      component_mismatch: "Component mismatch"
+    };
+
+    let scoreDisplay = {
+      factor: 100,
+      unit: "%",
+      low_upper_exclusive: 2.5,
+      high_lower_inclusive: 4.6,
+      bands: [{ id: "low", label: "Relatively low", minimum: null, maximum_exclusive: 2.5 }, { id: "middle", label: "Middle range", minimum: 2.5, maximum_exclusive: 4.6 }, { id: "high", label: "Relatively high", minimum: 4.6, maximum_exclusive: null }]
+    };
+    const formatRigidity = value => value == null ? "Unavailable" : `${(Number(value) * scoreDisplay.factor).toFixed(2)}${scoreDisplay.unit}`;
+
+    function scoreBandFor(value) {
+      if (value == null) return null;
+      const displayValue = Number(value) * scoreDisplay.factor;
+      const bandId = displayValue < scoreDisplay.low_upper_exclusive ? "low" : (displayValue < scoreDisplay.high_lower_inclusive ? "middle" : "high");
+      return scoreDisplay.bands.find(band => band.id === bandId);
+    }
+
+    function scoreLevelMarkup(value) {
+      const band = scoreBandFor(value);
+      return band ? `<span class="score-level ${escapeHtml(band.id)}">${escapeHtml(band.label)}</span>` : "";
+    }
+
+    function scoreBandRange(band) {
+      const minimum = band.minimum == null ? null : Number(band.minimum).toFixed(2);
+      const maximum = band.maximum_exclusive == null ? null : Number(band.maximum_exclusive).toFixed(2);
+      if (minimum == null) return `&lt; ${maximum}${scoreDisplay.unit}`;
+      if (maximum == null) return `≥ ${minimum}${scoreDisplay.unit}`;
+      return `${minimum}–&lt; ${maximum}${scoreDisplay.unit}`;
+    }
+
+    function renderScoreGuide() {
+      document.querySelector("#score-formula").textContent = `${scoreDisplay.name} (${scoreDisplay.unit}) = raw rigidity_component × ${scoreDisplay.factor}.`;
+      document.querySelector("#score-direction").textContent = `${scoreDisplay.direction} This is not a probability or confidence score.`;
+      document.querySelector("#score-scope").textContent = `${scoreDisplay.band_method} Scope: ${scoreDisplay.band_scope} (n = ${scoreDisplay.band_sample_size}). These are descriptive cohort bands, not universal thresholds.`;
+      const detail = { low: "Bottom third of the primary cohort", middle: "Middle third of the primary cohort", high: "Top third of the primary cohort" };
+      document.querySelector("#score-bands").innerHTML = scoreDisplay.bands.map(band => `<div class="score-band ${escapeHtml(band.id)}"><dt>${escapeHtml(band.label)}</dt><dd><strong>${scoreBandRange(band)}</strong><small>${escapeHtml(detail[band.id])}</small></dd></div>`).join("");
+    }
+
+    function renderCase(caseData) {
+      const overallClass = caseData.human_robot_deformation === 1 ? "positive" : "negative";
+      const components = caseData.components.map(component => {
+        const raw = component.human.was_blank ? "blank -> no deform" : String(component.human.raw);
+        const links = component.links.map(link => {
+          const flags = [];
+          if (link.status !== "complete") flags.push("unavailable");
+          if (link.rigidity === 1) flags.push("invalid 1.0 sentinel");
+          if (!link.valid_rigidity && link.status === "complete" && link.rigidity !== 1) flags.push("filtered");
+          const score = link.rigidity == null ? "rigidity unavailable" : `rigidity deviation ${formatRigidity(link.rigidity)}`;
+          return `${escapeHtml(link.id)}: ${score}${flags.length ? `; ${flags.join(", ")}` : ""}`;
+        }).join("<br>");
+        const humanClass = component.human.normalized === 1 ? "human-positive" : "human-negative";
+        return `<tr>
+          <td><strong>${escapeHtml(title(component.id))}</strong><span class="link-detail">${escapeHtml(component.links.map(link => link.id).join(" + "))}</span></td>
+          <td class="${humanClass}">${escapeHtml(humanText(component.human.normalized))}<span class="link-detail">Raw cell: ${escapeHtml(raw)}</span></td>
+          <td>${formatRigidity(component.historical_rigidity)}</td>
+          <td>${formatRigidity(component.valid_rigidity)}</td>
+          <td>${formatRigidity(component.strict_quality_rigidity)}</td>
+          <td><span class="link-detail">${links}</span></td>
+        </tr>`;
+      }).join("");
+      const annotation = caseData.error_description || caseData.note || "No prose annotation recorded.";
+      return `<article class="case">
+        <header class="case-head">
+          <div><span class="case-id">${escapeHtml(caseData.sample_id)}</span><h3>${escapeHtml(caseData.title)}</h3><p class="case-reason">${escapeHtml(caseData.selection_reason)}</p></div>
+          <div class="case-status"><span class="tag ${overallClass}">${escapeHtml(humanText(caseData.human_robot_deformation))}</span><span class="tag audit">${escapeHtml(cohortText[caseData.cohort])}</span></div>
+        </header>
+        <div class="case-grid">
+          <figure class="media-shell"><video controls preload="metadata" playsinline poster="${escapeHtml(caseData.poster)}" src="${escapeHtml(caseData.video)}" aria-label="${escapeHtml(caseData.sample_id)} diagnostic reconstruction replay"></video><figcaption class="media-caption">Diagnostic reconstruction replay. Not an exact model input.</figcaption></figure>
+          <div>
+            <div class="case-summary"><div><span>Historical deviation</span><strong>${formatRigidity(caseData.historical_robot_rigidity)}</strong></div><div><span>Primary valid deviation</span><strong>${formatRigidity(caseData.valid_robot_rigidity)}</strong>${scoreLevelMarkup(caseData.valid_robot_rigidity)}</div><div><span>Strict sensitivity</span><strong>${formatRigidity(caseData.strict_quality_robot_rigidity)}</strong></div></div>
+            <div class="table-wrap component-table"><table><thead><tr><th>Component</th><th>Human label</th><th>Historical deviation</th><th>Primary deviation</th><th>Strict deviation</th><th>Mapped-link deviation</th></tr></thead><tbody>${components}</tbody></table></div>
+            <blockquote class="annotation"><strong>Human annotation, workbook row ${caseData.workbook_row}:</strong> ${escapeHtml(annotation)}</blockquote>
+          </div>
+        </div>
+      </article>`;
+    }
+
+    async function loadReport() {
+      const response = await fetch("data/pdi_output_analysis.json", { cache: "no-store" });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data = await response.json();
+      scoreDisplay = data.score_display || scoreDisplay;
+      renderScoreGuide();
+      const videos = data.inventory.videos;
+      const segments = data.inventory.segments;
+      const primary = data.ablations.results.exclude_rigidity_sentinel.robot;
+      document.querySelector("#hero-complete").textContent = `${videos.complete} / ${videos.total}`;
+      document.querySelector("#hero-cohort").textContent = `${primary.n} videos`;
+      document.querySelector("#hero-correlation").textContent = format(primary.auroc);
+      document.querySelector("#metric-video-failures").textContent = videos.failed;
+      document.querySelector("#metric-link-failures").textContent = segments.unavailable;
+      document.querySelector("#metric-link4-failures").textContent = segments.failed_by_link.link4;
+      document.querySelector("#metric-sentinels").textContent = segments.rigidity_one_sentinel_total;
+
+      document.querySelector("#dataset-table").innerHTML = Object.entries(videos.by_dataset).map(([dataset, row]) => `<tr><td>${escapeHtml(dataset)}</td><td>${row.total}</td><td>${row.complete}</td><td>${row.failed}</td></tr>`).join("");
+      document.querySelector("#link-table").innerHTML = ["link2", "link3", "link4", "link5", "link6", "link7"].map(link => `<tr><td>${link}</td><td>${segments.failed_by_link[link]}</td><td>${segments.interpolation_fallback_by_link[link]}</td><td>${segments.rigidity_one_sentinel_by_link[link]}</td></tr>`).join("");
+
+      const ablationOrder = ["baseline", "exclude_rigidity_sentinel", "direct_depth_full_sam", "strict_quality"];
+      document.querySelector("#ablation-table").innerHTML = ablationOrder.map(key => {
+        const result = data.ablations.results[key];
+        const role = key === data.ablations.primary_ablation ? "Primary" : (key === "baseline" ? "Audit" : "Sensitivity");
+        return `<tr><td>${escapeHtml(result.description)}</td><td>${role}</td><td>${result.robot.n}</td><td>${format(result.robot.pearson_r)}</td><td>${format(result.robot.spearman_rho)}</td><td>${format(result.robot.auroc)}</td></tr>`;
+      }).join("");
+      const primaryComponents = data.ablations.results.exclude_rigidity_sentinel.components;
+      document.querySelector("#component-table").innerHTML = ["upper_arm", "forearm", "gripper"].map(component => `<tr><td>${escapeHtml(title(component))}</td><td>${primaryComponents[component].n}</td><td>${format(primaryComponents[component].pearson_r)}</td><td>${format(primaryComponents[component].spearman_rho)}</td><td>${format(primaryComponents[component].auroc)}</td></tr>`).join("");
+
+      document.querySelector("#case-list").innerHTML = data.cases.map(renderCase).join("");
+      const provenanceRows = [
+        ["Generated", data.generated_on],
+        ["Metrics SHA-256", data.provenance.metrics_sha256],
+        ["Labels SHA-256", data.provenance.labels_sha256],
+        ["Git commit", data.provenance.git_commit],
+        ["Human target", data.provenance.human_label_target],
+        ["Analysis metric", data.provenance.analysis_metric],
+        ["Primary rule", data.provenance.primary_ablation],
+        ["Display scale", data.score_display.formula],
+        ["Relative bands", `${data.score_display.band_method} n = ${data.score_display.band_sample_size}`],
+        ["Blank policy", data.provenance.blank_component_policy]
+      ];
+      document.querySelector("#provenance-list").innerHTML = provenanceRows.map(([label, value]) => `<div class="provenance-row"><dt>${escapeHtml(label)}</dt><dd class="${label.includes("SHA") || label === "Git commit" ? "mono" : ""}">${escapeHtml(value)}</dd></div>`).join("");
+      document.querySelector("#limitations").innerHTML = data.limitations.map(item => `<li>${escapeHtml(item)}</li>`).join("");
+
+      const videosOnPage = [...document.querySelectorAll("video")];
+      videosOnPage.forEach(video => video.addEventListener("play", () => videosOnPage.forEach(other => {
+        if (other !== video && !other.paused) other.pause();
+      })));
+    }
+
+    loadReport().catch(error => {
+      document.querySelector("#case-list").innerHTML = `<p class="error-message">The frozen analysis JSON could not be loaded: ${escapeHtml(error.message)}. Serve the repository over HTTP so relative report assets can load.</p>`;
+    });
+
+    const progress = document.querySelector(".progress");
+    function updateProgress() {
+      const maximum = document.documentElement.scrollHeight - innerHeight;
+      progress.style.transform = `scaleX(${maximum ? Math.min(1, Math.max(0, scrollY / maximum)) : 0})`;
+    }
+    updateProgress();
+    addEventListener("scroll", updateProgress, { passive: true });
+    addEventListener("resize", updateProgress);
+  </script>
+</body>
+</html>

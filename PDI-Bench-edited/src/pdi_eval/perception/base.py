@@ -68,7 +68,7 @@ class SharedGeometryResult:
 
 @dataclass
 class MultiObjectTrackResult:
-    """CoTracker output partitioned by stable object identity."""
+    """Tracker output partitioned by stable object identity."""
 
     video_id: str
     mode: str
@@ -81,6 +81,9 @@ class MultiObjectTrackResult:
     background_queries: np.ndarray
     frames_count: int
     metadata: Dict[str, Any] = field(default_factory=dict)
+    object_point_ids: tuple[np.ndarray, ...] = ()
+    link7_raw_tracks: Optional[np.ndarray] = None
+    link7_raw_visibility: Optional[np.ndarray] = None
 
 class BasePerceptor(ABC):
     """Abstract base class for perception backends."""

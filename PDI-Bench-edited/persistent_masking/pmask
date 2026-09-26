@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Run the user interface with the project's SAM/Python environment.
+set -euo pipefail
+project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+python_binary="$project_root/env-sam/bin/python"
+if [[ ! -x "$python_binary" ]]; then
+  # Keep check/status usable before the GPU environment has been installed.
+  python_binary="$(command -v python3 || true)"
+  if [[ -z "$python_binary" ]]; then
+    echo "Python 3 is required. See setup/README.md." >&2
+    exit 2
+  fi
+fi
+cd "$project_root"
+exec "$python_binary" -m persistent_masking.interface "$@"

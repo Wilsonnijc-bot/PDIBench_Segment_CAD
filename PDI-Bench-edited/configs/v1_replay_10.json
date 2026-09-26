@@ -1,0 +1,52 @@
+[
+  {
+    "sample_id": "LVP_ROBOWM_0049",
+    "category": "high-score positive",
+    "reason": "Highest whole-robot rigidity among LVP labeled positives; severe forearm and gripper deformation labels."
+  },
+  {
+    "sample_id": "LVP_ROBOWM_0042",
+    "category": "low-score positive with missing evidence",
+    "reason": "Lowest whole-robot rigidity among LVP labeled positives; gripper rigidity is unavailable despite a positive gripper label."
+  },
+  {
+    "sample_id": "LVP_ROBOWM_0002",
+    "category": "high-score negative disagreement",
+    "reason": "Highest whole-robot rigidity among LVP labeled negatives, useful for inspecting a label-score disagreement."
+  },
+  {
+    "sample_id": "LVP_ROBOWM_0016",
+    "category": "low-score negative",
+    "reason": "Lowest whole-robot rigidity among LVP labeled negatives with all three robot parts available."
+  },
+  {
+    "sample_id": "COSMOS2.5_0003",
+    "category": "high-score positive",
+    "reason": "Highest whole-robot rigidity among COSMOS2.5 labeled positives; all three component labels are positive."
+  },
+  {
+    "sample_id": "COSMOS2.5_0023",
+    "category": "low-score positive disagreement",
+    "reason": "Lowest whole-robot rigidity among COSMOS2.5 labeled positives despite severe deformation and all component labels being positive."
+  },
+  {
+    "sample_id": "COSMOS2.5_0024",
+    "category": "high-score negative",
+    "reason": "Highest whole-robot rigidity among the three COSMOS2.5 labeled negatives."
+  },
+  {
+    "sample_id": "COSMOS3_0056",
+    "category": "high-score positive",
+    "reason": "Highest whole-robot rigidity among COSMOS3 labeled positives, driven by strong gripper rigidity."
+  },
+  {
+    "sample_id": "COSMOS3_0057",
+    "category": "low-score positive with missing evidence",
+    "reason": "Lowest whole-robot rigidity among COSMOS3 labeled positives; gripper rigidity is unavailable despite a positive gripper label."
+  },
+  {
+    "sample_id": "COSMOS3_0002",
+    "category": "negative reference",
+    "reason": "The only COSMOS3 labeled negative, with all three robot parts available."
+  }
+]

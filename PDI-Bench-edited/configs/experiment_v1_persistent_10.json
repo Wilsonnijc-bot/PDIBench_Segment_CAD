@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "output_root": "${PDI_RUN_ROOT}",
+  "selection": "${PDI_RUN_ROOT}/selection.json",
+  "workbook": "${PDI_RUN_ROOT}/input/deformationhumanlabel.xlsx",
+  "video_root": "/root/autodl-tmp/motionsmoothness-robot/videos",
+  "sam_python": "${PDI_GPU_ROOT}/env/qwen/bin/python",
+  "qwen_python": "${PDI_GPU_ROOT}/env/qwen/bin/python",
+  "qwen_model": "/root/autodl-tmp/models/Qwen3.5-9B",
+  "pdi_python": "${PDI_GPU_ROOT}/env/pdi-bench/bin/python",
+  "tracker_checkpoint": "${PDI_GPU_ROOT}/models/tracker/scaled_offline.pth",
+  "concurrency": 2,
+  "gpu_slots": 1
+}
