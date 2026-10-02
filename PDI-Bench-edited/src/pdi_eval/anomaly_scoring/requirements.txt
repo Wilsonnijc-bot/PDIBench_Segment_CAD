@@ -1,0 +1,15 @@
+# Official AnomalyDINO runtime packages, with the supported CPU FAISS alternative.
+# Use latest patch release in upstream's required NumPy 1.26 series.
+torch
+torchvision
+opencv-python<4.12
+matplotlib
+Pillow
+numpy==1.26.4
+scipy
+scikit-learn
+faiss-cpu
+tqdm
+tifffile
+PyYAML
+pandas

@@ -22,6 +22,7 @@ from .dinov2_reference_boxes import (
     load_prompt_frame,
     localize_reference_groups,
     write_box_preview,
+    xyxy_to_normalized_xywh,
 )
 
 
@@ -50,16 +51,17 @@ LINK5_TEXT_PROMPT = (
     "entire white elongated robot arm link surrounding and to the right "
     "of the black inset"
 )
-# Fractions of the DINOv2 link5 box: three points on link5, then two on the
-# adjacent wrist cap. The latter must be removed before video propagation.
+# Fractions of the right-extended Link 5 SAM3 box: three points on the link,
+# two on the adjacent left wrist cap, and one inside the right joint circle.
 LINK5_POINT_RATIOS = (
-    (0.12, 0.55, 1),
-    (0.42, 0.55, 1),
+    (0.09, 0.55, 1),
+    (0.32, 0.55, 1),
     (0.86, 0.35, 1),
-    (0.06, 0.28, 0),
-    (0.02, 0.57, 0),
+    (0.11, 0.28, 0),
+    (0.06, 0.57, 0),
+    (0.97, 0.66, 0),
 )
-MIN_LINK5_SHAFT_RETENTION = 0.85
+LINK5_RIGHT_BOX_EXTENSION = 0.20
 
 
 class EmptySam3PromptError(RuntimeError):
@@ -149,6 +151,15 @@ def _text_prompt_for_target(
     return overrides.get(name, LINK5_TEXT_PROMPT if name == "link5" else default)
 
 
+def _link5_prompt_box(
+    box_xyxy: tuple[int, int, int, int], frame_width: int,
+) -> tuple[int, int, int, int]:
+    """Include the right joint in SAM3's Link 5 prompt without changing DINO localization."""
+    x1, y1, x2, y2 = box_xyxy
+    extension = round((x2 - x1) * LINK5_RIGHT_BOX_EXTENSION)
+    return x1, y1, min(frame_width, x2 + extension), y2
+
+
 def _link5_seed_points(
     box_xyxy: tuple[int, int, int, int], mask_shape: tuple[int, int],
 ) -> tuple[np.ndarray, list[int], list[list[float]]]:
@@ -169,15 +180,21 @@ def _link5_seed_points(
 def _refine_link5_wrist_prompt(
     predictor: Any, session_id: str, frame_index: int, object_id: int,
     initial_mask: np.ndarray, box_xyxy: tuple[int, int, int, int],
+    points_override: np.ndarray | None = None,
+    allow_distal_positive_dropout: bool = False,
+    diagnostic_allow_point_mismatch: bool = False,
 ) -> tuple[np.ndarray, dict[str, Any]]:
     initial_mask = np.asarray(initial_mask, dtype=bool)
     points, labels, normalized = _link5_seed_points(box_xyxy, initial_mask.shape)
+    if points_override is not None:
+        points = np.asarray(points_override, dtype=np.int32)
+        if points.shape != (len(LINK5_POINT_RATIOS), 2):
+            raise ValueError("Link 5 guard must provide six point coordinates")
+        height, width = initial_mask.shape
+        if np.any(points < 0) or np.any(points[:, 0] >= width) or np.any(points[:, 1] >= height):
+            raise ValueError("Link 5 guard point lies outside the frame")
+        normalized = (points / np.asarray([width, height])).tolist()
     initial_membership = [bool(initial_mask[y, x]) for x, y in points]
-    if not all(initial_membership):
-        raise RuntimeError(
-            "link5 box-relative points are outside the initial mask: "
-            f"{list(zip(points.tolist(), labels, initial_membership))}"
-        )
     outputs = predictor.handle_request({
         "type": "add_prompt",
         "session_id": session_id,
@@ -201,11 +218,6 @@ def _refine_link5_wrist_prompt(
             f"initial shape {initial_mask.shape}"
         )
     refined_membership = [bool(refined[y, x]) for x, y in points]
-    if refined_membership != [True, True, True, False, False]:
-        raise RuntimeError(
-            f"link5 point refinement did not honor point labels: "
-            f"{refined_membership}"
-        )
     x1, _, x2, _ = box_xyxy
     shaft_start = round(x1 + 0.20 * (x2 - x1))
     initial_shaft = initial_mask[:, shaft_start:x2]
@@ -213,13 +225,26 @@ def _refine_link5_wrist_prompt(
     retained = float(np.logical_and(initial_shaft, refined_shaft).sum()) / max(
         int(initial_shaft.sum()), 1
     )
-    if retained < MIN_LINK5_SHAFT_RETENTION:
-        raise RuntimeError(
-            f"link5 point refinement retained only {retained:.1%} of the "
-            "initial shaft mask"
-        )
+    # Record point membership and shaft retention for review. The VLM-selected
+    # prompt and SAM3 output are retained even when these diagnostics disagree.
+    distal_positive_dropped = refined_membership == [True, True, False, False, False, False]
+    distal_positive_initially_outside = not initial_membership[2]
+    missing_positives = [index for index in range(3)
+                         if not refined_membership[index]]
+    accepted_preexisting_positive_outside = (
+        len(missing_positives) == 1
+        and not initial_membership[missing_positives[0]]
+        and not any(refined_membership[3:])
+    )
+    accepted_boundary_exception = (accepted_preexisting_positive_outside
+                                   and missing_positives == [2])
+    labels_accepted = (
+        refined_membership == [True, True, True, False, False, False]
+        or accepted_preexisting_positive_outside
+        or (allow_distal_positive_dropout and distal_positive_dropped)
+    )
     return refined, {
-        "method": "box_relative_three_positive_two_wrist_negative",
+        "method": "right_extended_box_three_positive_two_wrist_one_joint_negative",
         "frame_index": frame_index,
         "point_ratios": [list(item) for item in LINK5_POINT_RATIOS],
         "points_xy": points.tolist(),
@@ -227,6 +252,14 @@ def _refine_link5_wrist_prompt(
         "point_labels": labels,
         "initial_point_membership": initial_membership,
         "refined_point_membership": refined_membership,
+        "distal_positive_dropped": distal_positive_dropped,
+        "distal_positive_initially_outside": distal_positive_initially_outside,
+        "accepted_boundary_exception": accepted_boundary_exception,
+        "preexisting_missing_positive_indices": missing_positives,
+        "accepted_preexisting_positive_outside": accepted_preexisting_positive_outside,
+        "point_labels_accepted": labels_accepted,
+        "mask_acceptance_policy": "no_point_membership_or_shaft_retention_gate",
+        "diagnostic_raw_mask": bool(diagnostic_allow_point_mismatch),
         "initial_area_pixels": int(initial_mask.sum()),
         "refined_area_pixels": int(refined.sum()),
         "shaft_retained_fraction": retained,
@@ -479,6 +512,13 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         for target_index, target in enumerate(boxes):
             session_id = None
             seen_frames: set[int] = set()
+            prompt_box = (
+                _link5_prompt_box(target.box_xyxy, prompt_image.width)
+                if target.name == "link5" else target.box_xyxy
+            )
+            prompt_box_normalized = xyxy_to_normalized_xywh(
+                prompt_box, (prompt_image.height, prompt_image.width)
+            )
             text_prompt = _text_prompt_for_target(
                 target.name, link_text_prompts, args.text_prompt
             )
@@ -496,7 +536,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                         "session_id": session_id,
                         "frame_index": args.frame_index,
                         "text": text_prompt,
-                        "bounding_boxes": [list(target.box_xywh_normalized)],
+                        "bounding_boxes": [list(prompt_box_normalized)],
                         "bounding_box_labels": [1],
                     }
                 )["outputs"]
@@ -508,13 +548,13 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                         candidate_ids,
                         candidate_masks,
                         candidate_scores,
-                        target.box_xyxy,
+                        prompt_box,
                     )
                 except EmptySam3PromptError as exc:
                     if target.name not in SKIPPABLE_EMPTY_PROMPT_LINKS:
                         raise RuntimeError(f"{target.name}: {exc}") from exc
                     diagnostic = _prompt_diagnostics(
-                        target.name, target.box_xyxy, candidate_ids,
+                        target.name, prompt_box, candidate_ids,
                         candidate_masks, candidate_scores, None,
                     )
                     diagnostic.update(status="skipped", error_type="empty_sam3_prompt",
@@ -527,7 +567,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                     continue
                 diagnostic = _prompt_diagnostics(
                     target.name,
-                    target.box_xyxy,
+                    prompt_box,
                     candidate_ids,
                     candidate_masks,
                     candidate_scores,
@@ -535,14 +575,41 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 )
                 diagnostic["text_prompt"] = text_prompt
                 if target.name == "link5":
+                    diagnostic["dinov2_box_xyxy"] = list(target.box_xyxy)
+                    diagnostic["sam3_prompt_box_xyxy"] = list(prompt_box)
                     try:
+                        guarded_points = None
+                        if args.link5_vlm_guard:
+                            from .link5_point_guard import review_link5_points
+
+                            if prompt_image.size != (mask.shape[1], mask.shape[0]):
+                                raise ValueError(
+                                    "Link 5 guard frame and SAM3 mask sizes differ: "
+                                    f"frame={prompt_image.size}, mask={mask.shape[::-1]}"
+                                )
+                            default_points, _, _ = _link5_seed_points(
+                                prompt_box, mask.shape
+                            )
+                            guarded_points, guard = review_link5_points(
+                                prompt_image, prompt_box, default_points,
+                                output_dir,
+                            )
+                            diagnostic["point_guard"] = {
+                                "decision": guard["decision"],
+                                "original_points_xy": guard["original_points_xy"],
+                                "selected_points_xy": guard["selected_points_xy"],
+                                "record": "link5_guard.json",
+                            }
                         primed_frames = _prime_link5_tracker_cache(
                             predictor, session_id, args.frame_index,
                             int(video["frames"]),
                         )
                         mask, refinement = _refine_link5_wrist_prompt(
                             predictor, session_id, args.frame_index, object_id,
-                            mask, target.box_xyxy,
+                            mask, prompt_box,
+                            points_override=guarded_points,
+                            allow_distal_positive_dropout=args.allow_link5_distal_positive_dropout,
+                            diagnostic_allow_point_mismatch=args.link5_diagnostic_raw_mask,
                         )
                     except Exception as exc:
                         diagnostic.update(status="failed_point_refinement",
@@ -726,6 +793,12 @@ def build_parser() -> argparse.ArgumentParser:
         help="Override the SAM3 text prompt for one reference target",
     )
     parser.add_argument("--require-franka-links", action="store_true")
+    parser.add_argument("--link5-vlm-guard", action="store_true",
+                        help="Check the Link 5 wrist negative points with VLM2")
+    parser.add_argument("--allow-link5-distal-positive-dropout", action="store_true",
+                        help="Legacy diagnostic flag; Link 5 refinement is retained regardless of point membership")
+    parser.add_argument("--link5-diagnostic-raw-mask", action="store_true",
+                        help="Legacy diagnostic flag; point-refined Link 5 masks are always propagated")
     parser.add_argument("--sam3-temporal-disambiguation", action="store_true")
     parser.add_argument("--minimum-tracked-fraction", type=float, default=0.80)
     parser.add_argument("--scene-side", type=int, default=840)

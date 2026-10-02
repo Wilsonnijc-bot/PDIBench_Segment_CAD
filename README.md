@@ -242,3 +242,11 @@ isolated updates while invoking the video backbone only once.
 
 See [SHARED_MULTI_OBJECT_PDI_DESIGN.md](SHARED_MULTI_OBJECT_PDI_DESIGN.md) for
 the design analysis and [AGENT.md](AGENT.md) for implementation constraints.
+
+## AnomalyDINO object crop pairs
+
+The isolated [AnomalyDINO scorer](PDI-Bench-edited/src/pdi_eval/anomaly_scoring/README.md)
+provides a reusable one-shot reference/query API, reference-feature caching,
+JSON/JSONL batch inference, and a real-model smoke command. It uses the official
+implementation pinned through `PDI-Bench-edited/third_party/AnomalyDINO`; it does
+not invoke the segmentation, depth, tracking, or rigidity pipeline.

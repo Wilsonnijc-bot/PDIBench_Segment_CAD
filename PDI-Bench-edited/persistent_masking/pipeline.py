@@ -47,24 +47,29 @@ def validate_vlm2_call_images(seed, diagnoses, video, selected_png, example_hash
                       if d.get('state') == 'deformed' and not d.get('parse_error'))
     positives = [call for call in seed['calls']
                  if call.get('role', '').startswith('positive_points')]
-    negatives = [call for call in seed['calls'] if call.get('role') == 'negative_points']
-    rank = int(seed.get('fallback_rank', 0))
-    if (len(positives) != rank + 1 or len(negatives) != 1 or
-            len(deformed) <= rank or seed['earliest_deformed_frame'] != deformed[rank]):
+    negatives = [call for call in seed['calls']
+                 if call.get('role', '').startswith('negative_points')]
+    alternates = [call for call in seed['calls']
+                  if call.get('role', '').endswith('_luna_fallback')]
+    if (not 1 <= len(positives) <= 2 or not 1 <= len(negatives) <= 2
+            or len(alternates) > 1 or len(seed['calls']) > 3
+            or not deformed or seed['earliest_deformed_frame'] != deformed[0]):
         raise ValueError('VLM2 fallback call lineage mismatch')
-    for index, call in enumerate(positives):
-        frame = read_original_frame(video, deformed[index] + 1)
-        buffer = io.BytesIO()
-        Image.fromarray(frame).save(buffer, format='PNG')
-        expected = hashlib.sha256(buffer.getvalue()).hexdigest()
-        if call['image_sha256'][0] != expected:
-            raise ValueError('Wrong VLM2 positive-call source frame')
+    frame = read_original_frame(video, deformed[0] + 1)
+    buffer = io.BytesIO()
+    Image.fromarray(frame).save(buffer, format='PNG')
+    expected = hashlib.sha256(buffer.getvalue()).hexdigest()
+    if any(call['image_sha256'][0] != expected for call in positives
+           if 'image_sha256' in call):
+        raise ValueError('Wrong VLM2 positive-call source frame')
     if positives[-1]['image_sha256'][0] != selected_png:
         raise ValueError('Selected VLM2 frame differs from final positive call')
-    if negatives[0]['image_sha256'][0] != selected_png:
+    if any(call['image_sha256'][0] != selected_png for call in negatives
+           if 'image_sha256' in call):
         raise ValueError('Wrong VLM2 negative-call source frame')
     if any(len(call['image_sha256']) != 4 or
-           call['image_sha256'][1:] != example_hashes for call in seed['calls']):
+           call['image_sha256'][1:] != example_hashes for call in seed['calls']
+           if 'image_sha256' in call):
         raise ValueError('VLM2 reference images changed')
 
 
@@ -117,6 +122,7 @@ def prepare(a):
     examples=[str((example_dir/p.name).resolve()) for p in a.examples]
     record=dict(level=a.level,status='running',cases=a.cases,results={},
         config=dict(vlm1=public_config('vlm1'),vlm2=public_config('vlm2'),
+        vlm2_malformed_fallback=public_config('vlm2_malformed_fallback'),
         vlm1_system_prompt=VLM1_SYSTEM_PROMPT,vlm1_response_request=VLM1_RESPONSE_REQUEST,
         vlm2_system_prompt=VLM2_SYSTEM_PROMPT,vlm2_positive_prompt=VLM2_POSITIVE_PROMPT,
         vlm2_negative_prompt=VLM2_NEGATIVE_PROMPT,

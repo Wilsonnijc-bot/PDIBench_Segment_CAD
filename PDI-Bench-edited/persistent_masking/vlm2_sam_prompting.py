@@ -22,7 +22,7 @@ def answer(raw, key):
     if start < 0:
         raise ValueError('VLM2 returned no JSON')
     data, end = json.JSONDecoder().raw_decode(text[start:])
-    if set(data) != {key}:
+    if not isinstance(data, dict) or set(data) != {key}:
         raise ValueError('Unexpected point response keys')
     count = {'positive_points': 3, 'negative_points': 2}[key]
     value = data[key]
@@ -33,6 +33,59 @@ def answer(raw, key):
                 any(type(x) is not int or not math.isfinite(x) or not 0 <= x <= 1000 for x in point)):
             raise ValueError('Expected integer normalized coordinates in [0,1000]')
     return value
+
+
+def _explicit_null_positive(raw):
+    text = raw.get('answer', '') if isinstance(raw, dict) else str(raw)
+    start = text.find('{')
+    if start < 0:
+        return False
+    try:
+        data, _ = json.JSONDecoder().raw_decode(text[start:])
+    except ValueError:
+        return False
+    return isinstance(data, dict) and data == {'positive_points': None}
+
+
+def ask_point_response(route, images, prompt, key, role, calls, *, persist=None,
+                       lineage=None, fallback_budget=None, fallback_on_null=False):
+    """Use the alternate VLM2 route within a shared per-case retry budget."""
+    try:
+        raw = route.ask(images, prompt, system_prompt=VLM2_SYSTEM_PROMPT)
+    except ValueError as error:
+        malformed = str(error)
+        calls.append({'role': role, 'requested_model': getattr(route, 'model', 'primary_vlm2'),
+                      'error': malformed})
+    else:
+        calls.append({**raw, 'role': role})
+        if key == 'positive_points' and _explicit_null_positive(raw) and not fallback_on_null:
+            if persist:
+                persist(dict(lineage=lineage, calls=calls))
+            return raw  # A valid null asks the existing flow to try another frame.
+        try:
+            answer(raw, key)
+        except ValueError as error:
+            malformed = str(error)
+        else:
+            if persist:
+                persist(dict(lineage=lineage, calls=calls))
+            return raw
+    if persist:
+        persist(dict(lineage=lineage, calls=calls))
+    if fallback_budget is not None:
+        if fallback_budget['remaining'] < 1:
+            raise ValueError(f'VLM2 {key} failed after the one alternate attempt: {malformed}')
+        fallback_budget['remaining'] -= 1
+    fallback = VLMClient('vlm2_sam_prompting_malformed_fallback',
+                         role_config('vlm2_malformed_fallback'))
+    repaired = fallback.ask(images, prompt, system_prompt=VLM2_SYSTEM_PROMPT)
+    calls.append({**repaired, 'role': role + '_luna_fallback',
+                  'fallback_for': 'malformed_primary_response',
+                  'primary_error': malformed})
+    if persist:
+        persist(dict(lineage=lineage, calls=calls))
+    answer(repaired, key)
+    return repaired
 
 
 def to_pixels(positive, negative, width, height):
@@ -56,37 +109,22 @@ def run_case(video, diagnoses, examples, out, route=None, persist=None):
     config = role_config('vlm2')
     route = route or VLMClient('vlm2_sam_prompting', config)
     calls = []
+    fallback_budget = {'remaining': 1}
     write_interface(out/'vlm2_interface', system_prompt=VLM2_SYSTEM_PROMPT,
                     user_prompt=VLM2_POSITIVE_PROMPT, images=images,
                     role='positive_points', model=str(config['model']), backend=config['backend'])
-    raw = route.ask(images, VLM2_POSITIVE_PROMPT, system_prompt=VLM2_SYSTEM_PROMPT)
+    raw = ask_point_response(route, images, VLM2_POSITIVE_PROMPT, 'positive_points',
+                             'positive_points', calls, persist=persist, lineage=lineage,
+                             fallback_budget=fallback_budget, fallback_on_null=True)
     positive_response = raw
-    calls.append({**raw, 'role': 'positive_points'})
-    text = raw.get('answer', '') if isinstance(raw, dict) else str(raw)
-    # Walk the VLM1-confirmed deformation frames in order until VLM2 returns
-    # three positives. This keeps each retry on a clean source frame.
-    deformed_count = sum(d.get('state') == 'deformed' and not d.get('parse_error') for d in diagnoses)
-    rank = 1
-    while '"positive_points":null' in text.replace(' ', '') and rank < deformed_count:
-        lineage = resolve_frames(video, diagnoses, out, deformed_rank=rank)
-        clean = Image.open(out/'vlm2_reseed_frame.png').convert('RGB')
-        images = [clean] + [Image.open(p).convert('RGB') for p in examples]
-        write_interface(out/'vlm2_interface', system_prompt=VLM2_SYSTEM_PROMPT,
-                        user_prompt=VLM2_POSITIVE_PROMPT, images=images,
-                        role=f'positive_points_fallback_{rank+1}',
-                        model=str(config['model']), backend=config['backend'])
-        retry = route.ask(images, VLM2_POSITIVE_PROMPT, system_prompt=VLM2_SYSTEM_PROMPT)
-        positive_response = retry
-        calls.append({**retry, 'role': f'positive_points_fallback_deformation_{rank+1}'})
-        text = retry.get('answer', '') if isinstance(retry, dict) else str(retry)
-        rank += 1
     if persist:
         persist(dict(lineage=lineage, calls=calls))
     write_interface(out/'vlm2_interface', system_prompt=VLM2_SYSTEM_PROMPT,
                     user_prompt=VLM2_NEGATIVE_PROMPT, images=images,
                     role='negative_points', model=str(config['model']), backend=config['backend'])
-    raw = route.ask(images, VLM2_NEGATIVE_PROMPT, system_prompt=VLM2_SYSTEM_PROMPT)
-    calls.append({**raw, 'role': 'negative_points'})
+    raw = ask_point_response(route, images, VLM2_NEGATIVE_PROMPT, 'negative_points',
+                             'negative_points', calls, persist=persist, lineage=lineage,
+                             fallback_budget=fallback_budget)
     if persist:
         persist(dict(lineage=lineage, calls=calls))
     # Validate the final positive response together with the negative response.

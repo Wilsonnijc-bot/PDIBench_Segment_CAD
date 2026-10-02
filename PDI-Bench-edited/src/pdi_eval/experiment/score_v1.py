@@ -72,6 +72,12 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--geometry-cache-dir", type=Path, required=True)
     parser.add_argument("--tracker-checkpoint", type=Path)
     parser.add_argument("--link7-tracker", choices=("cotracker3", "tapip3d"), default="cotracker3")
+    parser.add_argument("--link7-point-filter", choices=("v1", "v2"), default="v1")
+    parser.add_argument("--score-link", action="append", default=[],
+                        choices=tuple(f"link{i}" for i in range(2, 8)),
+                        help="Score only selected links; other links remain recorded as skipped")
+    parser.add_argument("--mask-label", default=None,
+                        help="Human-readable selected-mask policy for interactive replays")
     parser.add_argument("--tapip3d-python", type=Path)
     parser.add_argument("--tapip3d-repository", type=Path)
     parser.add_argument("--tapip3d-checkpoint", type=Path)
@@ -151,6 +157,8 @@ def main(argv: list[str] | None = None) -> int:
         segmentation_npz=str(segmentation),
         tracking_modes=modes,
         link7_tracker=args.link7_tracker,
+        link7_point_filter=args.link7_point_filter,
+        score_links=tuple(dict.fromkeys(args.score_link)) or None,
         output_dir=output_dir,
         geometry_cache_dir=cache_dir,
     )
@@ -251,6 +259,8 @@ def main(argv: list[str] | None = None) -> int:
                 mode=mode,
                 max_cloud_points=int(replay_config.get("interactive_cloud_points", 900)),
                 plotly_js=BENCHMARK_ROOT / "assets/replay/plotly.min.js",
+                tracker_label="TAPIP3D" if args.link7_tracker == "tapip3d" else "CoTracker3",
+                mask_label=args.mask_label,
             )
             replay_artifacts[mode]["interactive_index"] = str(interactive_dir / "index.html")
             replay_artifacts[mode]["interactive_pages"] = [str(page) for page in pages]
@@ -286,6 +296,9 @@ def main(argv: list[str] | None = None) -> int:
         },
         "tracking_modes": list(modes),
         "link7_tracker": args.link7_tracker,
+        "link7_point_filter": args.link7_point_filter,
+        "score_links": list(dict.fromkeys(args.score_link)) or list(report["segmentation"]["object_names"]),
+        "mask_label": args.mask_label,
         "shared_geometry_cache": report["geometry"],
         "rigidity_scope": "per-object only; articulated union is never scored",
         "exact_command": shlex.join(sys.argv),

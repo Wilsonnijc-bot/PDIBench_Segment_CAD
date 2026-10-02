@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Occlusion catch replay</title>
+<script src="../replay/plotly.min.js"></script>
+<style>
+:root{color-scheme:dark;font-family:system-ui,sans-serif;background:#12181a;color:#edf2ed}*{box-sizing:border-box}body{margin:0;padding:18px}h1{font-size:22px;margin:12px 0}a{color:#f3c77c}button,select{font:inherit;background:#294036;color:#eff7ec;border:1px solid #688779;padding:8px 12px;cursor:pointer}button:hover{background:#365448}button:disabled{opacity:.45;cursor:default}:focus-visible{outline:2px solid #f1b454;outline-offset:2px}.views{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:12px}.views canvas{display:block;width:100%;background:#090e0f}.views section{min-width:0}.views p{margin:6px 0;color:#bac9c2}#zoom{aspect-ratio:1;max-height:460px;object-fit:contain}.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0}#slider{width:100%;accent-color:#f3c77c}.status{padding:12px 16px;background:#1c2525;border-left:6px solid #aab9b1;display:flex;gap:20px;align-items:center;margin:12px 0;flex-wrap:wrap}.status.caught{border-color:#ff8a78;background:#482b2b}.status strong{font-size:26px}#frameLabel{font-size:20px;font-variant-numeric:tabular-nums}#details{line-height:1.7;color:#cfdbd4}.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;margin:10px 0}.legend span::before{content:'■';margin-right:6px;color:var(--c)}#plot{height:230px}#catches{display:flex;flex-wrap:wrap;gap:8px}.note{max-width:100ch;line-height:1.5;color:#bac9c2}#error{color:#ffb3a6}video{display:none}@media(max-width:750px){.views{grid-template-columns:1fr}#zoom{max-height:300px}.status strong{font-size:22px}}
+</style></head><body>
+<a href="../../../occlusion/replay/index.html">All occlusion replays</a> · <a href="../replay/task_object_exact-group.html">Original rigidity replay</a>
+<h1 id="title"></h1>
+<div id="status" class="status"><strong id="verdict">Loading video…</strong><span id="frameLabel"></span><span id="reason"></span></div>
+<div class="views"><section><p>Source video</p><canvas id="scene" aria-label="Source video with optional mask overlay"></canvas></section><section><p>Object close-up</p><canvas id="zoom" width="500" height="500" aria-label="Magnified object and gripper"></canvas></section></div>
+<video id="video" src="../replay/source.mp4" preload="auto" playsinline muted></video>
+<div class="controls"><button id="play">Play</button><button id="back">← Frame</button><button id="forward">Frame →</button><button id="prev">Previous catch</button><button id="next">Next catch</button><label>Speed <select id="speed"><option value="0.25">0.25×</option><option value="0.5" selected>0.5×</option><option value="1">1×</option></select></label><label><input type="checkbox" id="overlay" checked> Masks and points</label></div>
+<input id="slider" type="range" min="0" step="1" value="0" aria-label="Frame index">
+<div class="legend"><span style="--c:#ffdc50">Object mask</span><span style="--c:#e16ee1">Link7 mask</span><span style="--c:#5ad7f0">Expected silhouette</span><span style="--c:#ff6e55">Replaced pixels / covered tracks</span></div>
+<p id="scoreComparison"></p><div id="details"></div><p id="error" role="alert"></p>
+<div id="plot" aria-label="Rigidity history with flagged intervals"></div>
+<p>Caught intervals — click to inspect:</p><div id="catches"></div>
+<p class="note" id="note"></p><p class="note">Caught means the saved detector flagged this frame. “Not caught” does not establish that its rigidity score is reliable. Numbers use zero-based frame indices; the original replay’s counter is one higher. Coral bands mark catches. Dashed line marks the displayed frame.</p>
+<a href="frames.csv">Per-frame CSV</a> · <a href="detection.json">Detection evidence</a>
+<script>
+'use strict';
+const D=__DATA__;
+const $=id=>document.getElementById(id),video=$('video'),scene=$('scene'),zoom=$('zoom'),ctx=scene.getContext('2d'),zc=zoom.getContext('2d');
+scene.width=D.width;scene.height=D.height;$('title').textContent=D.case+' — occlusion catches';$('slider').max=D.frame_count-1;
+let current=0,ready=false,plotReady=false,requested=0,shown=-1;
+const pct=x=>x==null?'unavailable':(x*100).toFixed(1)+'%';
+if(D.comparison){const c=D.comparison;$('scoreComparison').textContent=`Original naive rigidity: ${pct(c.naive_rigidity_score)} · Occlusion-filtered rigidity: ${pct(c.filtered_rigidity_score)} · ${c.retained_count} retained / ${c.retained_count+c.excluded_count} scored frames`;}
+const images=D.overlays.map(src=>{const im=new Image();im.src='data:image/png;base64,'+src;return im;});
+const notes={'COSMOS3_0025':'The severity-supported branch retains substantial replacement even when few predicted track coordinates land in link7. Some rigidity values are carried forward.', 'LVP_ROBOWM_0015':'Table-sized link7 masks fail the area check and are excluded from occlusion analysis and filtered scoring.', 'LVP_ROBOWM_0010':'Table-sized link7 masks fail the area check and are excluded from occlusion analysis and filtered scoring.', 'LVP_ROBOWM_0040':'Moderate replacement can qualify with reduced track corroboration and strong loss attribution.', 'COSMOS3_0056':'The original branch permits continuation during mask regrowth after replacement establishes an episode.', 'COSMOS2.5_0065':'Segmentation warning: link7 also includes visible cup pixels. This long catch is uncertain; inspect the overlay before treating it as confirmed occlusion.'};
+$('note').textContent=notes[D.case]||'';
+function paint(t){
+ if(video.readyState<2)return;
+ ctx.clearRect(0,0,D.width,D.height);ctx.drawImage(video,0,0,D.width,D.height);
+ if($('overlay').checked&&images[t].complete&&images[t].naturalWidth)ctx.drawImage(images[t],0,0);
+ const b=D.boxes[t];zc.clearRect(0,0,500,500);zc.drawImage(scene,...b,0,0,500,500);
+}
+function display(t){
+ t=Math.max(0,Math.min(D.frame_count-1,t));current=t;const r=D.frames[t];$('slider').value=t;
+ const failed=r.mask_valid===false;
+ $('verdict').textContent=failed?'FAILED MASK':r.flagged?'CAUGHT':r.status==='assessed'?'NOT CAUGHT':'UNASSESSABLE';
+ $('status').classList.toggle('caught',r.flagged||failed);$('frameLabel').textContent=`Frame ${t} / ${D.frame_count-1} · ${(t/D.fps).toFixed(2)} s`;
+ const severityOnly=r.severity_flagged&&!r.legacy_flagged;
+ $('reason').textContent=failed?'Link7 area too large · excluded from analysis and filtered scoring':r.flagged?(severityOnly?(r.severity_continued?'Continued replacement':'Severity-supported replacement'):(r.continued?'Continued episode':'Replacement detected')):(r.candidate?'Candidate run too short':'');
+ $('details').textContent=failed?`Link7 mask: ${pct(r.gripper_area_fraction)} of image · Failure cutoff: ${pct(D.config.max_gripper_area_fraction)} · Filtered score: unavailable`:`Replaced object: ${pct(r.occluded_fraction)} · Loss explained by link7: ${pct(r.explained_fraction)} · Tracks under link7: ${pct(r.track_fraction)} · Rigidity: ${pct(r.rigidity_score)}${r.rigidity_carried?' (carried value)':''}`;
+ $('back').disabled=t===0;$('forward').disabled=t===D.frame_count-1;
+ $('prev').disabled=!D.flagged_intervals.some(([a])=>a<t);$('next').disabled=!D.flagged_intervals.some(([a])=>a>t);
+ paint(t);
+ if(plotReady&&shown!==t){Plotly.relayout('plot',{'shapes[0].x0':t,'shapes[0].x1':t});shown=t;}
+}
+function seek(t){
+ video.pause();$('play').textContent='Play';requested=Math.max(0,Math.min(D.frame_count-1,Number(t)));
+ if(!ready)return;
+ video.currentTime=(requested+.2)/D.fps;
+}
+$('slider').addEventListener('input',e=>seek(e.target.value));
+$('back').onclick=()=>seek(current-1);$('forward').onclick=()=>seek(current+1);
+$('prev').onclick=()=>{const a=D.flagged_intervals.filter(([a])=>a<current).at(-1);if(a)seek(a[0]);};
+$('next').onclick=()=>{const a=D.flagged_intervals.find(([a])=>a>current);if(a)seek(a[0]);};
+$('play').onclick=()=>{if(!ready)return;if(video.paused){if(current===D.frame_count-1)video.currentTime=0;video.play().catch(e=>$('error').textContent=e.message);}else video.pause();};
+video.addEventListener('play',()=>$('play').textContent='Pause');video.addEventListener('pause',()=>$('play').textContent='Play');
+$('speed').onchange=()=>video.playbackRate=Number($('speed').value);video.playbackRate=.5;
+$('overlay').onchange=()=>paint(current);
+images.forEach((im,t)=>im.onload=()=>{if(t===current)paint(t);});
+video.addEventListener('loadeddata',()=>{ready=true;seek(requested);},{once:true});
+video.addEventListener('seeked',()=>display(Math.floor(video.currentTime*D.fps+1e-4)));
+video.addEventListener('error',()=>$('error').textContent='Source video could not load. Open this page through the local results server.');
+if('requestVideoFrameCallback' in video){const tick=(_,meta)=>{display(Math.floor(meta.mediaTime*D.fps+1e-4));video.requestVideoFrameCallback(tick);};video.requestVideoFrameCallback(tick);}else{video.addEventListener('timeupdate',()=>display(Math.floor(video.currentTime*D.fps+1e-4)));}
+for(const [a,b] of D.flagged_intervals){const button=document.createElement('button');button.textContent=`${a}–${b}`;button.onclick=()=>seek(a);$('catches').appendChild(button);}
+if(!D.flagged_intervals.length)$('catches').textContent='No frames caught.';
+if(typeof Plotly!=='undefined'){
+ const shapes=[{type:'line',x0:0,x1:0,y0:0,y1:1,yref:'paper',line:{color:'#edf2ed',width:1,dash:'dash'}},...D.flagged_intervals.map(([a,b])=>({type:'rect',x0:a-.5,x1:b+.5,y0:0,y1:1,yref:'paper',line:{width:0},fillcolor:'rgba(255,110,85,.23)',layer:'below'}))];
+ Plotly.newPlot('plot',[{x:D.frames.map(r=>r.frame),y:D.frames.map(r=>r.rigidity_score*100),type:'scatter',mode:'lines',name:'Rigidity %',line:{color:'#f3c77c',width:2},hovertemplate:'Frame %{x}<br>Rigidity %{y:.2f}%<extra></extra>'}],{paper_bgcolor:'#12181a',plot_bgcolor:'#1c2525',font:{color:'#c9d6ce'},margin:{l:50,r:15,t:20,b:40},xaxis:{title:'Frame · click graph to seek',range:[0,D.frame_count-1],gridcolor:'#34403d'},yaxis:{title:'Rigidity %',gridcolor:'#34403d'},shapes,showlegend:false},{responsive:true,displayModeBar:false}).then(()=>{plotReady=true;display(current);$('plot').on('plotly_click',ev=>seek(ev.points[0].x));});
+}else $('plot').textContent='Chart unavailable. Use the frame slider and catch buttons.';
+const hash=Number(location.hash.slice(1));if(location.hash&&Number.isInteger(hash))requested=hash;
+</script></body></html>

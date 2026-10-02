@@ -48,7 +48,7 @@ def case_name(entry: dict) -> str:
     return f"{CASE_PREFIXES[entry['dataset']]}_{entry['video_number']}"
 
 
-def mask_is_valid(path: Path) -> bool:
+def mask_is_valid(path: Path, expected_names: tuple[str, ...] | None = None) -> bool:
     if not path.is_file():
         return False
     import numpy as np
@@ -57,9 +57,10 @@ def mask_is_valid(path: Path) -> bool:
             names = tuple(str(x) for x in archive["object_names"])
             masks = archive["object_masks"]
             ids = archive["object_ids"]
-            return (names == tuple(f"link{i}" for i in range(2, 8))
-                    and masks.ndim == 4 and masks.shape[1] == 6
-                    and ids.shape == (6,))
+            expected = expected_names or tuple(f"link{i}" for i in range(2, 8))
+            return (names == expected
+                    and masks.ndim == 4 and masks.shape[1] == len(expected)
+                    and ids.shape == (len(expected),))
     except (OSError, KeyError, ValueError):
         return False
 

@@ -25,16 +25,14 @@ def audit_3d_rigidity_cv(
     num_pairs: int = 30,
     insufficient_policy: str = "maximum",
     evidence: Optional[dict] = None,
+    point_filter_version: str = "v1",
 ) -> Tuple[float, np.ndarray]:
     """3D rigidity audit via pointmap-sampled pairs (world-space distance invariance).
 
-    Anchor selection uses three filters:
-    1. Visibility: visibility > 0.5
-    2. Depth gradient: drop points at sharp Z jumps (edge bleed / occluder boundaries);
-       threshold = 75th percentile of visible-point gradients.
-    3. Scoring: score = 3D_distance * min(boundary distance at i, at j)
-       favors wide baselines (SNR) and interior points (reliability).
-       distanceTransform uses SAM2 mask if present, else valid pointmap region.
+    V1 anchors use frame-zero visibility and a world-Z gradient preference.
+    V2 anchors use frame-zero visibility; depth eligibility was decided before
+    tracker query sampling. Both versions rank pairs by 3D separation times
+    the smaller endpoint distance from the mask boundary.
 
     Args:
         pointmaps:   (T, H, W, 3) MegaSAM world point map
@@ -59,7 +57,7 @@ def audit_3d_rigidity_cv(
         pts_3d[t] = pointmaps[t, v, u]
 
     # ==========================================
-    # Step 2: depth-gradient filter + distanceTransform scoring
+    # Step 2: versioned anchor eligibility + distanceTransform scoring
     #
     # score = 3D separation * min(edge distance i, j)
     # large separation -> better deformation SNR
@@ -76,23 +74,30 @@ def audit_3d_rigidity_cv(
         mask0_pt = pointmaps[0].any(axis=-1).astype(np.uint8)
     dist_map = cv2.distanceTransform(mask0_pt, cv2.DIST_L2, 5)  # (H,W); larger = more interior
 
-    # Depth gradient filter: adaptive 75th pct, covers outline + internal boundaries
-    z0 = pointmaps[0, :, :, 2].astype(np.float32)
-    gx = cv2.Sobel(z0, cv2.CV_32F, 1, 0, ksize=3)
-    gy = cv2.Sobel(z0, cv2.CV_32F, 0, 1, ksize=3)
-    grad_mag = np.sqrt(gx ** 2 + gy ** 2)
-    all_u = np.clip(np.round(tracks_2d[0, :, 0]).astype(int), 0, W - 1)
-    all_v = np.clip(np.round(tracks_2d[0, :, 1]).astype(int), 0, H - 1)
     vis_filter = visibility[0] > 0.5
-    grad_at_all = grad_mag[all_v, all_u]
-    vis_count = int(vis_filter.sum())
-    grad_thresh = float(np.percentile(grad_at_all[vis_filter], 75)) if vis_count > 4 else np.inf
-    # Relax: gradient+visible -> visible only
-    valid_idx = np.array([], dtype=int)
-    for filt in [vis_filter & (grad_at_all < grad_thresh), vis_filter]:
-        valid_idx = np.where(filt)[0]
-        if len(valid_idx) >= 5:
-            break
+    if point_filter_version == "v1":
+        # V1's frame-zero world-Z gradient filter remains unchanged.
+        z0 = pointmaps[0, :, :, 2].astype(np.float32)
+        gx = cv2.Sobel(z0, cv2.CV_32F, 1, 0, ksize=3)
+        gy = cv2.Sobel(z0, cv2.CV_32F, 0, 1, ksize=3)
+        grad_mag = np.sqrt(gx ** 2 + gy ** 2)
+        all_u = np.clip(np.round(tracks_2d[0, :, 0]).astype(int), 0, W - 1)
+        all_v = np.clip(np.round(tracks_2d[0, :, 1]).astype(int), 0, H - 1)
+        grad_at_all = grad_mag[all_v, all_u]
+        vis_count = int(vis_filter.sum())
+        grad_thresh = float(np.percentile(grad_at_all[vis_filter], 75)) if vis_count > 4 else np.inf
+        # Relax: gradient+visible -> visible only
+        valid_idx = np.array([], dtype=int)
+        for filt in [vis_filter & (grad_at_all < grad_thresh), vis_filter]:
+            valid_idx = np.where(filt)[0]
+            if len(valid_idx) >= 5:
+                break
+    elif point_filter_version == "v2":
+        # V2 selected its depth-supported queries before tracking. Do not
+        # discard tracked anchors by depth or gradient without replacement.
+        valid_idx = np.flatnonzero(vis_filter)
+    else:
+        raise ValueError(f"unknown point filtering version: {point_filter_version}")
 
     if insufficient_policy not in {"maximum", "raise"}:
         raise ValueError("insufficient_policy must be 'maximum' or 'raise'")
@@ -153,6 +158,8 @@ def audit_3d_rigidity_cv(
         evidence.clear()
         evidence.update(
             reference_frame=0,
+            point_filter_version=point_filter_version,
+            depth_gate=None,
             selected_pairs=[
                 {"track_i": int(i), "track_j": int(j), "baseline_distance": float(d)}
                 for i, j, d in zip(pair_i, pair_j, d_0)
@@ -270,6 +277,7 @@ def audit_3d_volume_stability(
     h_seq: Optional[np.ndarray] = None,
     visibility: Optional[np.ndarray] = None,
     insufficient_policy: str = "maximum",
+    point_filter_version: str = "v1",
 ) -> Tuple[float, np.ndarray, str]:
     """Volume / rigidity stability (three-strategy cascade).
 
@@ -297,6 +305,7 @@ def audit_3d_volume_stability(
                 visibility,
                 masks,
                 insufficient_policy=insufficient_policy,
+                point_filter_version=point_filter_version,
             )
             return cv, hist, "Strategy 1 (3D rigid pairwise ratios)"
 

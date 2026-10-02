@@ -109,6 +109,7 @@ class CoTrackerCore(BasePerceptor):
         mask: np.ndarray,
         count: int,
         label: str,
+        snap_to_mask_pixels: bool = False,
     ) -> np.ndarray:
         candidate_count = max(count * 4, count)
         candidate_groups = (
@@ -124,6 +125,10 @@ class CoTrackerCore(BasePerceptor):
             if populated
             else np.empty((0, 3), dtype=np.float32)
         )
+        if snap_to_mask_pixels:
+            # SIFT centers are subpixel, but eligibility was checked at the
+            # rounded mask pixel. Keep the query on that exact pixel center.
+            candidates[:, 1:3] = np.rint(candidates[:, 1:3])
         queries = self._spatially_balance_queries(candidates, count)
         if len(queries) < 2:
             raise ValueError(

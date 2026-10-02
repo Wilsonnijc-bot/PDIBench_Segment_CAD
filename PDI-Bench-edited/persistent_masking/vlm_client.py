@@ -9,6 +9,12 @@ import urllib.error
 import urllib.request
 
 
+class MissingVLMTextError(ValueError):
+    def __init__(self, diagnostic):
+        self.diagnostic = diagnostic
+        super().__init__("VLM response is missing text: " + json.dumps(diagnostic, sort_keys=True))
+
+
 def _png(image):
     buffer = io.BytesIO()
     image.save(buffer, format="PNG")
@@ -54,7 +60,11 @@ class VLMClient:
             answer = self._ask_local(images, system_prompt, user_prompt)
             record.update(answer=answer, model=self.model, architecture=self.architecture)
             return record
-        answer, metadata = self._ask_cloud(payloads, system_prompt, user_prompt)
+        try:
+            answer, metadata = self._ask_cloud(payloads, system_prompt, user_prompt)
+        except MissingVLMTextError as exc:
+            record["response_diagnostic"] = exc.diagnostic
+            raise
         record.update(metadata, answer=answer)
         return record
 
@@ -86,8 +96,14 @@ class VLMClient:
             if system_prompt:
                 messages.append({"role": "system", "content": system_prompt})
             messages.append({"role": "user", "content": content})
-            payload = {"model": self.model, "messages": messages, "temperature": 0,
-                       "max_tokens": int(self.config.get("max_tokens", 800))}
+            payload = {"model": self.model, "messages": messages}
+            temperature = self.config.get("temperature", 0)
+            if temperature is not None:
+                payload["temperature"] = temperature
+            if "max_completion_tokens" in self.config:
+                payload["max_completion_tokens"] = int(self.config["max_completion_tokens"])
+            else:
+                payload["max_tokens"] = int(self.config.get("max_tokens", 800))
             effort = self.config.get("reasoning_effort")
             if effort:
                 payload["reasoning_effort"] = effort
@@ -107,7 +123,16 @@ class VLMClient:
                     if isinstance(answer, list):
                         answer = "".join(x.get("text", "") if isinstance(x, dict) else str(x) for x in answer)
                 if not isinstance(answer, str) or not answer:
-                    raise ValueError("VLM response is missing text")
+                    choice = result.get("choices", [{}])[0] if style != "responses" else {}
+                    message = choice.get("message") or {}
+                    raise MissingVLMTextError({
+                        "model": result.get("model"),
+                        "finish_reason": choice.get("finish_reason"),
+                        "usage": result.get("usage"),
+                        "status": result.get("status"),
+                        "content_type": type(message.get("content")).__name__,
+                        "message_fields": sorted(message),
+                    })
                 metadata = {name: result.get(name) for name in ("id", "model", "provider", "status", "usage")}
                 return answer, metadata
             except urllib.error.HTTPError as error:

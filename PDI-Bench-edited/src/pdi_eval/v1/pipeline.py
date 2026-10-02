@@ -140,6 +140,7 @@ def evaluate_object_metrics(
     lsd_exclusion_masks: np.ndarray,
     weights: dict[str, float],
     requested_track_count: int | None = None,
+    point_filter_version: str = "v1",
 ) -> dict[str, Any]:
     """Apply unchanged PDI formulas to one object view of shared inference."""
     frame_count = min(
@@ -196,6 +197,7 @@ def evaluate_object_metrics(
         h_seq=h_pixel,
         visibility=visibility,
         insufficient_policy="raise",
+        point_filter_version=point_filter_version if object_name == "link7" else "v1",
     )
     calculator = PDIIndexCalculator(
         w_scale=weights.get("w_scale", 0.3),
@@ -437,6 +439,8 @@ class MultiObjectPDIEvaluationPipeline:
         segmentation_npz: str,
         tracking_modes: Iterable[str] = TRACKING_MODES,
         link7_tracker: str = "cotracker3",
+        link7_point_filter: str = "v1",
+        score_links: tuple[str, ...] | None = None,
         output_dir: str | Path | None = None,
         geometry_cache_dir: str | Path | None = None,
     ) -> dict[str, Any]:
@@ -447,6 +451,8 @@ class MultiObjectPDIEvaluationPipeline:
             raise ValueError(f"invalid tracking modes: {invalid or modes}")
         if link7_tracker not in ("cotracker3", "tapip3d"):
             raise ValueError(f"invalid Link 7 tracker: {link7_tracker}")
+        if link7_point_filter not in ("v1", "v2"):
+            raise ValueError(f"invalid Link 7 point filter: {link7_point_filter}")
         output_dir = Path(output_dir).resolve() if output_dir is not None else None
         if output_dir is not None:
             output_dir.mkdir(parents=True, exist_ok=True)
@@ -454,6 +460,9 @@ class MultiObjectPDIEvaluationPipeline:
         started = time.perf_counter()
         segmentation = load_multi_object_segmentation(segmentation_npz, video_path)
         segmentation_seconds = time.perf_counter() - started
+        requested_scores = set(score_links or segmentation.object_names)
+        if not requested_scores or not requested_scores.issubset(segmentation.object_names):
+            raise ValueError(f"invalid score links: {sorted(requested_scores)}")
 
         started = time.perf_counter()
         geometry_engine = MegaSamWrapper(device=self.config.get("device", "cuda"))
@@ -472,12 +481,32 @@ class MultiObjectPDIEvaluationPipeline:
         )
         tracker_load_seconds = time.perf_counter() - started
         tracking_config = self.config.get("multi_object_tracking", {})
+        configured_query_counts = tracking_config.get("object_query_counts") or {}
+        object_query_counts = {
+            name: count for name, count in configured_query_counts.items()
+            if name in segmentation.object_names
+        }
         skip_low_coverage_links = set(
             tracking_config.get("skip_low_coverage_links", [])
         )
         minimum_tracked_fraction = float(
             tracking_config.get("minimum_tracked_fraction", 0.80)
         )
+        max_dimension = int(tracking_config.get("max_dimension", 880))
+        depth_gate = None
+        query_support_masks = None
+        if link7_point_filter == "v2":
+            from .link7_depth_gate import link7_query_mask
+            link7_index = segmentation.object_names.index("link7")
+            source_h, source_w = segmentation.object_masks.shape[-2:]
+            scale = min(1.0, max_dimension / max(source_h, source_w))
+            expected_tracker_hw = (int(source_h * scale), int(source_w * scale))
+            support, depth_gate = link7_query_mask(
+                geometry.pointmaps[0], geometry.camera_poses[0],
+                segmentation.object_masks[0, link7_index],
+                expected_tracker_hw,
+            )
+            query_support_masks = {"link7": support}
         prepared = tracker.prepare_multi(
             video_path,
             segmentation.object_masks[0],
@@ -485,10 +514,17 @@ class MultiObjectPDIEvaluationPipeline:
             grid_size=int(tracking_config.get("grid_size", 10)),
             bg_grid_size=int(tracking_config.get("background_grid_size", 15)),
             background_dilation=int(tracking_config.get("background_dilation", 5)),
-            max_dim=int(tracking_config.get("max_dimension", 880)),
-            object_query_counts=tracking_config.get("object_query_counts"),
+            max_dim=max_dimension,
+            object_query_counts=object_query_counts,
             allow_empty_names=skip_low_coverage_links,
+            query_support_masks=query_support_masks,
         )
+        if link7_point_filter == "v2":
+            if prepared.tracker_hw != expected_tracker_hw:
+                raise ValueError("video and segmentation dimensions disagree for Link 7 queries")
+            index = prepared.object_names.index("link7")
+            depth_gate["requested_query_count"] = prepared.requested_object_query_counts[index]
+            depth_gate["selected_query_count"] = len(prepared.object_queries[index])
         if output_dir is not None and "link7" in prepared.object_names:
             from .tapip3d_link7 import save_initial_queries
             save_initial_queries(output_dir / "link7_initial_queries.npz", prepared)
@@ -543,6 +579,15 @@ class MultiObjectPDIEvaluationPipeline:
                             else 0.0
                         ),
                     }
+                    if object_name not in requested_scores:
+                        object_reports[object_name] = {
+                            "object_name": object_name,
+                            "status": "skipped",
+                            "error_type": "outside_score_scope",
+                            "depth": depth_metadata,
+                            "tracking": quality,
+                        }
+                        continue
                     if (object_name in skip_low_coverage_links
                             and sam_tracked_fraction < minimum_tracked_fraction):
                         object_reports[object_name] = {
@@ -600,6 +645,7 @@ class MultiObjectPDIEvaluationPipeline:
                             lsd_exclusion_masks=segmentation.union_masks,
                             weights=self.config.get("weights", {}),
                             requested_track_count=requested_track_count,
+                            point_filter_version=link7_point_filter,
                         )
                     except InsufficientRigidityEvidenceError as exc:
                         object_reports[object_name] = {
@@ -617,6 +663,9 @@ class MultiObjectPDIEvaluationPipeline:
                         continue
                     object_report["status"] = "complete"
                     object_report["depth"] = depth_metadata
+                    if object_name == "link7":
+                        object_report["tracking"]["point_filter_version"] = link7_point_filter
+                        object_report["tracking"]["initial_depth_gate"] = depth_gate
                     object_report["tracking"]["sam_tracked_fraction"] = (
                         sam_tracked_fraction
                     )
@@ -651,6 +700,7 @@ class MultiObjectPDIEvaluationPipeline:
         report = {
             "schema_version": 1,
             "link7_tracker": link7_tracker,
+            "link7_point_filter": link7_point_filter,
             "video": str(Path(video_path).resolve()),
             "segmentation": {
                 "archive": str(Path(segmentation_npz).resolve()),

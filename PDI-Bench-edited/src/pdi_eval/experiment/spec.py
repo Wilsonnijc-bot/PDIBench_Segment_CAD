@@ -30,6 +30,10 @@ class ExperimentSpec:
     dinov2_model: Path | None = None
     sam3_checkpoint: Path | None = None
     sam3_bpe: Path | None = None
+    workflow: str = "v1"
+    tapip3d_python: Path | None = None
+    tapip3d_repository: Path | None = None
+    tapip3d_checkpoint: Path | None = None
 
     @property
     def gpu_lock(self) -> Path:
@@ -56,6 +60,9 @@ def load_spec(path: Path) -> ExperimentSpec:
 
     if "versions" in raw:
         raise ValueError("versions is no longer supported; this experiment scores V1 only")
+    workflow = raw.get("workflow", "v1")
+    if workflow not in {"v1", "selected45_link5_link7_four_way", "selected45_link5_only"}:
+        raise ValueError(f"unsupported experiment workflow: {workflow}")
     concurrency = int(raw.get("concurrency", 2))
     gpu_slots = int(raw.get("gpu_slots", 1))
     if concurrency < 1 or gpu_slots != 1:
@@ -73,4 +80,8 @@ def load_spec(path: Path) -> ExperimentSpec:
         dinov2_model=location("dinov2_model") if raw.get("generate_base_masks") else None,
         sam3_checkpoint=location("sam3_checkpoint") if raw.get("generate_base_masks") else None,
         sam3_bpe=location("sam3_bpe") if raw.get("generate_base_masks") else None,
+        workflow=workflow,
+        tapip3d_python=location("tapip3d_python") if workflow == "selected45_link5_link7_four_way" else None,
+        tapip3d_repository=location("tapip3d_repository") if workflow == "selected45_link5_link7_four_way" else None,
+        tapip3d_checkpoint=location("tapip3d_checkpoint") if workflow == "selected45_link5_link7_four_way" else None,
     )

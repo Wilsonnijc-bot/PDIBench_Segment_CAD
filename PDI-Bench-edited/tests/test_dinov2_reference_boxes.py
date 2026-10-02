@@ -18,6 +18,7 @@ from pdi_eval.perception.dinov2_reference_boxes import (
 from pdi_eval.perception.sam3_dinov2_segment import (
     _active_franka_groups,
     _link5_seed_points,
+    _link5_prompt_box,
     _parse_named_text_prompts,
     _select_prompt_result,
     _select_tracking_result,
@@ -121,7 +122,7 @@ class BoxExtractionTests(unittest.TestCase):
 
 
 class Sam3PromptSelectionTests(unittest.TestCase):
-    def test_link5_defaults_to_approved_wrist_point_seed(self):
+    def test_link5_extends_box_right_and_seeds_joint_negative(self):
         self.assertIn(
             "entire white elongated robot arm link",
             _text_prompt_for_target("link5", {}, "visual"),
@@ -130,15 +131,18 @@ class Sam3PromptSelectionTests(unittest.TestCase):
             _text_prompt_for_target("link5", {"link5": "override"}, "visual"),
             "override",
         )
-        points, labels, normalized = _link5_seed_points(
-            (702, 0, 1113, 183), (720, 1280)
-        )
+        prompt_box = _link5_prompt_box((702, 0, 1113, 183), 1280)
+        self.assertEqual(prompt_box, (702, 0, 1195, 183))
+        self.assertEqual(_link5_prompt_box((702, 0, 1200, 183), 1280),
+                         (702, 0, 1280, 183))
+        points, labels, normalized = _link5_seed_points(prompt_box, (720, 1280))
         self.assertEqual(
             points.tolist(),
-            [[751, 101], [875, 101], [1055, 64], [727, 51], [710, 104]],
+            [[746, 101], [860, 101], [1126, 64], [756, 51], [732, 104],
+             [1180, 121]],
         )
-        self.assertEqual(labels, [1, 1, 1, 0, 0])
-        self.assertAlmostEqual(normalized[3][0], 727 / 1280)
+        self.assertEqual(labels, [1, 1, 1, 0, 0, 0])
+        self.assertAlmostEqual(normalized[5][0], 1180 / 1280)
 
     def test_parses_per_link_text_prompts(self):
         prompts = _parse_named_text_prompts(

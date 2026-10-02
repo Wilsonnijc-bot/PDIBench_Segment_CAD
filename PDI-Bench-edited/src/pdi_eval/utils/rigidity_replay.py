@@ -74,7 +74,7 @@ def export_v1_replay(
     pointmaps_path: Path, video_path: Path, output_dir: Path,
     *, mode: str = "exact-group", max_cloud_points: int = 900,
     plotly_js: Path, only_objects: tuple[str, ...] | None = None,
-    tracker_label: str = "CoTracker",
+    tracker_label: str = "CoTracker", mask_label: str | None = None,
 ) -> list[Path]:
     """Recover V1's actual frame-0 pairs and verify their saved score history."""
     from pdi_eval.v1.rigidity import audit_3d_rigidity_cv
@@ -143,6 +143,8 @@ def export_v1_replay(
         score, history = audit_3d_rigidity_cv(
             pointmaps, mapped, object_visibility, masks[:, index],
             insufficient_policy="raise", evidence=evidence,
+            point_filter_version=(report.get("link7_point_filter", "v1")
+                                  if name == "link7" else "v1"),
         )
         saved = np.asarray(object_report["breakdown"]["volume_history"])
         if not np.allclose(history, saved, rtol=1e-8, atol=1e-10):
@@ -171,7 +173,8 @@ def export_v1_replay(
         evidence_name = f"{name}_{mode}_pairs.json"
         (output_dir / evidence_name).write_text(json.dumps({
             "schema_version": 1, "source_metrics_sha256": metrics_sha256,
-            "object": name, "mode": mode, "version": "v1",
+            "object": name, "mode": mode,
+            "version": (report.get("link7_point_filter", "v1") if name == "link7" else "v1"),
             "original_point_ids": object_point_ids.astype(int).tolist(),
             "pdi_score": object_report["pdi_score"], **evidence,
         }, indent=2, allow_nan=False) + "\n", encoding="utf-8")
@@ -179,7 +182,10 @@ def export_v1_replay(
                   "selected_pairs": evidence["selected_pairs"],
                   "pair_frames": evidence["pair_frames"]}
         carried = set(evidence["carried_frames"])
-        data = {"object": name, "mode": mode, "version": "V1", "fps": fps,
+        data = {"object": name, "mode": mode,
+                "version": (report.get("link7_point_filter", "v1").upper()
+                            if name == "link7" else "V1"),
+                "tracker_label": tracker_label, "mask_label": mask_label, "fps": fps,
                 "focal_length": focal_length, "image_hw": [height, width],
                 "score": score, "pdi_score": object_report["pdi_score"],
                 "history": history.tolist(),

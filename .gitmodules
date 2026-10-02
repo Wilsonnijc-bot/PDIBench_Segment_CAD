@@ -4,3 +4,7 @@
 [submodule "PDI-Bench-edited/third_party/mega_sam"]
 	path = PDI-Bench-edited/third_party/mega_sam
 	url = https://github.com/mega-sam/mega-sam.git
+[submodule "PDI-Bench-edited/third_party/AnomalyDINO"]
+	path = PDI-Bench-edited/third_party/AnomalyDINO
+	url = https://github.com/Wilsonnijc-bot/AnomalyDINO.git
+	branch = integration/pdi-pairwise

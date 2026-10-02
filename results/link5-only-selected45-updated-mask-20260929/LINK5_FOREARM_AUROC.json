@@ -1,0 +1,101 @@
+{
+  "score_source": "results/link5-only-selected45-updated-mask-20260929",
+  "output_location": "results/link5-only-selected45-updated-mask-20260929",
+  "label_column": "AB",
+  "positive_label": 1,
+  "negative_label": 0,
+  "moderate_label_policy": "exclude 0.5 from binary AUROC",
+  "score_field": "modes.exact-group.objects.link5.breakdown.epsilon_rigidity",
+  "primary_workbook": "v2",
+  "workbooks": {
+    "original": {
+      "path": "selected_45_matched_videos_styled.xlsx",
+      "sha256": "b2310ca63be9af1211c607dbe8fe5fa8c856bd7a24cbb7c4c04700eb5c9cdc64"
+    },
+    "v2": {
+      "path": "selected_45_matched_videos_styledv2.xlsx",
+      "sha256": "f27b72b3e835f2ad85bdb17ec6f1ba81cba8b08bac73d73a66b6c8e174c8c0c5"
+    }
+  },
+  "selection_sha256": "4f87276ab914c71674db61940514518ca7ea223cbfcc4bbff21b9caa6065c429",
+  "summary_sha256": "8981550bf902f8a988fa5659e40cd54e90819f2e097bd7fafffac9353af93ae6",
+  "results": {
+    "original": {
+      "auroc": 0.5357142857142857,
+      "valid_pairs": 336,
+      "wins_with_half_ties": 180.0,
+      "ordered_concordance": 0.5016611295681063,
+      "ordered_pairs": 602,
+      "valid_score_cases": 45,
+      "counts": {
+        "0.0": 14,
+        "0.5": 7,
+        "1.0": 24
+      },
+      "missing_score_cases": [],
+      "missing_label_cases": [],
+      "missing_highest": false
+    },
+    "v2": {
+      "auroc": 0.5384615384615384,
+      "valid_pairs": 286,
+      "wins_with_half_ties": 154.0,
+      "ordered_concordance": 0.5235849056603774,
+      "ordered_pairs": 636,
+      "valid_score_cases": 45,
+      "counts": {
+        "0.0": 13,
+        "0.5": 10,
+        "1.0": 22
+      },
+      "missing_score_cases": [],
+      "missing_label_cases": [],
+      "missing_highest": false
+    }
+  },
+  "full_precision_replay_sensitivity": {
+    "original": {
+      "auroc": 0.5386904761904762,
+      "valid_pairs": 336,
+      "wins_with_half_ties": 181.0,
+      "ordered_concordance": 0.5033222591362126,
+      "ordered_pairs": 602,
+      "valid_score_cases": 45,
+      "counts": {
+        "0.0": 14,
+        "0.5": 7,
+        "1.0": 24
+      },
+      "missing_score_cases": [],
+      "missing_label_cases": [],
+      "missing_highest": false
+    },
+    "v2": {
+      "auroc": 0.541958041958042,
+      "valid_pairs": 286,
+      "wins_with_half_ties": 155.0,
+      "ordered_concordance": 0.5235849056603774,
+      "ordered_pairs": 636,
+      "valid_score_cases": 45,
+      "counts": {
+        "0.0": 13,
+        "0.5": 10,
+        "1.0": 22
+      },
+      "missing_score_cases": [],
+      "missing_label_cases": [],
+      "missing_highest": false
+    }
+  },
+  "label_disagreement_cases": [
+    "LVP_ROBOWM_0005",
+    "LVP_ROBOWM_0010",
+    "COSMOS2.5_0021",
+    "LVP_ROBOWM_0025",
+    "COSMOS3_0025",
+    "LVP_ROBOWM_0040",
+    "LVP_ROBOWM_0046",
+    "COSMOS3_0046",
+    "LVP_ROBOWM_0054"
+  ]
+}

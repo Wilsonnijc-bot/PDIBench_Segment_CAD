@@ -40,7 +40,7 @@ VLM2 = {
     "backend": "cloud_api",  # "local_gpu" or "cloud_api"
     "model": "gemini-3.8-flash",
     "python": str(PROJECT_ROOT / "env-qwen/bin/python"),
-    "max_tokens": 800,
+    "max_tokens": 4096,
     "api_style": "chat_completions",
     "api_base": "https://api.302ai.cn/v1",
     "api_key_env": "VLM2_API_KEY",
@@ -48,12 +48,25 @@ VLM2 = {
     "timeout_seconds": 240,
 }
 
+# One alternate request when a VLM2 point response is malformed. It uses the
+# same 302.ai base URL and API key as VLM2.
+VLM2_MALFORMED_FALLBACK = {
+    **VLM2,
+    "backend": "cloud_api",
+    "api_style": "chat_completions",
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "temperature": None,
+    "max_completion_tokens": 4096,
+}
+
 
 def role_config(role: str) -> dict:
     """Validated VLM settings consumed by the existing pipeline."""
-    if role not in {"vlm1", "vlm2"}:
+    if role not in {"vlm1", "vlm2", "vlm2_malformed_fallback"}:
         raise ValueError(f"Unknown VLM role: {role}")
-    config = dict(VLM1 if role == "vlm1" else VLM2)
+    config = dict(VLM1 if role == "vlm1" else
+                  VLM2_MALFORMED_FALLBACK if role == "vlm2_malformed_fallback" else VLM2)
     if config.get("backend") not in {"local_gpu", "cloud_api"}:
         raise ValueError(f"{role}.backend must be local_gpu or cloud_api")
     if not config.get("model"):

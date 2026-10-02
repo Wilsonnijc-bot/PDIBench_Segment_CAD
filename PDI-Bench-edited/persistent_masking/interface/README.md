@@ -19,10 +19,14 @@ Open [`config.py`](config.py) and set:
 | `INCLUDE_NAIVE_REPLAY` | Include the existing frame-zero SAM3 replay beside the refined replay. |
 | `VLM1` | First-deformation-frame selection: choose `local_gpu` or `cloud_api`, then model and backend settings. |
 | `VLM2` | SAM3 point prompting: choose `local_gpu` or `cloud_api`, then model and backend settings. |
+| `VLM2_MALFORMED_FALLBACK` | One GPT-6 Luna request with high reasoning if a VLM2 point response is malformed. Uses the same 302.ai URL and VLM2 API key. |
 
 The defaults select local Qwen3.5-9B for VLM1 and Gemini 3.8 Flash through
-302.AI for VLM2. Each VLM can be configured independently. The code's existing
-prompting and segmentation logic is unchanged.
+302.AI for VLM2. Each VLM can be configured independently. A valid
+`positive_points: null` still advances to the next confirmed deformation
+frame. A malformed VLM2 response triggers one Luna request for that point
+prompt; both responses are retained in provenance. The result must pass the
+same point validation before SAM3 runs.
 
 For a cloud role, put the corresponding key in the ignored project-root
 `.env.vlm` file, using the variable named by that role's `api_key_env` setting.

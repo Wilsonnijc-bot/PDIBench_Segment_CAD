@@ -62,6 +62,7 @@ class TrackWrapper(CoTrackerCore):
         max_dim: int = 880,
         object_query_counts: dict[str, int] | None = None,
         allow_empty_names: set[str] | frozenset[str] = frozenset(),
+        query_support_masks: dict[str, np.ndarray] | None = None,
     ) -> PreparedMultiObjectTracking:
         """Decode once and build a common query manifest for both tracking modes."""
         started = time.perf_counter()
@@ -73,6 +74,10 @@ class TrackWrapper(CoTrackerCore):
         object_names = tuple(str(name) for name in object_names)
         if len(object_names) != len(initial_masks):
             raise ValueError("object_names must match initial_masks axis 0")
+        query_support_masks = query_support_masks or {}
+        unknown = set(query_support_masks).difference(object_names)
+        if unknown:
+            raise ValueError(f"query support masks contain unknown objects: {sorted(unknown)}")
         if background_dilation < 0:
             raise ValueError("background_dilation cannot be negative")
         if grid_size < 1 or bg_grid_size < 1:
@@ -109,6 +114,11 @@ class TrackWrapper(CoTrackerCore):
                 for mask in initial_masks
             ]
         )
+        for name, support in query_support_masks.items():
+            support = np.asarray(support, dtype=bool)
+            if support.shape != tracker_hw:
+                raise ValueError(f"query support mask for {name} must match tracker grid")
+            small_masks[object_names.index(name)] &= support
         gray = cv2.cvtColor(frames[0], cv2.COLOR_RGB2GRAY)
         maximum_foreground_count = grid_size * grid_size
         requested_object_query_counts = self._requested_object_query_counts(
@@ -119,13 +129,23 @@ class TrackWrapper(CoTrackerCore):
         object_queries = tuple(
             np.empty((0, 3), dtype=np.float32)
             if name in allow_empty_names and not np.any(mask)
-            else self._sample_region_queries(gray, mask, count, name)
+            else self._sample_region_queries(
+                gray, mask, count, name,
+                snap_to_mask_pixels=name in query_support_masks,
+            )
             for name, mask, count in zip(
                 object_names, small_masks, requested_object_query_counts
             )
         )
 
-        union_mask = np.any(small_masks, axis=0).astype(np.uint8)
+        # Background must exclude the entire robot, including pixels omitted
+        # from a depth-supported foreground query mask.
+        union_mask = (
+            cv2.resize(
+                np.any(initial_masks, axis=0).astype(np.uint8),
+                (tracker_hw[1], tracker_hw[0]), interpolation=cv2.INTER_NEAREST,
+            ) if query_support_masks else np.any(small_masks, axis=0).astype(np.uint8)
+        )
         if background_dilation:
             size = background_dilation * 2 + 1
             kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (size, size))

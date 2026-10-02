@@ -27,6 +27,13 @@ from .spec import ExperimentSpec
 LINK_NAMES = tuple(f"link{i}" for i in range(2, 8))
 MINIMUM_TRACKED_FRACTION = 0.80
 SKIPPABLE_LOW_COVERAGE_LINKS = frozenset({"link3", "link4"})
+COMPATIBLE_LINK5_GUARD_SHA256 = frozenset({
+    "10ffb235e15bf4242ace338500f4dcf219e1be64f664470559e6307f5b879927",
+})
+COMPATIBLE_SEGMENTATION_SHA256 = frozenset({
+    "fbc92f008b520c4e34154307af43fa46c61d140e24cd6b40aa59dc5b1fcb2310",
+    "ee7c0222a59d8641eb1d0061d711286bbed047e7e1ae8670154267a20b1a548f",
+})
 
 
 def mask_coverage(path: Path) -> dict[str, float]:
@@ -36,8 +43,10 @@ def mask_coverage(path: Path) -> dict[str, float]:
     with np.load(path, allow_pickle=False) as archive:
         names = tuple(str(name) for name in archive["object_names"].tolist())
         masks = np.asarray(archive["object_masks"], dtype=bool)
-    if names != LINK_NAMES or masks.ndim != 4 or masks.shape[1] != len(names):
-        raise ValueError(f"invalid six-link segmentation: {path}")
+    if (not names or any(name not in LINK_NAMES for name in names)
+            or len(set(names)) != len(names) or masks.ndim != 4
+            or masks.shape[1] != len(names)):
+        raise ValueError(f"invalid named-link segmentation: {path}")
     tracked = np.any(masks, axis=(2, 3))
     return {name: float(np.mean(tracked[:, index]))
             for index, name in enumerate(names)}
@@ -172,22 +181,38 @@ def clean_megasam_intermediates(sample: str) -> None:
 
 
 def ensure_base_segmentation(args: ExperimentSpec, entry: dict, case: Path,
-                             source: Path, log: Path) -> Path:
+                             source: Path, log: Path,
+                             required_links: tuple[str, ...] | None = None,
+                             selected_target: str | None = None) -> Path:
     base = case / "base_segmentation.npz"
     provenance = case / "base_segmentation_source.json"
+    expected_names = (selected_target,) if selected_target else None
+    method = ("DINOv2-guided SAM3 full-video single-link segmentation"
+              if selected_target else "DINOv2-guided SAM3 full-video six-link segmentation")
     if base.exists() or provenance.exists():
-        if not mask_is_valid(base) or not provenance.is_file():
+        if not mask_is_valid(base, expected_names) or not provenance.is_file():
             raise ValueError(f"incomplete or invalid base segmentation: {case}")
         record = json.loads(provenance.read_text(encoding="utf-8"))
         if (record.get("source_video_sha256") != entry["sha256"]
                 or record.get("base_segmentation_sha256") != sha256_file(base)):
             raise ValueError(f"base segmentation provenance mismatch: {case}")
-        if args.generate_base_masks and record.get("method") != "DINOv2-guided SAM3 full-video six-link segmentation":
+        if args.generate_base_masks and record.get("method") != method:
             raise ValueError(f"base mask was not generated in this run: {case}")
-        validate_mask_coverage(base, defer_low_link7=True)
+        if args.workflow in {"selected45_link5_link7_four_way", "selected45_link5_only"}:
+            segmentation_hash = sha256_file(ROOT / "src/pdi_eval/perception/sam3_dinov2_segment.py")
+            guard_hash = sha256_file(ROOT / "src/pdi_eval/perception/link5_point_guard.py")
+            if (record.get("segmentation_source_sha256") not in
+                    (COMPATIBLE_SEGMENTATION_SHA256 | {segmentation_hash})
+                    or record.get("link5_guard_source_sha256") not in
+                    (COMPATIBLE_LINK5_GUARD_SHA256 | {guard_hash})):
+                raise ValueError(f"base mask implementation differs on resume: {case}")
+        if required_links is None:
+            validate_mask_coverage(base, defer_low_link7=True)
+        elif any(mask_coverage(base)[name] < MINIMUM_TRACKED_FRACTION for name in required_links):
+            raise ValueError(f"base segmentation lacks required link coverage: {required_links}")
         return base
     if not args.generate_base_masks:
-        raise ValueError(f"validated six-link base mask must be staged for this case: {case}")
+        raise ValueError(f"validated base mask must be staged for this case: {case}")
     assert all((args.segmentation_python, args.reference_dir, args.dinov2_model,
                 args.sam3_checkpoint, args.sam3_bpe))
     generated = case / "base_generation" / "segmentation.npz"
@@ -201,22 +226,33 @@ def ensure_base_segmentation(args: ExperimentSpec, entry: dict, case: Path,
             "--dinov2-model", str(args.dinov2_model),
             "--sam3-checkpoint", str(args.sam3_checkpoint),
             "--sam3-bpe", str(args.sam3_bpe), "--text-prompt", "visual",
-            "--require-franka-links", "--reference-spatial-priors",
+            "--require-franka-links", "--link5-vlm-guard",
+            "--reference-spatial-priors",
             "--padding-fraction", "0.10", "--minimum-tracked-fraction", "0",
             "--link-text-prompt", "link4=entire white oval on top of the black circle",
             "--link-text-prompt", "link7=entire white quadrangular robot gripper"]
-    if not mask_is_valid(generated):
+    if selected_target:
+        argv += ["--selected-target", selected_target]
+    if not mask_is_valid(generated, expected_names):
         command(argv, log, environment, args.gpu_lock)
-    if not mask_is_valid(generated):
-        raise ValueError(f"generated six-link segmentation is invalid: {generated}")
-    coverage, low = validate_mask_coverage(generated, defer_low_link7=True)
+    if not mask_is_valid(generated, expected_names):
+        raise ValueError(f"generated segmentation is invalid: {generated}")
+    if required_links is None:
+        coverage, low = validate_mask_coverage(generated, defer_low_link7=True)
+    else:
+        coverage = mask_coverage(generated)
+        low = tuple(name for name, fraction in coverage.items()
+                    if fraction < MINIMUM_TRACKED_FRACTION)
+        if any(name in low for name in required_links):
+            raise ValueError(f"generated mask lacks required link coverage: {required_links}")
     shutil.copy2(generated, base)
     write_json(provenance, {
         "source_video_sha256": entry["sha256"],
         "base_segmentation_sha256": sha256_file(base),
-        "method": "DINOv2-guided SAM3 full-video six-link segmentation",
+        "method": method,
+        "selected_target": selected_target,
         "reference_dir": str(args.reference_dir),
-        "sam3_prompt_profile": "descriptive link4/link5/link7; link5 three-positive two-wrist-negative points",
+        "sam3_prompt_profile": "descriptive link4/link5/link7; link5 three-positive three-negative points reviewed in two VLM calls",
         "minimum_tracked_fraction_for_scoring": MINIMUM_TRACKED_FRACTION,
         "tracked_fraction": coverage,
         "low_coverage_links_skipped_in_scoring": [
@@ -224,6 +260,8 @@ def ensure_base_segmentation(args: ExperimentSpec, entry: dict, case: Path,
         ],
         "low_coverage_link7_deferred_to_persistent_masking": "link7" in low,
         "temporal_disambiguation_retry": False,
+        "segmentation_source_sha256": sha256_file(ROOT / "src/pdi_eval/perception/sam3_dinov2_segment.py"),
+        "link5_guard_source_sha256": sha256_file(ROOT / "src/pdi_eval/perception/link5_point_guard.py"),
     })
     return base
 
@@ -274,7 +312,8 @@ def persistent_mask(args: ExperimentSpec, entry: dict, log: Path) -> tuple[Path,
                  "prepare", *common], log, environment)
     for stage, lock in (("select_frames", args.gpu_lock), ("prompt_sam", None),
                         ("segment", args.gpu_lock), ("validate", None)):
-        command([str(args.sam_python), "-u", "-m", "persistent_masking.pipeline",
+        python = args.qwen_python if stage == "select_frames" else args.sam_python
+        command([str(python), "-u", "-m", "persistent_masking.pipeline",
                  stage, *common], log, environment, lock)
     record = json.loads(provenance.read_text(encoding="utf-8"))
     result = record["results"][case]
