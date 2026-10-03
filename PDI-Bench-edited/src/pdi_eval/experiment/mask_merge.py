@@ -65,20 +65,32 @@ def build_refined_segmentation(
     provenance_path = persistent_work / "provenance.json"
     provenance = json.loads(provenance_path.read_text(encoding="utf-8"))
     result = provenance["results"][case]
-    if result.get("status") != "completed_checks":
+    repair = result.get("vlm3", {})
+    use_repair = repair.get("accepted") is True
+    if result.get("status") != "completed_checks" and not (
+        use_repair and result.get("status") in {"no_confirmed_deformation", "no_naive_surge"}
+    ):
         raise ValueError(f"{case} persistent masking status is {result.get('status')!r}")
     video_hash = sha256_file(video)
     if result.get("source_sha256") != video_hash:
         raise ValueError("persistent masking source video hash does not match")
 
-    mask_source = Path(result["mask_source"])
-    if not mask_source.is_file():
+    if use_repair and repair.get("status") not in {"accepted", "accepted_with_frame_exclusions"}:
+        raise ValueError("VLM3 accepted flag and status disagree")
+    mask_source = Path(repair["output_masks"] if use_repair else result["mask_source"])
+    if not mask_source.is_file() and not use_repair:
         mask_source = persistent_work / "sam" / case / "seed_masks.npz"
     if not mask_source.is_file():
         raise FileNotFoundError(f"persistent full-video masks are missing: {mask_source}")
     mask_hash = sha256_file(mask_source)
-    if result.get("masks_sha256") != mask_hash:
+    if (repair.get("output_masks_sha256") if use_repair else result.get("masks_sha256")) != mask_hash:
         raise ValueError("persistent mask archive hash does not match provenance")
+    if use_repair:
+        repair_record = json.loads(Path(repair["record"]).read_text())
+        if (repair_record.get("accepted") is not True
+                or repair_record.get("source_video_sha256") != video_hash
+                or repair_record.get("output_masks_sha256") != mask_hash):
+            raise ValueError("VLM3 repair record differs from selected source or masks")
     with np.load(mask_source, allow_pickle=False) as archive:
         refined_mask = np.asarray(archive["masks"], dtype=bool)
     if refined_mask.ndim != 3:
@@ -145,6 +157,8 @@ def build_refined_segmentation(
         "changed_target_frames": int(np.count_nonzero(np.any(baseline ^ refined_mask, axis=(1, 2)))),
         "unchanged_object_names": [name for name in object_names if name != object_name],
     }
+    if use_repair:
+        manifest["vlm3_repair"] = repair
     manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return manifest
 

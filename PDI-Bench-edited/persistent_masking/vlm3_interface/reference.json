@@ -1,0 +1,13 @@
+{
+  "source": "PDI-Bench-edited/persistent_masking/vlm_interface/images/reference_3.png",
+  "source_sha256": "b717e69ba1bf07dbfc6b5fc62c116d3e602d7dbcbd5970057ed88871b52bf9f4",
+  "reference_sha256": "406ed497edecdeacfc12cb8131214a50b94d0bdbc788c4df48f4a7d9c0b63424",
+  "annotation_source": "manual reference annotation; not a model prediction",
+  "retained_annotations": "original three green gripper positives and two red arm/wrist negatives",
+  "added_object_negative_pixel_xy": [
+    425,
+    1190
+  ],
+  "object": "brown paper cup",
+  "purpose": "teach exclusion of the manipulated object"
+}

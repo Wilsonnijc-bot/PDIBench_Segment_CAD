@@ -112,6 +112,10 @@ def _export_into(work, destination, *, include_naive):
     shutil.copyfile(work / 'provenance.json', provenance / 'run.json')
     (provenance / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
     (destination / 'README.md').write_text('\n'.join(lines) + '\n')
+    if (work / 'vlm3/index.html').is_file():
+        shutil.copytree(work / 'vlm3', destination / 'vlm3')
+        with (destination / 'README.md').open('a') as handle:
+            handle.write('\n[Optional VLM3 object-overmask repair review](vlm3/index.html)\n')
     print(json.dumps({case: item['status'] for case, item in manifest['results'].items()}))
 
 

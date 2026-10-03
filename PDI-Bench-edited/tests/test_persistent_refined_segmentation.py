@@ -12,6 +12,55 @@ from pdi_eval.experiment.mask_merge import (
 
 
 class PersistentMaskIntegrationTests(unittest.TestCase):
+    def test_accepted_vlm3_mask_is_used_without_overwriting_original_seed(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            video = root / 'video.mp4'
+            video.write_bytes(b'same source')
+            base = root / 'base.npz'
+            np.savez_compressed(base, object_masks=np.ones((2, 1, 8, 8), bool),
+                                object_names=['link7'], object_ids=[7])
+            work = root / 'work'
+            work.mkdir()
+            original = work / 'original.npz'
+            np.savez_compressed(original, masks=np.ones((2, 8, 8), bool))
+            original_hash = sha256_file(original)
+            candidate = work / 'repair.npz'
+            mask = np.zeros((2, 8, 8), bool)
+            mask[:, 2:5, 2:5] = True
+            np.savez_compressed(candidate, masks=mask)
+            repair_record = work / 'repair.json'
+            repair_record.write_text(json.dumps({'accepted': True,
+                'source_video_sha256': sha256_file(video),
+                'output_masks_sha256': sha256_file(candidate)}))
+            repair = {'accepted': True, 'status': 'accepted', 'output_masks': str(candidate),
+                      'output_masks_sha256': sha256_file(candidate), 'record': str(repair_record)}
+            (work / 'provenance.json').write_text(json.dumps({'results': {'case': {
+                'status': 'completed_checks', 'source_sha256': sha256_file(video),
+                'source_frame_count': 2, 'source_hw': [8, 8], 'mask_source': str(original),
+                'masks_sha256': original_hash, 'vlm3': repair}}}))
+            output = root / 'out.npz'
+            manifest = build_refined_segmentation(video=video, base_segmentation=base,
+                            persistent_work=work, case='case', output_npz=output)
+            with np.load(output, allow_pickle=False) as archive:
+                np.testing.assert_array_equal(archive['object_masks'][:, 0], mask)
+            self.assertEqual(sha256_file(original), original_hash)
+            self.assertEqual(manifest['persistent_mask_source'], str(candidate))
+            self.assertTrue(manifest['vlm3_repair']['accepted'])
+            record = json.loads((work / 'provenance.json').read_text())
+            result = record['results']['case']
+            result['status'] = 'no_confirmed_deformation'
+            result['vlm3']['status'] = 'accepted_with_frame_exclusions'
+            result['vlm3']['crop_excluded_frames'] = [1]
+            del result['mask_source'], result['masks_sha256']
+            (work / 'provenance.json').write_text(json.dumps(record))
+            fallback_output = root / 'after_no_deformation.npz'
+            build_refined_segmentation(video=video, base_segmentation=base,
+                            persistent_work=work, case='case', output_npz=fallback_output)
+            with np.load(fallback_output, allow_pickle=False) as archive:
+                np.testing.assert_array_equal(archive['object_masks'][:, 0], mask)
+            self.assertEqual(sha256_file(original), original_hash)
+
     def test_replaces_only_named_link_and_updates_union(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

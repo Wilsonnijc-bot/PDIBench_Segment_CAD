@@ -262,6 +262,14 @@ def segment(a):
         commit(a,record)
 
 
+def repair_overmask(a):
+    """Optional stage; the original VLM1/VLM2 selection remains unchanged."""
+    if a.object_mask_root is None:
+        raise ValueError('VLM3 requires --object-mask-root with existing task-object masks')
+    from persistent_masking.vlm3_overmask import repair_persistent_run
+    repair_persistent_run(a.work, a.cases, a.object_mask_root)
+
+
 def mp4_faststart(path):
     atoms=[]
     with open(path,'rb') as handle:
@@ -319,17 +327,23 @@ def validate(a):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('stage',choices=['prepare','select_frames','prompt_sam','segment','validate','continue','resume'])
+    parser.add_argument('stage',choices=['prepare','select_frames','prompt_sam','segment','validate','repair_overmask','continue','resume'])
     parser.add_argument('--work',type=Path,required=True)
     parser.add_argument('--cases',nargs='+',default=CASES)
     parser.add_argument('--level',choices=['local','global'],default='global')
     parser.add_argument('--reference-root',type=Path,default=ROOT/'lasteset_qwen_results/experiments/global/global_combined_lower_dark_20260912')
     parser.add_argument('--examples',nargs=3,type=Path,required=True)
     parser.add_argument('--ffmpeg',required=True)
+    parser.add_argument('--enable-vlm3', action='store_true', help='Run optional object-overmask repair after validation')
+    parser.add_argument('--object-mask-root', type=Path, help='Existing task-object segmentation root for optional VLM3')
     a=parser.parse_args();a.work=a.work.resolve()
     if a.stage in {'continue','resume'}:
         stages=['prepare','select_frames','prompt_sam','segment','validate']
         if a.stage=='resume':stages=stages[1:]
+        if a.enable_vlm3:
+            if a.object_mask_root is None:
+                parser.error('--enable-vlm3 requires --object-mask-root')
+            stages.append('repair_overmask')
         for stage in stages:
             role = 'vlm1' if stage == 'select_frames' else 'vlm2' if stage == 'prompt_sam' else None
             config = role_config(role) if role else None

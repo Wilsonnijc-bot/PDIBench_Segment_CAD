@@ -24,6 +24,19 @@ def frames(result):
 
 
 class FrameSelectionTests(unittest.TestCase):
+    def test_overmask_gate_excludes_high_area_and_recovery_frames(self):
+        m,d=inputs(list(range(20)),flagged=(14,15))
+        d['frames'][16]['mask_overlap_fraction']=.951
+        d['frames'][19]['mask_overlap_fraction']=1.0
+        d['frames'][18]['mask_overlap_fraction']=.95
+        result=select_frames(m,d,count=5)
+        self.assertNotIn(16,frames(result));self.assertNotIn(19,frames(result))
+        self.assertIn(18,frames(result))
+        self.assertEqual(result['overmask_excluded_frames'],[16,19])
+        self.assertEqual(result['occlusion_episodes'][0]['status'],'successor_crop_invalid')
+        m['frames'][17]['link7_overmask']=True
+        self.assertNotIn(17,frames(select_frames(m,d,count=5)))
+
     def test_ten_frames_reserve_recovery_and_double_late_quota(self):
         m, d = inputs(list(range(100)), flagged=(19, 20))
         result = select_frames(m, d)

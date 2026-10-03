@@ -211,6 +211,8 @@ def export_case(case: Path, output: Path, example_frames: list[int]) -> dict:
     reference_mask = objects[0][reference_bbox[1]:reference_bbox[3],
                                 reference_bbox[0]:reference_bbox[2]]
     available = available_pure_object(objects, grippers)
+    object_covered_fraction = ((objects & grippers).sum(axis=(1, 2))
+                               / np.maximum(1, objects.sum(axis=(1, 2))))
     mask_valid, _, _ = link7_area_validity(
         grippers, detection['config'].get('max_gripper_area_fraction', MAX_LINK7_AREA_FRACTION))
     mask_valid &= np.array([row.get('mask_valid', True) for row in detection['frames']], dtype=bool)
@@ -222,6 +224,8 @@ def export_case(case: Path, output: Path, example_frames: list[int]) -> dict:
     rows = []
     for t, row in enumerate(detection["frames"]):
         info = {"frame": t, "available_area": int(available[t].sum()),
+                "link7_object_covered_fraction": float(object_covered_fraction[t]),
+                "link7_overmask": bool(object_covered_fraction[t] > .95),
                 "mask_valid": bool(mask_valid[t]),
                 "mapping_status": "unavailable", "occlusion_reference_frame": row["reference_frame"]}
         if not mask_valid[t]:

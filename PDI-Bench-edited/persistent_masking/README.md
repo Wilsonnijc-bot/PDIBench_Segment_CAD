@@ -48,3 +48,49 @@ experiments. Some retain explicit historical model names and their original CLI
 arguments for reproducibility; they are not the configurable VLM1/VLM2 runner.
 
 See `PIPELINE_SPEC.md` for the pipeline contract.
+
+Optional VLM3 object-overmask repair runs **after** the original VLM1/VLM2 flow.
+It does not change surge windows, Qwen diagnoses, VLM2 frame selection, or the
+original five-point seed. It uses the existing object mask to find the earliest
+frame with `count(link7 & task_object) / count(task_object) > 0.95` (strict);
+empty object masks do not qualify. The existing `link7-frame-area-v1` failure
+(`link7 / image >= 0.25`) is a separate trigger for table-sized masks. VLM3 uses
+the exact gate frame, with no +1 shift, and the same backend/config as VLM2.
+It asks for three gripper positives and three negatives: arm, wrist, and the
+named task object. The six-point reference is in `vlm3_interface/`; its added
+object exclusion is a manual example, not a model prediction.
+
+To evaluate already saved PDI masks independently:
+
+```sh
+PYTHONPATH=.:src python -m persistent_masking.vlm3_overmask audit \
+  --object-root /path/to/object-results --gripper-root /path/to/four-way-results \
+  --output-root /path/to/review/metadata/audit45
+PYTHONPATH=.:src python -m persistent_masking.vlm3_overmask run \
+  --object-root /path/to/object-results --gripper-root /path/to/four-way-results \
+  --output-root /path/to/new-review \
+  --cases COSMOS2.5_0005 COSMOS2.5_0010 COSMOS2.5_0065
+```
+
+The default is at most two six-point attempts on the same frame, using the
+existing SAM3 predictor and bidirectional propagation. Candidates require all
+six point memberships to match, no empty frames, and at least one crop-eligible
+frame. Remaining gate hits exclude those frames from cropping; they do not
+reject the entire video (`accepted_with_frame_exclusions`). The crop selector
+also checks the saved occlusion audit's direct object/link7 overlap and skips
+strictly >95% frames, including an unusable immediate recovery successor.
+This detects these mask failure patterns, not all segmentation errors or true
+physical occlusion. Failed candidates do not replace old masks. The review
+contains exact request inputs, point previews, actual responses/metrics, and a
+before/after MP4; accepted masks are in each case's `masks.npz`.
+
+For a new native persistent run, add `--enable-vlm3 --object-mask-root /path/to/object-results`
+to `persistent_masking.pipeline continue`; or run its explicit `repair_overmask`
+stage after validation with `--object-mask-root`. The everyday interface has
+`VLM3_ENABLED` (default false) and `VLM3_OBJECT_MASK_ROOT`. This opt-in integration
+attaches a separate `vlm3` record, preserving original diagnoses and seed/masks.
+It also checks the old naive fallback when VLM1 finds no deformation, so that
+Qwen's diagnosis cannot suppress VLM3. Failed original runs are not reused.
+When merging a **new** refined archive, `mask_merge` uses
+only an accepted, hash-verified VLM3 candidate. Existing scores, archives, crops,
+and diagnoses are never overwritten by this experiment.

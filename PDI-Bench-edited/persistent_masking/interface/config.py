@@ -18,6 +18,8 @@ VIDEO_ROOT = Path(os.environ.get("PDI_PMASK_VIDEO_ROOT", "/root/autodl-tmp/hiera
 WORK_ROOT = Path(os.environ.get("PDI_PMASK_WORK_ROOT", str(PROJECT_ROOT / "lasteset_qwen_results/experiments")))
 REVIEW_ROOT = Path(os.environ.get("PDI_PMASK_REVIEW_ROOT", str(PROJECT_ROOT / "persistent_masking_results")))
 INCLUDE_NAIVE_REPLAY = os.environ.get("PDI_PMASK_INCLUDE_NAIVE_REPLAY", "1") == "1"
+VLM3_ENABLED = os.environ.get("PDI_PMASK_VLM3_ENABLED", "0") == "1"
+VLM3_OBJECT_MASK_ROOT = os.environ.get("PDI_PMASK_VLM3_OBJECT_ROOT")
 FFMPEG_BINARY = None  # None = find ffmpeg automatically; or set an absolute path.
 
 # VLM1 finds the first deformed frame. Switch backend to "cloud_api" and fill
@@ -102,6 +104,8 @@ def run_config() -> dict:
             raise ValueError(f"Unsupported case name: {case}")
     if not isinstance(INCLUDE_NAIVE_REPLAY, bool):
         raise ValueError("INCLUDE_NAIVE_REPLAY must be True or False")
+    if VLM3_ENABLED and not VLM3_OBJECT_MASK_ROOT:
+        raise ValueError("Optional VLM3 requires VLM3_OBJECT_MASK_ROOT with existing object masks")
     return {
         "name": RUN_NAME,
         "level": LEVEL,
@@ -111,4 +115,6 @@ def run_config() -> dict:
         "review_root": Path(REVIEW_ROOT).expanduser().resolve(),
         "include_naive_replay": INCLUDE_NAIVE_REPLAY,
         "ffmpeg_binary": FFMPEG_BINARY,
+        "vlm3_enabled": VLM3_ENABLED,
+        "vlm3_object_root": Path(VLM3_OBJECT_MASK_ROOT).expanduser().resolve() if VLM3_OBJECT_MASK_ROOT else None,
     }

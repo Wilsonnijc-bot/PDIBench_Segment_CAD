@@ -24,7 +24,7 @@ def write_gallery(root: Path) -> Path:
         for role in ('reference', 'query'))}
     parts = ['''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Object crop anomaly scores · PDI benchmark</title>
+<title>Object crop review · PDI benchmark</title>
 <style>
 :root{color-scheme:light;font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif;color:#24312f;background:#f5f6f2}
 *{box-sizing:border-box}body{margin:0;padding:32px clamp(16px,3vw,48px)}main{max-width:1600px;margin:auto}
@@ -40,7 +40,8 @@ header{margin-bottom:24px}.muted{color:#55655d;font-size:13px}
 .pair{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.pair span{font-size:12px}.pair img{width:100%;height:135px;display:block;object-fit:contain;background:repeating-conic-gradient(#d8ddd5 0% 25%,#e8ece5 0% 50%) 50% / 16px 16px;margin-top:5px}
 .pair-details,.case-details{font-size:12px;line-height:1.7;color:#55655d;margin-top:8px}summary{cursor:pointer}.case-details{margin:0 0 16px}.empty{background:#ebeee7;padding:16px;font-size:14px}.footer{margin:32px 0;font-size:13px}
 @media(max-width:1100px){.crops{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:720px){.crops{grid-template-columns:repeat(2,minmax(0,1fr))}.case-head h2{font-size:18px}.video-total{margin-left:0;flex-basis:100%}.video-total .muted{text-align:left}}@media(max-width:420px){.crops{grid-template-columns:1fr}.pair img{height:180px}h1{font-size:27px}}
-</style></head><body><main><header><h1>Object crop anomaly scores</h1>''']
+</style></head><body><main><header>''']
+    parts.append('<h1>Object crop anomaly scores</h1>' if score_data else '<h1>Selected object crops</h1>')
     if score_data:
         scored_videos = len({name for name, _ in scores})
         parts.append(f'<p>{len(scores)} scored pairs · {scored_videos} scored videos · Higher scores mean more anomalous.</p>')
@@ -101,7 +102,9 @@ header{margin-bottom:24px}.muted{color:#55655d;font-size:13px}
             for file, label in (('current_available.png', 'Current'), ('frame0_shape_crop.png', 'Frame 0')):
                 parts.append(f'<div><span>{label}</span><a href="{folder}/{file}"><img src="{folder}/{file}" alt="{safe_name}, frame {t}, {label}" loading="lazy"></a></div>')
             flagged = 'Flagged occlusion' if row['occlusion_flagged'] else 'Unflagged'
-            parts.append(f'</div><a href="{folder}/original_frame.png" target="_blank" rel="noopener">Original frame</a><details class="pair-details"><summary>Crop details</summary>{row["available_area"]:,} pixels · interval rank {row["interval_area_rank"]}<br>{flagged}<br>{reasons[row["reason"]]}<br><a href="{folder}/preview.png">Three-panel preview</a></details></figure>')
+            covered = manifest['frames'][t].get('link7_object_covered_fraction')
+            coverage = f' · link7 overlap {covered:.1%}' if covered is not None else ''
+            parts.append(f'</div><p class="muted">{row["available_area"]:,} available pixels{coverage}</p><a href="{folder}/original_frame.png" target="_blank" rel="noopener">Original frame</a><details class="pair-details"><summary>Crop details</summary>Interval rank {row["interval_area_rank"]}<br>{flagged}<br>{reasons[row["reason"]]}<br><a href="{folder}/preview.png">Three-panel preview</a></details></figure>')
         parts.append('</div></section>')
     parts.append('<p class="footer">')
     if score_data:

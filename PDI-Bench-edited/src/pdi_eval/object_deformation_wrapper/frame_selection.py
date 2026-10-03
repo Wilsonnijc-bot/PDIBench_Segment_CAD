@@ -32,6 +32,8 @@ def select_frames(manifest: dict, detection: dict, count: int = 10, *,
         raise ValueError("Frame rows must be contiguous and zero based")
     eligible = {t for t, row in enumerate(rows)
                 if row.get("mask_valid", True) and diagnoses[t].get("mask_valid", True)
+                and not row.get("link7_overmask", False)
+                and diagnoses[t].get("mask_overlap_fraction", row.get("link7_object_covered_fraction", 0)) <= .95
                 and row["mapping_status"] == "mapped" and row["available_area"] > 0
                 and row.get("mapped_reference_area", 0) > 0}
     length = len(rows)
@@ -118,7 +120,9 @@ def select_frames(manifest: dict, detection: dict, count: int = 10, *,
             "ranking": "descending available_area within each time interval; earlier frame wins ties",
             "interval_quotas": quotas, "intervals": bins, "strict_bins": strict_bins,
             "fallback_rule": "none" if strict_bins else "fill empty interval slots from latest available interval, excluding first 20%",
-            "eligibility": "valid mask, valid frame0 mapping, nonempty available and mapped masks",
+            "eligibility": "valid mask, object coverage by link7 <=95%, valid frame0 mapping, nonempty available and mapped masks",
+            "overmask_excluded_frames": [t for t, row in enumerate(rows)
+                if row.get("link7_overmask", False) or diagnoses[t].get("mask_overlap_fraction", row.get("link7_object_covered_fraction", 0)) > .95],
             "recovery_rule": "immediate unflagged, assessed, crop-valid successor of each flagged run",
             "required_frames": required, "selected_frames": selected,
             "occlusion_episodes": episodes,

@@ -83,6 +83,14 @@ def preflight(config, *, require_new):
         path = video_path(config, case)
         if not path.is_file() or not path.stat().st_size:
             errors.append(f"Missing or empty source video for {case}: {path}")
+        if config.get("vlm3_enabled"):
+            dataset, number = case.rsplit("_", 1)
+            dataset = {"Cosmos25": "COSMOS2.5", "Cosmos3": "COSMOS3", "LVP": "LVP_ROBOWM"}.get(dataset, dataset)
+            object_path = config["vlm3_object_root"] / "cases" / f"{dataset}_{number}" / "masking/segmentation.npz"
+            if not object_path.is_file():
+                errors.append(f"Optional VLM3 needs existing object masks: {object_path}")
+    if config.get("vlm3_enabled") and not (PROJECT_ROOT / "persistent_masking/vlm3_interface/reference.png").is_file():
+        errors.append("Optional VLM3 six-point reference is missing")
     ffmpeg = ffmpeg_path(config)
     if ffmpeg is None or not ffmpeg.is_file() or not os.access(ffmpeg, os.X_OK):
         errors.append("FFmpeg not found; set FFMPEG_BINARY in interface/config.py")
@@ -107,6 +115,7 @@ def show(config, errors, ffmpeg):
     print(f"Work: {work}")
     print(f"Review: {review}")
     print(f"Naive replay in review: {'yes' if config['include_naive_replay'] else 'no'}")
+    print(f"Optional VLM3 overmask repair: {'enabled' if config.get('vlm3_enabled') else 'disabled'}")
     if ffmpeg:
         print(f"FFmpeg: {ffmpeg}")
     if errors:
@@ -146,6 +155,8 @@ def run_foreground(config, ffmpeg):
     work.mkdir(parents=True, exist_ok=False)
     env = os.environ.copy()
     env["PYTHONPATH"] = str(PROJECT_ROOT) + (os.pathsep + env["PYTHONPATH"] if env.get("PYTHONPATH") else "")
+    if config.get("vlm3_enabled"):
+        env["PYTHONPATH"] = str(PROJECT_ROOT / "src") + os.pathsep + env["PYTHONPATH"]
     env["PERSISTENT_MASKING_VIDEO_ROOT"] = str(config["video_root"])
     env["FFMPEG_BINARY"] = str(ffmpeg)
     examples = [str(PROJECT_ROOT / f"persistent_masking/vlm_interface/images/reference_{n}.png")
@@ -156,6 +167,8 @@ def run_foreground(config, ffmpeg):
     pipeline = [sys.executable, "-u", "-m", "persistent_masking.pipeline", "continue",
                 "--level", config["level"], "--work", str(work), "--cases", *cases,
                 "--ffmpeg", str(ffmpeg), "--examples", *examples]
+    if config.get("vlm3_enabled"):
+        pipeline.extend(["--enable-vlm3", "--object-mask-root", str(config["vlm3_object_root"])])
     result = 1
     with (work / "run.log").open("w") as log:
         try:
