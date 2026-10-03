@@ -13,7 +13,7 @@ The intended separation is already reflected in the implementation:
 | Core persistent link7 masking | Original video, DINO gripper references, VLM1 comparison reference, three VLM2 examples | Full-video link7 masks from naive SAM3 or VLM-guided reseeding | None |
 | Task-object masking | Original video, generation prompt | Full-video `task_object` SAM3 masks | Generates them independently |
 | Optional VLM3 | Selected link7 masks, task-object masks and name, original video, six-point example | Repaired link7 masks and per-frame crop exclusions | Required |
-| Object tracking / rigidity | Original full-frame video, object masks, shared geometry | Object tracks, visibility, rigidity history | Required; core link7 masking is independent |
+| Object tracking | Original full-frame video, object masks | Object tracks and visibility | Required; core link7 masking is independent |
 | Occlusion detection | Selected link7 masks, object masks, object tracks and anchor visibility | Per-frame measurements and final occlusion flags | Required |
 | Available-pixel export | Selected link7 masks, object masks, saved occlusion audit, source RGB | Available object pixels and corresponding frame-0 shapes | Required |
 | Crop-frame selection | Available-pixel manifest, saved occlusion audit | Normally ten current/reference crop pairs | Required through saved artifacts |
@@ -25,7 +25,7 @@ flowchart TD
     V --> O["Independent task-object grounding at frame 0 and SAM3 propagation"]
     L --> P["Core link7 masks or existing naive fallback"]
     O --> OM["Task-object masks O for every source frame"]
-    OM --> T["Object tracking and original rigidity history"]
+    OM --> T["Object tracks and visibility"]
     P --> ENABLE{"Optional VLM3 enabled?"}
     ENABLE -->|No| G["Select link7 masks G"]
     ENABLE -->|Yes| AUDIT["Audit link7 against object masks"]
@@ -47,8 +47,6 @@ flowchart TD
     MAP --> SELECT["Reserve immediate recovery frames; fill time-bin slots by available area"]
     D --> SELECT
     SELECT --> C["Current available RGBA plus frame-0 shape RGBA and original frame"]
-    D --> S["Separate occlusion-filtered rigidity mean"]
-    T --> S
 ```
 
 This chart expresses data dependencies, not a single automatic end-to-end command. In particular, generating a VLM3 candidate does **not** automatically update previously saved gripper archives, occlusion audits, or crops. Section 6 explains the required handoff.
@@ -224,7 +222,7 @@ The VLM2 box represents its bounded same-frame alternate-model handling. It neve
 
 ## 4. Task-object masking and the tracks needed by occlusion
 
-Sources: [segment.py](../src/pdi_eval/object_deformation_wrapper/segment.py), [prompting.py](../src/pdi_eval/object_deformation_wrapper/prompting.py), and [score.py](../src/pdi_eval/object_deformation_wrapper/score.py).
+Sources: [segment.py](../src/pdi_eval/object_deformation_wrapper/segment.py) and [prompting.py](../src/pdi_eval/object_deformation_wrapper/prompting.py).
 
 ### 4.1 Ground and segment the object at frame 0
 
@@ -247,11 +245,7 @@ The archive is `masking/segmentation.npz`, with `object_masks[:,0]`, `object_nam
 
 ### 4.2 Object tracks are an additional occlusion input
 
-Object scoring prepares CoTracker queries from the **frame-0 object mask**, requests 100 foreground queries, and uses `exact-group` tracking. A score requires at least five retained object tracks and sufficient nondegenerate 3D-pair evidence. MegaSAM runs on the original full-frame video, not on the object crops.
-
-Occlusion reads the saved object tracks in source-video pixel coordinates. It does not use VLM judgments or rigidity values to pick its reference frame. Rigidity values and carried-frame markers are appended for reporting only.
-
-For the current `occlusion.process()` entry point, saved tracks and `score/rigidity.json` must exist, even though the detection verdict itself does not depend on rigidity scores.
+The existing CoTracker track generation uses the **frame-0 object mask**, requests 100 foreground queries, and uses `exact-group` tracking. Occlusion reads the saved object tracks in source-video pixel coordinates and uses visibility at its selected reference frame to establish eligible tracks. It does not use VLM judgments to pick that reference frame.
 
 ## 5. Optional VLM3: object-aware gripper remasking
 
@@ -336,9 +330,8 @@ To use a repair coherently:
 3. Rerun occlusion on the selected gripper archive.
 4. Re-export available pixels and frame-0 mappings from that new audit.
 5. Rerun crop selection and regenerate its paired PNGs.
-6. Recompute a separate filtered score if that output is needed; recompute crop-based anomaly scores if their input pairs changed.
 
-The recorded fresh-LVP experiment followed this sequence in isolated inputs, reusing unchanged object masks/tracks and original rigidity scores.
+The recorded fresh-LVP experiment followed this sequence in isolated inputs, reusing unchanged object masks and tracks.
 
 **Exclusions are not applied by deleting mask frames.** The merged archive remains a complete sequence. `vlm3.crop_excluded_frames` is recorded, while current crop eligibility is recomputed from the selected masks/audit. The generic selector does not directly read `repair.json` or its arbitrary exclusion list. At defaults, its >95% overlap and area gates reject the residual failures; empty object masks cannot yield usable available pixels, and accepted VLM3 output has no empty link7 frames.
 
@@ -423,13 +416,9 @@ The legacy continuation permits object-mask regrowth because its contact numerat
 
 Filter each branch's runs **before** OR-ing their surviving flags. All frames of a surviving run, including its onset, become flagged. There is no gap bridging or padding before onset. A failed/unassessable frame breaks the relevant candidate state. Unflagged does not necessarily mean assessed or reliable.
 
-### 7.4 Different uses of the final flags
+### 7.4 Use of the final flags in cropping
 
 The crop selector uses final `flagged` runs to reserve immediate recovery frames. It does **not** globally exclude flagged frames from ordinary crop slots.
-
-The separate [occlusion_scores.py](../src/pdi_eval/object_deformation_wrapper/occlusion_scores.py) consumer averages original `rigidity_history[1:]` after excluding final flagged frames and failed-area masks. It keeps other unassessable and carried values, uses null for excluded values, and returns a null final score when nothing remains. It does not independently exclude every >95% direct-overlap frame.
-
-Thus score retention, available-pixel mapping, and crop eligibility are distinct policies.
 
 ## 8. Cropping available pixels and mapping the same visible shape to frame 0
 
