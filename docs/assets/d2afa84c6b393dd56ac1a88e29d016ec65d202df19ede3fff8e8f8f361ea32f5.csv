@@ -1,0 +1,8 @@
+video_id,status,anomaly_score_sum,scored_pair_count
+COSMOS2.5_0005,excluded_by_user,,0
+COSMOS2.5_0010,excluded_by_user,,0
+COSMOS2.5_0056,scored,5.378403118314284,10
+COSMOS2.5_0065,excluded_by_user,,0
+LVP_ROBOWM_0010,scored,5.343803483988458,10
+LVP_ROBOWM_0015,scored,3.9401449779391564,10
+LVP_ROBOWM_0060,scored,5.185663798152823,10

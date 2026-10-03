@@ -44,6 +44,20 @@ class VLM3Tests(unittest.TestCase):
             self.assertEqual(saved['vlm3']['status'],'repair_failed')
             self.assertEqual(result['link7_input']['mask_policy'],'old_pipeline_naive_fallback')
 
+    def test_attached_accepted_repair_resumes_default_occlusion_and_crop_sync(self):
+        with TemporaryDirectory() as tmp:
+            work=Path(tmp).resolve();objects=work/'objects';folder=objects/'cases/COSMOS2.5_0005'
+            (folder/'occlusion').mkdir(parents=True)
+            base=work/'selected.npz'
+            (folder/'occlusion/detection.json').write_text(json.dumps({'inputs':{'gripper':{'path':str(base)}}}))
+            repair=work/'repair.json';repair.write_text(json.dumps({'case':'COSMOS2.5_0005','gate':{'frame':6}}))
+            result={'status':'completed_checks','vlm3':{'accepted':True,'record':str(repair)}}
+            (work/'provenance.json').write_text(json.dumps({'results':{'Cosmos25_0005':result}}))
+            with patch('pdi_eval.object_deformation_wrapper.mask_sync.sync_case') as sync, patch('persistent_masking.vlm3_overmask.export_review'):
+                repair_persistent_run(work,['Cosmos25_0005'],objects)
+            sync.assert_called_once_with(case=folder,repair_record=repair,base_segmentation=base,
+                gripper_root=work/'vlm3/downstream/gripper',crop_root=work/'vlm3/crops')
+
     def test_repair_uses_exact_first_gate_frame_and_keeps_original_masks(self):
         obj=np.zeros((3,100,100),bool);obj[:,60:80,60:80]=True
         before=np.zeros_like(obj);before[:,0,0]=True;before[2]|=obj[2]

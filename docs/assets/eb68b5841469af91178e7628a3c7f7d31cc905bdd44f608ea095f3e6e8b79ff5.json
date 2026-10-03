@@ -1,0 +1,1543 @@
+{
+  "case": "LVP_ROBOWM_0015",
+  "status": "accepted",
+  "accepted": true,
+  "gate": {
+    "threshold": 0.95,
+    "comparison": "strictly greater than",
+    "fraction_denominator": "current task-object SAM3 mask pixels",
+    "frame": 0,
+    "reasons": [
+      "object_overlap_gt_0.95"
+    ],
+    "overlap_frames": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      37,
+      38,
+      39,
+      40,
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "oversized_frames": [],
+    "max_object_covered_fraction": 0.9987333755541482,
+    "frames": [
+      {
+        "frame": 0,
+        "object_area": 1132,
+        "link7_area": 3695,
+        "shared_pixels": 1117,
+        "object_covered_fraction": 0.9867491166077739,
+        "link7_image_fraction": 0.009252303685897436
+      },
+      {
+        "frame": 1,
+        "object_area": 1143,
+        "link7_area": 3700,
+        "shared_pixels": 1123,
+        "object_covered_fraction": 0.9825021872265967,
+        "link7_image_fraction": 0.009264823717948718
+      },
+      {
+        "frame": 2,
+        "object_area": 1148,
+        "link7_area": 3699,
+        "shared_pixels": 1126,
+        "object_covered_fraction": 0.980836236933798,
+        "link7_image_fraction": 0.009262319711538462
+      },
+      {
+        "frame": 3,
+        "object_area": 1151,
+        "link7_area": 3801,
+        "shared_pixels": 1137,
+        "object_covered_fraction": 0.9878366637706343,
+        "link7_image_fraction": 0.009517728365384615
+      },
+      {
+        "frame": 4,
+        "object_area": 1153,
+        "link7_area": 3563,
+        "shared_pixels": 1127,
+        "object_covered_fraction": 0.9774501300954033,
+        "link7_image_fraction": 0.00892177483974359
+      },
+      {
+        "frame": 5,
+        "object_area": 1153,
+        "link7_area": 3544,
+        "shared_pixels": 1126,
+        "object_covered_fraction": 0.9765828274067649,
+        "link7_image_fraction": 0.008874198717948718
+      },
+      {
+        "frame": 6,
+        "object_area": 1150,
+        "link7_area": 3568,
+        "shared_pixels": 1123,
+        "object_covered_fraction": 0.9765217391304348,
+        "link7_image_fraction": 0.008934294871794871
+      },
+      {
+        "frame": 7,
+        "object_area": 1154,
+        "link7_area": 3532,
+        "shared_pixels": 1130,
+        "object_covered_fraction": 0.9792027729636048,
+        "link7_image_fraction": 0.00884415064102564
+      },
+      {
+        "frame": 8,
+        "object_area": 1156,
+        "link7_area": 3434,
+        "shared_pixels": 1129,
+        "object_covered_fraction": 0.976643598615917,
+        "link7_image_fraction": 0.008598758012820513
+      },
+      {
+        "frame": 9,
+        "object_area": 1120,
+        "link7_area": 3412,
+        "shared_pixels": 1112,
+        "object_covered_fraction": 0.9928571428571429,
+        "link7_image_fraction": 0.008543669871794871
+      },
+      {
+        "frame": 10,
+        "object_area": 1116,
+        "link7_area": 3428,
+        "shared_pixels": 1112,
+        "object_covered_fraction": 0.996415770609319,
+        "link7_image_fraction": 0.008583733974358975
+      },
+      {
+        "frame": 11,
+        "object_area": 1156,
+        "link7_area": 3427,
+        "shared_pixels": 1135,
+        "object_covered_fraction": 0.9818339100346021,
+        "link7_image_fraction": 0.008581229967948719
+      },
+      {
+        "frame": 12,
+        "object_area": 1122,
+        "link7_area": 4018,
+        "shared_pixels": 1098,
+        "object_covered_fraction": 0.9786096256684492,
+        "link7_image_fraction": 0.010061097756410257
+      },
+      {
+        "frame": 13,
+        "object_area": 1154,
+        "link7_area": 3616,
+        "shared_pixels": 1122,
+        "object_covered_fraction": 0.9722703639514731,
+        "link7_image_fraction": 0.00905448717948718
+      },
+      {
+        "frame": 14,
+        "object_area": 1154,
+        "link7_area": 3779,
+        "shared_pixels": 1135,
+        "object_covered_fraction": 0.9835355285961872,
+        "link7_image_fraction": 0.009462640224358974
+      },
+      {
+        "frame": 15,
+        "object_area": 1152,
+        "link7_area": 3196,
+        "shared_pixels": 1134,
+        "object_covered_fraction": 0.984375,
+        "link7_image_fraction": 0.008002804487179487
+      },
+      {
+        "frame": 16,
+        "object_area": 1145,
+        "link7_area": 3269,
+        "shared_pixels": 1123,
+        "object_covered_fraction": 0.9807860262008734,
+        "link7_image_fraction": 0.008185596955128206
+      },
+      {
+        "frame": 17,
+        "object_area": 1148,
+        "link7_area": 3265,
+        "shared_pixels": 1127,
+        "object_covered_fraction": 0.9817073170731707,
+        "link7_image_fraction": 0.00817558092948718
+      },
+      {
+        "frame": 18,
+        "object_area": 1131,
+        "link7_area": 2890,
+        "shared_pixels": 1105,
+        "object_covered_fraction": 0.9770114942528736,
+        "link7_image_fraction": 0.007236578525641026
+      },
+      {
+        "frame": 19,
+        "object_area": 994,
+        "link7_area": 2560,
+        "shared_pixels": 984,
+        "object_covered_fraction": 0.9899396378269618,
+        "link7_image_fraction": 0.00641025641025641
+      },
+      {
+        "frame": 20,
+        "object_area": 855,
+        "link7_area": 2395,
+        "shared_pixels": 850,
+        "object_covered_fraction": 0.9941520467836257,
+        "link7_image_fraction": 0.005997095352564103
+      },
+      {
+        "frame": 21,
+        "object_area": 842,
+        "link7_area": 2363,
+        "shared_pixels": 838,
+        "object_covered_fraction": 0.995249406175772,
+        "link7_image_fraction": 0.005916967147435897
+      },
+      {
+        "frame": 22,
+        "object_area": 822,
+        "link7_area": 2344,
+        "shared_pixels": 818,
+        "object_covered_fraction": 0.9951338199513382,
+        "link7_image_fraction": 0.005869391025641026
+      },
+      {
+        "frame": 23,
+        "object_area": 794,
+        "link7_area": 2283,
+        "shared_pixels": 785,
+        "object_covered_fraction": 0.9886649874055415,
+        "link7_image_fraction": 0.005716646634615384
+      },
+      {
+        "frame": 24,
+        "object_area": 785,
+        "link7_area": 2144,
+        "shared_pixels": 751,
+        "object_covered_fraction": 0.956687898089172,
+        "link7_image_fraction": 0.005368589743589744
+      },
+      {
+        "frame": 25,
+        "object_area": 653,
+        "link7_area": 2139,
+        "shared_pixels": 645,
+        "object_covered_fraction": 0.9877488514548239,
+        "link7_image_fraction": 0.005356069711538462
+      },
+      {
+        "frame": 26,
+        "object_area": 615,
+        "link7_area": 2126,
+        "shared_pixels": 609,
+        "object_covered_fraction": 0.9902439024390244,
+        "link7_image_fraction": 0.005323517628205128
+      },
+      {
+        "frame": 27,
+        "object_area": 577,
+        "link7_area": 2099,
+        "shared_pixels": 570,
+        "object_covered_fraction": 0.9878682842287695,
+        "link7_image_fraction": 0.0052559094551282055
+      },
+      {
+        "frame": 28,
+        "object_area": 580,
+        "link7_area": 2030,
+        "shared_pixels": 557,
+        "object_covered_fraction": 0.9603448275862069,
+        "link7_image_fraction": 0.005083133012820513
+      },
+      {
+        "frame": 29,
+        "object_area": 563,
+        "link7_area": 2071,
+        "shared_pixels": 539,
+        "object_covered_fraction": 0.9573712255772646,
+        "link7_image_fraction": 0.005185797275641025
+      },
+      {
+        "frame": 30,
+        "object_area": 509,
+        "link7_area": 2064,
+        "shared_pixels": 500,
+        "object_covered_fraction": 0.9823182711198428,
+        "link7_image_fraction": 0.005168269230769231
+      },
+      {
+        "frame": 31,
+        "object_area": 560,
+        "link7_area": 2072,
+        "shared_pixels": 533,
+        "object_covered_fraction": 0.9517857142857142,
+        "link7_image_fraction": 0.005188301282051282
+      },
+      {
+        "frame": 32,
+        "object_area": 535,
+        "link7_area": 2043,
+        "shared_pixels": 509,
+        "object_covered_fraction": 0.9514018691588785,
+        "link7_image_fraction": 0.005115685096153846
+      },
+      {
+        "frame": 33,
+        "object_area": 502,
+        "link7_area": 2056,
+        "shared_pixels": 480,
+        "object_covered_fraction": 0.9561752988047809,
+        "link7_image_fraction": 0.005148237179487179
+      },
+      {
+        "frame": 34,
+        "object_area": 509,
+        "link7_area": 2128,
+        "shared_pixels": 484,
+        "object_covered_fraction": 0.9508840864440079,
+        "link7_image_fraction": 0.005328525641025641
+      },
+      {
+        "frame": 35,
+        "object_area": 413,
+        "link7_area": 2145,
+        "shared_pixels": 396,
+        "object_covered_fraction": 0.9588377723970944,
+        "link7_image_fraction": 0.00537109375
+      },
+      {
+        "frame": 36,
+        "object_area": 361,
+        "link7_area": 2219,
+        "shared_pixels": 339,
+        "object_covered_fraction": 0.9390581717451524,
+        "link7_image_fraction": 0.005556390224358975
+      },
+      {
+        "frame": 37,
+        "object_area": 334,
+        "link7_area": 2390,
+        "shared_pixels": 324,
+        "object_covered_fraction": 0.9700598802395209,
+        "link7_image_fraction": 0.005984575320512821
+      },
+      {
+        "frame": 38,
+        "object_area": 566,
+        "link7_area": 2758,
+        "shared_pixels": 540,
+        "object_covered_fraction": 0.9540636042402827,
+        "link7_image_fraction": 0.006906049679487179
+      },
+      {
+        "frame": 39,
+        "object_area": 613,
+        "link7_area": 2876,
+        "shared_pixels": 591,
+        "object_covered_fraction": 0.964110929853181,
+        "link7_image_fraction": 0.0072015224358974355
+      },
+      {
+        "frame": 40,
+        "object_area": 644,
+        "link7_area": 3067,
+        "shared_pixels": 618,
+        "object_covered_fraction": 0.9596273291925466,
+        "link7_image_fraction": 0.00767978766025641
+      },
+      {
+        "frame": 41,
+        "object_area": 589,
+        "link7_area": 2967,
+        "shared_pixels": 558,
+        "object_covered_fraction": 0.9473684210526315,
+        "link7_image_fraction": 0.007429387019230769
+      },
+      {
+        "frame": 42,
+        "object_area": 489,
+        "link7_area": 2927,
+        "shared_pixels": 469,
+        "object_covered_fraction": 0.9591002044989775,
+        "link7_image_fraction": 0.007329226762820513
+      },
+      {
+        "frame": 43,
+        "object_area": 524,
+        "link7_area": 3027,
+        "shared_pixels": 510,
+        "object_covered_fraction": 0.9732824427480916,
+        "link7_image_fraction": 0.007579627403846154
+      },
+      {
+        "frame": 44,
+        "object_area": 953,
+        "link7_area": 3516,
+        "shared_pixels": 927,
+        "object_covered_fraction": 0.9727177334732424,
+        "link7_image_fraction": 0.008804086538461538
+      },
+      {
+        "frame": 45,
+        "object_area": 1513,
+        "link7_area": 4059,
+        "shared_pixels": 1463,
+        "object_covered_fraction": 0.9669530733641771,
+        "link7_image_fraction": 0.01016376201923077
+      },
+      {
+        "frame": 46,
+        "object_area": 1579,
+        "link7_area": 4914,
+        "shared_pixels": 1577,
+        "object_covered_fraction": 0.9987333755541482,
+        "link7_image_fraction": 0.0123046875
+      },
+      {
+        "frame": 47,
+        "object_area": 1610,
+        "link7_area": 3648,
+        "shared_pixels": 0,
+        "object_covered_fraction": 0.0,
+        "link7_image_fraction": 0.009134615384615385
+      },
+      {
+        "frame": 48,
+        "object_area": 1592,
+        "link7_area": 3757,
+        "shared_pixels": 0,
+        "object_covered_fraction": 0.0,
+        "link7_image_fraction": 0.009407552083333333
+      }
+    ]
+  },
+  "object_input": {
+    "path": "/root/autodl-tmp/pdi/experiments/vlm3-seven-cases-20261003/inputs/object/cases/LVP_ROBOWM_0015/masking/segmentation.npz",
+    "sha256": "a1c36a997c63819dc1340f187986eb8695a133342cac875b83c08ac3e83f0856",
+    "grounding_sha256": "e18fcf79c84019ab7ea032a8a06257233d18dde9b33f2f318bbb3799accb2ce4",
+    "target_object": "white cup"
+  },
+  "attempts": [
+    {
+      "number": 1,
+      "frame": 0,
+      "vlm_call": {
+        "role": "vlm3_overmask_repair",
+        "backend": "cloud_api",
+        "requested_model": "gemini-3.8-flash",
+        "system_prompt": "You are a SAM3 prompting expert repairing gripper overmasking.\nImage 1 is the exact source-video frame on which SAM3 will be seeded. Image 2\nis an annotated reference: THREE green inclusion points are on the gripper;\nTHREE red exclusion points are on the forearm, wrist, and manipulated object.\nThe gripper includes its white palm housing and lower dark fingers. The held or\nmanipulated object is NEVER part of the gripper, even when touching or enclosed\nby its fingers. Inspect original detail. Return only the requested JSON schema.\nCoordinates are integer x,y values normalized 0 through 1000 relative to Image 1.\nDo not copy reference coordinates or infer points on invisible material.",
+        "user_prompt": "Place THREE positive points and THREE negative points in Image 1.\nThe task object is white cup. The old link7 segmentation wrongly includes\nobject or unrelated scene pixels; generate fresh gripper points from the RGB.\nPositive points, in order: (1) well inside lower dark/black GRIPPER material below\nthe white palm/collar; (2) inside another spatially separated dark/black gripper\nregion; (3) at the center of the hanging WHITE gripper palm below the shiny\ncollar. Never put a positive on the task object, rim, forearm, collar, wrist,\nbackground, or a thin outline. Object color is not gripper anatomy.\nNegative points, in order: (1) inside the long forearm link, in its elbow-side\nhalf; (2) inside the upright wrist/end-cap above the gripper, away from joints;\n(3) DEEP INSIDE THE VISIBLE TASK OBJECT (white cup), preferably its broad\ncentral surface, away from its boundary and from gripping fingers. This last\nnegative is essential: exclude the object while retaining the gripper around it.\nThe object may still be on the table before contact; exclude the SAME task\nobject then too. Ignore other cups or props when naming the task object.\nMatch the anatomical roles illustrated by Image 2, not its particular pose.\nReturn only {\"positive_points\":[[x,y],[x,y],[x,y]],\n\"negative_points\":[[x,y],[x,y],[x,y]]}. If a required role is truly not visible,\nreturn {\"positive_points\":null,\"negative_points\":null} rather than guessing.\nThe existing task-object mask gives this approximate visible-object bounding box in Image 1, normalized 0\u20131000: [377, 421, 418, 506]. Use it to identify the named object in RGB, not as gripper material. Choose the object negative deep inside its visible surface; choose positives outside the object.",
+        "image_sha256": [
+          "4e30dc9bfedd1c8aa798f3ec1f0a9699359b55650f3079d551c62f01adb6ead3",
+          "b7b3171584c83dbd0e156c9f7035bd44ca5bfb5d3649d2897fa392dcc86567c0"
+        ],
+        "id": "chatcmpl-202610031914599317927548268d9d6Tk6L0SA7",
+        "model": "gemini-3.8-flash",
+        "provider": null,
+        "status": null,
+        "usage": {
+          "prompt_tokens": 2763,
+          "completion_tokens": 4032,
+          "total_tokens": 6795,
+          "billing_usage": {
+            "source": "gemini_chat",
+            "semantic": "gemini",
+            "gemini_usage_metadata": {
+              "promptTokenCount": 2763,
+              "toolUsePromptTokenCount": 0,
+              "candidatesTokenCount": 100,
+              "totalTokenCount": 6795,
+              "thoughtsTokenCount": 3932,
+              "cachedContentTokenCount": 0,
+              "promptTokensDetails": [
+                {
+                  "modality": "TEXT",
+                  "tokenCount": 575
+                },
+                {
+                  "modality": "IMAGE",
+                  "tokenCount": 2188
+                }
+              ],
+              "toolUsePromptTokensDetails": [],
+              "candidatesTokensDetails": [
+                {
+                  "modality": "TEXT",
+                  "tokenCount": 100
+                }
+              ]
+            }
+          },
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "text_tokens": 575,
+            "audio_tokens": 0,
+            "image_tokens": 2188
+          },
+          "completion_tokens_details": {
+            "text_tokens": 100,
+            "audio_tokens": 0,
+            "image_tokens": 0,
+            "reasoning_tokens": 3932
+          },
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "input_tokens_details": null,
+          "claude_cache_creation_5_m_tokens": 0,
+          "claude_cache_creation_1_h_tokens": 0
+        },
+        "answer": "```json\n{\n  \"positive_points\": [\n    [550, 372],\n    [576, 342],\n    [555, 290]\n  ],\n  \"negative_points\": [\n    [750, 90],\n    [580, 90],\n    [397, 463]\n  ]\n}\n```"
+      },
+      "seed": {
+        "positive_points": [
+          [
+            550,
+            372
+          ],
+          [
+            576,
+            342
+          ],
+          [
+            555,
+            290
+          ]
+        ],
+        "negative_points": [
+          [
+            750,
+            90
+          ],
+          [
+            580,
+            90
+          ],
+          [
+            397,
+            463
+          ]
+        ],
+        "points": [
+          [
+            457.6,
+            178.56
+          ],
+          [
+            479.23199999999997,
+            164.16000000000003
+          ],
+          [
+            461.76000000000005,
+            139.2
+          ],
+          [
+            624.0,
+            43.199999999999996
+          ],
+          [
+            482.55999999999995,
+            43.199999999999996
+          ],
+          [
+            330.30400000000003,
+            222.24
+          ]
+        ],
+        "labels": [
+          1,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "frame": 0
+      },
+      "sam": {
+        "prompt": {
+          "type": "add_prompt",
+          "frame_index": 0,
+          "obj_id": 0,
+          "points": [
+            [
+              0.55,
+              0.372
+            ],
+            [
+              0.576,
+              0.342
+            ],
+            [
+              0.555,
+              0.29
+            ],
+            [
+              0.75,
+              0.09
+            ],
+            [
+              0.58,
+              0.09
+            ],
+            [
+              0.397,
+              0.463
+            ]
+          ],
+          "point_labels": [
+            1,
+            1,
+            1,
+            0,
+            0,
+            0
+          ]
+        },
+        "membership": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false
+        ],
+        "membership_ok": true,
+        "empty_frames": []
+      },
+      "post_gate": {
+        "threshold": 0.95,
+        "comparison": "strictly greater than",
+        "fraction_denominator": "current task-object SAM3 mask pixels",
+        "frame": null,
+        "reasons": [],
+        "overlap_frames": [],
+        "oversized_frames": [],
+        "max_object_covered_fraction": 0.8622754491017964,
+        "frames": [
+          {
+            "frame": 0,
+            "object_area": 1132,
+            "link7_area": 2901,
+            "shared_pixels": 0,
+            "object_covered_fraction": 0.0,
+            "link7_image_fraction": 0.007264122596153846
+          },
+          {
+            "frame": 1,
+            "object_area": 1143,
+            "link7_area": 2929,
+            "shared_pixels": 0,
+            "object_covered_fraction": 0.0,
+            "link7_image_fraction": 0.007334234775641026
+          },
+          {
+            "frame": 2,
+            "object_area": 1148,
+            "link7_area": 2952,
+            "shared_pixels": 0,
+            "object_covered_fraction": 0.0,
+            "link7_image_fraction": 0.007391826923076923
+          },
+          {
+            "frame": 3,
+            "object_area": 1151,
+            "link7_area": 3107,
+            "shared_pixels": 0,
+            "object_covered_fraction": 0.0,
+            "link7_image_fraction": 0.007779947916666667
+          },
+          {
+            "frame": 4,
+            "object_area": 1153,
+            "link7_area": 3021,
+            "shared_pixels": 0,
+            "object_covered_fraction": 0.0,
+            "link7_image_fraction": 0.007564603365384615
+          },
+          {
+            "frame": 5,
+            "object_area": 1153,
+            "link7_area": 2732,
+            "shared_pixels": 0,
+            "object_covered_fraction": 0.0,
+            "link7_image_fraction": 0.006840945512820513
+          },
+          {
+            "frame": 6,
+            "object_area": 1150,
+            "link7_area": 2700,
+            "shared_pixels": 0,
+            "object_covered_fraction": 0.0,
+            "link7_image_fraction": 0.006760817307692308
+          },
+          {
+            "frame": 7,
+            "object_area": 1154,
+            "link7_area": 2660,
+            "shared_pixels": 0,
+            "object_covered_fraction": 0.0,
+            "link7_image_fraction": 0.006660657051282051
+          },
+          {
+            "frame": 8,
+            "object_area": 1156,
+            "link7_area": 2783,
+            "shared_pixels": 0,
+            "object_covered_fraction": 0.0,
+            "link7_image_fraction": 0.00696864983974359
+          },
+          {
+            "frame": 9,
+            "object_area": 1120,
+            "link7_area": 2790,
+            "shared_pixels": 0,
+            "object_covered_fraction": 0.0,
+            "link7_image_fraction": 0.006986177884615385
+          },
+          {
+            "frame": 10,
+            "object_area": 1116,
+            "link7_area": 2832,
+            "shared_pixels": 0,
+            "object_covered_fraction": 0.0,
+            "link7_image_fraction": 0.007091346153846154
+          },
+          {
+            "frame": 11,
+            "object_area": 1156,
+            "link7_area": 2852,
+            "shared_pixels": 0,
+            "object_covered_fraction": 0.0,
+            "link7_image_fraction": 0.007141426282051282
+          },
+          {
+            "frame": 12,
+            "object_area": 1122,
+            "link7_area": 2870,
+            "shared_pixels": 0,
+            "object_covered_fraction": 0.0,
+            "link7_image_fraction": 0.007186498397435897
+          },
+          {
+            "frame": 13,
+            "object_area": 1154,
+            "link7_area": 2656,
+            "shared_pixels": 0,
+            "object_covered_fraction": 0.0,
+            "link7_image_fraction": 0.006650641025641025
+          },
+          {
+            "frame": 14,
+            "object_area": 1154,
+            "link7_area": 2722,
+            "shared_pixels": 0,
+            "object_covered_fraction": 0.0,
+            "link7_image_fraction": 0.006815905448717949
+          },
+          {
+            "frame": 15,
+            "object_area": 1152,
+            "link7_area": 2602,
+            "shared_pixels": 0,
+            "object_covered_fraction": 0.0,
+            "link7_image_fraction": 0.00651542467948718
+          },
+          {
+            "frame": 16,
+            "object_area": 1145,
+            "link7_area": 2508,
+            "shared_pixels": 0,
+            "object_covered_fraction": 0.0,
+            "link7_image_fraction": 0.006280048076923077
+          },
+          {
+            "frame": 17,
+            "object_area": 1148,
+            "link7_area": 2336,
+            "shared_pixels": 0,
+            "object_covered_fraction": 0.0,
+            "link7_image_fraction": 0.005849358974358974
+          },
+          {
+            "frame": 18,
+            "object_area": 1131,
+            "link7_area": 1870,
+            "shared_pixels": 17,
+            "object_covered_fraction": 0.015030946065428824,
+            "link7_image_fraction": 0.004682491987179487
+          },
+          {
+            "frame": 19,
+            "object_area": 994,
+            "link7_area": 1614,
+            "shared_pixels": 38,
+            "object_covered_fraction": 0.03822937625754527,
+            "link7_image_fraction": 0.0040414663461538465
+          },
+          {
+            "frame": 20,
+            "object_area": 855,
+            "link7_area": 1556,
+            "shared_pixels": 15,
+            "object_covered_fraction": 0.017543859649122806,
+            "link7_image_fraction": 0.0038962339743589744
+          },
+          {
+            "frame": 21,
+            "object_area": 842,
+            "link7_area": 1550,
+            "shared_pixels": 21,
+            "object_covered_fraction": 0.02494061757719715,
+            "link7_image_fraction": 0.003881209935897436
+          },
+          {
+            "frame": 22,
+            "object_area": 822,
+            "link7_area": 1550,
+            "shared_pixels": 25,
+            "object_covered_fraction": 0.030413625304136254,
+            "link7_image_fraction": 0.003881209935897436
+          },
+          {
+            "frame": 23,
+            "object_area": 794,
+            "link7_area": 1534,
+            "shared_pixels": 21,
+            "object_covered_fraction": 0.02644836272040302,
+            "link7_image_fraction": 0.003841145833333333
+          },
+          {
+            "frame": 24,
+            "object_area": 785,
+            "link7_area": 1504,
+            "shared_pixels": 56,
+            "object_covered_fraction": 0.07133757961783439,
+            "link7_image_fraction": 0.003766025641025641
+          },
+          {
+            "frame": 25,
+            "object_area": 653,
+            "link7_area": 1511,
+            "shared_pixels": 12,
+            "object_covered_fraction": 0.018376722817764167,
+            "link7_image_fraction": 0.003783553685897436
+          },
+          {
+            "frame": 26,
+            "object_area": 615,
+            "link7_area": 1536,
+            "shared_pixels": 20,
+            "object_covered_fraction": 0.032520325203252036,
+            "link7_image_fraction": 0.0038461538461538464
+          },
+          {
+            "frame": 27,
+            "object_area": 577,
+            "link7_area": 1538,
+            "shared_pixels": 18,
+            "object_covered_fraction": 0.03119584055459272,
+            "link7_image_fraction": 0.003851161858974359
+          },
+          {
+            "frame": 28,
+            "object_area": 580,
+            "link7_area": 1510,
+            "shared_pixels": 33,
+            "object_covered_fraction": 0.056896551724137934,
+            "link7_image_fraction": 0.0037810496794871795
+          },
+          {
+            "frame": 29,
+            "object_area": 563,
+            "link7_area": 1549,
+            "shared_pixels": 28,
+            "object_covered_fraction": 0.0497335701598579,
+            "link7_image_fraction": 0.0038787059294871796
+          },
+          {
+            "frame": 30,
+            "object_area": 509,
+            "link7_area": 1573,
+            "shared_pixels": 17,
+            "object_covered_fraction": 0.03339882121807466,
+            "link7_image_fraction": 0.003938802083333333
+          },
+          {
+            "frame": 31,
+            "object_area": 560,
+            "link7_area": 1558,
+            "shared_pixels": 35,
+            "object_covered_fraction": 0.0625,
+            "link7_image_fraction": 0.003901241987179487
+          },
+          {
+            "frame": 32,
+            "object_area": 535,
+            "link7_area": 1541,
+            "shared_pixels": 18,
+            "object_covered_fraction": 0.03364485981308411,
+            "link7_image_fraction": 0.0038586738782051284
+          },
+          {
+            "frame": 33,
+            "object_area": 502,
+            "link7_area": 1582,
+            "shared_pixels": 26,
+            "object_covered_fraction": 0.05179282868525897,
+            "link7_image_fraction": 0.003961338141025641
+          },
+          {
+            "frame": 34,
+            "object_area": 509,
+            "link7_area": 1631,
+            "shared_pixels": 16,
+            "object_covered_fraction": 0.03143418467583497,
+            "link7_image_fraction": 0.004084034455128205
+          },
+          {
+            "frame": 35,
+            "object_area": 413,
+            "link7_area": 1865,
+            "shared_pixels": 96,
+            "object_covered_fraction": 0.2324455205811138,
+            "link7_image_fraction": 0.004669971955128205
+          },
+          {
+            "frame": 36,
+            "object_area": 361,
+            "link7_area": 2209,
+            "shared_pixels": 298,
+            "object_covered_fraction": 0.8254847645429363,
+            "link7_image_fraction": 0.0055313501602564106
+          },
+          {
+            "frame": 37,
+            "object_area": 334,
+            "link7_area": 2397,
+            "shared_pixels": 288,
+            "object_covered_fraction": 0.8622754491017964,
+            "link7_image_fraction": 0.006002103365384616
+          },
+          {
+            "frame": 38,
+            "object_area": 566,
+            "link7_area": 2173,
+            "shared_pixels": 32,
+            "object_covered_fraction": 0.05653710247349823,
+            "link7_image_fraction": 0.005441205929487179
+          },
+          {
+            "frame": 39,
+            "object_area": 613,
+            "link7_area": 2469,
+            "shared_pixels": 66,
+            "object_covered_fraction": 0.10766721044045677,
+            "link7_image_fraction": 0.006182391826923077
+          },
+          {
+            "frame": 40,
+            "object_area": 644,
+            "link7_area": 2508,
+            "shared_pixels": 34,
+            "object_covered_fraction": 0.052795031055900624,
+            "link7_image_fraction": 0.006280048076923077
+          },
+          {
+            "frame": 41,
+            "object_area": 589,
+            "link7_area": 2442,
+            "shared_pixels": 36,
+            "object_covered_fraction": 0.06112054329371817,
+            "link7_image_fraction": 0.006114783653846154
+          },
+          {
+            "frame": 42,
+            "object_area": 489,
+            "link7_area": 2379,
+            "shared_pixels": 44,
+            "object_covered_fraction": 0.08997955010224949,
+            "link7_image_fraction": 0.00595703125
+          },
+          {
+            "frame": 43,
+            "object_area": 524,
+            "link7_area": 2387,
+            "shared_pixels": 30,
+            "object_covered_fraction": 0.05725190839694656,
+            "link7_image_fraction": 0.005977063301282051
+          },
+          {
+            "frame": 44,
+            "object_area": 953,
+            "link7_area": 2647,
+            "shared_pixels": 72,
+            "object_covered_fraction": 0.07555089192025184,
+            "link7_image_fraction": 0.006628104967948718
+          },
+          {
+            "frame": 45,
+            "object_area": 1513,
+            "link7_area": 3096,
+            "shared_pixels": 245,
+            "object_covered_fraction": 0.16192994051553206,
+            "link7_image_fraction": 0.007752403846153846
+          },
+          {
+            "frame": 46,
+            "object_area": 1579,
+            "link7_area": 3325,
+            "shared_pixels": 0,
+            "object_covered_fraction": 0.0,
+            "link7_image_fraction": 0.008325821314102564
+          },
+          {
+            "frame": 47,
+            "object_area": 1610,
+            "link7_area": 3651,
+            "shared_pixels": 0,
+            "object_covered_fraction": 0.0,
+            "link7_image_fraction": 0.009142127403846154
+          },
+          {
+            "frame": 48,
+            "object_area": 1592,
+            "link7_area": 4124,
+            "shared_pixels": 0,
+            "object_covered_fraction": 0.0,
+            "link7_image_fraction": 0.010326522435897436
+          }
+        ]
+      },
+      "accepted": true
+    }
+  ],
+  "original_mask_array_sha256": "41b549c3a402437d9b3b6d7a1dc839b3997bffdde735a3c0a23ef56f6a17c65e",
+  "source_video_sha256": "c47e55fa351b9c302fba125edf9839efb57dd2985c08070f6ea455f2128ae7b0",
+  "code_sha256": "6a009d3423c6cfec09d49fcc20c3ccbbbb9c537d64080f34f987c01f0fe00e99",
+  "frame": 0,
+  "input_hashes": [
+    "4e30dc9bfedd1c8aa798f3ec1f0a9699359b55650f3079d551c62f01adb6ead3",
+    "b7b3171584c83dbd0e156c9f7035bd44ca5bfb5d3649d2897fa392dcc86567c0"
+  ],
+  "reference_annotation": "manual sixth object-negative added to original VLM2 reference 3",
+  "vlm_config": {
+    "backend": "cloud_api",
+    "model": "gemini-3.8-flash",
+    "python": "/root/autodl-tmp/pdi/experiments/vlm3-seven-cases-20261003/code/PDI-Bench-edited/env-qwen/bin/python",
+    "max_tokens": 4096,
+    "api_style": "chat_completions",
+    "api_base": "https://api.302ai.cn/v1",
+    "api_key_env": "VLM2_API_KEY",
+    "reasoning_effort": null,
+    "timeout_seconds": 240
+  },
+  "crop_excluded_frames": [],
+  "crop_eligible_frames": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48
+  ],
+  "acceptance_policy": "six-point membership and nonempty SAM masks; residual overlap/area failures excluded from cropping",
+  "selected_attempt": 1,
+  "output_masks": "/root/autodl-tmp/pdi/experiments/vlm3-seven-cases-20261003/LVP_ROBOWM_0015/masks.npz",
+  "output_masks_sha256": "810f78c759e546fec80fc66e838288b1eff4068a06b3c162f57dec9f56daa770",
+  "post_gate": {
+    "threshold": 0.95,
+    "comparison": "strictly greater than",
+    "fraction_denominator": "current task-object SAM3 mask pixels",
+    "frame": null,
+    "reasons": [],
+    "overlap_frames": [],
+    "oversized_frames": [],
+    "max_object_covered_fraction": 0.8622754491017964,
+    "frames": [
+      {
+        "frame": 0,
+        "object_area": 1132,
+        "link7_area": 2901,
+        "shared_pixels": 0,
+        "object_covered_fraction": 0.0,
+        "link7_image_fraction": 0.007264122596153846
+      },
+      {
+        "frame": 1,
+        "object_area": 1143,
+        "link7_area": 2929,
+        "shared_pixels": 0,
+        "object_covered_fraction": 0.0,
+        "link7_image_fraction": 0.007334234775641026
+      },
+      {
+        "frame": 2,
+        "object_area": 1148,
+        "link7_area": 2952,
+        "shared_pixels": 0,
+        "object_covered_fraction": 0.0,
+        "link7_image_fraction": 0.007391826923076923
+      },
+      {
+        "frame": 3,
+        "object_area": 1151,
+        "link7_area": 3107,
+        "shared_pixels": 0,
+        "object_covered_fraction": 0.0,
+        "link7_image_fraction": 0.007779947916666667
+      },
+      {
+        "frame": 4,
+        "object_area": 1153,
+        "link7_area": 3021,
+        "shared_pixels": 0,
+        "object_covered_fraction": 0.0,
+        "link7_image_fraction": 0.007564603365384615
+      },
+      {
+        "frame": 5,
+        "object_area": 1153,
+        "link7_area": 2732,
+        "shared_pixels": 0,
+        "object_covered_fraction": 0.0,
+        "link7_image_fraction": 0.006840945512820513
+      },
+      {
+        "frame": 6,
+        "object_area": 1150,
+        "link7_area": 2700,
+        "shared_pixels": 0,
+        "object_covered_fraction": 0.0,
+        "link7_image_fraction": 0.006760817307692308
+      },
+      {
+        "frame": 7,
+        "object_area": 1154,
+        "link7_area": 2660,
+        "shared_pixels": 0,
+        "object_covered_fraction": 0.0,
+        "link7_image_fraction": 0.006660657051282051
+      },
+      {
+        "frame": 8,
+        "object_area": 1156,
+        "link7_area": 2783,
+        "shared_pixels": 0,
+        "object_covered_fraction": 0.0,
+        "link7_image_fraction": 0.00696864983974359
+      },
+      {
+        "frame": 9,
+        "object_area": 1120,
+        "link7_area": 2790,
+        "shared_pixels": 0,
+        "object_covered_fraction": 0.0,
+        "link7_image_fraction": 0.006986177884615385
+      },
+      {
+        "frame": 10,
+        "object_area": 1116,
+        "link7_area": 2832,
+        "shared_pixels": 0,
+        "object_covered_fraction": 0.0,
+        "link7_image_fraction": 0.007091346153846154
+      },
+      {
+        "frame": 11,
+        "object_area": 1156,
+        "link7_area": 2852,
+        "shared_pixels": 0,
+        "object_covered_fraction": 0.0,
+        "link7_image_fraction": 0.007141426282051282
+      },
+      {
+        "frame": 12,
+        "object_area": 1122,
+        "link7_area": 2870,
+        "shared_pixels": 0,
+        "object_covered_fraction": 0.0,
+        "link7_image_fraction": 0.007186498397435897
+      },
+      {
+        "frame": 13,
+        "object_area": 1154,
+        "link7_area": 2656,
+        "shared_pixels": 0,
+        "object_covered_fraction": 0.0,
+        "link7_image_fraction": 0.006650641025641025
+      },
+      {
+        "frame": 14,
+        "object_area": 1154,
+        "link7_area": 2722,
+        "shared_pixels": 0,
+        "object_covered_fraction": 0.0,
+        "link7_image_fraction": 0.006815905448717949
+      },
+      {
+        "frame": 15,
+        "object_area": 1152,
+        "link7_area": 2602,
+        "shared_pixels": 0,
+        "object_covered_fraction": 0.0,
+        "link7_image_fraction": 0.00651542467948718
+      },
+      {
+        "frame": 16,
+        "object_area": 1145,
+        "link7_area": 2508,
+        "shared_pixels": 0,
+        "object_covered_fraction": 0.0,
+        "link7_image_fraction": 0.006280048076923077
+      },
+      {
+        "frame": 17,
+        "object_area": 1148,
+        "link7_area": 2336,
+        "shared_pixels": 0,
+        "object_covered_fraction": 0.0,
+        "link7_image_fraction": 0.005849358974358974
+      },
+      {
+        "frame": 18,
+        "object_area": 1131,
+        "link7_area": 1870,
+        "shared_pixels": 17,
+        "object_covered_fraction": 0.015030946065428824,
+        "link7_image_fraction": 0.004682491987179487
+      },
+      {
+        "frame": 19,
+        "object_area": 994,
+        "link7_area": 1614,
+        "shared_pixels": 38,
+        "object_covered_fraction": 0.03822937625754527,
+        "link7_image_fraction": 0.0040414663461538465
+      },
+      {
+        "frame": 20,
+        "object_area": 855,
+        "link7_area": 1556,
+        "shared_pixels": 15,
+        "object_covered_fraction": 0.017543859649122806,
+        "link7_image_fraction": 0.0038962339743589744
+      },
+      {
+        "frame": 21,
+        "object_area": 842,
+        "link7_area": 1550,
+        "shared_pixels": 21,
+        "object_covered_fraction": 0.02494061757719715,
+        "link7_image_fraction": 0.003881209935897436
+      },
+      {
+        "frame": 22,
+        "object_area": 822,
+        "link7_area": 1550,
+        "shared_pixels": 25,
+        "object_covered_fraction": 0.030413625304136254,
+        "link7_image_fraction": 0.003881209935897436
+      },
+      {
+        "frame": 23,
+        "object_area": 794,
+        "link7_area": 1534,
+        "shared_pixels": 21,
+        "object_covered_fraction": 0.02644836272040302,
+        "link7_image_fraction": 0.003841145833333333
+      },
+      {
+        "frame": 24,
+        "object_area": 785,
+        "link7_area": 1504,
+        "shared_pixels": 56,
+        "object_covered_fraction": 0.07133757961783439,
+        "link7_image_fraction": 0.003766025641025641
+      },
+      {
+        "frame": 25,
+        "object_area": 653,
+        "link7_area": 1511,
+        "shared_pixels": 12,
+        "object_covered_fraction": 0.018376722817764167,
+        "link7_image_fraction": 0.003783553685897436
+      },
+      {
+        "frame": 26,
+        "object_area": 615,
+        "link7_area": 1536,
+        "shared_pixels": 20,
+        "object_covered_fraction": 0.032520325203252036,
+        "link7_image_fraction": 0.0038461538461538464
+      },
+      {
+        "frame": 27,
+        "object_area": 577,
+        "link7_area": 1538,
+        "shared_pixels": 18,
+        "object_covered_fraction": 0.03119584055459272,
+        "link7_image_fraction": 0.003851161858974359
+      },
+      {
+        "frame": 28,
+        "object_area": 580,
+        "link7_area": 1510,
+        "shared_pixels": 33,
+        "object_covered_fraction": 0.056896551724137934,
+        "link7_image_fraction": 0.0037810496794871795
+      },
+      {
+        "frame": 29,
+        "object_area": 563,
+        "link7_area": 1549,
+        "shared_pixels": 28,
+        "object_covered_fraction": 0.0497335701598579,
+        "link7_image_fraction": 0.0038787059294871796
+      },
+      {
+        "frame": 30,
+        "object_area": 509,
+        "link7_area": 1573,
+        "shared_pixels": 17,
+        "object_covered_fraction": 0.03339882121807466,
+        "link7_image_fraction": 0.003938802083333333
+      },
+      {
+        "frame": 31,
+        "object_area": 560,
+        "link7_area": 1558,
+        "shared_pixels": 35,
+        "object_covered_fraction": 0.0625,
+        "link7_image_fraction": 0.003901241987179487
+      },
+      {
+        "frame": 32,
+        "object_area": 535,
+        "link7_area": 1541,
+        "shared_pixels": 18,
+        "object_covered_fraction": 0.03364485981308411,
+        "link7_image_fraction": 0.0038586738782051284
+      },
+      {
+        "frame": 33,
+        "object_area": 502,
+        "link7_area": 1582,
+        "shared_pixels": 26,
+        "object_covered_fraction": 0.05179282868525897,
+        "link7_image_fraction": 0.003961338141025641
+      },
+      {
+        "frame": 34,
+        "object_area": 509,
+        "link7_area": 1631,
+        "shared_pixels": 16,
+        "object_covered_fraction": 0.03143418467583497,
+        "link7_image_fraction": 0.004084034455128205
+      },
+      {
+        "frame": 35,
+        "object_area": 413,
+        "link7_area": 1865,
+        "shared_pixels": 96,
+        "object_covered_fraction": 0.2324455205811138,
+        "link7_image_fraction": 0.004669971955128205
+      },
+      {
+        "frame": 36,
+        "object_area": 361,
+        "link7_area": 2209,
+        "shared_pixels": 298,
+        "object_covered_fraction": 0.8254847645429363,
+        "link7_image_fraction": 0.0055313501602564106
+      },
+      {
+        "frame": 37,
+        "object_area": 334,
+        "link7_area": 2397,
+        "shared_pixels": 288,
+        "object_covered_fraction": 0.8622754491017964,
+        "link7_image_fraction": 0.006002103365384616
+      },
+      {
+        "frame": 38,
+        "object_area": 566,
+        "link7_area": 2173,
+        "shared_pixels": 32,
+        "object_covered_fraction": 0.05653710247349823,
+        "link7_image_fraction": 0.005441205929487179
+      },
+      {
+        "frame": 39,
+        "object_area": 613,
+        "link7_area": 2469,
+        "shared_pixels": 66,
+        "object_covered_fraction": 0.10766721044045677,
+        "link7_image_fraction": 0.006182391826923077
+      },
+      {
+        "frame": 40,
+        "object_area": 644,
+        "link7_area": 2508,
+        "shared_pixels": 34,
+        "object_covered_fraction": 0.052795031055900624,
+        "link7_image_fraction": 0.006280048076923077
+      },
+      {
+        "frame": 41,
+        "object_area": 589,
+        "link7_area": 2442,
+        "shared_pixels": 36,
+        "object_covered_fraction": 0.06112054329371817,
+        "link7_image_fraction": 0.006114783653846154
+      },
+      {
+        "frame": 42,
+        "object_area": 489,
+        "link7_area": 2379,
+        "shared_pixels": 44,
+        "object_covered_fraction": 0.08997955010224949,
+        "link7_image_fraction": 0.00595703125
+      },
+      {
+        "frame": 43,
+        "object_area": 524,
+        "link7_area": 2387,
+        "shared_pixels": 30,
+        "object_covered_fraction": 0.05725190839694656,
+        "link7_image_fraction": 0.005977063301282051
+      },
+      {
+        "frame": 44,
+        "object_area": 953,
+        "link7_area": 2647,
+        "shared_pixels": 72,
+        "object_covered_fraction": 0.07555089192025184,
+        "link7_image_fraction": 0.006628104967948718
+      },
+      {
+        "frame": 45,
+        "object_area": 1513,
+        "link7_area": 3096,
+        "shared_pixels": 245,
+        "object_covered_fraction": 0.16192994051553206,
+        "link7_image_fraction": 0.007752403846153846
+      },
+      {
+        "frame": 46,
+        "object_area": 1579,
+        "link7_area": 3325,
+        "shared_pixels": 0,
+        "object_covered_fraction": 0.0,
+        "link7_image_fraction": 0.008325821314102564
+      },
+      {
+        "frame": 47,
+        "object_area": 1610,
+        "link7_area": 3651,
+        "shared_pixels": 0,
+        "object_covered_fraction": 0.0,
+        "link7_image_fraction": 0.009142127403846154
+      },
+      {
+        "frame": 48,
+        "object_area": 1592,
+        "link7_area": 4124,
+        "shared_pixels": 0,
+        "object_covered_fraction": 0.0,
+        "link7_image_fraction": 0.010326522435897436
+      }
+    ]
+  },
+  "link7_input": {
+    "path": "/root/autodl-tmp/pdi/experiments/vlm3-seven-cases-20261003/inputs/gripper/cases/LVP_ROBOWM_0015/refined_segmentation.npz",
+    "sha256": "dd13c5c445b5d68db9f485c89b91e87cb0bcc6d14908c355fa4d378561e37d82",
+    "mask_policy": "persistent_refined_link7",
+    "video_sha256": "c47e55fa351b9c302fba125edf9839efb57dd2985c08070f6ea455f2128ae7b0"
+  }
+}

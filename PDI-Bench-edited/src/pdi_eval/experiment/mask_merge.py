@@ -98,6 +98,36 @@ def build_refined_segmentation(
     if not np.all(refined_mask.any(axis=(1, 2))):
         raise ValueError("completed persistent mask has empty video frames")
 
+    if result.get("source_frame_count") != len(refined_mask):
+        raise ValueError("persistent source frame count does not match masks")
+    if result.get("source_hw") != list(refined_mask.shape[1:]):
+        raise ValueError("persistent source dimensions do not match masks")
+    changes = _replace_named_mask(base_segmentation, output_npz, refined_mask, object_name)
+    manifest = {
+        "schema_version": 1,
+        "method": "persistent-mask-link-replacement",
+        "case": case,
+        "object_name": object_name,
+        "video": str(video),
+        "video_sha256": video_hash,
+        "base_segmentation": str(base_segmentation),
+        "base_segmentation_sha256": sha256_file(base_segmentation),
+        "persistent_provenance": str(provenance_path),
+        "persistent_mask_source": str(mask_source),
+        "persistent_mask_sha256": mask_hash,
+        "output_segmentation": str(output_npz),
+        "output_segmentation_sha256": sha256_file(output_npz),
+        "frame_count": len(refined_mask),
+        **changes,
+    }
+    if use_repair:
+        manifest["vlm3_repair"] = repair
+    manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return manifest
+
+
+def _replace_named_mask(base_segmentation, output_npz, refined_mask, object_name):
+    """Preserve other named masks and recalculate canonical union measurements."""
     with np.load(base_segmentation, allow_pickle=False) as archive:
         payload = {key: np.asarray(archive[key]) for key in archive.files}
     required = {"object_masks", "object_names", "object_ids"}
@@ -116,10 +146,6 @@ def build_refined_segmentation(
             f"persistent mask shape {refined_mask.shape} does not match "
             f"base segmentation {(object_masks.shape[0], *object_masks.shape[2:])}"
         )
-    if result.get("source_frame_count") != len(refined_mask):
-        raise ValueError("persistent source frame count does not match masks")
-    if result.get("source_hw") != list(refined_mask.shape[1:]):
-        raise ValueError("persistent source dimensions do not match masks")
 
     index = object_names.index(object_name)
     baseline = object_masks[:, index].copy()
@@ -138,28 +164,49 @@ def build_refined_segmentation(
     np.savez_compressed(temporary, **payload)
     temporary.replace(output_npz)
 
-    manifest = {
-        "schema_version": 1,
-        "method": "persistent-mask-link-replacement",
-        "case": case,
-        "object_name": object_name,
-        "video": str(video),
-        "video_sha256": video_hash,
-        "base_segmentation": str(base_segmentation),
-        "base_segmentation_sha256": sha256_file(base_segmentation),
-        "persistent_provenance": str(provenance_path),
-        "persistent_mask_source": str(mask_source),
-        "persistent_mask_sha256": mask_hash,
-        "output_segmentation": str(output_npz),
-        "output_segmentation_sha256": sha256_file(output_npz),
-        "frame_count": len(refined_mask),
+    return {
         "changed_target_pixels": int(np.count_nonzero(baseline ^ refined_mask)),
         "changed_target_frames": int(np.count_nonzero(np.any(baseline ^ refined_mask, axis=(1, 2)))),
         "unchanged_object_names": [name for name in object_names if name != object_name],
     }
-    if use_repair:
-        manifest["vlm3_repair"] = repair
-    manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def build_repaired_segmentation(*, video: Path, base_segmentation: Path,
+                               repair_record: Path, output_npz: Path) -> dict[str, Any]:
+    """Merge a hash-verified accepted standalone VLM3 record into named masks."""
+    video, base_segmentation, repair_record, output_npz = (
+        Path(p).resolve() for p in (video, base_segmentation, repair_record, output_npz))
+    manifest_path = output_npz.with_suffix('.json')
+    if output_npz.exists() or manifest_path.exists():
+        raise FileExistsError(f'repaired segmentation already exists: {output_npz}')
+    repair = json.loads(repair_record.read_text())
+    if repair.get('accepted') is not True or repair.get('status') not in {
+            'accepted', 'accepted_with_frame_exclusions'}:
+        raise ValueError('Only accepted VLM3 masks can be synchronized')
+    if sha256_file(video) != repair['source_video_sha256']:
+        raise ValueError('VLM3 source video hash does not match')
+    # Standalone records identify the exact named archive that was audited.
+    link_input = repair.get('link7_input', {})
+    if (link_input.get('path') and Path(link_input['path']).resolve() == base_segmentation
+            and sha256_file(base_segmentation) != link_input['sha256']):
+        raise ValueError('VLM3 input segmentation hash does not match')
+    mask_source = Path(repair['output_masks'])
+    if sha256_file(mask_source) != repair['output_masks_sha256']:
+        raise ValueError('VLM3 output mask hash does not match')
+    with np.load(mask_source, allow_pickle=False) as archive:
+        refined = np.asarray(archive['masks'], bool)
+    if refined.ndim != 3 or not np.all(refined.any(axis=(1, 2))):
+        raise ValueError('VLM3 full-video mask has invalid or empty frames')
+    changes = _replace_named_mask(base_segmentation, output_npz, refined, 'link7')
+    manifest = dict(schema_version=1, method='vlm3-mask-link-replacement',
+        case=repair['case'], object_name='link7', video=str(video),
+        video_sha256=sha256_file(video), base_segmentation=str(base_segmentation),
+        base_segmentation_sha256=sha256_file(base_segmentation),
+        vlm3_record=str(repair_record), vlm3_record_sha256=sha256_file(repair_record),
+        persistent_mask_source=str(mask_source), persistent_mask_sha256=sha256_file(mask_source),
+        output_segmentation=str(output_npz), output_segmentation_sha256=sha256_file(output_npz),
+        frame_count=len(refined), **changes)
+    manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True)+'\n')
     return manifest
 
 

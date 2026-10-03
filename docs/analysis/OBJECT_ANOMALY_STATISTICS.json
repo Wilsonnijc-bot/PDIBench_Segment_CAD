@@ -1,120 +1,57 @@
 {
   "label_column": "Object deformation (0/1)2",
   "label_cells": "Sheet1!AF2:AF46",
-  "score": "sum of ten original unrounded pair scores",
+  "score": "sum of ten unrounded AnomalyDINO pair scores; partial selections excluded from AUROC",
   "primary": {
-    "n": 35,
+    "n": 38,
     "pearson": {
-      "coefficient": 0.45154165781745714,
-      "p_two_sided": 0.006473205668253153
+      "coefficient": 0.42475841775395834,
+      "p_two_sided": 0.00785809964699298
     },
     "spearman": {
-      "coefficient": 0.4546314273314334,
-      "p_two_sided": 0.006074057949771908
+      "coefficient": 0.4251958675031299,
+      "p_two_sided": 0.007787729911690245
     },
     "kendall_tau_b": {
-      "coefficient": 0.37508721987088234,
-      "p_two_sided": 0.0074921906572205255
+      "coefficient": 0.3504592663484903,
+      "p_two_sided": 0.009135633234429215
     }
   },
   "binary_sensitivity": {
-    "n": 34,
+    "n": 37,
     "pearson": {
-      "coefficient": 0.45805547006088987,
-      "p_two_sided": 0.006446297031954738
+      "coefficient": 0.4325409382502094,
+      "p_two_sided": 0.007501584301309193
     },
     "spearman": {
-      "coefficient": 0.4710062927135704,
-      "p_two_sided": 0.004930321115246161
+      "coefficient": 0.44305184023660077,
+      "p_two_sided": 0.00602831472377139
     },
     "kendall_tau_b": {
-      "coefficient": 0.39018955856202825,
-      "p_two_sided": 0.006815542816376555
+      "coefficient": 0.3666062388996325,
+      "p_two_sided": 0.007853337578710914
     }
   },
-  "binary_auroc": 0.7905138339920948,
-  "label_groups": {
-    "0": {
-      "n": 23,
-      "mean_sum": 4.180801546029217,
-      "median_sum": 4.208132495510054
-    },
-    "0.5": {
-      "n": 1,
-      "mean_sum": 4.097289428114891,
-      "median_sum": 4.097289428114891
-    },
-    "1": {
-      "n": 11,
-      "mean_sum": 5.006841552940579,
-      "median_sum": 4.85086691155424
-    }
-  },
-  "by_dataset": {
-    "COSMOS2.5": {
-      "n": 10,
-      "pearson": {
-        "coefficient": 0.34148689282318956,
-        "p_two_sided": 0.3341821416244229
-      },
-      "spearman": {
-        "coefficient": 0.41785544701867244,
-        "p_two_sided": 0.22951410747271433
-      },
-      "kendall_tau_b": {
-        "coefficient": 0.3578300267477955,
-        "p_two_sided": 0.20999967175560952
-      }
-    },
-    "COSMOS3": {
-      "n": 14,
-      "pearson": {
-        "coefficient": 0.5694945326444778,
-        "p_two_sided": 0.03351875105520183
-      },
-      "spearman": {
-        "coefficient": 0.4940901796874405,
-        "p_two_sided": 0.07252670649271749
-      },
-      "kendall_tau_b": {
-        "coefficient": 0.40433843702131134,
-        "p_two_sided": 0.07692244707029795
-      }
-    },
-    "LVP_ROBOWM": {
-      "n": 11,
-      "pearson": {
-        "coefficient": 0.5158683858474149,
-        "p_two_sided": 0.10430492577606891
-      },
-      "spearman": {
-        "coefficient": 0.4780914437337575,
-        "p_two_sided": 0.13690412558075205
-      },
-      "kendall_tau_b": {
-        "coefficient": 0.40771775315010045,
-        "p_two_sided": 0.1305700181157362
-      }
-    }
-  },
-  "five_frame_comparison": {
-    "n": 35,
-    "pearson": {
-      "coefficient": 0.4509856620528036,
-      "p_two_sided": 0.006547368442793681
-    },
-    "spearman": {
-      "coefficient": 0.45057221815883136,
-      "p_two_sided": 0.006602987722083983
-    },
-    "kendall_tau_b": {
-      "coefficient": 0.37508721987088234,
-      "p_two_sided": 0.0074921906572205255
-    }
-  },
+  "binary_auroc": 0.7797202797202797,
+  "positive_count": 11,
+  "negative_count": 26,
+  "ambiguous_scored_count": 1,
+  "unscored_count": 7,
+  "partial_count": 0,
+  "partial_videos": [],
+  "updated_cases": [
+    "COSMOS2.5_0056",
+    "COSMOS2.5_0005",
+    "COSMOS2.5_0010",
+    "LVP_ROBOWM_0010",
+    "LVP_ROBOWM_0015",
+    "LVP_ROBOWM_0060",
+    "COSMOS2.5_0065"
+  ],
   "source_sha256": {
     "selected_45_matched_videos_styledv2.xlsx": "f27b72b3e835f2ad85bdb17ec6f1ba81cba8b08bac73d73a66b6c8e174c8c0c5",
     "results/object-reference-crops-20261001/anomalydino_scores.json": "8f22f8c44314e805a3f13e826e24e8e73d4508e459a0859c3f743ebfd9644738",
-    "results/anomalydino-object-crops-10frames-20261002/pairs.jsonl": "64238ae54fbe7ce0c8d3c934004b1896367232217a0d147478453d783012cfcb"
+    "results/vlm3-seven-cases-20261003/crops/anomalydino_scores.json": "ed0e90bb320852fafea89d0ee156f6dc049d465766c95356f86c511a5e3ab894",
+    "results/vlm3-seven-cases-20261003/metadata/publication/merged_anomalydino_scores.json": "00ff8fe31aadbf46c460e8c1e7b32160128e27154a3ad0510475aacc63149b25"
   }
 }

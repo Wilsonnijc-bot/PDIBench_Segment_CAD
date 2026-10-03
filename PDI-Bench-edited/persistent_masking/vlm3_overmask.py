@@ -9,6 +9,7 @@ import argparse
 import hashlib
 import html
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -333,6 +334,7 @@ def repair_persistent_run(work, cases, object_root, *, threshold=.95):
         if r['status'] not in {'completed_checks', 'no_confirmed_deformation', 'no_naive_surge'}:
             continue
         if 'vlm3' in r:
+            _sync_persistent_case(work, case, r, object_root)
             continue
         if r['status'] == 'completed_checks':
             source, expected_sha = Path(r['mask_source']), r['masks_sha256']
@@ -357,6 +359,7 @@ def repair_persistent_run(work, cases, object_root, *, threshold=.95):
         r['vlm3'] = {k: repaired[k] for k in ('status', 'accepted', 'frame', 'output_masks', 'output_masks_sha256', 'crop_excluded_frames', 'crop_eligible_frames') if k in repaired}
         r['vlm3']['record'] = str((work/'vlm3'/canonical_case(case)/'repair.json').resolve())
         save(work/'provenance.json', record)
+        _sync_persistent_case(work, case, r, object_root)
     reviews = [json.loads(Path(record['results'][case]['vlm3']['record']).read_text())
                for case in cases if 'vlm3' in record['results'][case]]
     if reviews:
@@ -364,11 +367,30 @@ def repair_persistent_run(work, cases, object_root, *, threshold=.95):
         export_review(reviews, work/'vlm3')
 
 
+def _sync_persistent_case(work, case, result, object_root):
+    """Accepted VLM3 output is the default mask for detection, viewer and crops."""
+    if result.get('vlm3', {}).get('accepted') is not True:
+        return
+    from pdi_eval.object_deformation_wrapper.mask_sync import sync_case
+    folder = Path(object_root)/'cases'/canonical_case(case)
+    detection_path = folder/'occlusion/detection.json'
+    if not detection_path.exists():
+        raise FileNotFoundError('Persistent VLM3 synchronization needs the existing named gripper archive in occlusion/detection.json')
+    base = Path(json.loads(detection_path.read_text())['inputs']['gripper']['path'])
+    previous = work/'vlm3/downstream/gripper/cases'/folder.name/'v1_cotracker3/segmentation.json'
+    if previous.exists():
+        base = Path(json.loads(previous.read_text())['base_segmentation'])
+    sync_case(case=folder, repair_record=Path(result['vlm3']['record']), base_segmentation=base,
+              gripper_root=work/'vlm3/downstream/gripper', crop_root=work/'vlm3/crops')
+
+
 def export_review(records, output):
     parts = ['<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Persistent masks and optional VLM3 repair</title><style>body{font:16px system-ui;background:#f5f6f2;color:#253530;max-width:1400px;margin:24px auto;padding:0 20px}section{padding:24px 0;border-bottom:1px solid #c6d1bf}video{width:100%;background:#111}.images{display:grid;grid-template-columns:1fr 1fr;gap:20px}img{width:100%}pre{white-space:pre-wrap;overflow-wrap:anywhere}a{color:#286953}@media(max-width:800px){.images{grid-template-columns:1fr}}</style><body><h1>Persistent masks and optional VLM3 repair</h1><p>Old persistent masking retained. VLM3 uses its first frame with &gt;95% object coverage, or the existing 25% image-area failure, and asks the VLM2 backend for 3 gripper positives + arm, wrist, and object negatives. Magenta: link7. Yellow outline: task object. A useful repair can be accepted with frame exclusions: skip remaining overmask frames when selecting crops.</p>']
     rerun_path = Path(output)/'metadata/lvp_rerun/review.json'
     reruns = json.loads(rerun_path.read_text()) if rerun_path.exists() else {}
     latest_cases = [r['case'] for r in records if (Path(output)/r['case']/'vlm3_fresh/repair.json').is_file()]
+    if (Path(output)/'crops/selection_gallery.html').is_file() and not latest_cases:
+        parts.append('<p><a href="crops/selection_gallery.html"><strong>Open selected crop pairs and original-frame pictures</strong></a></p>')
     if latest_cases:
         links = ' · '.join(f'<a href="#{html.escape(name)}">{html.escape(name)}</a>' for name in sorted(latest_cases))
         parts.append(f'<p><strong>New VLM3 results:</strong> {links}</p>')
@@ -377,6 +399,15 @@ def export_review(records, output):
     for r in sorted(records, key=lambda x:(int(x['case'].rsplit('_',1)[1]),x['case'])):
         name = r['case'];folder=Path(output)/name
         parts.append(f'<section id="{html.escape(name)}"><h2>{html.escape(name)}</h2>')
+        sync_path = Path(output)/'downstream/gripper/cases'/name/'downstream_sync.json'
+        if sync_path.is_file():
+            synced = json.loads(sync_path.read_text())
+            replay = Path(synced['replay'])
+            if replay.is_file():
+                href = html.escape(os.path.relpath(replay, Path(output)), quote=True)
+                parts.append(f'<p><a href="{href}"><strong>Open synchronized occlusion replay</strong></a></p>')
+            parts.append(f'<p>Selected source frames: {html.escape(str(synced["selected_frames"]))}. Occlusion intervals: {html.escape(str(synced["occlusion"]["flagged_intervals"]))}.</p>')
+
         latest_path = folder/'vlm3_fresh/repair.json'
         if latest_path.is_file():
             latest = json.loads(latest_path.read_text())
@@ -471,6 +502,11 @@ def main():
             r = repair_case(case,video,before,objects,obj,output,threshold=args.threshold,
                             include_area_guard=not args.overlap_only,max_attempts=args.max_attempts)
             r['link7_input'] = inputs;save(output/'repair.json',r)
+            if r['status'] in {'accepted', 'accepted_with_frame_exclusions', 'not_triggered', 'repair_failed'}:
+                from pdi_eval.object_deformation_wrapper.mask_sync import sync_case
+                sync_case(case=args.object_root/'cases'/canonical_case(case),
+                          repair_record=output/'repair.json', base_segmentation=Path(inputs['path']),
+                          gripper_root=args.output_root/'downstream/gripper', crop_root=args.output_root/'crops')
             results.append(r);export_review(results,args.output_root)
             print('VLM3_RESULT',case,r['status'],flush=True)
     save(args.output_root/'summary.json',{'cases':len(cases),'triggered':sum(a['gate']['frame'] is not None for a in audits),

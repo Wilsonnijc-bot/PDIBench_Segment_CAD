@@ -39,6 +39,7 @@ flowchart TD
     NEW --> G
     G --> D["Occlusion audit on all frames"]
     OM --> D
+    D --> OCR["Occlusion replay from the same selected link7 archive and audit"]
     T --> D
     G --> A["Available pixels: object AND NOT link7"]
     OM --> A
@@ -49,7 +50,7 @@ flowchart TD
     SELECT --> C["Current available RGBA plus frame-0 shape RGBA and original frame"]
 ```
 
-This chart expresses data dependencies, not a single automatic end-to-end command. In particular, generating a VLM3 candidate does **not** automatically update previously saved gripper archives, occlusion audits, or crops. Section 6 explains the required handoff.
+The VLM3 run entry points now perform the accepted-mask handoff automatically: materialize a named link7 archive, refresh occlusion detection and its replay, export available pixels, and select ten crop pairs. Section 6 explains the source checks and output paths.
 
 VLM1 diagnoses **palm deformation**, using naive mask-area surges to nominate suspicious frames. It does not directly classify whether a mask has lost the gripper. Thus “likely frames of losing the mask” is a useful motivation for the surge heuristic, but not the literal VLM1 verdict.
 
@@ -73,8 +74,9 @@ Let `T` be the source frame count, `t ∈ {0, …, T−1}`, `N[t]` the naive lin
 | Initial occlusion reference | Earliest frame with valid link7 area, nonempty `O[t]`, and direct object/link7 overlap **≤5%** | No such frame: no assessable reference |
 | Occlusion reference refresh | Current frame becomes the reference for later frames when overlap ≤5%, replacement ≤5%, and area ratio is in `[0.8,1.25]` | Otherwise keep previous reference |
 | Crop comparison RGB reference | Always original **frame 0** | Empty frame-0 object mask stops export; invalid or >5%-overlapped frame 0 prevents usable reference mapping |
-| Mandatory crop frames | Exact **immediate unflagged successor** of each final flagged run, if assessed and crop-eligible | Report invalid immediate successor; never advance to a later frame |
-| Ordinary crop frames | Time quintiles, quotas `[0,2,2,2,4]` for ten slots; descending available pixel area within each interval, earlier frame wins ties | Explicit fallback or shortfall; no duplicates |
+| Final crop area gate | When final mean is below **50% of both** earlier means, exclude only final frames with area below **50% of the first-80% mean**; retain substantial recovered crops | Disabled with ratio 0; zero baselines do not trigger |
+| Mandatory crop frames | Exact **immediate unflagged successor** of each final flagged run, if assessed and crop-eligible, including the activated final-frame area gate | Report invalid immediate successor or deliberate low-area exclusion; never advance to a later frame |
+| Ordinary crop frames | Time quintiles, quotas `[0,2,2,2,4]`; descending available area within each interval, earlier frame wins ties; missing final slots use existing latest-interval fallback | Explicit fallback or shortfall; no duplicates |
 
 Python `round()` is used in surge separation and no-surge frame selection, including its ties-to-even behavior. Quintile boundaries use integer division, not `round()`.
 
@@ -269,7 +271,55 @@ By default the existing **25% image-area guard is a second independent trigger**
 
 If no hit exists, record `not_triggered` and make no VLM3/SAM3 correction. If there is a hit, VLM3 and SAM3 use **that exact original frame**. There is **no +1 offset** and no return to VLM1 to select another frame.
 
-### 5.2 VLM3 regenerates all six points
+### 5.2 Exactly which images VLM3 receives
+
+**Each VLM3 call receives one source-video frame, plus one static annotated reference image.** It does not receive a sequence of failing frames. The exact call in `repair_case()` is:
+
+```python
+frame = gate['frame']
+image = Image.fromarray(read_original_frame(video, frame))
+ref = Image.open(reference).convert('RGB')
+raw = client.ask([image, ref], prompt_with_object_hint_and_feedback,
+                 system_prompt=SYSTEM_PROMPT)
+```
+
+| Input, in request order | Exact contents | How selected |
+|---|---|---|
+| Image 1: `inputs/target.png` | Full original RGB frame at `gate_frame`, at source-video dimensions | Earliest frame passing either enabled gate in §5.1 |
+| Image 2: `inputs/reference.png` | Static six-point annotated example, copied from `persistent_masking/vlm3_interface/reference.png` by default | Fixed reference argument; not another frame selected from the current video |
+| Text accompanying the images | Task-object name, its bounding box from `O[gate_frame]` when nonempty, point instructions, and retry feedback when applicable | Computed for the same target frame |
+
+The target image is clean RGB. The link7/object masks decide the gate and the object-box text hint; they are not supplied as overlay images or separate mask images in this call. `points.png` is a later visualization of VLM3's output, not its input. Saved input hashes are checked against each actual request's `image_sha256` list.
+
+```mermaid
+flowchart TD
+    SCAN["Audit link7 and object masks at every original frame"] --> HIT{"Any enabled gate hit?"}
+    HIT -->|No| STOP["No VLM3 call"]
+    HIT -->|Yes| PICK["Pick earliest gate frame t"]
+    PICK --> RGB["Image 1: full original RGB at t"]
+    REF["Image 2: static six-point annotated reference"] --> CALL["VLM3 call: exactly two images"]
+    RGB --> CALL
+    CALL --> SAM["Fresh six-point SAM3 seed at t; propagate both directions"]
+    SAM --> CHECK{"Candidate accepted?"}
+    CHECK -->|Yes| SAVE["Keep repaired sequence and any frame exclusions"]
+    CHECK -->|No| RETRY{"Attempt budget remains?"}
+    RETRY -->|Yes| SAME["Retry same two images and same t, with feedback"]
+    SAME --> CALL
+    RETRY -->|No| FAIL["Repair failed"]
+```
+
+For the saved fresh runs discussed in §10, the exact target is **frame 0 in both cases**:
+
+| Case | Source frame sent to VLM3 | Reason at that frame | Exact saved target |
+|---|---:|---|---|
+| `LVP_ROBOWM_0010` | 0 | 2,916 / 2,916 object pixels covered by link7 = **100%** | [Target RGB](../../results/vlm3-overmask-20261002/LVP_ROBOWM_0010/vlm3_fresh/inputs/target.png) |
+| `LVP_ROBOWM_0015` | 0 | 1,117 / 1,132 object pixels covered by link7 = **98.675%** | [Target RGB](../../results/vlm3-overmask-20261002/LVP_ROBOWM_0015/vlm3_fresh/inputs/target.png) |
+
+Both records show one accepted attempt at frame 0. Neither frame was nominated by the image-area guard. The accompanying exact references are saved beside each target as [LVP0010 reference](../../results/vlm3-overmask-20261002/LVP_ROBOWM_0010/vlm3_fresh/inputs/reference.png) and [LVP0015 reference](../../results/vlm3-overmask-20261002/LVP_ROBOWM_0015/vlm3_fresh/inputs/reference.png).
+
+**Current selection has no visibility or pose-quality ranking.** An isolated first threshold crossing can select the frame: there is no minimum failing-run length, choice of the worst-overlap frame, requirement for contact with the object, or check that all six anatomical point roles are visible before selection. If a role is invisible, the prompt requests null points and validation can fail, but retries still use the same frame. The full-video post-repair audit can leave residual failing frames excluded from cropping; it does not select those frames for another VLM3 repair round. These are the specific selection behaviors to revisit if changing which frames VLM3 should inspect.
+
+### 5.3 VLM3 regenerates all six points
 
 VLM3 is a workflow role using `role_config("vlm2")`, not a separately configured model. It sees two images: the exact full original gate frame and an annotated six-point reference. The prompt includes the task-object name and, when available, its normalized mask bounding-box hint.
 
@@ -282,7 +332,7 @@ Thus it does more than append an object-negative to the old five-point seed. It 
 
 Before SAM3, all six points must satisfy normalized coordinate and ≥5-pixel spacing checks. Each positive must be **outside the existing task-object mask**, and the third negative must be **inside it**. The other anatomical roles are requested by the prompt rather than verified against separate forearm/wrist ground-truth masks.
 
-### 5.3 Retries, acceptance, and residual failures
+### 5.4 Retries, acceptance, and residual failures
 
 Default: at most **two attempts total**, both on the same `gate_frame` with the same two images. A failed point/schema or SAM candidate produces feedback for the next attempt. The standalone CLI allows one to three attempts via `--max-attempts`. VLM3 does not invoke the VLM2 alternate-model helper.
 
@@ -305,33 +355,32 @@ Residual overlap or area failures do **not** reject an otherwise accepted video.
 
 The six-point membership check uses the resulting seed-frame mask and must match `[true,true,true,false,false,false]`. Unlike the core five-point path, this is a required acceptance gate.
 
-The optional integrated stage also audits naive fallback masks when the core result is `no_confirmed_deformation` or the retained historical `no_naive_surge` status. VLM1's lack of a deformation verdict does not suppress VLM3. Other failed core statuses are skipped. An already attached `vlm3` record is skipped rather than implicitly retried.
+The optional integrated stage also audits naive fallback masks when the core result is `no_confirmed_deformation` or the retained historical `no_naive_surge` status. VLM1's lack of a deformation verdict does not suppress VLM3. Other failed core statuses are skipped. An already attached `vlm3` record is not implicitly retried; accepted records resume the downstream synchronization.
 
 ## 6. Selecting repaired link7 masks for downstream consumers
 
-Source: [mask_merge.py](../src/pdi_eval/experiment/mask_merge.py), `build_refined_segmentation()`; the recorded experiment handoff is [crop_results.py](../../results/vlm3-overmask-20261002/metadata/vlm3_fresh/execution/crop_results.py).
+Source: [mask_sync.py](../src/pdi_eval/object_deformation_wrapper/mask_sync.py), `sync_case()`; [mask_merge.py](../src/pdi_eval/experiment/mask_merge.py), `build_repaired_segmentation()` and `build_refined_segmentation()`; [vlm3_overmask.py](../persistent_masking/vlm3_overmask.py), both run entry points.
 
-The persistent runner attaches a separate `vlm3` provenance record. `mask_merge` chooses a hash-verified accepted VLM3 sequence when present; otherwise a `completed_checks` core sequence. An accepted VLM3 sequence can also be merged for the permitted naive-fallback statuses.
+The persistent runner retains the separate VLM3 provenance record. Its accepted output is now synchronized by default, and the standalone `vlm3_overmask run` entry point does the same. The merge replaces only the named **link7 channel**, preserving other channels and identities and recomputing union measurements. It verifies source video, object masks, repair record and output-mask hashes; a changed or rejected repair cannot be promoted as an accepted mask. Existing synchronized output can only be resumed for the exact same repair record and archive hash.
 
-The merge replaces only the named **link7 channel** in a **new** multi-link segmentation archive. It preserves other link channels and identities, then recomputes the union mask and union measurements. It refuses an existing output archive.
-
-This matters because the occlusion CLI reads this fixed path:
+The synchronized archive is materialized at:
 
 ```text
-<gripper-root>/cases/<case>/v1_cotracker3/segmentation.npz
+<vlm3-output-root>/downstream/gripper/cases/<case>/v1_cotracker3/segmentation.npz
 ```
 
-It does not discover the latest VLM3 `masks.npz` by itself. The crop exporter in turn reads the gripper path/hash stored in the saved occlusion audit. Merely generating a repair or editing a status file does not change those consumers' selected inputs.
+The automatic sequence is:
 
-To use a repair coherently:
+1. Materialize accepted link7 in the named archive above.
+2. Reuse matching original object masks, source RGB and object tracks.
+3. Refresh `<object-root>/cases/<case>/occlusion/detection.json` and its CSV from that archive.
+4. Regenerate `occlusion/replay.html` from that exact audit/archive. A saved comparison derived from another audit is omitted.
+5. Export available pixels and frame-0 mappings to `<vlm3-output-root>/crops/<case>`.
+6. Run the current ten-frame selector and regenerate current/reference/original-frame pictures and the crop gallery.
 
-1. Select the accepted repair and materialize it as link7 in a new gripper archive at the downstream expected location.
-2. Use the matching original task-object masks, source video, and saved object tracks.
-3. Rerun occlusion on the selected gripper archive.
-4. Re-export available pixels and frame-0 mappings from that new audit.
-5. Rerun crop selection and regenerate its paired PNGs.
+Standalone cases with no VLM3 trigger retain the original named archive and still refresh downstream selection. Failed repairs retain the old mask explicitly; they are never represented as accepted repairs. Native persistent cases without an accepted repair retain the previous downstream state. The native persistent entry point obtains the original named archive from the existing occlusion audit; if that prerequisite is missing, it fails explicitly instead of leaving an accepted repair with a silently stale replay.
 
-The recorded fresh-LVP experiment followed this sequence in isolated inputs, reusing unchanged object masks and tracks.
+A fresh isolated experiment supplies a staged object root so historical audits remain preserved. Published updates can then replace only the requested cases after verification.
 
 **Exclusions are not applied by deleting mask frames.** The merged archive remains a complete sequence. `vlm3.crop_excluded_frames` is recorded, while current crop eligibility is recomputed from the selected masks/audit. The generic selector does not directly read `repair.json` or its arbitrary exclusion list. At defaults, its >95% overlap and area gates reject the residual failures; empty object masks cannot yield usable available pixels, and accepted VLM3 output has no empty link7 frames.
 
@@ -475,7 +524,7 @@ This is silhouette/bounding-box registration. It does not guarantee that paired 
 
 ## 9. Exact selection of the normally ten crop pairs
 
-Source: [frame_selection.py](../src/pdi_eval/object_deformation_wrapper/frame_selection.py), `select_frames()` and `select_case()`. Method: **`time-quintiles-with-post-occlusion-v3`**.
+Source: [frame_selection.py](../src/pdi_eval/object_deformation_wrapper/frame_selection.py), `select_frames()` and `select_case()`. Method: **`time-quintiles-with-post-occlusion-v5`**. Version 5 uses an interval mean to activate a per-frame area gate, preserving substantial late recoveries; VLM3, occlusion, and mapping are unchanged.
 
 ### 9.1 Per-frame eligibility
 
@@ -496,7 +545,9 @@ eligible[t] = (
 
 With current artifacts, this means valid link7 area, direct object overlap **≤95%**, usable frame-0 mapping, and nonempty current/reference masks.
 
-There is **no minimum 20% object-availability rule**. A tiny nonzero crop below or equal to 95% overlap can remain eligible. There is also no ordinary eligibility requirement for `flagged=false` or `status="assessed"`. Those two conditions are required specifically for recovery reservations.
+Version 5 additionally removes low-area final frames when the interval-level warning activates. It does this before either recovery reservations or ordinary area ranking; substantial final frames remain eligible.
+
+There is **no universal per-frame object-availability floor**. A tiny nonzero crop can remain eligible outside an activated final-interval gate. The new gate compares available area to an earlier mean, not the current object-mask area. There is also no ordinary eligibility requirement for `flagged=false` or `status="assessed"`. Those two conditions are required specifically for recovery reservations.
 
 ### 9.2 Time intervals and quotas
 
@@ -518,12 +569,47 @@ interval_b = [ceil(b*T/5), ceil((b+1)*T/5))
 
 Frame position is `100*t/T`, not `100*t/(T−1)`. The last frame therefore lies below 100%. The CLI also supports 5 or 20 slots with quotas `[0,1,1,1,2]` or `[0,4,4,4,8]` respectively.
 
-### 9.3 Reserve immediate post-occlusion frames first
+### 9.3 Final-interval warning and selective frame rejection
+
+Calculate the mean `available_area` for each of the five intervals using **all source frames in that interval, including zeros and frames that fail mapping/selection gates**. Averaging only selectable frames would hide disappearance by discarding the zero-area tail. The saved availability definition already empties frames with invalid link7 masks.
+
+```python
+mean_b = mean(available_area[t] for t in interval_b)
+mean_first80 = mean(available_area[t] for t in intervals_0_through_3)
+ratio = 0.50  # --last-interval-min-area-ratio; 0 disables
+collapse_detected = (
+    ratio > 0
+    and mean_first80 > 0
+    and mean_3 > 0  # immediately preceding 60–80% interval
+    and mean_4 < ratio * mean_first80
+    and mean_4 < ratio * mean_3
+)
+frame_area_threshold = ratio * mean_first80
+excluded[t] = (
+    collapse_detected
+    and bucket(t) == 4
+    and available_area[t] < frame_area_threshold
+)
+```
+
+`mean_first80` pools frames, so unequal interval lengths are correctly weighted. All comparisons are strict: a mean at exactly 50% does not activate the gate, and a frame at exactly the area threshold is retained. The preceding-interval check avoids interpreting sustained low visibility throughout the middle/end of a video as a new terminal collapse. For example, baseline COSMOS2.5_0010 has a last/first-80% ratio of 2.72%, but its final mean is 92.8% of the preceding interval; its final-frame area gate remains inactive.
+
+When `collapse_detected` is true:
+
+- Reject only final-interval frames below the per-frame threshold. A recovered crop at or above the threshold still passes this new gate, including a substantial immediate recovery successor. Existing mask/mapping gates still apply. Fallback cannot reintroduce an excluded frame.
+- **Keep the original quotas and existing fallback.** For 10 slots, the target remains `[0,2,2,2,4]`. Select the retained late crops first; missing slots are filled from unused eligible frames in 60–80% first, then 40–60%, then 20–40%. If no eligible late crop survives and enough donors exist, actual counts become `[0,2,2,6,0]`. There is no separate redistribution to earlier interval quotas.
+- Record all five means, both ratios, `collapse_detected`, the per-frame `frame_area_threshold`, excluded indices, `preserved_eligible_frames`, and unchanged slot policy under `final_interval_policy`. `suppressed=true` means the warning activated and no final crop-eligible frames survive; it does not follow automatically from a low interval mean. Interval `target_count` is the original quota; `selected_count` includes fallback selections.
+
+This is a **crop-selection heuristic**, not proof of release or object disappearance. Severe occlusion, a shrinking object, or segmentation loss can produce similar area reductions. A large false mask can still pass; a small but real object can fail. The gate acts only in the final quintile; it does not repair the task-object mask or detect enlargement.
+
+### 9.4 Reserve immediate post-occlusion frames first
+
 
 Scan the **final union flags**, not unfiltered `candidate` rows. For each contiguous flagged run `[start,end]`, examine exactly `s=end+1`:
 
 | Immediate successor | Recorded outcome |
 |---|---|
+| Below the activated final-frame area threshold | `successor_below_final_interval_area_gate`; deliberately not reserved |
 | Within video, unflagged, valid mask, `status="assessed"`, and crop-eligible | Reserve `s`, reason `immediate_post_occlusion` |
 | Failed mask or status other than `assessed` | `successor_not_assessable` |
 | Assessed but crop-ineligible, including >95% overlap | `successor_crop_invalid` |
@@ -533,7 +619,7 @@ Never replace an unusable immediate successor with a later frame. An unflagged b
 
 Reservations consume their own interval quotas before ordinary area selection. A required successor in the first 20% overrides that interval's ordinary zero quota. If reservations exceed an interval's quota, retain them; ordinary slots fill in chronological interval order up to the total requested count. More mandatory recoveries than total slots raises an explicit conflict.
 
-### 9.4 Fill by available area, then apply bounded fallback
+### 9.5 Fill by available area, then apply bounded fallback
 
 Within **each** interval, sort eligible frames by:
 
@@ -551,20 +637,32 @@ If the total is still short and `--strict-bins` is not enabled, fill from unused
 
 Each donor interval retains its own area ordering. Never use the first 20% as ordinary fallback. If fewer eligible frames remain than required, report a shortfall without duplication. With `--strict-bins`, skip this fallback and leave missing slots empty.
 
-Save selected frames in chronological order. `status="complete"` requires the requested count **and** no `successor_not_assessable` / `successor_crop_invalid` episodes. A terminal occlusion episode has no successor requirement and is not itself counted as one of those failures. Successful interval fallback can still yield `complete`.
+A final interval with no surviving eligible frames has no donors; fallback starts at 60–80% in that case. If good late frames survive, select them normally and backfill only the remaining slots. `--strict-bins` keeps the original quotas and leaves missing slots unfilled.
+
+Save selected frames in chronological order. `status="complete"` requires the requested count **and** no `successor_not_assessable` / `successor_crop_invalid` episodes. A terminal episode has no successor requirement. A successor deliberately excluded for low final-frame area is recorded separately and not counted as an unsatisfied recovery requirement. Successful interval fallback can still yield `complete`.
 
 ```mermaid
 flowchart TD
     INPUT["Selected link7, task-object masks, original RGB, saved occlusion audit"] --> AVAILABLE["Compute available object pixels for every frame"]
     AVAILABLE --> MAP["Map available shape to frame-0 object coordinates"]
     MAP --> ELIGIBLE["Gate mask validity, 95% overlap, mapping, and nonempty masks"]
+    AVAILABLE --> MEANS["Mean available area in every quintile, including zeros"]
+    MEANS --> COLLAPSE{"Final mean below 50% of both earlier means?"}
+    COLLAPSE -->|Yes| SKIP["Exclude only final frames below 50% of first-80% mean; retain substantial recoveries"]
+    COLLAPSE -->|No| NORMAL["Keep quotas 0, 2, 2, 2, 4"]
     INPUT --> RUNS["Find contiguous final flagged runs"]
     RUNS --> SUCCESSOR["Inspect exact immediate successor of each run"]
-    SUCCESSOR --> RECOVERY{"Assessed, unflagged, crop-eligible?"}
+    SUCCESSOR --> RECOVERY{"Assessed, unflagged, crop-eligible, passes activated area gate?"}
+    SKIP --> RECOVERY
     RECOVERY -->|Yes| RESERVE["Reserve recovery frame before area choices"]
-    RECOVERY -->|No| ISSUE["Record unmet recovery or terminal episode"]
-    ELIGIBLE --> RANK["Rank available area within each quintile; earlier wins ties"]
-    RESERVE --> FILL["Fill remaining quotas 0, 2, 2, 2, 4"]
+    RECOVERY -->|No| ISSUE["Record invalid, terminal, or deliberately suppressed recovery"]
+    ELIGIBLE --> FILTER["Remove only frames rejected by activated area gate"]
+    SKIP --> FILTER
+    NORMAL --> FILTER
+    FILTER --> RANK["Rank available area within each allowed quintile; earlier wins ties"]
+    RESERVE --> FILL["Fill remaining effective quotas"]
+    SKIP --> FILL
+    NORMAL --> FILL
     RANK --> FILL
     FILL --> SHORT{"Fewer than ten selected?"}
     SHORT -->|Yes, default| DONOR["Fill from latest allowed interval first"]
@@ -574,9 +672,11 @@ flowchart TD
     SAVE --> REPORT
 ```
 
-## 10. Actual saved frame lineage: fresh LVP examples
+## 10. Saved frame lineage and experiment evidence
 
-These examples were checked directly against saved native provenance, VLM3 repair records, updated occlusion audits, and crop selections. They illustrate the current rules rather than define new thresholds.
+### 10.1 Earlier two-case fresh-LVP experiment
+
+These earlier examples were checked directly against saved native provenance, VLM3 repair records, updated occlusion audits, and crop selections. They illustrate the current rules rather than define new thresholds; the later seven-case GPU rerun is recorded separately below.
 
 | Stage | LVP_ROBOWM_0010 | LVP_ROBOWM_0015 |
 |---|---|---|
@@ -589,17 +689,41 @@ These examples were checked directly against saved native provenance, VLM3 repai
 | VLM3 acceptance | `accepted_with_frame_exclusions` | `accepted` |
 | VLM3 crop exclusions | `[45,46,47,48]` | `[]` |
 | Updated final occlusion runs | `[21,22]`, `[39,41]` | `[20,44]` |
-| Required immediate successors | **23,42** | **45** |
+| Recovery successors before final-interval cutoff | **23,42** | **45** |
+| Required successors after cutoff | **23**; frame 42 deliberately suppressed | **45** |
 | Mapped frames before selector gates | 49/49 | 48/49 |
-| Selected crop frames | `[10,13,23,29,30,31,40,41,42,43]` | `[11,13,20,21,38,39,45,46,47,48]` |
+| Historical v3 crop frames | `[10,13,23,29,30,31,40,41,42,43]` | `[11,13,20,21,38,39,45,46,47,48]` |
+| V5 crop frames for these saved masks | `[10,13,23,29,30,31,32,33,34,35]` | `[11,13,20,21,38,39,45,46,47,48]` |
 
 VLM3 can legitimately seed **earlier** than VLM2: the core reseeds at the earliest diagnosed deformation plus one, while VLM3 independently selects the first mask-overlap/area failure across the propagated sequence.
 
-For LVP0010, mapped status exists even on the four residual >95% frames, but the selector excludes them. It fills the deficient final interval from permitted earlier intervals.
+For LVP0010, mapped status exists even on the four residual >95% frames, but the overlap gate excludes them. Version 5's warning activates and every final frame falls below its **1,384.04-pixel threshold**, so no final crop survives and fallback supplies earlier frames.
 
-Its mandatory frame **42** has **24 available pixels**, direct link7 coverage **94.1606%**, 22 available pixels inside the expected bounding box, and 22 mapped reference pixels. Coverage is `22/24=91.67%`, above the 80% mapping gate. It therefore remains selected under the current rules. The earlier proposed 20% availability gate is not implemented.
+Its former mandatory frame **42** has **24 available pixels**, direct link7 coverage **94.1606%**, 22 available pixels inside the expected bounding box, and 22 mapped reference pixels. Coverage is `22/24=91.67%`, above the 80% mapping gate. Version 3 therefore selected it; version 5 skips it for low final-frame area.
 
-Flagged frames can also appear in selections: LVP0010 frames 40–41 and LVP0015 frames 20–21 and 38–39 are examples of area-ranked available-pixel crops from final occlusion episodes.
+Flagged frames can still appear in selections, such as LVP0015 frames 20–21 and 38–39. LVP0010's formerly selected flagged frames 40–41 are now suppressed with its final interval.
+
+The user-referenced [published object gallery](https://wilsonnijc-bot.github.io/PDIBench_Segment_CAD/objects/selection_gallery.html) shows COSMOS3_0005 selecting frames 157–160 and LVP0005 selecting 40–43 in their final intervals. Those selected indices match the local comparison records. Their later empty object masks already prevent unavailable crops: COSMOS3_0005 is empty at 174–188; LVP0005 is empty at 46–48, while frame 45 fails shape mapping.
+
+| Case / mask version | Means for 0–20%, 20–40%, 40–60%, 60–80%, 80–100% | Final / first 80% | Final / preceding interval | Version 5 decision |
+|---|---|---:|---:|---|
+| LVP0010, fresh VLM3 | `[2930.9,2785.3,2501.5,2854.6,309.7]` | 11.19% | 10.85% | Suppress final interval |
+| LVP0015, fresh VLM3 | `[1146.0,1122.2,683.4,400.0,1013.8]` | 120.99% | 253.44% | Keep original selection |
+| COSMOS3_0005, published baseline | `[642.4,642.1,652.0,679.3,441.0]` | 67.44% | 64.92% | Keep original selection |
+| LVP0005, published baseline | `[301.0,294.5,223.9,283.0,232.4]` | 84.34% | 82.14% | Keep original selection |
+
+An offline audit over **45 baseline manifests plus the two fresh VLM3 cases**, isolating this area gate with other checks held fixed, changes baseline COSMOS3_0010 and fresh LVP0010 at the default 50% threshold. Baseline LVP0054 activates the warning but its final interval was already empty, so **its selected frames remain `[10,11,20,21,30,31,32,33,34,36]`**. Frames 30–39 are 60–80% in its 49-frame video; frames 40–48 are the final interval. Its natural fallback still supplies six crops from 60–80%.
+
+The frame-level refinement preserves the good crops that a whole-interval 50% cutoff rejected:
+
+| Case | Frame area threshold | Retained final eligible indices | Result |
+|---|---:|---|---|
+| COSMOS3_0010 | 2,849.44 px | None | Replace `[161,162,163,164]` with `[121,131,134,142]` |
+| COSMOS3_0015 | 1,167.27 px | `[152,153,154,155,182,183,184,185,186,187]` | Keep selected `[152,182,183,184]`, including mandatory recovery 182 |
+| LVP0056 | 119.11 px | `[40,41,42,43,44]` | Keep selected `[40,41,43,44]` |
+| Fresh LVP0010 | 1,384.04 px | None | Use the earlier fallback selections shown above |
+
+COSMOS3_0015's final mean is low because of occlusion during 153–181. Its recovered selected frames have 1,538–1,663 available pixels, comfortably above the threshold. The interval mean now activates inspection instead of discarding the recovery. This audit describes saved-mask selection impact, not a visually labeled disappearance evaluation across every video. The 50% default remains configurable.
 
 Evidence:
 
@@ -607,6 +731,26 @@ Evidence:
 - [LVP0010 fresh VLM3 record](../../results/vlm3-overmask-20261002/LVP_ROBOWM_0010/vlm3_fresh/repair.json) and [selection](../../results/vlm3-overmask-20261002/crops/LVP_ROBOWM_0010/selection.json).
 - [LVP0015 fresh VLM3 record](../../results/vlm3-overmask-20261002/LVP_ROBOWM_0015/vlm3_fresh/repair.json) and [selection](../../results/vlm3-overmask-20261002/crops/LVP_ROBOWM_0015/selection.json).
 - [Fresh occlusion/crop summary](../../results/vlm3-overmask-20261002/metadata/vlm3_fresh/crop_summary.json).
+- [Version 5 interval/selection audit](../../results/vlm3-overmask-20261002/metadata/vlm3_fresh/frame_selection_audit.json), including historical selections, both ratios, and retained indices for all 47 inputs.
+- [Updated HTML picture gallery](../../results/vlm3-overmask-20261002/crops/selection_gallery.html).
+
+### 10.2 Seven-case GPU rerun and synchronized outputs
+
+The subsequent seven-case GPU run starts from fresh VLM2 archives for LVP0010/0015 and the currently selected persistent archives for the other five cases. Every case uses a new VLM3 call at the earliest strict overlap/area failure; no seed-frame shift or backend fallback is introduced. Accepted masks automatically refresh occlusion detection and its replay, available-pixel mappings, and the V5 ten-frame selection.
+
+| Case | Exact VLM3 frame | Accepted repair | Selected source frames |
+|---|---:|---|---|
+| COSMOS2.5_0056 | **9** | `accepted_with_frame_exclusions` | `[14, 19, 20, 42, 44, 70, 71, 75, 76, 77]` |
+| COSMOS2.5_0005 | **6** | `accepted_with_frame_exclusions` | `[20, 29, 41, 43, 56, 57, 58, 59, 60, 61]` |
+| COSMOS2.5_0010 | **11** | `accepted_with_frame_exclusions` | `[19, 20, 46, 47, 56, 57, 58, 59, 60, 61]` |
+| LVP_ROBOWM_0010 | **0** | `accepted_with_frame_exclusions` | `[10, 13, 23, 29, 30, 31, 32, 33, 34, 35]` |
+| LVP_ROBOWM_0015 | **0** | `accepted` | `[11, 13, 20, 21, 38, 39, 45, 46, 47, 48]` |
+| LVP_ROBOWM_0060 | **0** | `accepted` | `[11, 15, 22, 27, 37, 39, 44, 45, 46, 48]` |
+| COSMOS2.5_0065 | **2** | `accepted` | `[19, 20, 46, 48, 56, 59, 84, 85, 90, 92]` |
+
+COSMOS2.5_0005 required two same-frame attempts because its first candidate included the object-negative seed; the second passed all six membership checks. The other six cases passed in one attempt. All seven have ten crop pairs. Original quotas and fallback are unchanged.
+
+[Exact inputs, points and masking review](../../results/vlm3-seven-cases-20261003/index.html) · [Selected crop pictures](../../results/vlm3-seven-cases-20261003/crops/selection_gallery.html) · [GPU run ledger](../../experiment_GPU_record.md)
 
 ## 11. Artifacts and operational order
 
@@ -669,6 +813,8 @@ The exporter validates the audit's object/gripper hashes and source video. The s
 | “Any occlusion flag prevents cropping.” | Flagged frames can supply available-pixel crops; flags also nominate mandatory immediate recovery successors. |
 | “Cropping captures the entire object.” | Current alpha retains only `O AND NOT G`, and frame-0 RGB receives the mapped visible shape. |
 | “All mapped frames are selectable.” | Selection adds >95% exclusion, positive mapped-reference area, interval rules, and quota limits. |
-| “At least 20% of object pixels must remain available.” | That proposed gate was audited but is not enabled; current eligibility permits tiny nonzero crops. |
+| “At least 20% of the current object pixels must remain available.” | No such current-mask fraction floor is enabled. The activated final-frame gate instead uses 50% of the earlier mean available area. |
+| “A low final mean removes every late crop.” | Version 5 uses the mean as a warning and rejects only frames below the area threshold, preserving substantial recovered crops. |
+| “Always select four of ten crops from the final 20%.” | Keep quotas `[0,2,2,2,4]`; missing late slots use the original latest-interval fallback. |
 
 The component boundaries therefore support the requested organization: **standalone core persistent link7 masking; independent object masking; optional object-aware VLM3 remasking; then selected-mask occlusion analysis and available-pixel crop pairing.** Exact frame rules differ between those stages and must remain explicit in provenance.

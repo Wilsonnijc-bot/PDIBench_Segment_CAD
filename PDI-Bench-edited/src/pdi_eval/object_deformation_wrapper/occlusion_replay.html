@@ -27,7 +27,7 @@ const pct=x=>x==null?'unavailable':(x*100).toFixed(1)+'%';
 if(D.comparison){const c=D.comparison;$('scoreComparison').textContent=`Original naive rigidity: ${pct(c.naive_rigidity_score)} · Occlusion-filtered rigidity: ${pct(c.filtered_rigidity_score)} · ${c.retained_count} retained / ${c.retained_count+c.excluded_count} scored frames`;}
 const images=D.overlays.map(src=>{const im=new Image();im.src='data:image/png;base64,'+src;return im;});
 const notes={'COSMOS3_0025':'The severity-supported branch retains substantial replacement even when few predicted track coordinates land in link7. Some rigidity values are carried forward.', 'LVP_ROBOWM_0015':'Table-sized link7 masks fail the area check and are excluded from occlusion analysis and filtered scoring.', 'LVP_ROBOWM_0010':'Table-sized link7 masks fail the area check and are excluded from occlusion analysis and filtered scoring.', 'LVP_ROBOWM_0040':'Moderate replacement can qualify with reduced track corroboration and strong loss attribution.', 'COSMOS3_0056':'The original branch permits continuation during mask regrowth after replacement establishes an episode.', 'COSMOS2.5_0065':'Segmentation warning: link7 also includes visible cup pixels. This long catch is uncertain; inspect the overlay before treating it as confirmed occlusion.'};
-$('note').textContent=notes[D.case]||'';
+$('note').textContent=D.gripper_mask_method==='vlm3-mask-link-replacement' ? 'Occlusion evidence uses the accepted VLM3 link7 masks. '+D.failed_mask_frames.length+' frames fail the link7 area guard.' : (notes[D.case]||'');
 function paint(t){
  if(video.readyState<2)return;
  ctx.clearRect(0,0,D.width,D.height);ctx.drawImage(video,0,0,D.width,D.height);

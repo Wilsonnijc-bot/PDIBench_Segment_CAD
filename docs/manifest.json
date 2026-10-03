@@ -4354,6 +4354,1851 @@
       "sha256": "e34d13cd7b01155fd2ae25f5269ee2185340aaaef0de9ed13d0d7893176231c8",
       "bytes": 36810,
       "url": "assets/e34d13cd7b01155fd2ae25f5269ee2185340aaaef0de9ed13d0d7893176231c8.json"
+    },
+    "results/vlm3-seven-cases-20261003/index.html": {
+      "sha256": "919c35316d01d0b76ee68e6cfc7566392cdc461a6b8d4f21f33506948269d49e",
+      "bytes": 11780,
+      "url": "replay.html?asset=919c35316d01d0b76ee68e6cfc7566392cdc461a6b8d4f21f33506948269d49e.html.gz"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/COSMOS2.5_0056/occlusion/replay.html": {
+      "sha256": "bef4d42be472c6729c8b19a4c106f8559467c96433915ca16b489eec99a7006f",
+      "bytes": 1155165,
+      "url": "replay.html?asset=bef4d42be472c6729c8b19a4c106f8559467c96433915ca16b489eec99a7006f.html.gz"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selection.json": {
+      "sha256": "bbaeeb5dd753a11edab2672b7caf6b2260f5d80cc791ae8e5ee71a584885fc3c",
+      "bytes": 10397,
+      "url": "assets/bbaeeb5dd753a11edab2672b7caf6b2260f5d80cc791ae8e5ee71a584885fc3c.json"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/COSMOS2.5_0005/occlusion/replay.html": {
+      "sha256": "5a6f66c613600e364ec2c93604c0b6d62dfa107f17ad8c552c051b9283943ed5",
+      "bytes": 1006847,
+      "url": "replay.html?asset=5a6f66c613600e364ec2c93604c0b6d62dfa107f17ad8c552c051b9283943ed5.html.gz"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selection.json": {
+      "sha256": "d844c9fba3073f4889a345eacdd445301d3b6bafc2bca9af6d8454e51c38a3d0",
+      "bytes": 9263,
+      "url": "assets/d844c9fba3073f4889a345eacdd445301d3b6bafc2bca9af6d8454e51c38a3d0.json"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/COSMOS2.5_0010/occlusion/replay.html": {
+      "sha256": "bd044dc7af3dba15f3994adf043bf1d49393544eb4119fe812889dcecbed6d4b",
+      "bytes": 1383328,
+      "url": "replay.html?asset=bd044dc7af3dba15f3994adf043bf1d49393544eb4119fe812889dcecbed6d4b.html.gz"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selection.json": {
+      "sha256": "bf8de0b64248e765b60b4aea87312f2f377cb75491af1c803096e7f965f2ecd1",
+      "bytes": 9953,
+      "url": "assets/bf8de0b64248e765b60b4aea87312f2f377cb75491af1c803096e7f965f2ecd1.json"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/LVP_ROBOWM_0010/occlusion/replay.html": {
+      "sha256": "0bbe84f44762fcfcb66cee9ca37cf4c047364547083c1ff85dc61e8daa895b2e",
+      "bytes": 493009,
+      "url": "replay.html?asset=0bbe84f44762fcfcb66cee9ca37cf4c047364547083c1ff85dc61e8daa895b2e.html.gz"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selection.json": {
+      "sha256": "0d6b4814014286e64e1cc84eaa985c7a23e4b11947b81e08277098cbbb9ae939",
+      "bytes": 9761,
+      "url": "assets/0d6b4814014286e64e1cc84eaa985c7a23e4b11947b81e08277098cbbb9ae939.json"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/LVP_ROBOWM_0015/occlusion/replay.html": {
+      "sha256": "e6b6cfbbbd8b91e9ff08f269f35f02e173f63b1ed2e1e2f8e4ef674f47dbf016",
+      "bytes": 411773,
+      "url": "replay.html?asset=e6b6cfbbbd8b91e9ff08f269f35f02e173f63b1ed2e1e2f8e4ef674f47dbf016.html.gz"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selection.json": {
+      "sha256": "1b8ca7518cae26d74f840ec352b8554995ceef4c78243f8719151e79fb395fa0",
+      "bytes": 9614,
+      "url": "assets/1b8ca7518cae26d74f840ec352b8554995ceef4c78243f8719151e79fb395fa0.json"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/LVP_ROBOWM_0060/occlusion/replay.html": {
+      "sha256": "488cbb20c362f5c18433689fce145db08d4cfe478b7e881951d9d67c1aea5da7",
+      "bytes": 464662,
+      "url": "replay.html?asset=488cbb20c362f5c18433689fce145db08d4cfe478b7e881951d9d67c1aea5da7.html.gz"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selection.json": {
+      "sha256": "dea2fa941d3cde813e47668238397ce84a691ccad03897e0ffe751df5d704199",
+      "bytes": 9374,
+      "url": "assets/dea2fa941d3cde813e47668238397ce84a691ccad03897e0ffe751df5d704199.json"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/COSMOS2.5_0065/occlusion/replay.html": {
+      "sha256": "50233c5f1ba5d2e99485eeb1e4974e299c87fe6d572ed6b0178d36eadb1dd83d",
+      "bytes": 1529266,
+      "url": "replay.html?asset=50233c5f1ba5d2e99485eeb1e4974e299c87fe6d572ed6b0178d36eadb1dd83d.html.gz"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selection.json": {
+      "sha256": "3a46412333bec5afadaedf42a47e17e882fd7c4323956963a4e9c68be0dd5396",
+      "bytes": 9865,
+      "url": "assets/3a46412333bec5afadaedf42a47e17e882fd7c4323956963a4e9c68be0dd5396.json"
+    },
+    "results/vlm3-seven-cases-20261003/crops/selection_gallery.html": {
+      "sha256": "c33570c468688f91d3cbb670f9f0849f8a8287a5aa91e2302dc3947eaea4261c",
+      "bytes": 96419,
+      "url": "replay.html?asset=c33570c468688f91d3cbb670f9f0849f8a8287a5aa91e2302dc3947eaea4261c.html.gz"
+    },
+    "results/vlm3-seven-cases-20261003/COSMOS2.5_0005/comparison.mp4": {
+      "sha256": "9a9713c4476fc3571cfadd50b70780d09dbbeac774727915035ad595a4cfa71a",
+      "bytes": 2441520,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/9a9713c4476fc3571cfadd50b70780d09dbbeac774727915035ad595a4cfa71a.mp4"
+    },
+    "results/vlm3-seven-cases-20261003/COSMOS2.5_0005/inputs/target.png": {
+      "sha256": "de813f6053e3d78f94294b02581e21a2cbfd10ccf1b8888b70ebdbcd4aafea36",
+      "bytes": 799146,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/de813f6053e3d78f94294b02581e21a2cbfd10ccf1b8888b70ebdbcd4aafea36.png"
+    },
+    "results/vlm3-seven-cases-20261003/COSMOS2.5_0005/points.png": {
+      "sha256": "f8576358f37334a50b899a10c0f9cc8cc779785d08e178ae8d82383c43d3c42e",
+      "bytes": 799676,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/f8576358f37334a50b899a10c0f9cc8cc779785d08e178ae8d82383c43d3c42e.png"
+    },
+    "results/vlm3-seven-cases-20261003/COSMOS2.5_0005/repair.json": {
+      "sha256": "f17c715dea9a62288ef2f0bfb1976af2bc5819200481844e46b19eaa21e98163",
+      "bytes": 108480,
+      "url": "assets/f17c715dea9a62288ef2f0bfb1976af2bc5819200481844e46b19eaa21e98163.json"
+    },
+    "results/vlm3-seven-cases-20261003/COSMOS2.5_0005/inputs/reference.png": {
+      "sha256": "b7b3171584c83dbd0e156c9f7035bd44ca5bfb5d3649d2897fa392dcc86567c0",
+      "bytes": 1220736,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/b7b3171584c83dbd0e156c9f7035bd44ca5bfb5d3649d2897fa392dcc86567c0.png"
+    },
+    "results/vlm3-seven-cases-20261003/COSMOS2.5_0010/comparison.mp4": {
+      "sha256": "e4607a34d1fc4d3293a3b46ef77ad11bc0c0ac0e3c43b747b812ffa57b47076e",
+      "bytes": 2591005,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/e4607a34d1fc4d3293a3b46ef77ad11bc0c0ac0e3c43b747b812ffa57b47076e.mp4"
+    },
+    "results/vlm3-seven-cases-20261003/COSMOS2.5_0010/inputs/target.png": {
+      "sha256": "7ee4f5650858543c29ed9bc47b63791c9836ccd7774f81f0ae657223e550ed33",
+      "bytes": 789688,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/7ee4f5650858543c29ed9bc47b63791c9836ccd7774f81f0ae657223e550ed33.png"
+    },
+    "results/vlm3-seven-cases-20261003/COSMOS2.5_0010/points.png": {
+      "sha256": "68a8499012e6f3d2b590c92578194139813ba2b1d34b713754047c674fe28482",
+      "bytes": 790942,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/68a8499012e6f3d2b590c92578194139813ba2b1d34b713754047c674fe28482.png"
+    },
+    "results/vlm3-seven-cases-20261003/COSMOS2.5_0010/repair.json": {
+      "sha256": "4e22f18c8c4fb0a902f27ae0c8d276ed1045004e50f026760f76d0355d2dadac",
+      "bytes": 78772,
+      "url": "assets/4e22f18c8c4fb0a902f27ae0c8d276ed1045004e50f026760f76d0355d2dadac.json"
+    },
+    "results/vlm3-seven-cases-20261003/COSMOS2.5_0010/inputs/reference.png": {
+      "sha256": "b7b3171584c83dbd0e156c9f7035bd44ca5bfb5d3649d2897fa392dcc86567c0",
+      "bytes": 1220736,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/b7b3171584c83dbd0e156c9f7035bd44ca5bfb5d3649d2897fa392dcc86567c0.png"
+    },
+    "results/vlm3-seven-cases-20261003/LVP_ROBOWM_0010/comparison.mp4": {
+      "sha256": "4bdbbc395c47d2ae407c967edd5753f903c4c3bf5d324d8b42fe78d51e97bda3",
+      "bytes": 729818,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/4bdbbc395c47d2ae407c967edd5753f903c4c3bf5d324d8b42fe78d51e97bda3.mp4"
+    },
+    "results/vlm3-seven-cases-20261003/LVP_ROBOWM_0010/inputs/target.png": {
+      "sha256": "21a4b4e8b8b7b5e9dd3c29468cb6d85d487e45340e3eac64e09cb99619bfc159",
+      "bytes": 389012,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/21a4b4e8b8b7b5e9dd3c29468cb6d85d487e45340e3eac64e09cb99619bfc159.png"
+    },
+    "results/vlm3-seven-cases-20261003/LVP_ROBOWM_0010/points.png": {
+      "sha256": "0c5241afba4c28f3e9db08b5a844bc799f87f4995abc6bb4b0c2dc637507339a",
+      "bytes": 389929,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/0c5241afba4c28f3e9db08b5a844bc799f87f4995abc6bb4b0c2dc637507339a.png"
+    },
+    "results/vlm3-seven-cases-20261003/LVP_ROBOWM_0010/repair.json": {
+      "sha256": "50085f6d6dedbd1fa0c63ed220163af77190a2b97a21b41cd95c041f1be7c758",
+      "bytes": 44937,
+      "url": "assets/50085f6d6dedbd1fa0c63ed220163af77190a2b97a21b41cd95c041f1be7c758.json"
+    },
+    "results/vlm3-seven-cases-20261003/LVP_ROBOWM_0010/inputs/reference.png": {
+      "sha256": "b7b3171584c83dbd0e156c9f7035bd44ca5bfb5d3649d2897fa392dcc86567c0",
+      "bytes": 1220736,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/b7b3171584c83dbd0e156c9f7035bd44ca5bfb5d3649d2897fa392dcc86567c0.png"
+    },
+    "results/vlm3-seven-cases-20261003/LVP_ROBOWM_0015/comparison.mp4": {
+      "sha256": "e39dff95b330dceb931a4e3edcff0805f1ba6194377cee1579350de6bf421700",
+      "bytes": 681038,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/e39dff95b330dceb931a4e3edcff0805f1ba6194377cee1579350de6bf421700.mp4"
+    },
+    "results/vlm3-seven-cases-20261003/LVP_ROBOWM_0015/inputs/target.png": {
+      "sha256": "4e30dc9bfedd1c8aa798f3ec1f0a9699359b55650f3079d551c62f01adb6ead3",
+      "bytes": 395463,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/4e30dc9bfedd1c8aa798f3ec1f0a9699359b55650f3079d551c62f01adb6ead3.png"
+    },
+    "results/vlm3-seven-cases-20261003/LVP_ROBOWM_0015/points.png": {
+      "sha256": "5e2deb51ed634da42c799de19c1d43a21e8cc4d5b88f9e044904f4f9604be836",
+      "bytes": 396635,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/5e2deb51ed634da42c799de19c1d43a21e8cc4d5b88f9e044904f4f9604be836.png"
+    },
+    "results/vlm3-seven-cases-20261003/LVP_ROBOWM_0015/repair.json": {
+      "sha256": "eb68b5841469af91178e7628a3c7f7d31cc905bdd44f608ea095f3e6e8b79ff5",
+      "bytes": 45866,
+      "url": "assets/eb68b5841469af91178e7628a3c7f7d31cc905bdd44f608ea095f3e6e8b79ff5.json"
+    },
+    "results/vlm3-seven-cases-20261003/LVP_ROBOWM_0015/inputs/reference.png": {
+      "sha256": "b7b3171584c83dbd0e156c9f7035bd44ca5bfb5d3649d2897fa392dcc86567c0",
+      "bytes": 1220736,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/b7b3171584c83dbd0e156c9f7035bd44ca5bfb5d3649d2897fa392dcc86567c0.png"
+    },
+    "results/vlm3-seven-cases-20261003/COSMOS2.5_0056/comparison.mp4": {
+      "sha256": "44073a5ae506fda5f54d98da1ad4d9c1733783eb79184d653f4190b72bb19406",
+      "bytes": 2644536,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/44073a5ae506fda5f54d98da1ad4d9c1733783eb79184d653f4190b72bb19406.mp4"
+    },
+    "results/vlm3-seven-cases-20261003/COSMOS2.5_0056/inputs/target.png": {
+      "sha256": "e0c4c0534689815a8aa52421e139641c168e90f34cef032132ce9af4c5eb53ae",
+      "bytes": 817284,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/e0c4c0534689815a8aa52421e139641c168e90f34cef032132ce9af4c5eb53ae.png"
+    },
+    "results/vlm3-seven-cases-20261003/COSMOS2.5_0056/points.png": {
+      "sha256": "33ebfdcf105425ff7be50ad09eb30bcd3e1833c7c0ab2f5b51a2469621a921e8",
+      "bytes": 818156,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/33ebfdcf105425ff7be50ad09eb30bcd3e1833c7c0ab2f5b51a2469621a921e8.png"
+    },
+    "results/vlm3-seven-cases-20261003/COSMOS2.5_0056/repair.json": {
+      "sha256": "09411d667518e0629b4b839f9782ba6de727a56720a668e71655892394d963a3",
+      "bytes": 75898,
+      "url": "assets/09411d667518e0629b4b839f9782ba6de727a56720a668e71655892394d963a3.json"
+    },
+    "results/vlm3-seven-cases-20261003/COSMOS2.5_0056/inputs/reference.png": {
+      "sha256": "b7b3171584c83dbd0e156c9f7035bd44ca5bfb5d3649d2897fa392dcc86567c0",
+      "bytes": 1220736,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/b7b3171584c83dbd0e156c9f7035bd44ca5bfb5d3649d2897fa392dcc86567c0.png"
+    },
+    "results/vlm3-seven-cases-20261003/LVP_ROBOWM_0060/comparison.mp4": {
+      "sha256": "abdb035eaab01981b5c496aea6ba93867d8115b6cc3c8c6232e1f421a2b3a149",
+      "bytes": 757622,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/abdb035eaab01981b5c496aea6ba93867d8115b6cc3c8c6232e1f421a2b3a149.mp4"
+    },
+    "results/vlm3-seven-cases-20261003/LVP_ROBOWM_0060/inputs/target.png": {
+      "sha256": "03f20183eac9ba34eea346960fd8cf9fcedf728afde17c98f00eba975f64b123",
+      "bytes": 378338,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/03f20183eac9ba34eea346960fd8cf9fcedf728afde17c98f00eba975f64b123.png"
+    },
+    "results/vlm3-seven-cases-20261003/LVP_ROBOWM_0060/points.png": {
+      "sha256": "b3920de261b8a2fe32324542344efd45375454a5b970e3367a061eca3865caf1",
+      "bytes": 379272,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/b3920de261b8a2fe32324542344efd45375454a5b970e3367a061eca3865caf1.png"
+    },
+    "results/vlm3-seven-cases-20261003/LVP_ROBOWM_0060/repair.json": {
+      "sha256": "031c31e033116c8a4a337591f0dffd78863bf7237e2731b51010bc4d5107ea31",
+      "bytes": 44666,
+      "url": "assets/031c31e033116c8a4a337591f0dffd78863bf7237e2731b51010bc4d5107ea31.json"
+    },
+    "results/vlm3-seven-cases-20261003/LVP_ROBOWM_0060/inputs/reference.png": {
+      "sha256": "b7b3171584c83dbd0e156c9f7035bd44ca5bfb5d3649d2897fa392dcc86567c0",
+      "bytes": 1220736,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/b7b3171584c83dbd0e156c9f7035bd44ca5bfb5d3649d2897fa392dcc86567c0.png"
+    },
+    "results/vlm3-seven-cases-20261003/COSMOS2.5_0065/comparison.mp4": {
+      "sha256": "70623f4c6169e27bbeaabdca6008e78cb974a28ee38de0590821ca6428caa565",
+      "bytes": 2564057,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/70623f4c6169e27bbeaabdca6008e78cb974a28ee38de0590821ca6428caa565.mp4"
+    },
+    "results/vlm3-seven-cases-20261003/COSMOS2.5_0065/inputs/target.png": {
+      "sha256": "93b33507c05d55491e066d41f59f97e0be1763e7e1adf7ae756d4ac90ad7bb40",
+      "bytes": 736557,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/93b33507c05d55491e066d41f59f97e0be1763e7e1adf7ae756d4ac90ad7bb40.png"
+    },
+    "results/vlm3-seven-cases-20261003/COSMOS2.5_0065/points.png": {
+      "sha256": "ad54843702bbc1679c395bc9ac6b6092a1deeecc3552a143130a80878f1a621a",
+      "bytes": 737848,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/ad54843702bbc1679c395bc9ac6b6092a1deeecc3552a143130a80878f1a621a.png"
+    },
+    "results/vlm3-seven-cases-20261003/COSMOS2.5_0065/repair.json": {
+      "sha256": "b9c40b889a2cf905b96da253c82bf121706d9606d1a6408501b48d81f40aa6d4",
+      "bytes": 79257,
+      "url": "assets/b9c40b889a2cf905b96da253c82bf121706d9606d1a6408501b48d81f40aa6d4.json"
+    },
+    "results/vlm3-seven-cases-20261003/COSMOS2.5_0065/inputs/reference.png": {
+      "sha256": "b7b3171584c83dbd0e156c9f7035bd44ca5bfb5d3649d2897fa392dcc86567c0",
+      "bytes": 1220736,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/b7b3171584c83dbd0e156c9f7035bd44ca5bfb5d3649d2897fa392dcc86567c0.png"
+    },
+    "results/vlm3-seven-cases-20261003/gate_audit.json": {
+      "sha256": "6acf3d088069399728b807109133ec3c025cc97d143e880380b41df0f809ebc0",
+      "bytes": 139204,
+      "url": "assets/6acf3d088069399728b807109133ec3c025cc97d143e880380b41df0f809ebc0.json"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/COSMOS2.5_0056/replay/plotly.min.js": {
+      "sha256": "122e3be346d66616944d0b83eaaf7242581508c3c1cfa0995a17af0d83eff770",
+      "bytes": 4763993,
+      "url": "assets/122e3be346d66616944d0b83eaaf7242581508c3c1cfa0995a17af0d83eff770.js"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/occlusion/replay/index.html": {
+      "sha256": "9eafccba64b4b89cffe9a63888cea66caaa452bd0838b89ddc846ebb83e25b95",
+      "bytes": 2092,
+      "url": "replay.html?asset=9eafccba64b4b89cffe9a63888cea66caaa452bd0838b89ddc846ebb83e25b95.html.gz"
+    },
+    "results/object-deformation-selected45-20260929/cases/COSMOS2.5_0056/replay/source.mp4": {
+      "sha256": "04b0e11655d573246218bb5d84770b219cc63f029cb8a916835d5ae7efa383e8",
+      "bytes": 844070,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/selected-review-20261002/04b0e11655d573246218bb5d84770b219cc63f029cb8a916835d5ae7efa383e8.mp4"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/COSMOS2.5_0056/occlusion/frames.csv": {
+      "sha256": "fde68363f3910dcf77688b093eb97e34c2ac1535e1820022d86f0c9e3b1c20ea",
+      "bytes": 20651,
+      "url": "assets/fde68363f3910dcf77688b093eb97e34c2ac1535e1820022d86f0c9e3b1c20ea.csv"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/COSMOS2.5_0056/occlusion/detection.json": {
+      "sha256": "153ba0aaaa7409b9665892922187a971c7804df77585162d5b2138a8025cc849",
+      "bytes": 85384,
+      "url": "assets/153ba0aaaa7409b9665892922187a971c7804df77585162d5b2138a8025cc849.json"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/COSMOS2.5_0005/replay/plotly.min.js": {
+      "sha256": "122e3be346d66616944d0b83eaaf7242581508c3c1cfa0995a17af0d83eff770",
+      "bytes": 4763993,
+      "url": "assets/122e3be346d66616944d0b83eaaf7242581508c3c1cfa0995a17af0d83eff770.js"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/COSMOS2.5_0005/occlusion/frames.csv": {
+      "sha256": "08da74ea1606e06368b0897e99b9f3c24dd9d3497f439a37d60c9e6d3ed637f2",
+      "bytes": 19907,
+      "url": "assets/08da74ea1606e06368b0897e99b9f3c24dd9d3497f439a37d60c9e6d3ed637f2.csv"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/COSMOS2.5_0005/occlusion/detection.json": {
+      "sha256": "1a007e519475b1267f3872a92e606ffb6ca81cd7fe86462fac201aea91c80a1e",
+      "bytes": 84670,
+      "url": "assets/1a007e519475b1267f3872a92e606ffb6ca81cd7fe86462fac201aea91c80a1e.json"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/COSMOS2.5_0010/replay/plotly.min.js": {
+      "sha256": "122e3be346d66616944d0b83eaaf7242581508c3c1cfa0995a17af0d83eff770",
+      "bytes": 4763993,
+      "url": "assets/122e3be346d66616944d0b83eaaf7242581508c3c1cfa0995a17af0d83eff770.js"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/COSMOS2.5_0010/occlusion/frames.csv": {
+      "sha256": "b90864d7c77ef3576e2464325707669ea4928844c7ca8fb33389e91854f19519",
+      "bytes": 23222,
+      "url": "assets/b90864d7c77ef3576e2464325707669ea4928844c7ca8fb33389e91854f19519.csv"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/COSMOS2.5_0010/occlusion/detection.json": {
+      "sha256": "1878652e2dab7beaab1e71d77912c5f3da0c3b7c336ff5a7f25559d536ad9efd",
+      "bytes": 87764,
+      "url": "assets/1878652e2dab7beaab1e71d77912c5f3da0c3b7c336ff5a7f25559d536ad9efd.json"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/LVP_ROBOWM_0010/replay/plotly.min.js": {
+      "sha256": "122e3be346d66616944d0b83eaaf7242581508c3c1cfa0995a17af0d83eff770",
+      "bytes": 4763993,
+      "url": "assets/122e3be346d66616944d0b83eaaf7242581508c3c1cfa0995a17af0d83eff770.js"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/LVP_ROBOWM_0010/occlusion/frames.csv": {
+      "sha256": "e9df689268bec3367b58c834307c39292b680cceadba84bbf2739ec2fd530b52",
+      "bytes": 11545,
+      "url": "assets/e9df689268bec3367b58c834307c39292b680cceadba84bbf2739ec2fd530b52.csv"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/LVP_ROBOWM_0010/occlusion/detection.json": {
+      "sha256": "4a913a7f8e4d5969361fd78a8220420046cc5f711d8b359092c2a29189285610",
+      "bytes": 46170,
+      "url": "assets/4a913a7f8e4d5969361fd78a8220420046cc5f711d8b359092c2a29189285610.json"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/LVP_ROBOWM_0015/replay/plotly.min.js": {
+      "sha256": "122e3be346d66616944d0b83eaaf7242581508c3c1cfa0995a17af0d83eff770",
+      "bytes": 4763993,
+      "url": "assets/122e3be346d66616944d0b83eaaf7242581508c3c1cfa0995a17af0d83eff770.js"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/LVP_ROBOWM_0015/occlusion/frames.csv": {
+      "sha256": "2358e40faf8352c7572300f3a6ca3e917255c526fb7754884ebb8509e7800308",
+      "bytes": 11255,
+      "url": "assets/2358e40faf8352c7572300f3a6ca3e917255c526fb7754884ebb8509e7800308.csv"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/LVP_ROBOWM_0015/occlusion/detection.json": {
+      "sha256": "eed844569fdfa33decc7f1e5190aa5d5f63efe0db349a5fc101bc1402c742df3",
+      "bytes": 45849,
+      "url": "assets/eed844569fdfa33decc7f1e5190aa5d5f63efe0db349a5fc101bc1402c742df3.json"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/LVP_ROBOWM_0060/replay/plotly.min.js": {
+      "sha256": "122e3be346d66616944d0b83eaaf7242581508c3c1cfa0995a17af0d83eff770",
+      "bytes": 4763993,
+      "url": "assets/122e3be346d66616944d0b83eaaf7242581508c3c1cfa0995a17af0d83eff770.js"
+    },
+    "results/object-deformation-selected45-20260929/cases/LVP_ROBOWM_0060/replay/source.mp4": {
+      "sha256": "814a47584e095768508a28bb046be988e65ce03eb98aaf7835d5bd581d57a6c2",
+      "bytes": 298291,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/selected-review-20261002/814a47584e095768508a28bb046be988e65ce03eb98aaf7835d5bd581d57a6c2.mp4"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/LVP_ROBOWM_0060/occlusion/frames.csv": {
+      "sha256": "a455dff25e35b972513fd74da321a9f59dab32668ece90a1cb77953fafbab08a",
+      "bytes": 10868,
+      "url": "assets/a455dff25e35b972513fd74da321a9f59dab32668ece90a1cb77953fafbab08a.csv"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/LVP_ROBOWM_0060/occlusion/detection.json": {
+      "sha256": "73ceb4aa484ae9e01ce5527441f2d24aa17aaa611135b7fd319f2e4c4e0b5cf7",
+      "bytes": 45427,
+      "url": "assets/73ceb4aa484ae9e01ce5527441f2d24aa17aaa611135b7fd319f2e4c4e0b5cf7.json"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/COSMOS2.5_0065/replay/plotly.min.js": {
+      "sha256": "122e3be346d66616944d0b83eaaf7242581508c3c1cfa0995a17af0d83eff770",
+      "bytes": 4763993,
+      "url": "assets/122e3be346d66616944d0b83eaaf7242581508c3c1cfa0995a17af0d83eff770.js"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/COSMOS2.5_0065/occlusion/frames.csv": {
+      "sha256": "9f947575ecb9539ba2f235b009d4a9923a7b50356e45704043babb53a483048d",
+      "bytes": 22995,
+      "url": "assets/9f947575ecb9539ba2f235b009d4a9923a7b50356e45704043babb53a483048d.csv"
+    },
+    "results/vlm3-seven-cases-20261003/inputs/object/cases/COSMOS2.5_0065/occlusion/detection.json": {
+      "sha256": "0e03514358f8f8658eae80ba2fe94f08552d412a94f053a2465e5f3a138b4590",
+      "bytes": 87505,
+      "url": "assets/0e03514358f8f8658eae80ba2fe94f08552d412a94f053a2465e5f3a138b4590.json"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/frame0_reference.png": {
+      "sha256": "64ae55bc0a7cd4d40168ffaab85d9aa431eb97ab3befcb1e9e70a4291fa2531b",
+      "bytes": 1671,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/64ae55bc0a7cd4d40168ffaab85d9aa431eb97ab3befcb1e9e70a4291fa2531b.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00020/current_available.png": {
+      "sha256": "42dddf6c9ee20ce93a40040c3271d9b335fb142e8b1d897947cdf370045e04c6",
+      "bytes": 3232,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/42dddf6c9ee20ce93a40040c3271d9b335fb142e8b1d897947cdf370045e04c6.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00020/frame0_shape_crop.png": {
+      "sha256": "d6e6dc07bd15b13b52ba4832adcb016744e79a98a82b6ed44617e1ca1b3d85b0",
+      "bytes": 1677,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/d6e6dc07bd15b13b52ba4832adcb016744e79a98a82b6ed44617e1ca1b3d85b0.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00020/original_frame.png": {
+      "sha256": "33caefef504233137c82d314935e08aa8b0a4bef37243fcf344cb82f2b038f40",
+      "bytes": 1090278,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/33caefef504233137c82d314935e08aa8b0a4bef37243fcf344cb82f2b038f40.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00020/preview.png": {
+      "sha256": "7873d82432adc5ad09a55e42576e8d94169e4ded77c7aae2080776adac3827c3",
+      "bytes": 57444,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/7873d82432adc5ad09a55e42576e8d94169e4ded77c7aae2080776adac3827c3.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00029/current_available.png": {
+      "sha256": "6cde4c9e128bb17234ea5c236b97eae9306d90823412db14d7512e011b371fef",
+      "bytes": 2878,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/6cde4c9e128bb17234ea5c236b97eae9306d90823412db14d7512e011b371fef.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00029/frame0_shape_crop.png": {
+      "sha256": "a43f29ae622f869b444729ec641d5ce4f8482c87b96008a1823acbd544d828fb",
+      "bytes": 1671,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/a43f29ae622f869b444729ec641d5ce4f8482c87b96008a1823acbd544d828fb.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00029/original_frame.png": {
+      "sha256": "126db72b02f5f7abfcea78a8874c8007578f9a3d6ac95748159f68ea7ff18530",
+      "bytes": 1117008,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/126db72b02f5f7abfcea78a8874c8007578f9a3d6ac95748159f68ea7ff18530.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00029/preview.png": {
+      "sha256": "cf6e4aa04eb4e3332058b286a604f7ac251010f61d0032a97cf72ed5d389e4cf",
+      "bytes": 60526,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/cf6e4aa04eb4e3332058b286a604f7ac251010f61d0032a97cf72ed5d389e4cf.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00041/current_available.png": {
+      "sha256": "ad689dcf5f8b053fab0a131c9d0467c210aca4305084eecff1feca9f5bd75908",
+      "bytes": 2386,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/ad689dcf5f8b053fab0a131c9d0467c210aca4305084eecff1feca9f5bd75908.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00041/frame0_shape_crop.png": {
+      "sha256": "baa7e468adf93c59e611a3386a2a53314d8ce587346981df498210780c50ff29",
+      "bytes": 1676,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/baa7e468adf93c59e611a3386a2a53314d8ce587346981df498210780c50ff29.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00041/original_frame.png": {
+      "sha256": "377f818d984f6721490ead32a28131a72e9077a569bc0ab8356aacd36ac53c31",
+      "bytes": 1130593,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/377f818d984f6721490ead32a28131a72e9077a569bc0ab8356aacd36ac53c31.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00041/preview.png": {
+      "sha256": "c627c38af3f896a6ae1f808d92bfb30ee01d2a4868158938a9b6ad374fdf9124",
+      "bytes": 58707,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/c627c38af3f896a6ae1f808d92bfb30ee01d2a4868158938a9b6ad374fdf9124.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00043/current_available.png": {
+      "sha256": "aee9de36b13cf6ea5ef1aed1485bd53118a4c34a9bca4cba712ecc7d3b403458",
+      "bytes": 2558,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/aee9de36b13cf6ea5ef1aed1485bd53118a4c34a9bca4cba712ecc7d3b403458.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00043/frame0_shape_crop.png": {
+      "sha256": "0f6a1a19cd624d6053982924746e2106befe8b010126d5d309e91053e4024e75",
+      "bytes": 1672,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/0f6a1a19cd624d6053982924746e2106befe8b010126d5d309e91053e4024e75.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00043/original_frame.png": {
+      "sha256": "4e33507bf53d1e2cba82b2ff6ba67dd3c07a280958165732bf145e212d97dad5",
+      "bytes": 1133258,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/4e33507bf53d1e2cba82b2ff6ba67dd3c07a280958165732bf145e212d97dad5.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00043/preview.png": {
+      "sha256": "65199218982b8d7059fdc9ea7e93f2ac93d2e3baa0f1c73c0b7d57cec7348622",
+      "bytes": 59695,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/65199218982b8d7059fdc9ea7e93f2ac93d2e3baa0f1c73c0b7d57cec7348622.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00056/current_available.png": {
+      "sha256": "8191deb42563db11d89e890a3b7ead06c7b75fe9a9ee4db8df5f97ef1b7c9a18",
+      "bytes": 1904,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/8191deb42563db11d89e890a3b7ead06c7b75fe9a9ee4db8df5f97ef1b7c9a18.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00056/frame0_shape_crop.png": {
+      "sha256": "d59d95f330928a787656a67938a9d6fc6b40ce2a16f9be3df90b5858d233688d",
+      "bytes": 1674,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/d59d95f330928a787656a67938a9d6fc6b40ce2a16f9be3df90b5858d233688d.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00056/original_frame.png": {
+      "sha256": "f8422582abaa22420263208871f3c8f2baee69ccd51e3666bad343a093a5bae7",
+      "bytes": 1150039,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/f8422582abaa22420263208871f3c8f2baee69ccd51e3666bad343a093a5bae7.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00056/preview.png": {
+      "sha256": "2b5dfa70fcbed1d45f167d8db19ca8f61ca081bbfc7b8bae4d0860deb4f770fc",
+      "bytes": 49862,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/2b5dfa70fcbed1d45f167d8db19ca8f61ca081bbfc7b8bae4d0860deb4f770fc.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00057/current_available.png": {
+      "sha256": "49bef4ef1bb8e24b10d837b42e8ee18d35a0d4deca0558e0c7d16567a35ded9f",
+      "bytes": 1979,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/49bef4ef1bb8e24b10d837b42e8ee18d35a0d4deca0558e0c7d16567a35ded9f.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00057/frame0_shape_crop.png": {
+      "sha256": "e5aaa9652a0f4b4c68c54da34c46609cf4e5a571658527e05eb84aa8e25100aa",
+      "bytes": 1674,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/e5aaa9652a0f4b4c68c54da34c46609cf4e5a571658527e05eb84aa8e25100aa.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00057/original_frame.png": {
+      "sha256": "96237225d833568ddba7512d6e84f0cd114cbcaba6b1b393410394bcb12d6e59",
+      "bytes": 1154051,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/96237225d833568ddba7512d6e84f0cd114cbcaba6b1b393410394bcb12d6e59.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00057/preview.png": {
+      "sha256": "86c7f8bf6ea72181582576342f5cb0a51ee15ff364a8ab40a78ca5f5a510eb0c",
+      "bytes": 50936,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/86c7f8bf6ea72181582576342f5cb0a51ee15ff364a8ab40a78ca5f5a510eb0c.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00058/current_available.png": {
+      "sha256": "c0a69ceaa71992d3601f804844daf923a1677433a0edc4c55cd173a4836de2f4",
+      "bytes": 2199,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/c0a69ceaa71992d3601f804844daf923a1677433a0edc4c55cd173a4836de2f4.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00058/frame0_shape_crop.png": {
+      "sha256": "d4578a698768e726acb71ab3322bd6255218bc8f9bbb64eae2ca2327a89c4885",
+      "bytes": 1674,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/d4578a698768e726acb71ab3322bd6255218bc8f9bbb64eae2ca2327a89c4885.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00058/original_frame.png": {
+      "sha256": "e78d5998f3cb63f6c74e8d126f511d4df2bc87e5b87c64a9daf2c3ee832528aa",
+      "bytes": 1156391,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/e78d5998f3cb63f6c74e8d126f511d4df2bc87e5b87c64a9daf2c3ee832528aa.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00058/preview.png": {
+      "sha256": "6514ae8c4294872ada725687fda2237ec4f5e02270d30072706732b674d8304b",
+      "bytes": 53362,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/6514ae8c4294872ada725687fda2237ec4f5e02270d30072706732b674d8304b.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00059/current_available.png": {
+      "sha256": "c01f296522925bd7e8576ae9f6422aec96e179d0ce2576048f884bf6aca1ec3f",
+      "bytes": 2203,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/c01f296522925bd7e8576ae9f6422aec96e179d0ce2576048f884bf6aca1ec3f.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00059/frame0_shape_crop.png": {
+      "sha256": "3ee858d0b6ab3ce66abbb54b4931610952df715fd3c59f3627c3e030f4c07b2b",
+      "bytes": 1674,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/3ee858d0b6ab3ce66abbb54b4931610952df715fd3c59f3627c3e030f4c07b2b.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00059/original_frame.png": {
+      "sha256": "6bcd115a3412c73599f12f5fbccdf07c859a9024aaac7ca44d8e1d9415c71a4b",
+      "bytes": 1153835,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/6bcd115a3412c73599f12f5fbccdf07c859a9024aaac7ca44d8e1d9415c71a4b.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00059/preview.png": {
+      "sha256": "951e2d50a68f0d409900287e0cb3266841fc792b5cc36cc39391c4e9f745cd6b",
+      "bytes": 51839,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/951e2d50a68f0d409900287e0cb3266841fc792b5cc36cc39391c4e9f745cd6b.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00060/current_available.png": {
+      "sha256": "a43d059608b8e604887d752160acc5817cec0da0f7cc7c726c49b9aa0631db58",
+      "bytes": 2360,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/a43d059608b8e604887d752160acc5817cec0da0f7cc7c726c49b9aa0631db58.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00060/frame0_shape_crop.png": {
+      "sha256": "27b36beaeadbd8f3b7d72d3c11422363b83db4bfc95356c3a51f118fee13b81a",
+      "bytes": 1672,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/27b36beaeadbd8f3b7d72d3c11422363b83db4bfc95356c3a51f118fee13b81a.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00060/original_frame.png": {
+      "sha256": "f9872112b5149d6aa4e8af23ae2318dd12bc1db54a0352660d131eed75e08bb4",
+      "bytes": 1153962,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/f9872112b5149d6aa4e8af23ae2318dd12bc1db54a0352660d131eed75e08bb4.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00060/preview.png": {
+      "sha256": "b22cbadb16e02315ba2f4c2ebc7bf0f23343ffeb38232f5bffec576d23df39b7",
+      "bytes": 53172,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/b22cbadb16e02315ba2f4c2ebc7bf0f23343ffeb38232f5bffec576d23df39b7.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00061/current_available.png": {
+      "sha256": "03e969557576acd10533cf986858ab38707392fed67036858f7300c1ab50343f",
+      "bytes": 1808,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/03e969557576acd10533cf986858ab38707392fed67036858f7300c1ab50343f.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00061/frame0_shape_crop.png": {
+      "sha256": "4de8d35f52c943dc450bf4b4d5ef905c85b671f60b324c3bdf749e7a0da9ac4a",
+      "bytes": 1672,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/4de8d35f52c943dc450bf4b4d5ef905c85b671f60b324c3bdf749e7a0da9ac4a.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00061/original_frame.png": {
+      "sha256": "cb932ad2f9bb7375e56f5603ba9ebb12786b6acd4a9758b11b470c6568a65b65",
+      "bytes": 1160216,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/cb932ad2f9bb7375e56f5603ba9ebb12786b6acd4a9758b11b470c6568a65b65.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0005/selected/frame_00061/preview.png": {
+      "sha256": "cf054340e8550e5d4d1b8b38b8750a6b92b6dfb43d05ccb07e1df57e8b352ef8",
+      "bytes": 48094,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/cf054340e8550e5d4d1b8b38b8750a6b92b6dfb43d05ccb07e1df57e8b352ef8.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/frame0_reference.png": {
+      "sha256": "7ed308d29f862a38c15d3a516d8f0a0bd30677baab61eaccd569e0a61fc31fc6",
+      "bytes": 11075,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/7ed308d29f862a38c15d3a516d8f0a0bd30677baab61eaccd569e0a61fc31fc6.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00019/current_available.png": {
+      "sha256": "7305fa429afd6005cec4737b1c90d9319f9008fd2f7521990758c19801303292",
+      "bytes": 6695,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/7305fa429afd6005cec4737b1c90d9319f9008fd2f7521990758c19801303292.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00019/frame0_shape_crop.png": {
+      "sha256": "1ee3b4a03936727bac574298046a2af90575a4713b63a005fab4f8da4bd4d5e5",
+      "bytes": 11127,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/1ee3b4a03936727bac574298046a2af90575a4713b63a005fab4f8da4bd4d5e5.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00019/original_frame.png": {
+      "sha256": "7c21f0a812567b1d683124533ed5381eac558a15ab480d7868d37c32b069532d",
+      "bytes": 1081408,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/7c21f0a812567b1d683124533ed5381eac558a15ab480d7868d37c32b069532d.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00019/preview.png": {
+      "sha256": "b13dc7dfc8c2dce2319249c680676cf3c307de9dd5862ba8616e1dbe8cb39993",
+      "bytes": 63877,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/b13dc7dfc8c2dce2319249c680676cf3c307de9dd5862ba8616e1dbe8cb39993.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00020/current_available.png": {
+      "sha256": "af4c58ffe340df1bd61b58bef2a1cb1057402902b9cc6d70cb49dd23832988e0",
+      "bytes": 6687,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/af4c58ffe340df1bd61b58bef2a1cb1057402902b9cc6d70cb49dd23832988e0.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00020/frame0_shape_crop.png": {
+      "sha256": "e3c1fedb7f2f59e51b5152844e66f53410cb90919fad82056f317aca660b2a24",
+      "bytes": 11127,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/e3c1fedb7f2f59e51b5152844e66f53410cb90919fad82056f317aca660b2a24.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00020/original_frame.png": {
+      "sha256": "20fef74c2bbcb5d4ac2f4eb6dcc3d13e3648987399ba93cf999aa3b510c95bdf",
+      "bytes": 1080101,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/20fef74c2bbcb5d4ac2f4eb6dcc3d13e3648987399ba93cf999aa3b510c95bdf.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00020/preview.png": {
+      "sha256": "c1e378f542c87da83c280b8e1ba17e15c35139fcf7e9f187ed41dee4bf3b3781",
+      "bytes": 62682,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/c1e378f542c87da83c280b8e1ba17e15c35139fcf7e9f187ed41dee4bf3b3781.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00046/current_available.png": {
+      "sha256": "1c9498979045bb44d3d4a39455f788a9acdb081a0755f7322958357a2ce78b1c",
+      "bytes": 5506,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/1c9498979045bb44d3d4a39455f788a9acdb081a0755f7322958357a2ce78b1c.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00046/frame0_shape_crop.png": {
+      "sha256": "ecf9863829053f7f072c04cb18ba918a9edbbbc80c06fbc3a90ba8e97b7508a1",
+      "bytes": 11101,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/ecf9863829053f7f072c04cb18ba918a9edbbbc80c06fbc3a90ba8e97b7508a1.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00046/original_frame.png": {
+      "sha256": "fa3102be08235d8447d1a3ec29354401880884789e0a4a51bcbc5a9593a712ca",
+      "bytes": 1115511,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/fa3102be08235d8447d1a3ec29354401880884789e0a4a51bcbc5a9593a712ca.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00046/preview.png": {
+      "sha256": "943c578892c60aac33cb03168eac3d0ff91869b14095f9169acbc0b6b08b50dd",
+      "bytes": 65145,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/943c578892c60aac33cb03168eac3d0ff91869b14095f9169acbc0b6b08b50dd.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00047/current_available.png": {
+      "sha256": "6a9f7181571f3de2a27665acd41d0704665b939698e53cfe0c63ab00dad39af9",
+      "bytes": 5880,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/6a9f7181571f3de2a27665acd41d0704665b939698e53cfe0c63ab00dad39af9.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00047/frame0_shape_crop.png": {
+      "sha256": "6eb73b6cd2e5659f8c8168fa4b40cfebb6d6efa3d1b89a7556b5bf25771d212c",
+      "bytes": 11112,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/6eb73b6cd2e5659f8c8168fa4b40cfebb6d6efa3d1b89a7556b5bf25771d212c.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00047/original_frame.png": {
+      "sha256": "b41d680c7950dc443ef41c15f2cc52ad8cae161619cab28648b6dc8e84e4fb80",
+      "bytes": 1115472,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/b41d680c7950dc443ef41c15f2cc52ad8cae161619cab28648b6dc8e84e4fb80.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00047/preview.png": {
+      "sha256": "a1444cbecd80c967ea320e4e2fe65cd3969b7ece514131e4955228328af18424",
+      "bytes": 65480,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/a1444cbecd80c967ea320e4e2fe65cd3969b7ece514131e4955228328af18424.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00056/current_available.png": {
+      "sha256": "44ad45e9bdd87fef69d723b7dbee39b6edbd7d94aafa4b0d43f627ae4f97bd8c",
+      "bytes": 4703,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/44ad45e9bdd87fef69d723b7dbee39b6edbd7d94aafa4b0d43f627ae4f97bd8c.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00056/frame0_shape_crop.png": {
+      "sha256": "46e9f86394d9c44ca21c30d05e111468aaac66b8da304cbd2d6228505944b7c1",
+      "bytes": 11098,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/46e9f86394d9c44ca21c30d05e111468aaac66b8da304cbd2d6228505944b7c1.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00056/original_frame.png": {
+      "sha256": "2e967fcdbe182a0ad0b8ba1360fbdb6b6385731fbdbfeb1f3fbfec45f155213e",
+      "bytes": 1104583,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/2e967fcdbe182a0ad0b8ba1360fbdb6b6385731fbdbfeb1f3fbfec45f155213e.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00056/preview.png": {
+      "sha256": "29d853e890651801abde32c37001588b0c925601843378749b4076a8fc007452",
+      "bytes": 61439,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/29d853e890651801abde32c37001588b0c925601843378749b4076a8fc007452.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00057/current_available.png": {
+      "sha256": "5fa1daa74d91b0a3659a0efb5964c12fea20682aed39d71443484a2b694339b9",
+      "bytes": 4466,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/5fa1daa74d91b0a3659a0efb5964c12fea20682aed39d71443484a2b694339b9.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00057/frame0_shape_crop.png": {
+      "sha256": "5915bddaf055d4b02b2f83f7e13520004f4b2caee192f806a5c9e995dc5ad190",
+      "bytes": 11101,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/5915bddaf055d4b02b2f83f7e13520004f4b2caee192f806a5c9e995dc5ad190.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00057/original_frame.png": {
+      "sha256": "c03cbad7e903215959c616e7abaa34695928df799e7f162924b551c42157b8c4",
+      "bytes": 1109878,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/c03cbad7e903215959c616e7abaa34695928df799e7f162924b551c42157b8c4.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00057/preview.png": {
+      "sha256": "6d5b5be9339632856d3ab20e14366aeb2caf2ef92618cf5e3caa84108994772d",
+      "bytes": 59584,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/6d5b5be9339632856d3ab20e14366aeb2caf2ef92618cf5e3caa84108994772d.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00058/current_available.png": {
+      "sha256": "32430af97b0aceec33a7c6461b759a1d0928c0480512f9d1de4506883757c4f5",
+      "bytes": 4741,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/32430af97b0aceec33a7c6461b759a1d0928c0480512f9d1de4506883757c4f5.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00058/frame0_shape_crop.png": {
+      "sha256": "96f2766d4804356b06b5af3594d6dddd64992405953a6e493868c72b8e30fa24",
+      "bytes": 11102,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/96f2766d4804356b06b5af3594d6dddd64992405953a6e493868c72b8e30fa24.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00058/original_frame.png": {
+      "sha256": "053a46e1ec9398397f2c443f929d2fb8b846c43706e760294f049e3d760c185a",
+      "bytes": 1110683,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/053a46e1ec9398397f2c443f929d2fb8b846c43706e760294f049e3d760c185a.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00058/preview.png": {
+      "sha256": "e0fc6b964f2382dca3062b36a8b16205c934d96661478d27d8d0f230eb0a198b",
+      "bytes": 61092,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/e0fc6b964f2382dca3062b36a8b16205c934d96661478d27d8d0f230eb0a198b.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00059/current_available.png": {
+      "sha256": "fd7ffc816b5ab4eaf4fd573f161ffce1906da17eefd609dfd933124cd02022a3",
+      "bytes": 4314,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/fd7ffc816b5ab4eaf4fd573f161ffce1906da17eefd609dfd933124cd02022a3.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00059/frame0_shape_crop.png": {
+      "sha256": "38fd2b5fd28f0102773be9b23e45849b6cbf72c55e6601ea8c4b80fdc61456f1",
+      "bytes": 11097,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/38fd2b5fd28f0102773be9b23e45849b6cbf72c55e6601ea8c4b80fdc61456f1.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00059/original_frame.png": {
+      "sha256": "e322b459bfb3eddbb9b61d69ca29191cbd8eacf0cf93208ae7eaa9a9b0c4e626",
+      "bytes": 1115238,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/e322b459bfb3eddbb9b61d69ca29191cbd8eacf0cf93208ae7eaa9a9b0c4e626.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00059/preview.png": {
+      "sha256": "9561ade888848567ede67135f36edb45ddda7229756af863821f1c58019227f9",
+      "bytes": 59555,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/9561ade888848567ede67135f36edb45ddda7229756af863821f1c58019227f9.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00060/current_available.png": {
+      "sha256": "b3568bce8d7d8c21ab81d608d551062e95a1e8b0e1eafc9b5d2476bed3a39fd7",
+      "bytes": 4335,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/b3568bce8d7d8c21ab81d608d551062e95a1e8b0e1eafc9b5d2476bed3a39fd7.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00060/frame0_shape_crop.png": {
+      "sha256": "ef0083bdb5498cfebef671a87874f89aded055b4c95c9632d526a4ac596e0d93",
+      "bytes": 11106,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/ef0083bdb5498cfebef671a87874f89aded055b4c95c9632d526a4ac596e0d93.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00060/original_frame.png": {
+      "sha256": "e6a2582ebd341ea384bdaef09831da243abcb995d4ed210f86528fcf2f370f32",
+      "bytes": 1115706,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/e6a2582ebd341ea384bdaef09831da243abcb995d4ed210f86528fcf2f370f32.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00060/preview.png": {
+      "sha256": "a00a24a6a2ae20bd54d91660b01ec4078e71161a7f1cf1766e0485f9ab0a825f",
+      "bytes": 60002,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/a00a24a6a2ae20bd54d91660b01ec4078e71161a7f1cf1766e0485f9ab0a825f.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00061/current_available.png": {
+      "sha256": "939144a82c4c1ba6562c9fd50fc6bcc9a104300cad25901f2ab1ef6f95dce876",
+      "bytes": 4241,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/939144a82c4c1ba6562c9fd50fc6bcc9a104300cad25901f2ab1ef6f95dce876.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00061/frame0_shape_crop.png": {
+      "sha256": "0ef7e069ecc441a75062e6c86383154f4c257abb51d072ce14a6a97760333bdb",
+      "bytes": 11112,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/0ef7e069ecc441a75062e6c86383154f4c257abb51d072ce14a6a97760333bdb.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00061/original_frame.png": {
+      "sha256": "1b9a8e236619d1a444babf4d49b4ad2fde6d0f15f6a394fd5e1263db92544761",
+      "bytes": 1123719,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/1b9a8e236619d1a444babf4d49b4ad2fde6d0f15f6a394fd5e1263db92544761.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0010/selected/frame_00061/preview.png": {
+      "sha256": "cb36dc8edd962bcee405c49647941bd836886b6c18fbd8ebef77146b335aaf63",
+      "bytes": 60152,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/cb36dc8edd962bcee405c49647941bd836886b6c18fbd8ebef77146b335aaf63.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/frame0_reference.png": {
+      "sha256": "192cae0ac497167d7cbd126507894293242798b1ed329ab18d33aff80717efed",
+      "bytes": 6395,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/192cae0ac497167d7cbd126507894293242798b1ed329ab18d33aff80717efed.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00010/current_available.png": {
+      "sha256": "37d012e00a6884337d51105e3bcb1cc1a6e3ffc49b1d0b4b188210435ce329a4",
+      "bytes": 6757,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/37d012e00a6884337d51105e3bcb1cc1a6e3ffc49b1d0b4b188210435ce329a4.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00010/frame0_shape_crop.png": {
+      "sha256": "192cae0ac497167d7cbd126507894293242798b1ed329ab18d33aff80717efed",
+      "bytes": 6395,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/192cae0ac497167d7cbd126507894293242798b1ed329ab18d33aff80717efed.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00010/original_frame.png": {
+      "sha256": "7d9daf7d2fee2d88ad92e38318347cbddaecc100451b13f5d7affadc2d4dae53",
+      "bytes": 541896,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/7d9daf7d2fee2d88ad92e38318347cbddaecc100451b13f5d7affadc2d4dae53.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00010/preview.png": {
+      "sha256": "5469fff35bc8251dcd10c63bd6ee1d406fb886488557c01b5fcaf92a5ff1336e",
+      "bytes": 70208,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/5469fff35bc8251dcd10c63bd6ee1d406fb886488557c01b5fcaf92a5ff1336e.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00013/current_available.png": {
+      "sha256": "bc34f010b2206c8183a641716f7372236333e7c3750bbd6b4888c05f67423605",
+      "bytes": 6541,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/bc34f010b2206c8183a641716f7372236333e7c3750bbd6b4888c05f67423605.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00013/frame0_shape_crop.png": {
+      "sha256": "3955bdeaf47988f3d50d855494fbd204025c077f3551de5fc8fa715784825e7f",
+      "bytes": 6395,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/3955bdeaf47988f3d50d855494fbd204025c077f3551de5fc8fa715784825e7f.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00013/original_frame.png": {
+      "sha256": "bd89c4c88b7b16b5988ec4952d92297574ef30e6189c594da50712d1d05f729c",
+      "bytes": 546855,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/bd89c4c88b7b16b5988ec4952d92297574ef30e6189c594da50712d1d05f729c.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00013/preview.png": {
+      "sha256": "d1da8f49a4ddeb6234b8e33fca600034912cf3d1dacd8e5af81fc05ec08a55fc",
+      "bytes": 69075,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/d1da8f49a4ddeb6234b8e33fca600034912cf3d1dacd8e5af81fc05ec08a55fc.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00023/current_available.png": {
+      "sha256": "2c3a2dd706d18ad91833c64bca79472edb09d030655f62ed4d04fe2924b9dc6b",
+      "bytes": 5694,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/2c3a2dd706d18ad91833c64bca79472edb09d030655f62ed4d04fe2924b9dc6b.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00023/frame0_shape_crop.png": {
+      "sha256": "212fef4e40a4f0fc29a351095351700cb2666a875b0faf7db5a436a1dbe68e99",
+      "bytes": 6403,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/212fef4e40a4f0fc29a351095351700cb2666a875b0faf7db5a436a1dbe68e99.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00023/original_frame.png": {
+      "sha256": "a68b2f6e4c8fdb855fdf8f8738c1aee6f638bf3432aff894d4ba111b985defa4",
+      "bytes": 554287,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/a68b2f6e4c8fdb855fdf8f8738c1aee6f638bf3432aff894d4ba111b985defa4.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00023/preview.png": {
+      "sha256": "28ca652184b8a0e95d873c1bafc912232da1fb6597851520c8e857ac004a9975",
+      "bytes": 67058,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/28ca652184b8a0e95d873c1bafc912232da1fb6597851520c8e857ac004a9975.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00029/current_available.png": {
+      "sha256": "c7a04fd81abddbff33d3cda2eb5b9e5ca7f44ab75e3101d51b5c7a3494eb94cd",
+      "bytes": 6872,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/c7a04fd81abddbff33d3cda2eb5b9e5ca7f44ab75e3101d51b5c7a3494eb94cd.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00029/frame0_shape_crop.png": {
+      "sha256": "8e0487ec139f6b2d2f846e7e359bc0b2fe821077b993ce1a1346204115565550",
+      "bytes": 6402,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/8e0487ec139f6b2d2f846e7e359bc0b2fe821077b993ce1a1346204115565550.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00029/original_frame.png": {
+      "sha256": "47a4ac1031e398216daea3d433517a89e6569e6709f6e50b055d06c0b31297a3",
+      "bytes": 554173,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/47a4ac1031e398216daea3d433517a89e6569e6709f6e50b055d06c0b31297a3.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00029/preview.png": {
+      "sha256": "09ea858d6eecbcdacd2b9f0c7ee29def31245b8db9ab32b604bba5090162572b",
+      "bytes": 70692,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/09ea858d6eecbcdacd2b9f0c7ee29def31245b8db9ab32b604bba5090162572b.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00030/current_available.png": {
+      "sha256": "9282835378031fad46e78a5cb46dca8a798cdaca54cd6edbb88297ff3165a186",
+      "bytes": 8819,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/9282835378031fad46e78a5cb46dca8a798cdaca54cd6edbb88297ff3165a186.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00030/frame0_shape_crop.png": {
+      "sha256": "5fa78fce9383fd8814bdd0cff080c9efe3ac7bdf23244afb3542665b321fc630",
+      "bytes": 6411,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/5fa78fce9383fd8814bdd0cff080c9efe3ac7bdf23244afb3542665b321fc630.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00030/original_frame.png": {
+      "sha256": "1ddffb0a557ff211ffacfaf3c796502add88f6536fc6f75e27e4789c3ebb0702",
+      "bytes": 552013,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/1ddffb0a557ff211ffacfaf3c796502add88f6536fc6f75e27e4789c3ebb0702.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00030/preview.png": {
+      "sha256": "9b074d3b2a31d0316e68b904d31467cf893dbbe84a53d1c100678a66c7a20ef9",
+      "bytes": 72666,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/9b074d3b2a31d0316e68b904d31467cf893dbbe84a53d1c100678a66c7a20ef9.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00031/current_available.png": {
+      "sha256": "4c6561db457dd9324cd81f2d546012345dbcdda4eba6a87092842d19fd3a2f80",
+      "bytes": 9141,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/4c6561db457dd9324cd81f2d546012345dbcdda4eba6a87092842d19fd3a2f80.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00031/frame0_shape_crop.png": {
+      "sha256": "b55e5235d27d4d4f51e064a370352fe0d723bb2c96a1b9f0511598dc22e83833",
+      "bytes": 6412,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/b55e5235d27d4d4f51e064a370352fe0d723bb2c96a1b9f0511598dc22e83833.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00031/original_frame.png": {
+      "sha256": "f610862cd9eb04659835d430fe8864be39ae137f17aac30e4f63271f6fc007c0",
+      "bytes": 551206,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/f610862cd9eb04659835d430fe8864be39ae137f17aac30e4f63271f6fc007c0.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00031/preview.png": {
+      "sha256": "d2c43537d386e525cc4f23778675f843d072a746015e3894c1aa1b3f2f13e900",
+      "bytes": 71674,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/d2c43537d386e525cc4f23778675f843d072a746015e3894c1aa1b3f2f13e900.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00032/current_available.png": {
+      "sha256": "a79fbab8e10ab821e5e510040788107ed00afd75e272a72ee718e8be66326642",
+      "bytes": 8555,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/a79fbab8e10ab821e5e510040788107ed00afd75e272a72ee718e8be66326642.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00032/frame0_shape_crop.png": {
+      "sha256": "ab731f54d97144d13ca6938e5d9fff842854ad826388be5ca040cf27ab3c796e",
+      "bytes": 6402,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/ab731f54d97144d13ca6938e5d9fff842854ad826388be5ca040cf27ab3c796e.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00032/original_frame.png": {
+      "sha256": "aef2af74196a3c45649398827069f64122f3a667886c85c8317d6432495e86e1",
+      "bytes": 548025,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/aef2af74196a3c45649398827069f64122f3a667886c85c8317d6432495e86e1.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00032/preview.png": {
+      "sha256": "175ad4c27d79fdfc2db5b11d5b8c000cd2d1c86621ae054b50f0cb321a08e104",
+      "bytes": 70827,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/175ad4c27d79fdfc2db5b11d5b8c000cd2d1c86621ae054b50f0cb321a08e104.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00033/current_available.png": {
+      "sha256": "4c3e86e4344cdc8e765783897214899167c08541441e9c0037f8ce2884c5f7e5",
+      "bytes": 7645,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/4c3e86e4344cdc8e765783897214899167c08541441e9c0037f8ce2884c5f7e5.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00033/frame0_shape_crop.png": {
+      "sha256": "a7dd2e9fabeac75b07f6f46b294fa61cd1d4fc0359702c6fe307c468ce47373c",
+      "bytes": 6418,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/a7dd2e9fabeac75b07f6f46b294fa61cd1d4fc0359702c6fe307c468ce47373c.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00033/original_frame.png": {
+      "sha256": "156c79e90a41c94c658576d06f747b9a35db3fd5f31ed2a5c28ac468cd3e649c",
+      "bytes": 545732,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/156c79e90a41c94c658576d06f747b9a35db3fd5f31ed2a5c28ac468cd3e649c.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00033/preview.png": {
+      "sha256": "c895a2ec5a7a3d797a252b8f5f011d6db61b0032320e813d36d8991a3c954b64",
+      "bytes": 67776,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/c895a2ec5a7a3d797a252b8f5f011d6db61b0032320e813d36d8991a3c954b64.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00034/current_available.png": {
+      "sha256": "0a5e67f0f8a7c15b440feba86652bd4c996a61c15a70aee952fd0f9e42cbc11e",
+      "bytes": 6849,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/0a5e67f0f8a7c15b440feba86652bd4c996a61c15a70aee952fd0f9e42cbc11e.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00034/frame0_shape_crop.png": {
+      "sha256": "141e2563b8aeacc37fd0c2db9618510dec9478cccad2bb0887fbcaa6126e283e",
+      "bytes": 6413,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/141e2563b8aeacc37fd0c2db9618510dec9478cccad2bb0887fbcaa6126e283e.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00034/original_frame.png": {
+      "sha256": "78cbb49c2158c0a29c95c860ea06595aeb6fae25598dbd7dae652764036a7501",
+      "bytes": 545073,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/78cbb49c2158c0a29c95c860ea06595aeb6fae25598dbd7dae652764036a7501.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00034/preview.png": {
+      "sha256": "5da0ea64172042dbeda8146dd90d36148f77733ea8c1c1988068b8d0f160c78f",
+      "bytes": 66194,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/5da0ea64172042dbeda8146dd90d36148f77733ea8c1c1988068b8d0f160c78f.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00035/current_available.png": {
+      "sha256": "b220f59626f00d083c8247a35d09ff1b5546f01b4709778a06d9a43fa78dae57",
+      "bytes": 6071,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/b220f59626f00d083c8247a35d09ff1b5546f01b4709778a06d9a43fa78dae57.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00035/frame0_shape_crop.png": {
+      "sha256": "f08c63937b7924851d93dd620b05fcf480eb311096732dfeb807e6fdafd750ec",
+      "bytes": 6420,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/f08c63937b7924851d93dd620b05fcf480eb311096732dfeb807e6fdafd750ec.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00035/original_frame.png": {
+      "sha256": "721b276f65fa47f339bd3bba203c1f77aa15f15f033dec6d350ff2b4453ced9d",
+      "bytes": 547116,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/721b276f65fa47f339bd3bba203c1f77aa15f15f033dec6d350ff2b4453ced9d.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0010/selected/frame_00035/preview.png": {
+      "sha256": "1e3728ca08652d8dd96a45297558cc2ae3a0ba039cc38305e9ab146ccf43ee7d",
+      "bytes": 66170,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/1e3728ca08652d8dd96a45297558cc2ae3a0ba039cc38305e9ab146ccf43ee7d.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/frame0_reference.png": {
+      "sha256": "dcb0222514e8b32d8117bc014db096ad55c7065b59ca37f4bb33225042d35396",
+      "bytes": 3187,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/dcb0222514e8b32d8117bc014db096ad55c7065b59ca37f4bb33225042d35396.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00011/current_available.png": {
+      "sha256": "1f4e34b2bbcb2de58d06eccb3da1e3fc089c6b1f20c116990a38f53872dfcb20",
+      "bytes": 3330,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/1f4e34b2bbcb2de58d06eccb3da1e3fc089c6b1f20c116990a38f53872dfcb20.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00011/frame0_shape_crop.png": {
+      "sha256": "8e8fc13c8216550509e7e0431fa030eaf61527b1798437e4c46188c5e9b71184",
+      "bytes": 3188,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/8e8fc13c8216550509e7e0431fa030eaf61527b1798437e4c46188c5e9b71184.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00011/original_frame.png": {
+      "sha256": "6ff6a867288dbe10c7e5439b0158611cd039dc2563d95ec59af474d053625f10",
+      "bytes": 553178,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/6ff6a867288dbe10c7e5439b0158611cd039dc2563d95ec59af474d053625f10.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00011/preview.png": {
+      "sha256": "01ff4bd6239ba161c2ba67c28e094c34b7fe1ad8f6f55a1e871c8fc77fdf69e2",
+      "bytes": 69394,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/01ff4bd6239ba161c2ba67c28e094c34b7fe1ad8f6f55a1e871c8fc77fdf69e2.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00013/current_available.png": {
+      "sha256": "118ebff842dfdf0d5a08ca01caa260fd649607fa147dae47c312d26c194f3784",
+      "bytes": 3339,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/118ebff842dfdf0d5a08ca01caa260fd649607fa147dae47c312d26c194f3784.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00013/frame0_shape_crop.png": {
+      "sha256": "e4e6b2df3e35cdb841ebb5b201ec4e67e4758656abeb530feb5d4f0898fd395d",
+      "bytes": 3187,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/e4e6b2df3e35cdb841ebb5b201ec4e67e4758656abeb530feb5d4f0898fd395d.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00013/original_frame.png": {
+      "sha256": "9f732e3b5ed33ec602072df23dd4636484520712f70ee03a43fb8056d513d61c",
+      "bytes": 549755,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/9f732e3b5ed33ec602072df23dd4636484520712f70ee03a43fb8056d513d61c.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00013/preview.png": {
+      "sha256": "7395ddbe845c029930cdfc9639f6f3145d643e9c12e139acd67648de51501bfb",
+      "bytes": 69868,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/7395ddbe845c029930cdfc9639f6f3145d643e9c12e139acd67648de51501bfb.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00020/current_available.png": {
+      "sha256": "4c5d073cee831756981f30a7b2285bec08cea0426fdf2d62d1bfc8f5a80cc064",
+      "bytes": 2774,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/4c5d073cee831756981f30a7b2285bec08cea0426fdf2d62d1bfc8f5a80cc064.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00020/frame0_shape_crop.png": {
+      "sha256": "95daaa1db0d88f4dc6563917208f82958763831ddbd051f145b273bbfce672ad",
+      "bytes": 3190,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/95daaa1db0d88f4dc6563917208f82958763831ddbd051f145b273bbfce672ad.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00020/original_frame.png": {
+      "sha256": "aa35396db9902f17d6b476dea56fa8a816f44809c7346ffd7e30be229398be80",
+      "bytes": 548327,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/aa35396db9902f17d6b476dea56fa8a816f44809c7346ffd7e30be229398be80.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00020/preview.png": {
+      "sha256": "683bd6b577a8c30a6897c6cead5d4d839f4059b7b4d00a8b0ad076c5f80395de",
+      "bytes": 64831,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/683bd6b577a8c30a6897c6cead5d4d839f4059b7b4d00a8b0ad076c5f80395de.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00021/current_available.png": {
+      "sha256": "054280990c381adf288c935fd7f862fab8ab5de9333b99957436d975e795fe74",
+      "bytes": 2750,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/054280990c381adf288c935fd7f862fab8ab5de9333b99957436d975e795fe74.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00021/frame0_shape_crop.png": {
+      "sha256": "60e69249d07eb421cab27c4e3b2b5ac458d1ddbef4cf17f8734ad7cfad3a73ee",
+      "bytes": 3187,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/60e69249d07eb421cab27c4e3b2b5ac458d1ddbef4cf17f8734ad7cfad3a73ee.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00021/original_frame.png": {
+      "sha256": "eafe02e73d19b53d22113961730c842842fad49171dd12944879d0cf4b801f84",
+      "bytes": 550259,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/eafe02e73d19b53d22113961730c842842fad49171dd12944879d0cf4b801f84.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00021/preview.png": {
+      "sha256": "cbc7399b53e907e2be0c9aeca953ab516c829afcc4655a31f441cf7adaac16ca",
+      "bytes": 63964,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/cbc7399b53e907e2be0c9aeca953ab516c829afcc4655a31f441cf7adaac16ca.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00038/current_available.png": {
+      "sha256": "66332c7fdc11e47e56f2d02c2b26dc9b4c458295c2dbbf87d1d50382039d2248",
+      "bytes": 1727,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/66332c7fdc11e47e56f2d02c2b26dc9b4c458295c2dbbf87d1d50382039d2248.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00038/frame0_shape_crop.png": {
+      "sha256": "f6f7bf94f29266a7c51c4e5370477bd237c0bf76f1b6b19aea2e8b57115c4280",
+      "bytes": 3188,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/f6f7bf94f29266a7c51c4e5370477bd237c0bf76f1b6b19aea2e8b57115c4280.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00038/original_frame.png": {
+      "sha256": "9d6e392c279c21560e8f96c2168a40e0d71017dc779be9ee2fe7327d8269c604",
+      "bytes": 551312,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/9d6e392c279c21560e8f96c2168a40e0d71017dc779be9ee2fe7327d8269c604.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00038/preview.png": {
+      "sha256": "50469bd93a2e470978b36c6ff71394fc45d78816c7623f479de083ac42ea1104",
+      "bytes": 56566,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/50469bd93a2e470978b36c6ff71394fc45d78816c7623f479de083ac42ea1104.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00039/current_available.png": {
+      "sha256": "30c3d8c50d221f66c41e0ac604fbd5760fc00225efa6b663b9c37c897e9dc72c",
+      "bytes": 1713,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/30c3d8c50d221f66c41e0ac604fbd5760fc00225efa6b663b9c37c897e9dc72c.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00039/frame0_shape_crop.png": {
+      "sha256": "0328df0ece8aa53a1a3b57e076edbb60b47df271f610341ed07c817f7de4fdf9",
+      "bytes": 3182,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/0328df0ece8aa53a1a3b57e076edbb60b47df271f610341ed07c817f7de4fdf9.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00039/original_frame.png": {
+      "sha256": "1e300638f038d3d4f2e155912dde8dd49927a715b326f7e34ee85c1860de49e2",
+      "bytes": 551841,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/1e300638f038d3d4f2e155912dde8dd49927a715b326f7e34ee85c1860de49e2.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00039/preview.png": {
+      "sha256": "05a4082bec238b9172da480cb8656e78531ff8db25a05d6b400ef33a6e0b17ef",
+      "bytes": 56627,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/05a4082bec238b9172da480cb8656e78531ff8db25a05d6b400ef33a6e0b17ef.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00045/current_available.png": {
+      "sha256": "55d1097748a7c0ac81d32de66f2036df2e162f8c95d12b9e55424ba3ac5e6e97",
+      "bytes": 4258,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/55d1097748a7c0ac81d32de66f2036df2e162f8c95d12b9e55424ba3ac5e6e97.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00045/frame0_shape_crop.png": {
+      "sha256": "236451fc0b3537942b71385961194f9e60430ed789858a9a4221d09445fb4026",
+      "bytes": 3197,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/236451fc0b3537942b71385961194f9e60430ed789858a9a4221d09445fb4026.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00045/original_frame.png": {
+      "sha256": "197060fd4fa7eeb1c5992d460bd0db0b66c0e170166560ffcb763bfa83f8efbd",
+      "bytes": 549928,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/197060fd4fa7eeb1c5992d460bd0db0b66c0e170166560ffcb763bfa83f8efbd.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00045/preview.png": {
+      "sha256": "40987ee4c6c45b409ed298a8a941a6a38186f452afb556197bdc1162387226dd",
+      "bytes": 69187,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/40987ee4c6c45b409ed298a8a941a6a38186f452afb556197bdc1162387226dd.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00046/current_available.png": {
+      "sha256": "e626959b69412d82b3ad6017f053403bf164580e23fec8ed0be51f007ec70c58",
+      "bytes": 4466,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/e626959b69412d82b3ad6017f053403bf164580e23fec8ed0be51f007ec70c58.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00046/frame0_shape_crop.png": {
+      "sha256": "dcb0222514e8b32d8117bc014db096ad55c7065b59ca37f4bb33225042d35396",
+      "bytes": 3187,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/dcb0222514e8b32d8117bc014db096ad55c7065b59ca37f4bb33225042d35396.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00046/original_frame.png": {
+      "sha256": "4543afc034b7b9055d0d74e1cc043f8c29dd96786f608d4d6861b85702231bfc",
+      "bytes": 548632,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/4543afc034b7b9055d0d74e1cc043f8c29dd96786f608d4d6861b85702231bfc.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00046/preview.png": {
+      "sha256": "46294a0350e4c86334f35eac02259952d52c2c0d0d73326554f5bd1cbcee07ba",
+      "bytes": 71941,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/46294a0350e4c86334f35eac02259952d52c2c0d0d73326554f5bd1cbcee07ba.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00047/current_available.png": {
+      "sha256": "032ea2b9d5bce9d62b66c46b680d31c83417987dc9a45fd7c65dae754f7eb63c",
+      "bytes": 4656,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/032ea2b9d5bce9d62b66c46b680d31c83417987dc9a45fd7c65dae754f7eb63c.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00047/frame0_shape_crop.png": {
+      "sha256": "dcb0222514e8b32d8117bc014db096ad55c7065b59ca37f4bb33225042d35396",
+      "bytes": 3187,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/dcb0222514e8b32d8117bc014db096ad55c7065b59ca37f4bb33225042d35396.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00047/original_frame.png": {
+      "sha256": "98880dac387638f77dd6701e0fa67bd8a4335235c4ab7042742cfd706bc031eb",
+      "bytes": 549778,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/98880dac387638f77dd6701e0fa67bd8a4335235c4ab7042742cfd706bc031eb.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00047/preview.png": {
+      "sha256": "8d255347cbd04cb911a818a90af85a23b24d86f3d18322d1ed29fa0354657658",
+      "bytes": 72803,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/8d255347cbd04cb911a818a90af85a23b24d86f3d18322d1ed29fa0354657658.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00048/current_available.png": {
+      "sha256": "892de28a7d317c1868d299128b61316db865111bc99340f1be504381bf7698ac",
+      "bytes": 4500,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/892de28a7d317c1868d299128b61316db865111bc99340f1be504381bf7698ac.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00048/frame0_shape_crop.png": {
+      "sha256": "b494881028a24f6583273acc415028b7ce009a52aaf274acd404751d521bc444",
+      "bytes": 3187,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/b494881028a24f6583273acc415028b7ce009a52aaf274acd404751d521bc444.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00048/original_frame.png": {
+      "sha256": "5f569caa3878f2b8017a10cfdd6c28f6ee48f1b4172f86d3e824c5c2c3292c9b",
+      "bytes": 546876,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/5f569caa3878f2b8017a10cfdd6c28f6ee48f1b4172f86d3e824c5c2c3292c9b.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0015/selected/frame_00048/preview.png": {
+      "sha256": "d8a0b009b61518f717219526a36087171433d0761fec0062f7802a55e6c52db7",
+      "bytes": 72496,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/d8a0b009b61518f717219526a36087171433d0761fec0062f7802a55e6c52db7.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/frame0_reference.png": {
+      "sha256": "8cecd41b747ea197f83f5d222dfd7de2867c9a476911383961a6f745de1c79af",
+      "bytes": 2704,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/8cecd41b747ea197f83f5d222dfd7de2867c9a476911383961a6f745de1c79af.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00014/current_available.png": {
+      "sha256": "bea3782d0da339299ccff35822a655c8dbc38df5370a296337c0a4dff3210cd3",
+      "bytes": 2669,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/bea3782d0da339299ccff35822a655c8dbc38df5370a296337c0a4dff3210cd3.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00014/frame0_shape_crop.png": {
+      "sha256": "6283ca115ae2232a8cfd4ec3b23cdfd3fe746d65c3e0208f8ad5874b51eace01",
+      "bytes": 2714,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/6283ca115ae2232a8cfd4ec3b23cdfd3fe746d65c3e0208f8ad5874b51eace01.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00014/original_frame.png": {
+      "sha256": "cd8fe59f979e2f14aeef61d0a89806f1c04a39437d212cad79a3d173b48d1c54",
+      "bytes": 1097732,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/cd8fe59f979e2f14aeef61d0a89806f1c04a39437d212cad79a3d173b48d1c54.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00014/preview.png": {
+      "sha256": "a89cf35f91b0b783a8840ec0e47e33a54b8682acbeb2eed80b8ca5fcc7b5a9e9",
+      "bytes": 61137,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/a89cf35f91b0b783a8840ec0e47e33a54b8682acbeb2eed80b8ca5fcc7b5a9e9.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00019/current_available.png": {
+      "sha256": "cdbfdf3c8626d34dc021c12b085bacfeb1870deac63d08f141515b27071924f2",
+      "bytes": 3025,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/cdbfdf3c8626d34dc021c12b085bacfeb1870deac63d08f141515b27071924f2.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00019/frame0_shape_crop.png": {
+      "sha256": "76f2da7d1301db22d63b1f8619516e49dcb08ed14f2441c2cdb15d7a631365e3",
+      "bytes": 2713,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/76f2da7d1301db22d63b1f8619516e49dcb08ed14f2441c2cdb15d7a631365e3.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00019/original_frame.png": {
+      "sha256": "2afabbcdb298be7c0599a33da9e0869daa4e53139adecd06adda41c6fefe9bc2",
+      "bytes": 1104023,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/2afabbcdb298be7c0599a33da9e0869daa4e53139adecd06adda41c6fefe9bc2.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00019/preview.png": {
+      "sha256": "e2ad89e269ae604620c58e661cf0c8d0dbceb4e5eef94c6a23a39b0c5b3d799f",
+      "bytes": 66083,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/e2ad89e269ae604620c58e661cf0c8d0dbceb4e5eef94c6a23a39b0c5b3d799f.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00020/current_available.png": {
+      "sha256": "ba1c1c82e4fbc188bbec5a62748f3c64f8b5935e34034a7657db2fb4a1d22785",
+      "bytes": 3189,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/ba1c1c82e4fbc188bbec5a62748f3c64f8b5935e34034a7657db2fb4a1d22785.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00020/frame0_shape_crop.png": {
+      "sha256": "6b9aec6446b40e0607d493d6bcb26ceb63e0af2c2ea8d9e6755c75915e5836a5",
+      "bytes": 2708,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/6b9aec6446b40e0607d493d6bcb26ceb63e0af2c2ea8d9e6755c75915e5836a5.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00020/original_frame.png": {
+      "sha256": "99c5ba1d24f5c99b7f5cf372cd301b29d24364549f813cd31030ba16e52fe8e6",
+      "bytes": 1092073,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/99c5ba1d24f5c99b7f5cf372cd301b29d24364549f813cd31030ba16e52fe8e6.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00020/preview.png": {
+      "sha256": "a2519663c003756168fa5e87c74ddca04a85bdbb7f947cf378f2d3dcfe95f60b",
+      "bytes": 67264,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/a2519663c003756168fa5e87c74ddca04a85bdbb7f947cf378f2d3dcfe95f60b.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00042/current_available.png": {
+      "sha256": "28cc88e60d5362e5a401ec61b0817420ef24f0b7284c154f55d7b23c43394b39",
+      "bytes": 1974,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/28cc88e60d5362e5a401ec61b0817420ef24f0b7284c154f55d7b23c43394b39.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00042/frame0_shape_crop.png": {
+      "sha256": "20a2102d79553258357b1443ef22783e8e28bd8e51dd961b0fb3e5e291f7ea29",
+      "bytes": 2713,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/20a2102d79553258357b1443ef22783e8e28bd8e51dd961b0fb3e5e291f7ea29.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00042/original_frame.png": {
+      "sha256": "ec08d15e785b5b629c703cfa00a5e710d7d13fa3bf634824762e993124ef70e3",
+      "bytes": 1138070,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/ec08d15e785b5b629c703cfa00a5e710d7d13fa3bf634824762e993124ef70e3.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00042/preview.png": {
+      "sha256": "e242caa98c49e80e9e605a67928f2e345e8fd2c6dab0fa2d07757a687a4bc849",
+      "bytes": 55168,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/e242caa98c49e80e9e605a67928f2e345e8fd2c6dab0fa2d07757a687a4bc849.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00044/current_available.png": {
+      "sha256": "e7abc10f00b11d95c05b7e53902ad76da82b49ac7de4e50416a11f08cd9bfe2e",
+      "bytes": 2760,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/e7abc10f00b11d95c05b7e53902ad76da82b49ac7de4e50416a11f08cd9bfe2e.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00044/frame0_shape_crop.png": {
+      "sha256": "f1905c0850a8a67d3a679c7903fddfdc38f5670ce72e3fe8886b450c8aa2df40",
+      "bytes": 2706,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/f1905c0850a8a67d3a679c7903fddfdc38f5670ce72e3fe8886b450c8aa2df40.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00044/original_frame.png": {
+      "sha256": "79ca7ad33e22d70520993e47aebacee125e7979e57a480ae4b07cf3c31cfaaa0",
+      "bytes": 1137193,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/79ca7ad33e22d70520993e47aebacee125e7979e57a480ae4b07cf3c31cfaaa0.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00044/preview.png": {
+      "sha256": "2218fbf3a1231a64a10bd25bd7292bea89e38a2bcc3701ca02ce0f3f92dd3860",
+      "bytes": 64124,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/2218fbf3a1231a64a10bd25bd7292bea89e38a2bcc3701ca02ce0f3f92dd3860.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00070/current_available.png": {
+      "sha256": "b5a411198965d46ee82c1fb2d9224ddc27dc3197c0d9c317d546313f06724c51",
+      "bytes": 1726,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/b5a411198965d46ee82c1fb2d9224ddc27dc3197c0d9c317d546313f06724c51.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00070/frame0_shape_crop.png": {
+      "sha256": "e1c6c6520723847c59c594e023cb965ef0a3a85aa31bb15977cdb17a73d662ff",
+      "bytes": 2705,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/e1c6c6520723847c59c594e023cb965ef0a3a85aa31bb15977cdb17a73d662ff.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00070/original_frame.png": {
+      "sha256": "476f9b52e0e7ed133310f4760a0447dd6cfe38d1daa6fcf8b7186481651cf1e4",
+      "bytes": 1149645,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/476f9b52e0e7ed133310f4760a0447dd6cfe38d1daa6fcf8b7186481651cf1e4.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00070/preview.png": {
+      "sha256": "cb737855f7ee51ace330bd60d24ce1e04563d578547da6483da10da5149c2735",
+      "bytes": 63393,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/cb737855f7ee51ace330bd60d24ce1e04563d578547da6483da10da5149c2735.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00071/current_available.png": {
+      "sha256": "48f8d46222265085be5b0c6cd18965fffab9cbc9a3dd1c6a4d60b90a2e72a364",
+      "bytes": 1786,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/48f8d46222265085be5b0c6cd18965fffab9cbc9a3dd1c6a4d60b90a2e72a364.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00071/frame0_shape_crop.png": {
+      "sha256": "8228ff77b012837637c92884b766f45768f14440a4c4e08e77b1f46f4a805bfb",
+      "bytes": 2704,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/8228ff77b012837637c92884b766f45768f14440a4c4e08e77b1f46f4a805bfb.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00071/original_frame.png": {
+      "sha256": "ab07571329d5466a33d4d92c0f6311953fead5209fd2972e993adb6810bd5455",
+      "bytes": 1151919,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/ab07571329d5466a33d4d92c0f6311953fead5209fd2972e993adb6810bd5455.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00071/preview.png": {
+      "sha256": "3cc7e5d95f7dc366f8f253e4cd05360309e82acced42de4f6f0a148abca32372",
+      "bytes": 64188,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/3cc7e5d95f7dc366f8f253e4cd05360309e82acced42de4f6f0a148abca32372.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00075/current_available.png": {
+      "sha256": "ecf456e669abc3a5909dc3659df54fe3c7f5480b2981dece500864e349234035",
+      "bytes": 1487,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/ecf456e669abc3a5909dc3659df54fe3c7f5480b2981dece500864e349234035.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00075/frame0_shape_crop.png": {
+      "sha256": "b932aa5c4c2de4d5823866ca10c6e8d974ee72ddecd1ecf06b777519262efdc6",
+      "bytes": 2703,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/b932aa5c4c2de4d5823866ca10c6e8d974ee72ddecd1ecf06b777519262efdc6.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00075/original_frame.png": {
+      "sha256": "4edbabe2d356ec1008ab2f2a4760263672c62be71b13d72e0941dc62f537581f",
+      "bytes": 1152915,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/4edbabe2d356ec1008ab2f2a4760263672c62be71b13d72e0941dc62f537581f.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00075/preview.png": {
+      "sha256": "788efe718bd483d1ccafb5af516bae4bdab5d09bb8e662bedf787de9eeafc9c1",
+      "bytes": 60611,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/788efe718bd483d1ccafb5af516bae4bdab5d09bb8e662bedf787de9eeafc9c1.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00076/current_available.png": {
+      "sha256": "e5112fc0a689c8eab093061c2fd5ad1054b6ede2182b8a04643eef9ce3ca10a0",
+      "bytes": 1336,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/e5112fc0a689c8eab093061c2fd5ad1054b6ede2182b8a04643eef9ce3ca10a0.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00076/frame0_shape_crop.png": {
+      "sha256": "b315843794d1f4329b30e86c22574b5fbd961c3045857c332a030e3ff3a0d686",
+      "bytes": 2706,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/b315843794d1f4329b30e86c22574b5fbd961c3045857c332a030e3ff3a0d686.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00076/original_frame.png": {
+      "sha256": "c348f4e3d3f4659476608b3d09ecfc4625408ded3e22777e965022d757290bce",
+      "bytes": 1151700,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/c348f4e3d3f4659476608b3d09ecfc4625408ded3e22777e965022d757290bce.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00076/preview.png": {
+      "sha256": "30a57d885820191a6d2c1f5bce384a0c163a8e2e0194cb2d931fa98c3cae6205",
+      "bytes": 60586,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/30a57d885820191a6d2c1f5bce384a0c163a8e2e0194cb2d931fa98c3cae6205.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00077/current_available.png": {
+      "sha256": "895536e064825b41813e6df0b3363174f5dffcaa4e98ad24785e1d02b42bcd68",
+      "bytes": 1384,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/895536e064825b41813e6df0b3363174f5dffcaa4e98ad24785e1d02b42bcd68.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00077/frame0_shape_crop.png": {
+      "sha256": "9a94e8769c2534a31b4f42ee912be57edfebe2223ed27a716b08f583277b9005",
+      "bytes": 2705,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/9a94e8769c2534a31b4f42ee912be57edfebe2223ed27a716b08f583277b9005.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00077/original_frame.png": {
+      "sha256": "e311765202b6823c2ff8bd1322bd81ae05b2f96b341e43f172dce38acc8f5e7c",
+      "bytes": 1157024,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/e311765202b6823c2ff8bd1322bd81ae05b2f96b341e43f172dce38acc8f5e7c.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0056/selected/frame_00077/preview.png": {
+      "sha256": "6c32e2d76ded1fc1bc4da3774b9fef14038c392d09a5c55504877401efca0515",
+      "bytes": 60616,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/6c32e2d76ded1fc1bc4da3774b9fef14038c392d09a5c55504877401efca0515.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/frame0_reference.png": {
+      "sha256": "d9efa1756fa1ae6349153af5017fd3dabc8dfdf731fbc9afdd3b851f8594b622",
+      "bytes": 5057,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/d9efa1756fa1ae6349153af5017fd3dabc8dfdf731fbc9afdd3b851f8594b622.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00011/current_available.png": {
+      "sha256": "a69eed83f27f015d27f48c9492d9ac7f30d1a3924ffa535ff4bb5e5dfbff5b57",
+      "bytes": 5205,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/a69eed83f27f015d27f48c9492d9ac7f30d1a3924ffa535ff4bb5e5dfbff5b57.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00011/frame0_shape_crop.png": {
+      "sha256": "7eb0b53d6b98db185bda056de65ba113819c82fdd15b9329c94cfff2bf514036",
+      "bytes": 5057,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/7eb0b53d6b98db185bda056de65ba113819c82fdd15b9329c94cfff2bf514036.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00011/original_frame.png": {
+      "sha256": "8f38bbfa9c22a7206a2c615322bdb76782fc0c0e6fa4bb8fa1b43b55b286f43f",
+      "bytes": 533624,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/8f38bbfa9c22a7206a2c615322bdb76782fc0c0e6fa4bb8fa1b43b55b286f43f.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00011/preview.png": {
+      "sha256": "59b1eaff800cbf548dbcb07e700d07af8bc71d60cec592285e7e6c784c39babc",
+      "bytes": 68983,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/59b1eaff800cbf548dbcb07e700d07af8bc71d60cec592285e7e6c784c39babc.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00015/current_available.png": {
+      "sha256": "0b563f0875539d2aa0f522180b376504b459a43c404140267dcf0258ea228397",
+      "bytes": 5312,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/0b563f0875539d2aa0f522180b376504b459a43c404140267dcf0258ea228397.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00015/frame0_shape_crop.png": {
+      "sha256": "5038d16185d15f1c0f892fe1cb11654136b055abdcee0eba8778d426b6ae3204",
+      "bytes": 5056,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/5038d16185d15f1c0f892fe1cb11654136b055abdcee0eba8778d426b6ae3204.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00015/original_frame.png": {
+      "sha256": "5e3f8880fe3dc859661813b08dffee6a916346e4081141f08a3dbb7e8bd7b9ee",
+      "bytes": 534866,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/5e3f8880fe3dc859661813b08dffee6a916346e4081141f08a3dbb7e8bd7b9ee.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00015/preview.png": {
+      "sha256": "ef615022b6d5f79efd3f72a82be60d7e22a69319595963febea058476d538bc5",
+      "bytes": 69052,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/ef615022b6d5f79efd3f72a82be60d7e22a69319595963febea058476d538bc5.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00022/current_available.png": {
+      "sha256": "05838ff0aca972ac20bd5cdb9dfb16f30c163f9b92d994e2b2f1d56101dcc4c4",
+      "bytes": 5169,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/05838ff0aca972ac20bd5cdb9dfb16f30c163f9b92d994e2b2f1d56101dcc4c4.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00022/frame0_shape_crop.png": {
+      "sha256": "392aafe9bab8ae81ed891d85030f70b2feaeb4096590bb7b505f2cd2ed41d049",
+      "bytes": 5056,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/392aafe9bab8ae81ed891d85030f70b2feaeb4096590bb7b505f2cd2ed41d049.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00022/original_frame.png": {
+      "sha256": "a006f79eaccbe351647a8741bf593a703bb8da6b43e1d2bd01a7f11ab0b78f19",
+      "bytes": 535549,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/a006f79eaccbe351647a8741bf593a703bb8da6b43e1d2bd01a7f11ab0b78f19.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00022/preview.png": {
+      "sha256": "c71aedf2f23bbced5dadaec1c39ca6a3f35416cf1d16c5a6c792a482a195da67",
+      "bytes": 70099,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/c71aedf2f23bbced5dadaec1c39ca6a3f35416cf1d16c5a6c792a482a195da67.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00027/current_available.png": {
+      "sha256": "d1fa0fee0886812e7524bbca703ce34330548cf302a942f3f444ad1fcba120b7",
+      "bytes": 4986,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/d1fa0fee0886812e7524bbca703ce34330548cf302a942f3f444ad1fcba120b7.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00027/frame0_shape_crop.png": {
+      "sha256": "baa3c79f4d5a7765b675db87acfc1dfcbafea0a4cec7f715278f8d18ec90fd0d",
+      "bytes": 5058,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/baa3c79f4d5a7765b675db87acfc1dfcbafea0a4cec7f715278f8d18ec90fd0d.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00027/original_frame.png": {
+      "sha256": "a62392e608b69aa5c7271473f1728981b475b886293fa2ae5e9deb3b72b16c6b",
+      "bytes": 534933,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/a62392e608b69aa5c7271473f1728981b475b886293fa2ae5e9deb3b72b16c6b.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00027/preview.png": {
+      "sha256": "787994433fd3acb93fef79abbc20a65acdbbac6bb777727700b80c1da9e4affe",
+      "bytes": 67605,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/787994433fd3acb93fef79abbc20a65acdbbac6bb777727700b80c1da9e4affe.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00037/current_available.png": {
+      "sha256": "656b99bf251bb2483f1e8d67129b6fcb7be7279bc12d6bc12627846ca62fef35",
+      "bytes": 6157,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/656b99bf251bb2483f1e8d67129b6fcb7be7279bc12d6bc12627846ca62fef35.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00037/frame0_shape_crop.png": {
+      "sha256": "4e2ac51c6a638b2e4168438d311fc533e852d500e2c4fc40473a8e58a4bd836d",
+      "bytes": 5062,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/4e2ac51c6a638b2e4168438d311fc533e852d500e2c4fc40473a8e58a4bd836d.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00037/original_frame.png": {
+      "sha256": "443d2357c2205209316f28b2a415ac68d190e2f592ef16897009ea9056776d6d",
+      "bytes": 538007,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/443d2357c2205209316f28b2a415ac68d190e2f592ef16897009ea9056776d6d.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00037/preview.png": {
+      "sha256": "d4c731820e52a58a9c7b23fb36b2da7c3b9256297928749ef2bb8d09e9483645",
+      "bytes": 67087,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/d4c731820e52a58a9c7b23fb36b2da7c3b9256297928749ef2bb8d09e9483645.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00039/current_available.png": {
+      "sha256": "b772592ae76926165e5cfcfa71d13225fb5a5b8ced2e89a0f33f92ecde37c948",
+      "bytes": 6156,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/b772592ae76926165e5cfcfa71d13225fb5a5b8ced2e89a0f33f92ecde37c948.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00039/frame0_shape_crop.png": {
+      "sha256": "aa3f3af0d4f4d5ad74caf1f5914cc6a06cede1c0baa4b02363b571f4569b4eae",
+      "bytes": 5063,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/aa3f3af0d4f4d5ad74caf1f5914cc6a06cede1c0baa4b02363b571f4569b4eae.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00039/original_frame.png": {
+      "sha256": "e018e48f61d9fd5a0cdfeb19eabaaece2423179599766d5fced98580ae12c2f9",
+      "bytes": 539554,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/e018e48f61d9fd5a0cdfeb19eabaaece2423179599766d5fced98580ae12c2f9.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00039/preview.png": {
+      "sha256": "4f5686eaa9563a436d214cf3f34198d6c280a7a3bdc62cdca20c151c48b0ff00",
+      "bytes": 67317,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/4f5686eaa9563a436d214cf3f34198d6c280a7a3bdc62cdca20c151c48b0ff00.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00044/current_available.png": {
+      "sha256": "a74b92ad741af868ee92002ba11fda5a4e03d3fdd35d46f1afb294df6a0c9610",
+      "bytes": 5915,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/a74b92ad741af868ee92002ba11fda5a4e03d3fdd35d46f1afb294df6a0c9610.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00044/frame0_shape_crop.png": {
+      "sha256": "85e436f73a9d2b214576d106ce79a5e5fbc31d8c9d1c0bcd6b405466b6770253",
+      "bytes": 5057,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/85e436f73a9d2b214576d106ce79a5e5fbc31d8c9d1c0bcd6b405466b6770253.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00044/original_frame.png": {
+      "sha256": "e09d72c6ea8b957ceb0a9af2357b906773412acd52b7cbb400c037f73fd266c3",
+      "bytes": 537378,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/e09d72c6ea8b957ceb0a9af2357b906773412acd52b7cbb400c037f73fd266c3.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00044/preview.png": {
+      "sha256": "2a3421cf47a503519be2f67cc28cb6cb036fdff0707e09b65803743677a2d6fc",
+      "bytes": 69222,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/2a3421cf47a503519be2f67cc28cb6cb036fdff0707e09b65803743677a2d6fc.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00045/current_available.png": {
+      "sha256": "bc9650de6ce23013228bcbb3ee7d2f83bb9968725afe1791555434b1c9d68a19",
+      "bytes": 5771,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/bc9650de6ce23013228bcbb3ee7d2f83bb9968725afe1791555434b1c9d68a19.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00045/frame0_shape_crop.png": {
+      "sha256": "01cc1a28a69a68b13842677b6507ebf7c913612d148c3e03b34003260b593962",
+      "bytes": 5054,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/01cc1a28a69a68b13842677b6507ebf7c913612d148c3e03b34003260b593962.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00045/original_frame.png": {
+      "sha256": "ed2ff9802187cca5e99271f57c8e80d3faf57ed328c11f0293771fe3009a25ec",
+      "bytes": 528945,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/ed2ff9802187cca5e99271f57c8e80d3faf57ed328c11f0293771fe3009a25ec.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00045/preview.png": {
+      "sha256": "b510a1859fab4eb2f91443b04f545dada9fc3f44d384b35bf6846449fec4dd4e",
+      "bytes": 69423,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/b510a1859fab4eb2f91443b04f545dada9fc3f44d384b35bf6846449fec4dd4e.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00046/current_available.png": {
+      "sha256": "e5e71c70c122021dc1a9c31ee6363aea1998c7d143b554ec99593e234e2b42b2",
+      "bytes": 5751,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/e5e71c70c122021dc1a9c31ee6363aea1998c7d143b554ec99593e234e2b42b2.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00046/frame0_shape_crop.png": {
+      "sha256": "84813c862334fff04c5a1803d543c994298d8ab9ff9e4aaa8a83e25aba955e25",
+      "bytes": 5056,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/84813c862334fff04c5a1803d543c994298d8ab9ff9e4aaa8a83e25aba955e25.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00046/original_frame.png": {
+      "sha256": "416fdfa3151b5fcce7dddf32291f12e6067ac15b62df5429a3a8ca3a075e8054",
+      "bytes": 529143,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/416fdfa3151b5fcce7dddf32291f12e6067ac15b62df5429a3a8ca3a075e8054.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00046/preview.png": {
+      "sha256": "5b5cbb5fa4beeaa4a14620b827197221f5da47c055154b34c8aa0e193ddcd12e",
+      "bytes": 69359,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/5b5cbb5fa4beeaa4a14620b827197221f5da47c055154b34c8aa0e193ddcd12e.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00048/current_available.png": {
+      "sha256": "9b0142b5e29f4924ff3b1eb2894cc8cfc8a1a0690b8575cbe55bc1ead22cfaf9",
+      "bytes": 5654,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/9b0142b5e29f4924ff3b1eb2894cc8cfc8a1a0690b8575cbe55bc1ead22cfaf9.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00048/frame0_shape_crop.png": {
+      "sha256": "5329c8f9f3ba5d766b3501c3302c8f84eeccd000b8cc60eaebcea18e024f6801",
+      "bytes": 5056,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/5329c8f9f3ba5d766b3501c3302c8f84eeccd000b8cc60eaebcea18e024f6801.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00048/original_frame.png": {
+      "sha256": "2dcac1c6478b5d8e1965e9c7f9de33b4355d913038cef4cb7cdcfb6dbce1a3e2",
+      "bytes": 523246,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/2dcac1c6478b5d8e1965e9c7f9de33b4355d913038cef4cb7cdcfb6dbce1a3e2.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/LVP_ROBOWM_0060/selected/frame_00048/preview.png": {
+      "sha256": "b4a13eb11a4722e31c275a58d9f731e41c03c05517d9abb78f8382c94fa1f98a",
+      "bytes": 69379,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/b4a13eb11a4722e31c275a58d9f731e41c03c05517d9abb78f8382c94fa1f98a.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/frame0_reference.png": {
+      "sha256": "c31fa71a44458f2bc5f102b93ef77a02dec6d29e6375932fed5b207a6d4de522",
+      "bytes": 12169,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/c31fa71a44458f2bc5f102b93ef77a02dec6d29e6375932fed5b207a6d4de522.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00019/current_available.png": {
+      "sha256": "c1c69bc7da7402f74c742b2834224c3ade792e15212b9c9ecf4fad6f30ad2bbd",
+      "bytes": 13150,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/c1c69bc7da7402f74c742b2834224c3ade792e15212b9c9ecf4fad6f30ad2bbd.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00019/frame0_shape_crop.png": {
+      "sha256": "1f1b46c9ca088f24eada457660268199c42d01ff00c8be04c98f433fdc4e6cb7",
+      "bytes": 12200,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/1f1b46c9ca088f24eada457660268199c42d01ff00c8be04c98f433fdc4e6cb7.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00019/original_frame.png": {
+      "sha256": "ca6dc3e08616188b1c5b5cbd3f021df53f8e55dad9d6614ed6fc1c45d7f12d78",
+      "bytes": 1134683,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/ca6dc3e08616188b1c5b5cbd3f021df53f8e55dad9d6614ed6fc1c45d7f12d78.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00019/preview.png": {
+      "sha256": "8b8ed49bca21e2fdfadd4d246f6227610e8b66f26ad9482b99cf8f994a7af47a",
+      "bytes": 78960,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/8b8ed49bca21e2fdfadd4d246f6227610e8b66f26ad9482b99cf8f994a7af47a.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00020/current_available.png": {
+      "sha256": "5b2313368021a6fd6c700b46f8261cfe4eef30f075f5c326d08569f1c177d8ba",
+      "bytes": 11614,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/5b2313368021a6fd6c700b46f8261cfe4eef30f075f5c326d08569f1c177d8ba.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00020/frame0_shape_crop.png": {
+      "sha256": "3eb186456386f0cb3a98460c3845d3531287eba45ac8a8b8f9a98a1620b148a8",
+      "bytes": 12208,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/3eb186456386f0cb3a98460c3845d3531287eba45ac8a8b8f9a98a1620b148a8.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00020/original_frame.png": {
+      "sha256": "82baa5c382879cb8de08c09e836ed665d7e6393b7d7e373fd4849c707c1a2252",
+      "bytes": 1132273,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/82baa5c382879cb8de08c09e836ed665d7e6393b7d7e373fd4849c707c1a2252.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00020/preview.png": {
+      "sha256": "af03ba103117e97527f42e2e3178c54100d002bec6d36b0712ba85354b059733",
+      "bytes": 77417,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/af03ba103117e97527f42e2e3178c54100d002bec6d36b0712ba85354b059733.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00046/current_available.png": {
+      "sha256": "33428dba8f8fcfd20deb280f044f138b626b97f001e1533eeb673ba4204e3aeb",
+      "bytes": 9991,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/33428dba8f8fcfd20deb280f044f138b626b97f001e1533eeb673ba4204e3aeb.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00046/frame0_shape_crop.png": {
+      "sha256": "bc6649cb458f1e97cd510cef80f00e77fa3f9d57f81ede9e337ae434422cb173",
+      "bytes": 12183,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/bc6649cb458f1e97cd510cef80f00e77fa3f9d57f81ede9e337ae434422cb173.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00046/original_frame.png": {
+      "sha256": "3812c7773fd20b1ad8da07493d05fef356d3f1635b029052f110cd5510214557",
+      "bytes": 1154548,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/3812c7773fd20b1ad8da07493d05fef356d3f1635b029052f110cd5510214557.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00046/preview.png": {
+      "sha256": "2dd297c8266e92475191d4411c0ebe25e232b1906633671c4f5a08bbcf095d17",
+      "bytes": 76904,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/2dd297c8266e92475191d4411c0ebe25e232b1906633671c4f5a08bbcf095d17.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00048/current_available.png": {
+      "sha256": "9d34634e502cc1edcb7a8f355cbe8e53020d9663486167bbbd75d99cf78f7753",
+      "bytes": 10753,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/9d34634e502cc1edcb7a8f355cbe8e53020d9663486167bbbd75d99cf78f7753.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00048/frame0_shape_crop.png": {
+      "sha256": "7dea13fb300abf2a558ee8da23ecc93138367016a9a10f9ea155d5fe41f15934",
+      "bytes": 12212,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/7dea13fb300abf2a558ee8da23ecc93138367016a9a10f9ea155d5fe41f15934.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00048/original_frame.png": {
+      "sha256": "e52ef852b79dfffa6ba192b2c6f701d1abb10df5f4f37ec6244ae30fba60feff",
+      "bytes": 1150945,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/e52ef852b79dfffa6ba192b2c6f701d1abb10df5f4f37ec6244ae30fba60feff.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00048/preview.png": {
+      "sha256": "d36db2c251e337a29481fcea7ede2917a2afd97e5b3c6467ab78f9a316ead51c",
+      "bytes": 76027,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/d36db2c251e337a29481fcea7ede2917a2afd97e5b3c6467ab78f9a316ead51c.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00056/current_available.png": {
+      "sha256": "1941416394190c42119b9aab7c9b144223df13996cf8550058249e78468aa957",
+      "bytes": 9769,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/1941416394190c42119b9aab7c9b144223df13996cf8550058249e78468aa957.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00056/frame0_shape_crop.png": {
+      "sha256": "5f500bac423b488ff77c8a09277e510b4f2a73fe49c50dc9bc1c5785e36586b3",
+      "bytes": 12186,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/5f500bac423b488ff77c8a09277e510b4f2a73fe49c50dc9bc1c5785e36586b3.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00056/original_frame.png": {
+      "sha256": "ff9b8432b2dd3edecd5d4e639edc960ed5c9040071ce044d7888953056400f15",
+      "bytes": 1151109,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/ff9b8432b2dd3edecd5d4e639edc960ed5c9040071ce044d7888953056400f15.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00056/preview.png": {
+      "sha256": "42acfe88e22bc52ef7b7365ccdbc6622a041e0ad5fdc211ca6f118ea7a4693e2",
+      "bytes": 72930,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/42acfe88e22bc52ef7b7365ccdbc6622a041e0ad5fdc211ca6f118ea7a4693e2.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00059/current_available.png": {
+      "sha256": "7e4b19007678e4235380b3d942a9c0bb5d2222f31dba455f2e46f39fcc25c0b6",
+      "bytes": 9305,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/7e4b19007678e4235380b3d942a9c0bb5d2222f31dba455f2e46f39fcc25c0b6.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00059/frame0_shape_crop.png": {
+      "sha256": "03268045912ee1f2f1f235c806a1787855608984cbd3d9749446598300c165b8",
+      "bytes": 12199,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/03268045912ee1f2f1f235c806a1787855608984cbd3d9749446598300c165b8.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00059/original_frame.png": {
+      "sha256": "06f8d0baab956ed192f4c399e0a022424ad933f9f237c9163c629179d7f1bf76",
+      "bytes": 1152855,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/06f8d0baab956ed192f4c399e0a022424ad933f9f237c9163c629179d7f1bf76.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00059/preview.png": {
+      "sha256": "deddb202f077929bcb7092c2fe1671a6ca8bc04d259088e48e29b35c669277c9",
+      "bytes": 71933,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/deddb202f077929bcb7092c2fe1671a6ca8bc04d259088e48e29b35c669277c9.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00084/current_available.png": {
+      "sha256": "f19181b3828dad763e17c78d6a4a4889dc3d4c770b5c987653b2d8aa5eadb647",
+      "bytes": 8356,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/f19181b3828dad763e17c78d6a4a4889dc3d4c770b5c987653b2d8aa5eadb647.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00084/frame0_shape_crop.png": {
+      "sha256": "381095d5be47cc66e962accbf2e798358fc817a576da71ea0e1372bb634c1335",
+      "bytes": 12186,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/381095d5be47cc66e962accbf2e798358fc817a576da71ea0e1372bb634c1335.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00084/original_frame.png": {
+      "sha256": "5c53210d984446fe296f1c51026909147aa98c239896fa6b31f7c8469147cf04",
+      "bytes": 1157036,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/5c53210d984446fe296f1c51026909147aa98c239896fa6b31f7c8469147cf04.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00084/preview.png": {
+      "sha256": "f958b92cc36ff2c9ddbbd8eecf61ab04012c896a3a00d80b61dbed5e021b8f4d",
+      "bytes": 71282,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/f958b92cc36ff2c9ddbbd8eecf61ab04012c896a3a00d80b61dbed5e021b8f4d.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00085/current_available.png": {
+      "sha256": "a954acb725d657dafb69ed3fedf5ce77f79890f1bf3c7b1a5c9502f4c73bbb39",
+      "bytes": 8138,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/a954acb725d657dafb69ed3fedf5ce77f79890f1bf3c7b1a5c9502f4c73bbb39.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00085/frame0_shape_crop.png": {
+      "sha256": "96df55496b153bff323a888685a2930798f56c8b4fc78adafbdb8e89b9ee2fc6",
+      "bytes": 12188,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/96df55496b153bff323a888685a2930798f56c8b4fc78adafbdb8e89b9ee2fc6.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00085/original_frame.png": {
+      "sha256": "933cb7a51f0b7324504987cfbc84c71f11859a716894969fe7ff0007f6352895",
+      "bytes": 1160310,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/933cb7a51f0b7324504987cfbc84c71f11859a716894969fe7ff0007f6352895.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00085/preview.png": {
+      "sha256": "1ec9988ba1dc09ee4493736ab96e3723944eca0f15809d67875d3c47d9096589",
+      "bytes": 71233,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/1ec9988ba1dc09ee4493736ab96e3723944eca0f15809d67875d3c47d9096589.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00090/current_available.png": {
+      "sha256": "64e5863ab48ecf3746f12a0a2aa7920e8ab43ad4202114be3ddf717fda61a2d9",
+      "bytes": 8174,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/64e5863ab48ecf3746f12a0a2aa7920e8ab43ad4202114be3ddf717fda61a2d9.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00090/frame0_shape_crop.png": {
+      "sha256": "d2f7c8ebc244acabb10383fb8a703e073dd5aa22457906e72125e33f4917c0ff",
+      "bytes": 12195,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/d2f7c8ebc244acabb10383fb8a703e073dd5aa22457906e72125e33f4917c0ff.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00090/original_frame.png": {
+      "sha256": "d9ee2d234b72c0c08e4bc8f3e3200a9385688fe8d25047f4badc719de069d1d0",
+      "bytes": 1161331,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/d9ee2d234b72c0c08e4bc8f3e3200a9385688fe8d25047f4badc719de069d1d0.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00090/preview.png": {
+      "sha256": "37e193045ae2466815cfbb5b4c50e4615c2d05fef8d8e3e40837b1a262140a85",
+      "bytes": 71169,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/37e193045ae2466815cfbb5b4c50e4615c2d05fef8d8e3e40837b1a262140a85.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00092/current_available.png": {
+      "sha256": "c11d36b3075849d29e6d7f9a8d9088dd76b1d88b4a4c5d221aae383a96b46fb1",
+      "bytes": 8298,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/c11d36b3075849d29e6d7f9a8d9088dd76b1d88b4a4c5d221aae383a96b46fb1.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00092/frame0_shape_crop.png": {
+      "sha256": "3d768ad6b1521ff67c1e94165f444b5f8137bdcc9940f75d0c90232985a134d7",
+      "bytes": 12195,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/3d768ad6b1521ff67c1e94165f444b5f8137bdcc9940f75d0c90232985a134d7.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00092/original_frame.png": {
+      "sha256": "c66a9f5466a6ba1edcf4a18604d8943715ec4e0e9825f163d022c3b2b957ab45",
+      "bytes": 1161671,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/c66a9f5466a6ba1edcf4a18604d8943715ec4e0e9825f163d022c3b2b957ab45.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/COSMOS2.5_0065/selected/frame_00092/preview.png": {
+      "sha256": "2c4b0dea9eaf7c4f0390f90b96c3c828b3c470fc4a98fbcf3f954ed1b5b2b650",
+      "bytes": 71422,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/vlm3-seven-cases-20261003/2c4b0dea9eaf7c4f0390f90b96c3c828b3c470fc4a98fbcf3f954ed1b5b2b650.png"
+    },
+    "results/vlm3-seven-cases-20261003/crops/anomalydino_scores.json": {
+      "sha256": "ed0e90bb320852fafea89d0ee156f6dc049d465766c95356f86c511a5e3ab894",
+      "bytes": 27019,
+      "url": "assets/ed0e90bb320852fafea89d0ee156f6dc049d465766c95356f86c511a5e3ab894.json"
+    },
+    "results/vlm3-seven-cases-20261003/crops/anomalydino_videos.csv": {
+      "sha256": "d2afa84c6b393dd56ac1a88e29d016ec65d202df19ede3fff8e8f8f361ea32f5",
+      "bytes": 341,
+      "url": "assets/d2afa84c6b393dd56ac1a88e29d016ec65d202df19ede3fff8e8f8f361ea32f5.csv"
+    },
+    "results/vlm3-seven-cases-20261003/crops/selection_index.json": {
+      "sha256": "63adb91a8ff45674f0492956928f32035e28e751cdcce4161309770a67a75606",
+      "bytes": 68316,
+      "url": "assets/63adb91a8ff45674f0492956928f32035e28e751cdcce4161309770a67a75606.json"
+    },
+    "results/vlm3-seven-cases-20261003/metadata/publication/merged_anomalydino_scores.json": {
+      "sha256": "00ff8fe31aadbf46c460e8c1e7b32160128e27154a3ad0510475aacc63149b25",
+      "bytes": 238288,
+      "url": "assets/00ff8fe31aadbf46c460e8c1e7b32160128e27154a3ad0510475aacc63149b25.json"
+    },
+    "results/vlm3-seven-cases-20261003/metadata/publication/merged_anomalydino_videos.csv": {
+      "sha256": "52ff113778088051bfbedcbe9e5fb9e30fa565721ba33dc5ac8c4f8ef73f36a5",
+      "bytes": 1971,
+      "url": "assets/52ff113778088051bfbedcbe9e5fb9e30fa565721ba33dc5ac8c4f8ef73f36a5.csv"
+    },
+    "results/vlm3-seven-cases-20261003/metadata/publication/merged_selection_index.json": {
+      "sha256": "d767aa3b5e8f8d17f045fc2cba9763d8dd6333fa7284e3d35b6f7b09ea97eb05",
+      "bytes": 403913,
+      "url": "assets/d767aa3b5e8f8d17f045fc2cba9763d8dd6333fa7284e3d35b6f7b09ea97eb05.json"
     }
   },
   "source_indexes": {
@@ -4361,7 +6206,8 @@
     "results/link5-link7-four-way-selected45-20260927/index.html": "0b2251c2279b4ae0b7d40e30f662e3a7f910e39bced9cf42354fdcf5c83efbb9",
     "results/link5-only-selected45-updated-mask-20260929/index.html": "f8ab2f4d50e41f31ec7d9fc005d501e5c30cbcc5308c214660fbf862c9ebb75d",
     "results/object-reference-crops-20261001/selection_gallery.html": "9590a6f4c6e644434dc163c774fab29f03287cbdd07fa42d45982e8b3ce67e91",
-    "results/object-deformation-selected45-20260929/occlusion/replay/index.html": "8ac891c2abee22c3d8ed4f2e5e67b998728a695c05be2315cf5213534e5c57aa"
+    "results/object-deformation-selected45-20260929/occlusion/replay/index.html": "8ac891c2abee22c3d8ed4f2e5e67b998728a695c05be2315cf5213534e5c57aa",
+    "results/vlm3-seven-cases-20261003/crops/selection_gallery.html": "c33570c468688f91d3cbb670f9f0849f8a8287a5aa91e2302dc3947eaea4261c"
   },
   "selection": {
     "selected45": [
@@ -4383,5 +6229,453 @@
       "LVP_ROBOWM_0021"
     ]
   },
-  "replay_transport": "gzip, exact bytes after decompression"
+  "replay_transport": "gzip, exact bytes after decompression",
+  "case_updates": {
+    "vlm3-seven-cases-20261003": {
+      "cases": [
+        "COSMOS2.5_0056",
+        "COSMOS2.5_0005",
+        "COSMOS2.5_0010",
+        "LVP_ROBOWM_0010",
+        "LVP_ROBOWM_0015",
+        "LVP_ROBOWM_0060",
+        "COSMOS2.5_0065"
+      ],
+      "summary": [
+        {
+          "case": "COSMOS2.5_0056",
+          "vlm3_frame": 9,
+          "vlm3_status": "accepted_with_frame_exclusions",
+          "accepted": true,
+          "selected_frames": [
+            14,
+            19,
+            20,
+            42,
+            44,
+            70,
+            71,
+            75,
+            76,
+            77
+          ],
+          "crop_count": 10,
+          "occlusion_intervals": [
+            [
+              11,
+              13
+            ],
+            [
+              39,
+              41
+            ]
+          ],
+          "final_interval_policy": {
+            "method": "mean-available-area-collapse-with-frame-retention",
+            "min_area_ratio": 0.5,
+            "interval_mean_available_area": [
+              764.5263157894736,
+              707.7894736842105,
+              535.0555555555555,
+              653.8421052631579,
+              190.66666666666666
+            ],
+            "first_80_percent_mean_available_area": 667.04,
+            "final_to_first_80_ratio": 0.2858399296394019,
+            "final_to_preceding_interval_ratio": 0.291609648769755,
+            "collapse_detected": true,
+            "frame_area_threshold": 333.52,
+            "suppressed": false,
+            "excluded_frames": [
+              79,
+              80,
+              81,
+              82,
+              83,
+              84,
+              85,
+              86,
+              87,
+              88,
+              89,
+              90,
+              91,
+              92
+            ],
+            "preserved_eligible_frames": [
+              75,
+              76,
+              77,
+              78
+            ],
+            "slot_policy": "unchanged quintile quotas; existing latest-interval fallback fills missing slots",
+            "rule": "if final mean is below ratio times BOTH earlier means, exclude only final frames below ratio times first-80% mean; equality is retained"
+          }
+        },
+        {
+          "case": "COSMOS2.5_0005",
+          "vlm3_frame": 6,
+          "vlm3_status": "accepted_with_frame_exclusions",
+          "accepted": true,
+          "selected_frames": [
+            20,
+            29,
+            41,
+            43,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61
+          ],
+          "crop_count": 10,
+          "occlusion_intervals": [],
+          "final_interval_policy": {
+            "method": "mean-available-area-collapse-with-frame-retention",
+            "min_area_ratio": 0.5,
+            "interval_mean_available_area": [
+              547.5263157894736,
+              998.9473684210526,
+              812.1666666666666,
+              467.5263157894737,
+              69.44444444444444
+            ],
+            "first_80_percent_mean_available_area": 705.1333333333333,
+            "final_to_first_80_ratio": 0.09848413223661404,
+            "final_to_preceding_interval_ratio": 0.14853590503708705,
+            "collapse_detected": true,
+            "frame_area_threshold": 352.56666666666666,
+            "suppressed": true,
+            "excluded_frames": [
+              75,
+              76,
+              77,
+              78,
+              79,
+              80,
+              81,
+              82,
+              83,
+              84,
+              85,
+              86,
+              87,
+              88,
+              89,
+              90,
+              91,
+              92
+            ],
+            "preserved_eligible_frames": [],
+            "slot_policy": "unchanged quintile quotas; existing latest-interval fallback fills missing slots",
+            "rule": "if final mean is below ratio times BOTH earlier means, exclude only final frames below ratio times first-80% mean; equality is retained"
+          }
+        },
+        {
+          "case": "COSMOS2.5_0010",
+          "vlm3_frame": 11,
+          "vlm3_status": "accepted_with_frame_exclusions",
+          "accepted": true,
+          "selected_frames": [
+            19,
+            20,
+            46,
+            47,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61
+          ],
+          "crop_count": 10,
+          "occlusion_intervals": [
+            [
+              17,
+              56
+            ],
+            [
+              60,
+              92
+            ]
+          ],
+          "final_interval_policy": {
+            "method": "mean-available-area-collapse-with-frame-retention",
+            "min_area_ratio": 0.5,
+            "interval_mean_available_area": [
+              4925.0,
+              1484.3157894736842,
+              1948.388888888889,
+              1052.7368421052631,
+              26.38888888888889
+            ],
+            "first_80_percent_mean_available_area": 2358.0,
+            "final_to_first_80_ratio": 0.011191216661954575,
+            "final_to_preceding_interval_ratio": 0.02506693775066938,
+            "collapse_detected": true,
+            "frame_area_threshold": 1179.0,
+            "suppressed": true,
+            "excluded_frames": [
+              75,
+              76,
+              77,
+              78,
+              79,
+              80,
+              81,
+              82,
+              83,
+              84,
+              85,
+              86,
+              87,
+              88,
+              89,
+              90,
+              91,
+              92
+            ],
+            "preserved_eligible_frames": [],
+            "slot_policy": "unchanged quintile quotas; existing latest-interval fallback fills missing slots",
+            "rule": "if final mean is below ratio times BOTH earlier means, exclude only final frames below ratio times first-80% mean; equality is retained"
+          }
+        },
+        {
+          "case": "LVP_ROBOWM_0010",
+          "vlm3_frame": 0,
+          "vlm3_status": "accepted_with_frame_exclusions",
+          "accepted": true,
+          "selected_frames": [
+            10,
+            13,
+            23,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35
+          ],
+          "crop_count": 10,
+          "occlusion_intervals": [
+            [
+              21,
+              22
+            ],
+            [
+              39,
+              41
+            ]
+          ],
+          "final_interval_policy": {
+            "method": "mean-available-area-collapse-with-frame-retention",
+            "min_area_ratio": 0.5,
+            "interval_mean_available_area": [
+              2930.9,
+              2786.6,
+              2489.8,
+              2854.4,
+              333.3333333333333
+            ],
+            "first_80_percent_mean_available_area": 2765.425,
+            "final_to_first_80_ratio": 0.12053602369738224,
+            "final_to_preceding_interval_ratio": 0.11677877428998504,
+            "collapse_detected": true,
+            "frame_area_threshold": 1382.7125,
+            "suppressed": true,
+            "excluded_frames": [
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48
+            ],
+            "preserved_eligible_frames": [],
+            "slot_policy": "unchanged quintile quotas; existing latest-interval fallback fills missing slots",
+            "rule": "if final mean is below ratio times BOTH earlier means, exclude only final frames below ratio times first-80% mean; equality is retained"
+          }
+        },
+        {
+          "case": "LVP_ROBOWM_0015",
+          "vlm3_frame": 0,
+          "vlm3_status": "accepted",
+          "accepted": true,
+          "selected_frames": [
+            11,
+            13,
+            20,
+            21,
+            38,
+            39,
+            45,
+            46,
+            47,
+            48
+          ],
+          "crop_count": 10,
+          "occlusion_intervals": [
+            [
+              20,
+              44
+            ]
+          ],
+          "final_interval_policy": {
+            "method": "mean-available-area-collapse-with-frame-retention",
+            "min_area_ratio": 0.5,
+            "interval_mean_available_area": [
+              1146.0,
+              1121.7,
+              683.7,
+              401.0,
+              1003.5555555555555
+            ],
+            "first_80_percent_mean_available_area": 838.1,
+            "final_to_first_80_ratio": 1.1974174389160668,
+            "final_to_preceding_interval_ratio": 2.502632308118592,
+            "collapse_detected": false,
+            "frame_area_threshold": null,
+            "suppressed": false,
+            "excluded_frames": [],
+            "preserved_eligible_frames": [
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48
+            ],
+            "slot_policy": "unchanged quintile quotas; existing latest-interval fallback fills missing slots",
+            "rule": "if final mean is below ratio times BOTH earlier means, exclude only final frames below ratio times first-80% mean; equality is retained"
+          }
+        },
+        {
+          "case": "LVP_ROBOWM_0060",
+          "vlm3_frame": 0,
+          "vlm3_status": "accepted",
+          "accepted": true,
+          "selected_frames": [
+            11,
+            15,
+            22,
+            27,
+            37,
+            39,
+            44,
+            45,
+            46,
+            48
+          ],
+          "crop_count": 10,
+          "occlusion_intervals": [],
+          "final_interval_policy": {
+            "method": "mean-available-area-collapse-with-frame-retention",
+            "min_area_ratio": 0.5,
+            "interval_mean_available_area": [
+              1674.5,
+              1648.4,
+              1533.4,
+              2038.0,
+              2654.5555555555557
+            ],
+            "first_80_percent_mean_available_area": 1723.575,
+            "final_to_first_80_ratio": 1.5401450795907086,
+            "final_to_preceding_interval_ratio": 1.3025297132264748,
+            "collapse_detected": false,
+            "frame_area_threshold": null,
+            "suppressed": false,
+            "excluded_frames": [],
+            "preserved_eligible_frames": [
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48
+            ],
+            "slot_policy": "unchanged quintile quotas; existing latest-interval fallback fills missing slots",
+            "rule": "if final mean is below ratio times BOTH earlier means, exclude only final frames below ratio times first-80% mean; equality is retained"
+          }
+        },
+        {
+          "case": "COSMOS2.5_0065",
+          "vlm3_frame": 2,
+          "vlm3_status": "accepted",
+          "accepted": true,
+          "selected_frames": [
+            19,
+            20,
+            46,
+            48,
+            56,
+            59,
+            84,
+            85,
+            90,
+            92
+          ],
+          "crop_count": 10,
+          "occlusion_intervals": [
+            [
+              22,
+              92
+            ]
+          ],
+          "final_interval_policy": {
+            "method": "mean-available-area-collapse-with-frame-retention",
+            "min_area_ratio": 0.5,
+            "interval_mean_available_area": [
+              5969.1578947368425,
+              3629.2631578947367,
+              3663.722222222222,
+              3191.1052631578946,
+              3169.0
+            ],
+            "first_80_percent_mean_available_area": 4119.306666666666,
+            "final_to_first_80_ratio": 0.7693042194803009,
+            "final_to_preceding_interval_ratio": 0.9930728505220102,
+            "collapse_detected": false,
+            "frame_area_threshold": null,
+            "suppressed": false,
+            "excluded_frames": [],
+            "preserved_eligible_frames": [
+              75,
+              76,
+              77,
+              78,
+              79,
+              80,
+              81,
+              82,
+              83,
+              84,
+              85,
+              86,
+              87,
+              88,
+              89,
+              90,
+              91,
+              92
+            ],
+            "slot_policy": "unchanged quintile quotas; existing latest-interval fallback fills missing slots",
+            "rule": "if final mean is below ratio times BOTH earlier means, exclude only final frames below ratio times first-80% mean; equality is retained"
+          }
+        }
+      ],
+      "unchanged_crop_cases": 38,
+      "release_tag": "vlm3-seven-cases-20261003"
+    }
+  }
 }
