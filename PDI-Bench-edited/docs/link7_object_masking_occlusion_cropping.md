@@ -1,12 +1,69 @@
 # How link7 persistent masking, object masking, occlusion, and cropping coordinate
 
-Verified against the **current implementation on 2026-10-03**, including the optional VLM3 and crop-selection changes. All frame indices are **zero based**. This document describes executable behavior; older specifications differ in several places listed at the end.
+Verified against the **current implementation on 2026-10-03**, including accepted VLM3 mask synchronization, occlusion v2, crop selection v5, and paired canvas normalization. All frame indices are **zero based**. The proposed two-sided final-20% area gate is explicitly marked **not yet implemented** in §9.3; other rules describe executable behavior.
 
-## 1. Architecture and dependencies
+## 1. Architecture map: masks → optional repair → occlusion → ten crop pairs
 
 **The core link7 persistent-masking pipeline can run independently of task-object masking. Optional VLM3 repair is the coupling point: it needs both the link7 masks and the task-object masks. Occlusion and available-pixel cropping then consume the selected link7 mask together with the object masks.**
 
-The intended separation is already reflected in the implementation:
+Read the pipeline from top to bottom. Object masking runs alongside core gripper masking. Their first repair dependency is the optional VLM3 check; both then feed occlusion and available-pixel extraction.
+
+```mermaid
+flowchart TD
+    subgraph PRE["1. Preprocessing and masking"]
+        RGB["Original source video"] --> GM["Initial link7 / gripper masks: SAM3 at frame 0"]
+        RGB --> OM["Object masks: ground at frame 0, propagate with SAM3"]
+        GM --> SURGE["Mask-area surge windows, or five fallback frames"]
+        SURGE --> V1["VLM1: diagnose palm deformation in candidate RGB crops"]
+        V1 --> NEED{"Valid deformed verdict?"}
+        NEED -->|Yes| V2["VLM2: points at earliest deformed frame + 1"]
+        V2 --> SAM2["Fresh SAM3 pass, forward and backward"]
+        SAM2 -->|Checks pass| CORE["Selected core gripper masks"]
+        NEED -->|No| CORE
+    end
+
+    subgraph FIX["2. Optional object-aware masking fix"]
+        CORE --> GATE{"VLM3 enabled and any gate hit?<br/>Object covered >95%, OR link7/image area ≥25%"}
+        OM --> GATE
+        GATE -->|No| FINAL["Final selected gripper masks G"]
+        GATE -->|Yes| V3["VLM3: exact earliest gate frame, no +1<br/>Three positives + three negatives, including object-negative"]
+        V3 --> SAM3["Fresh bidirectional SAM3 and acceptance checks"]
+        SAM3 --> ACCEPT{"Repair accepted?"}
+        ACCEPT -->|Yes| FINAL
+        ACCEPT -->|No, retain prior masks| FINAL
+    end
+
+    subgraph DOWN["3. Synchronized occlusion and available-pixel cropping"]
+        OM --> TRACK["Saved object tracks and anchor visibility"]
+        FINAL --> OCC["Occlusion v2: expected silhouette, missing pixels,<br/>gripper-explained loss, tracks, temporal flags"]
+        OM --> OCC
+        TRACK --> OCC
+        OCC --> REPLAY["Occlusion replay: same masks and audit"]
+        FINAL --> AV["Available pixels at n = O[n] AND NOT G[n]"]
+        OM --> AV
+        AV --> MAP["Current RGB crop + estimated visible-shape mapping to frame 0"]
+        OCC --> MAP
+        AV --> AREA["Mean available pixels in each 20% interval, including zeros"]
+        MAP --> FILTER["Apply crop eligibility and final-20% area gate:<br/>current shrinking-only rule;<br/>proposed two-sided rule in §9.3"]
+        AREA --> FILTER
+        FILTER --> SELECT["Select ten pairs:<br/>eligible immediate recovery frames first;<br/>then available-area ranking in quotas 0/2/2/2/4;<br/>earlier-interval fallback for missing slots"]
+        OCC --> SELECT
+        SELECT --> PAIRS["Matched crop canvases: trim alpha margins, center, no resampling"]
+        PAIRS --> OUT["Gallery and AnomalyDINO use the same pair PNGs<br/>Full original frames are click-through links"]
+    end
+```
+
+The final-20% gate removes frames **before** recovery reservation and area ranking, as detailed in §9.3–9.5. Failed core reseeds stop that correction path; they are not silently promoted as refined masks.
+
+Five points keep the architecture precise:
+
+1. **VLM1 is not a mask-completeness classifier.** Surges nominate candidate frames, but the current VLM1 prompt diagnoses visible palm deformation. No valid deformation verdict means no VLM2 reseed.
+2. **VLM3 audits coverage, not physical occlusion.** “Object covered >95%” means `|O ∩ G| / |O| > 0.95`. It can indicate link7 leaking onto the object. The independent ≥25%-of-image rule can also trigger a repair.
+3. **VLMs supply points; SAM3 produces masks.** VLM3 places an object-negative as part of a new six-point seed, then SAM3 propagates a new full-video sequence. It is not just a local crop fix.
+4. **Accepted G must reach all downstream consumers together.** The default handoff refreshes occlusion detection, its replay, available-pixel exports, and crop selection. The original object masks and tracks are reused.
+5. **Occlusion flags and available pixels serve different purposes.** Flags nominate immediate recovery successors; available area ranks ordinary crop candidates. A flagged frame can still supply a crop if its remaining object pixels and reference mapping are usable.
+
+The component contracts are:
 
 | Component | Inputs | Output | Dependency on task-object masks |
 |---|---|---|---|
@@ -17,38 +74,6 @@ The intended separation is already reflected in the implementation:
 | Occlusion detection | Selected link7 masks, object masks, object tracks and anchor visibility | Per-frame measurements and final occlusion flags | Required |
 | Available-pixel export | Selected link7 masks, object masks, saved occlusion audit, source RGB | Available object pixels and corresponding frame-0 shapes | Required |
 | Crop-frame selection | Available-pixel manifest, saved occlusion audit | Normally ten current/reference crop pairs | Required through saved artifacts |
-
-```mermaid
-flowchart TD
-    V["Original video and generation prompt"]
-    V --> L["Independent link7 core: naive SAM3, surge windows, VLM1, VLM2, SAM3"]
-    V --> O["Independent task-object grounding at frame 0 and SAM3 propagation"]
-    L --> P["Core link7 masks or existing naive fallback"]
-    O --> OM["Task-object masks O for every source frame"]
-    OM --> T["Object tracks and visibility"]
-    P --> ENABLE{"Optional VLM3 enabled?"}
-    ENABLE -->|No| G["Select link7 masks G"]
-    ENABLE -->|Yes| AUDIT["Audit link7 against object masks"]
-    OM --> AUDIT
-    AUDIT --> HIT{"Any strict 95% overlap or 25% image-area hit?"}
-    HIT -->|No| G
-    HIT -->|Yes| REPAIR["VLM3 six-point seed at earliest gate frame; bidirectional SAM3"]
-    REPAIR --> ACCEPT{"Candidate accepted?"}
-    ACCEPT -->|Yes| NEW["Select repaired link7 masks and record exclusions"]
-    ACCEPT -->|No| G
-    NEW --> G
-    G --> D["Occlusion audit on all frames"]
-    OM --> D
-    D --> OCR["Occlusion replay from the same selected link7 archive and audit"]
-    T --> D
-    G --> A["Available pixels: object AND NOT link7"]
-    OM --> A
-    D --> MAP["Reconstruct expected silhouette; map available shape to frame 0"]
-    A --> MAP
-    MAP --> SELECT["Reserve immediate recovery frames; fill time-bin slots by available area"]
-    D --> SELECT
-    SELECT --> C["Current available RGBA plus frame-0 shape RGBA and original frame"]
-```
 
 The VLM3 run entry points now perform the accepted-mask handoff automatically: materialize a named link7 archive, refresh occlusion detection and its replay, export available pixels, and select ten crop pairs. Section 6 explains the source checks and output paths.
 
@@ -75,6 +100,7 @@ Let `T` be the source frame count, `t ∈ {0, …, T−1}`, `N[t]` the naive lin
 | Occlusion reference refresh | Current frame becomes the reference for later frames when overlap ≤5%, replacement ≤5%, and area ratio is in `[0.8,1.25]` | Otherwise keep previous reference |
 | Crop comparison RGB reference | Always original **frame 0** | Empty frame-0 object mask stops export; invalid or >5%-overlapped frame 0 prevents usable reference mapping |
 | Final crop area gate | When final mean is below **50% of both** earlier means, exclude only final frames with area below **50% of the first-80% mean**; retain substantial recovered crops | Disabled with ratio 0; zero baselines do not trigger |
+| Proposed upper crop area gate — not implemented | Activate only when final mean is above **150% of both** earlier means; then exclude only final frames above **150% of the first-80% mean** | Documentation of the requested extension; current code and published selections remain shrinking-only |
 | Mandatory crop frames | Exact **immediate unflagged successor** of each final flagged run, if assessed and crop-eligible, including the activated final-frame area gate | Report invalid immediate successor or deliberate low-area exclusion; never advance to a later frame |
 | Ordinary crop frames | Time quintiles, quotas `[0,2,2,2,4]`; descending available area within each interval, earlier frame wins ties; missing final slots use existing latest-interval fallback | Explicit fallback or shortfall; no duplicates |
 
@@ -390,6 +416,38 @@ Changing VLM3's overlap threshold or disabling its area trigger does not change 
 
 Source: [occlusion.py](../src/pdi_eval/object_deformation_wrapper/occlusion.py), `Config`, `align()`, and `detect()`; shared area rule: [mask_quality.py](../src/pdi_eval/perception/mask_quality.py). Current method: **`gripper-occlusion-v2`**.
 
+At frame **n**, the detector asks: **“Where should the object silhouette be, which of those pixels are missing from the object mask, and how much of that loss lies under link7?”** It evaluates every source frame before ten-frame crop selection. No VLM is called inside this detector.
+
+The three pixel measurements should not be confused:
+
+| Question | Pixel set | Used by |
+|---|---|---|
+| Is link7 labeling pixels already labeled as the object? | `O[n] AND G[n]` | VLM3 overmask gate and crop eligibility |
+| Which expected object pixels are missing specifically under link7? | `(E[n] AND NOT O[n]) AND G[n]` | Occlusion evidence |
+| Which current object pixels can be cropped? | `O[n] AND NOT G[n]` | Current RGBA alpha and crop area ranking |
+
+`E[n]` is a translated recent low-contact silhouette, an estimate rather than a recovered hidden surface. For example, if `E` has 1,000 pixels, 400 are missing, and 360 of those lie in link7, replacement is **36% of E** and explanation is **90% of the loss**. This differs from the >95% direct-overlap check used for VLM3.
+
+```mermaid
+flowchart TD
+    INPUT["At every frame n: selected G, object O, saved object tracks"] --> VALID{"Link7 occupies less than 25% of image?"}
+    VALID -->|No| FAIL["Failed mask; reset both candidate states"]
+    VALID -->|Yes| REF["Use earliest low-contact reference, then permitted refreshes"]
+    REF --> ALIGN["Translate reference silhouette to estimate E at n"]
+    ALIGN --> LOSS["Missing L = E minus O<br/>Gripper-explained C = L intersect G"]
+    LOSS --> MEASURE["Replacement C/E, explanation C/L,<br/>visible support, anchor-track overlap"]
+    MEASURE --> SUPPORT{"Support ≥15% and at least five anchor tracks?"}
+    SUPPORT -->|No, or no usable E| UNKNOWN["Unassessable; reset both states"]
+    SUPPORT -->|Yes| OLD["Original branch:<br/>20% replacement, 60% explanation, 20% tracks at onset<br/>Keep candidate runs ≥2 frames"]
+    SUPPORT -->|Yes| SEV["Severity branch:<br/>20% replacement, 80% explanation,<br/>10% tracks OR 50% replacement at onset<br/>Keep candidate runs ≥3 frames"]
+    OLD --> UNION["Final flagged = original flag OR severity flag"]
+    SEV --> UNION
+    UNION --> AUDIT["Save all-frame audit and regenerate matching replay"]
+    AUDIT --> RECOVERY["Crop selection inspects exact successor of each flagged run"]
+```
+
+The branch boxes summarize **onset**. Continuation has its own rules in §7.3. Invalid masks, absent reference/alignment, and insufficient support are separate failure states; none means “verified no occlusion.” The [dedicated occlusion guide](../src/pdi_eval/object_deformation_wrapper/OCCLUSION_DETECTION.md) explains these current rules, their measurements, and the replay contract in detail.
+
 ### 7.1 Validate link7 and select the reference silhouette
 
 First mark link7 invalid when its **true mask pixel area** is at least 25% of the source image. Such a frame has `mask_valid=false`, status `failed_link7_mask_area`, supplies no occlusion evidence/reference, and resets both episode states. Equality fails. The CLI can configure this cutoff.
@@ -467,7 +525,11 @@ Filter each branch's runs **before** OR-ing their surviving flags. All frames of
 
 ### 7.4 Use of the final flags in cropping
 
-The crop selector uses final `flagged` runs to reserve immediate recovery frames. It does **not** globally exclude flagged frames from ordinary crop slots.
+The crop selector uses final `flagged` runs to reserve immediate recovery frames. For a run `[start,end]`, its only recovery candidate is **`end+1`**, provided that source frame exists, is assessed, and passes every crop gate. It does not search forward for a better-looking recovery. A run ending at the last frame has no successor.
+
+It does **not** globally exclude flagged frames from ordinary crop slots. An occluded frame may retain useful `O AND NOT G` pixels; a disappeared object may have no usable crop without producing an occlusion flag at all. In particular, an empty object mask prevents expected-silhouette alignment and produces `insufficient_visible_object`, rather than proving that link7 occluded the object. This is why ordinary crop eligibility, natural interval fallback, and the final-20% area gate remain necessary alongside occlusion detection.
+
+An accepted VLM3 repair changes `G`, so it can change direct overlap, the reference frame, expected-mask placement, replacement measurements, anchor-track membership, flagged runs, and recovery successors. The default synchronization recomputes these derived quantities and the replay before cropping. It does not reuse an audit computed from the old link7 archive.
 
 ## 8. Cropping available pixels and mapping the same visible shape to frame 0
 
@@ -571,6 +633,8 @@ Frame position is `100*t/T`, not `100*t/(T−1)`. The last frame therefore lies 
 
 ### 9.3 Final-interval warning and selective frame rejection
 
+#### Current code: shrinking-only gate
+
 Calculate the mean `available_area` for each of the five intervals using **all source frames in that interval, including zeros and frames that fail mapping/selection gates**. Averaging only selectable frames would hide disappearance by discarding the zero-area tail. The saved availability definition already empties frames with invalid link7 masks.
 
 ```python
@@ -601,6 +665,35 @@ When `collapse_detected` is true:
 - Record all five means, both ratios, `collapse_detected`, the per-frame `frame_area_threshold`, excluded indices, `preserved_eligible_frames`, and unchanged slot policy under `final_interval_policy`. `suppressed=true` means the warning activated and no final crop-eligible frames survive; it does not follow automatically from a low interval mean. Interval `target_count` is the original quota; `selected_count` includes fallback selections.
 
 This is a **crop-selection heuristic**, not proof of release or object disappearance. Severe occlusion, a shrinking object, or segmentation loss can produce similar area reductions. A large false mask can still pass; a small but real object can fail. The gate acts only in the final quintile; it does not repair the task-object mask or detect enlargement.
+
+#### Requested extension: more than 50% smaller OR more than 50% bigger
+
+**Proposed, not yet implemented or rerun.** Extend the existing two-stage design in the enlargement direction; do not reject the entire final interval just because its mean changes. Let `B=mean_first80`, `P=mean_3`, `L=mean_4`, and `A[t]=available_area[t]`:
+
+| Direction | Interval warning, with positive B and P | Individual final frames to exclude |
+|---|---|---|
+| More than 50% smaller | `L < 0.5*B AND L < 0.5*P` | `A[t] < 0.5*B` |
+| More than 50% bigger | `L > 1.5*B AND L > 1.5*P` | `A[t] > 1.5*B` |
+
+The comparisons against B and P must agree in direction. A warning against B alone is insufficient. If B is 1,000 pixels, the lower and upper per-frame limits are **500 and 1,500**, not 500 and 2,000. Equality is allowed. Every area is measured on the native available mask, before paired canvas normalization or AnomalyDINO resizing.
+
+```python
+# Proposed policy, not the current select_frames() implementation.
+valid_baselines = B > 0 and P > 0
+too_small = valid_baselines and L < 0.5 * B and L < 0.5 * P
+too_big = valid_baselines and L > 1.5 * B and L > 1.5 * P
+
+exclude[t] = bucket(t) == 4 and (
+    (too_small and A[t] < 0.5 * B)
+    or (too_big and A[t] > 1.5 * B)
+)
+```
+
+This checks individual frames only in the direction of the activated warning. A shrinking interval can retain substantial recovery frames; an enlarged interval can retain ordinary-sized frames. If `B=1,000`, `P=1,400`, and `L=1,600`, the proposed enlargement warning stays off: the increase is 60% against B but only about 14% against P. This protects gradual changes better than comparison with the pooled first 80% alone.
+
+Keep the **0/2/2/2/4 quotas, immediate-successor policy, and existing latest-interval fallback**. Apply exclusion before recovery reservation and ranking; fallback must not reintroduce excluded frames. A future implementation should record both warning directions, thresholds, excluded frames, retained eligible frames, and any deliberately excluded immediate successors in selection provenance. Current `final_interval_policy` contains only the shrinking-rule fields listed above.
+
+The upper check can catch sudden mask expansion, but also sudden real enlargement from motion, perspective, or revealing more of the object. Both-baseline confirmation reduces that risk; it does not distinguish those causes. The existing-case effect needs a saved-mask selection audit before claiming which crop pairs or anomaly scores would change.
 
 ### 9.4 Reserve immediate post-occlusion frames first
 
@@ -685,7 +778,7 @@ The gallery displays these same `current_available.png` / `frame0_shape_crop.png
 
 Each case's `pair_geometry.json` records canvas dimensions, original content bounds, integer offsets, visible counts, and final PNG hashes. `prepare_selected()` verifies these hashes and both canvas sizes before inference. This stage changes neither the area values used for frame selection nor the selected source-frame indices. Original full RGB frames remain available only through the gallery's **Original frame** links.
 
-The controlled 45-case normalization run preserves the current 440 selected pairs and six score exclusions, rescoring the same 380 pairs in 38 videos with fixed AnomalyDINO settings. The [comparison](../../results/paired-crop-normalization-20261003/index.html) and [GPU ledger](../../experiment_GPU_record.md) record the measured effect; normalization alone is not evidence of improved anomaly detection.
+The historical controlled normalization run preserved 440 selected pairs across 44 usable cases and rescored the same 380 pairs in 38 videos with fixed AnomalyDINO settings. The later inclusion run recovered COSMOS2.5_0021 and produced **450 displayed pairs across 45 cases, with 420 scored pairs across 42 videos**; only COSMOS2.5_0001, COSMOS3_0001, and LVP_ROBOWM_0001 are excluded from scoring. The [normalization comparison](../../results/paired-crop-normalization-20261003/index.html), [current inclusion report](../../results/object-anomaly-all-except-0001-20261003/index.html), and [GPU ledger](../../experiment_GPU_record.md) preserve the distinction between normalization and cohort expansion. These runs use the current shrinking-only final-interval gate; they do not evaluate the proposed upper gate.
 
 ## 10. Saved frame lineage and experiment evidence
 
