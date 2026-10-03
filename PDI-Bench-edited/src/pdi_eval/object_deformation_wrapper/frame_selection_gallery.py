@@ -71,6 +71,13 @@ header{margin-bottom:24px}.muted{color:#55655d;font-size:13px}
                 state = 'Excluded' if name in excluded else 'Unavailable' if not selected else 'Incomplete'
                 parts.append(f'<div class="video-total muted">Summed anomaly score · {state}</div>')
         parts.append('</div>')
+        geometry_path = root / name / 'pair_geometry.json'
+        if geometry_path.is_file() and selected:
+            geometry = json.loads(geometry_path.read_text())
+            if all(row['crop_directory'] in geometry['pairs'] for row in selected):
+                parts.append('<p class="muted">Matched crop canvases: transparent borders trimmed, '
+                             'same canvas size and display scale per pair. Visible pixels and shapes '
+                             'are preserved; frame-0 correspondence remains estimated.</p>')
         if not selected:
             quality = escape(manifest['frame0_reference_quality'].replace('_', ' '))
             parts.append(f'<p class="empty">No usable reference crops: {quality}.</p>')

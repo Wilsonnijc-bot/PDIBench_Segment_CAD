@@ -1,0 +1,466 @@
+{
+  "method": "shared-canvas-native-pixels-v1",
+  "baseline": {
+    "binary_auroc": 0.7797202797202797,
+    "positive_count": 11,
+    "negative_count": 26,
+    "ambiguous_scored_count": 1,
+    "unscored_count": 7,
+    "partial_count": 0,
+    "primary": {
+      "n": 38,
+      "pearson": {
+        "coefficient": 0.42475841775395834,
+        "p_two_sided": 0.00785809964699298
+      },
+      "spearman": {
+        "coefficient": 0.4251958675031299,
+        "p_two_sided": 0.007787729911690245
+      },
+      "kendall_tau_b": {
+        "coefficient": 0.3504592663484903,
+        "p_two_sided": 0.009135633234429215
+      }
+    }
+  },
+  "normalized": {
+    "binary_auroc": 0.7797202797202797,
+    "positive_count": 11,
+    "negative_count": 26,
+    "ambiguous_scored_count": 1,
+    "unscored_count": 7,
+    "partial_count": 0,
+    "primary": {
+      "n": 38,
+      "pearson": {
+        "coefficient": 0.4274218672979956,
+        "p_two_sided": 0.007437959660640071
+      },
+      "spearman": {
+        "coefficient": 0.4251958675031299,
+        "p_two_sided": 0.007787729911690245
+      },
+      "kendall_tau_b": {
+        "coefficient": 0.3504592663484903,
+        "p_two_sided": 0.009135633234429215
+      }
+    }
+  },
+  "videos": [
+    {
+      "video_id": "COSMOS2.5_0001",
+      "status": "excluded_by_user",
+      "anomaly_score_sum": null,
+      "scored_pair_count": 0,
+      "human_label_v2": 0.0,
+      "baseline_sum": null,
+      "delta_sum": null
+    },
+    {
+      "video_id": "COSMOS2.5_0005",
+      "status": "excluded_by_user",
+      "anomaly_score_sum": null,
+      "scored_pair_count": 0,
+      "human_label_v2": 1.0,
+      "baseline_sum": null,
+      "delta_sum": null
+    },
+    {
+      "video_id": "COSMOS2.5_0010",
+      "status": "excluded_by_user",
+      "anomaly_score_sum": null,
+      "scored_pair_count": 0,
+      "human_label_v2": 0.0,
+      "baseline_sum": null,
+      "delta_sum": null
+    },
+    {
+      "video_id": "COSMOS2.5_0015",
+      "status": "scored",
+      "anomaly_score_sum": 5.3057352951356584,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 5.273110751859791,
+      "delta_sum": 0.03262454327586717
+    },
+    {
+      "video_id": "COSMOS2.5_0021",
+      "status": "unavailable_reference",
+      "anomaly_score_sum": null,
+      "scored_pair_count": 0,
+      "human_label_v2": 0.0,
+      "baseline_sum": null,
+      "delta_sum": null
+    },
+    {
+      "video_id": "COSMOS2.5_0025",
+      "status": "scored",
+      "anomaly_score_sum": 5.005012025074525,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 4.848323333805258,
+      "delta_sum": 0.15668869126926754
+    },
+    {
+      "video_id": "COSMOS2.5_0030",
+      "status": "scored",
+      "anomaly_score_sum": 5.916474928639152,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 5.8764411422339355,
+      "delta_sum": 0.04003378640521671
+    },
+    {
+      "video_id": "COSMOS2.5_0035",
+      "status": "scored",
+      "anomaly_score_sum": 4.365135003490882,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 4.286702846397053,
+      "delta_sum": 0.07843215709382889
+    },
+    {
+      "video_id": "COSMOS2.5_0040",
+      "status": "scored",
+      "anomaly_score_sum": 4.9549080333926465,
+      "scored_pair_count": 10,
+      "human_label_v2": 1.0,
+      "baseline_sum": 4.999637224999341,
+      "delta_sum": -0.04472919160669431
+    },
+    {
+      "video_id": "COSMOS2.5_0044",
+      "status": "scored",
+      "anomaly_score_sum": 3.9406123154157515,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 3.9590541324998236,
+      "delta_sum": -0.01844181708407211
+    },
+    {
+      "video_id": "COSMOS2.5_0046",
+      "status": "scored",
+      "anomaly_score_sum": 4.2711476655290594,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 4.374642997031303,
+      "delta_sum": -0.10349533150224399
+    },
+    {
+      "video_id": "COSMOS2.5_0054",
+      "status": "scored",
+      "anomaly_score_sum": 5.58609173324975,
+      "scored_pair_count": 10,
+      "human_label_v2": 1.0,
+      "baseline_sum": 5.43595663548419,
+      "delta_sum": 0.15013509776556067
+    },
+    {
+      "video_id": "COSMOS2.5_0056",
+      "status": "scored",
+      "anomaly_score_sum": 5.245838607816429,
+      "scored_pair_count": 10,
+      "human_label_v2": 1.0,
+      "baseline_sum": 5.378403118314284,
+      "delta_sum": -0.132564510497855
+    },
+    {
+      "video_id": "COSMOS2.5_0060",
+      "status": "scored",
+      "anomaly_score_sum": 3.3918595921534758,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 3.3216242585535887,
+      "delta_sum": 0.0702353335998871
+    },
+    {
+      "video_id": "COSMOS2.5_0065",
+      "status": "excluded_by_user",
+      "anomaly_score_sum": null,
+      "scored_pair_count": 0,
+      "human_label_v2": 0.0,
+      "baseline_sum": null,
+      "delta_sum": null
+    },
+    {
+      "video_id": "COSMOS3_0001",
+      "status": "excluded_by_user",
+      "anomaly_score_sum": null,
+      "scored_pair_count": 0,
+      "human_label_v2": 0.0,
+      "baseline_sum": null,
+      "delta_sum": null
+    },
+    {
+      "video_id": "COSMOS3_0005",
+      "status": "scored",
+      "anomaly_score_sum": 4.996481428766028,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 4.907949273041634,
+      "delta_sum": 0.0885321557243941
+    },
+    {
+      "video_id": "COSMOS3_0010",
+      "status": "scored",
+      "anomaly_score_sum": 6.465555042256099,
+      "scored_pair_count": 10,
+      "human_label_v2": 1.0,
+      "baseline_sum": 6.787095222107047,
+      "delta_sum": -0.32154017985094807
+    },
+    {
+      "video_id": "COSMOS3_0015",
+      "status": "scored",
+      "anomaly_score_sum": 4.483100623118155,
+      "scored_pair_count": 10,
+      "human_label_v2": 1.0,
+      "baseline_sum": 4.310871038202084,
+      "delta_sum": 0.17222958491607088
+    },
+    {
+      "video_id": "COSMOS3_0021",
+      "status": "scored",
+      "anomaly_score_sum": 4.651127150229045,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 4.756233274369013,
+      "delta_sum": -0.10510612413996778
+    },
+    {
+      "video_id": "COSMOS3_0025",
+      "status": "scored",
+      "anomaly_score_sum": 4.080461301941138,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 4.2082871098201595,
+      "delta_sum": -0.1278258078790211
+    },
+    {
+      "video_id": "COSMOS3_0030",
+      "status": "scored",
+      "anomaly_score_sum": 4.1319410532712935,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.5,
+      "baseline_sum": 4.097289428114891,
+      "delta_sum": 0.03465162515640241
+    },
+    {
+      "video_id": "COSMOS3_0035",
+      "status": "scored",
+      "anomaly_score_sum": 4.357846329970793,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 4.487278446555138,
+      "delta_sum": -0.1294321165843444
+    },
+    {
+      "video_id": "COSMOS3_0040",
+      "status": "scored",
+      "anomaly_score_sum": 4.474064230918884,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 4.268937912583351,
+      "delta_sum": 0.20512631833553296
+    },
+    {
+      "video_id": "COSMOS3_0044",
+      "status": "scored",
+      "anomaly_score_sum": 4.153671699265639,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 3.977581560611725,
+      "delta_sum": 0.17609013865391443
+    },
+    {
+      "video_id": "COSMOS3_0046",
+      "status": "scored",
+      "anomaly_score_sum": 4.510484861709299,
+      "scored_pair_count": 10,
+      "human_label_v2": 1.0,
+      "baseline_sum": 4.507822606947038,
+      "delta_sum": 0.002662254762261007
+    },
+    {
+      "video_id": "COSMOS3_0054",
+      "status": "scored",
+      "anomaly_score_sum": 2.5951736772602256,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 2.6152703480287034,
+      "delta_sum": -0.020096670768477765
+    },
+    {
+      "video_id": "COSMOS3_0056",
+      "status": "scored",
+      "anomaly_score_sum": 3.8269052404345887,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 3.9160958049875316,
+      "delta_sum": -0.08919056455294294
+    },
+    {
+      "video_id": "COSMOS3_0060",
+      "status": "scored",
+      "anomaly_score_sum": 4.35271114761849,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 4.208132495510054,
+      "delta_sum": 0.1445786521084358
+    },
+    {
+      "video_id": "COSMOS3_0065",
+      "status": "scored",
+      "anomaly_score_sum": 5.936476269342524,
+      "scored_pair_count": 10,
+      "human_label_v2": 1.0,
+      "baseline_sum": 5.845631505903744,
+      "delta_sum": 0.09084476343878034
+    },
+    {
+      "video_id": "LVP_ROBOWM_0001",
+      "status": "excluded_by_user",
+      "anomaly_score_sum": null,
+      "scored_pair_count": 0,
+      "human_label_v2": 0.0,
+      "baseline_sum": null,
+      "delta_sum": null
+    },
+    {
+      "video_id": "LVP_ROBOWM_0005",
+      "status": "scored",
+      "anomaly_score_sum": 4.889268134985909,
+      "scored_pair_count": 10,
+      "human_label_v2": 1.0,
+      "baseline_sum": 4.581620944313931,
+      "delta_sum": 0.307647190671978
+    },
+    {
+      "video_id": "LVP_ROBOWM_0010",
+      "status": "scored",
+      "anomaly_score_sum": 5.513300399828637,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 5.343803483988458,
+      "delta_sum": 0.16949691584017934
+    },
+    {
+      "video_id": "LVP_ROBOWM_0015",
+      "status": "scored",
+      "anomaly_score_sum": 4.075226591881755,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 3.9401449779391564,
+      "delta_sum": 0.13508161394259854
+    },
+    {
+      "video_id": "LVP_ROBOWM_0021",
+      "status": "scored",
+      "anomaly_score_sum": 3.8040506556466385,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 3.7698064241763,
+      "delta_sum": 0.034244231470338615
+    },
+    {
+      "video_id": "LVP_ROBOWM_0025",
+      "status": "scored",
+      "anomaly_score_sum": 4.03455508315202,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 3.843700217703978,
+      "delta_sum": 0.19085486544804153
+    },
+    {
+      "video_id": "LVP_ROBOWM_0030",
+      "status": "scored",
+      "anomaly_score_sum": 4.6441581636667255,
+      "scored_pair_count": 10,
+      "human_label_v2": 1.0,
+      "baseline_sum": 4.51756175160408,
+      "delta_sum": 0.1265964120626455
+    },
+    {
+      "video_id": "LVP_ROBOWM_0035",
+      "status": "scored",
+      "anomaly_score_sum": 3.9406494186683134,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 4.084314114668152,
+      "delta_sum": -0.1436646959998389
+    },
+    {
+      "video_id": "LVP_ROBOWM_0040",
+      "status": "scored",
+      "anomaly_score_sum": 3.558105233311653,
+      "scored_pair_count": 10,
+      "human_label_v2": 1.0,
+      "baseline_sum": 3.574843407986742,
+      "delta_sum": -0.0167381746750892
+    },
+    {
+      "video_id": "LVP_ROBOWM_0044",
+      "status": "scored",
+      "anomaly_score_sum": 3.4453665365775428,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 3.3015258510907493,
+      "delta_sum": 0.14384068548679352
+    },
+    {
+      "video_id": "LVP_ROBOWM_0046",
+      "status": "scored",
+      "anomaly_score_sum": 3.44861571624493,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 3.4653551377929173,
+      "delta_sum": -0.016739421547987465
+    },
+    {
+      "video_id": "LVP_ROBOWM_0054",
+      "status": "scored",
+      "anomaly_score_sum": 4.731436908276348,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 4.89403664496812,
+      "delta_sum": -0.16259973669177175
+    },
+    {
+      "video_id": "LVP_ROBOWM_0056",
+      "status": "scored",
+      "anomaly_score_sum": 5.417120780269583,
+      "scored_pair_count": 10,
+      "human_label_v2": 1.0,
+      "baseline_sum": 5.663349833243933,
+      "delta_sum": -0.24622905297434983
+    },
+    {
+      "video_id": "LVP_ROBOWM_0060",
+      "status": "scored",
+      "anomaly_score_sum": 5.1595807771311835,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 5.185663798152823,
+      "delta_sum": -0.026083021021639397
+    },
+    {
+      "video_id": "LVP_ROBOWM_0065",
+      "status": "scored",
+      "anomaly_score_sum": 3.434017293007819,
+      "scored_pair_count": 10,
+      "human_label_v2": 0.0,
+      "baseline_sum": 3.514031480383742,
+      "delta_sum": -0.08001418737592259
+    }
+  ],
+  "pair_count": 380,
+  "mean_pair_delta": 0.0020161484544074437,
+  "max_absolute_pair_delta": 0.11251132190227514,
+  "settings_equal": true,
+  "selected_frames_equal": true,
+  "source_sha256": {
+    "results/paired-crop-normalization-20261003/metadata/baseline_scores.json": "00ff8fe31aadbf46c460e8c1e7b32160128e27154a3ad0510475aacc63149b25",
+    "results/paired-crop-normalization-20261003/crops/anomalydino_scores.json": "8a2a602d319878a3897c6659bb3a7f73cc316c20723fb4e4c6c2137239bee180",
+    "selected_45_matched_videos_styledv2.xlsx": "f27b72b3e835f2ad85bdb17ec6f1ba81cba8b08bac73d73a66b6c8e174c8c0c5"
+  }
+}

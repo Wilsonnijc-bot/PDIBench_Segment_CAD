@@ -19,6 +19,17 @@ order is required. Transparent pixels are composited on black before upstream
 preprocessing; alpha is not a feature mask. This is necessary for the project's
 PNG crops, whose hidden RGB pixels retain source-scene content.
 
+Native selected object-pair exports use `shared-canvas-native-pixels-v1`: trim
+transparent exterior margins and center both crops on identically sized canvases.
+No visible pixels are resampled and no contours or native pixel areas are changed.
+This gives both images the same shorter-edge resize factor; it does not force
+equal object sizes or improve the estimated frame-zero correspondence. The exact
+gallery PNGs are the model inputs. `prepare_selected()` checks each pair's recorded
+canvas dimensions and PNG hashes in `pair_geometry.json` before scoring. Historical
+exports without this metadata remain explicitly labeled `legacy-independent-crops`.
+Changing crop geometry requires new scores; the controlled comparison is under
+`results/paired-crop-normalization-20261003` and the project GPU ledger.
+
 ## Installation and upstream provenance
 
 ```sh

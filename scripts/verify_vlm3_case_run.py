@@ -8,6 +8,7 @@ import numpy as np
 from PIL import Image
 from pdi_eval.object_deformation_wrapper.frame_selection import select_frames
 from pdi_eval.object_deformation_wrapper.reference_visible_pixels import mask_bbox, rgba_crop
+from pdi_eval.object_deformation_wrapper.paired_crops import normalize_pair
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -83,11 +84,13 @@ def verify(run: Path):
         for row in selection['selected_frames']:
             t=row['frame'];directory=crop/row['crop_directory']
             rgb=np.asarray(Image.open(directory/'original_frame.png').convert('RGB'))
-            np.testing.assert_array_equal(np.asarray(Image.open(directory/'current_available.png')),
-                                          rgba_crop(rgb,available[t],mask_bbox(available[t])))
+            expected_current = rgba_crop(rgb,available[t],mask_bbox(available[t]))
             x0,y0,x1,y1=bbox
-            np.testing.assert_array_equal(np.asarray(Image.open(directory/'frame0_shape_crop.png')),
-                                          np.dstack((reference_rgb,mapped[t].astype(np.uint8)*255)))
+            expected_reference = np.dstack((reference_rgb,mapped[t].astype(np.uint8)*255))
+            if (crop/'pair_geometry.json').is_file():
+                expected_current, expected_reference, _ = normalize_pair(expected_current, expected_reference)
+            np.testing.assert_array_equal(np.asarray(Image.open(directory/'current_available.png')), expected_current)
+            np.testing.assert_array_equal(np.asarray(Image.open(directory/'frame0_shape_crop.png')), expected_reference)
             assert t not in selection['final_interval_policy']['excluded_frames']
             if repair['accepted']:assert t not in repair['crop_excluded_frames']
             pairs+=1

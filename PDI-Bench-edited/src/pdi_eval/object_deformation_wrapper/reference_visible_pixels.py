@@ -14,6 +14,7 @@ import cv2
 import numpy as np
 
 from .occlusion import align, atomic, crop, sha256
+from .paired_crops import METHOD as PAIR_METHOD, normalize_pair
 from ..perception.mask_quality import MAX_LINK7_AREA_FRACTION, link7_area_validity
 
 
@@ -172,6 +173,9 @@ def render_saved_examples(case: Path, output: Path, frames: list[int], *,
     if any(t < 0 or t >= len(available) for t in frames):
         raise ValueError(f"Frame must be within 0..{len(available)-1}")
     cap = cv2.VideoCapture(str(case / "replay/source.mp4"))
+    geometry_path = output / "pair_geometry.json"
+    geometry = json.loads(geometry_path.read_text()) if geometry_path.is_file() else {
+        "method": PAIR_METHOD, "pairs": {}}
     try:
         frame0 = read_frame(cap, 0)
         for t in sorted(set(frames)):
@@ -180,22 +184,36 @@ def render_saved_examples(case: Path, output: Path, frames: list[int], *,
             write_original_frame(example / "original_frame.png", current)
             current_path = example / "current_available.png"
             reference_path = example / "frame0_shape_crop.png"
+            current_rgba = reference_rgba = None
             if available[t].any():
                 current_bbox = mask_bbox(available[t])
-                write_png(current_path,
-                          rgba_crop(current, available[t], current_bbox))
+                current_rgba = rgba_crop(current, available[t], current_bbox)
             else:
                 current_path.unlink(missing_ok=True)
             if valid[t]:
                 x0, y0, x1, y1 = reference_bbox
-                write_png(reference_path,
-                          np.dstack((frame0[y0:y1, x0:x1], mapped[t].astype(np.uint8) * 255)))
+                reference_rgba = np.dstack((frame0[y0:y1, x0:x1], mapped[t].astype(np.uint8) * 255))
             else:
                 reference_path.unlink(missing_ok=True)
+            key = f"{subdirectory}/frame_{t:05d}"
+            geometry["pairs"].pop(key, None)
+            if (current_rgba is not None and reference_rgba is not None
+                    and reference_rgba[:, :, 3].any()):
+                current_rgba, reference_rgba, record = normalize_pair(current_rgba, reference_rgba)
+                geometry["pairs"][key] = record
+            if current_rgba is not None:
+                write_png(current_path, current_rgba)
+            if reference_rgba is not None:
+                write_png(reference_path, reference_rgba)
+            if key in geometry["pairs"]:
+                record = geometry["pairs"][key]
+                record["query_sha256"] = sha256(current_path)
+                record["reference_sha256"] = sha256(reference_path)
             write_preview(output / "frame0_reference.png", current_path, reference_path,
                           example / "preview.png", t)
     finally:
         cap.release()
+    atomic(geometry_path, json.dumps(geometry, indent=2) + "\n")
 
 
 def export_case(case: Path, output: Path, example_frames: list[int]) -> dict:

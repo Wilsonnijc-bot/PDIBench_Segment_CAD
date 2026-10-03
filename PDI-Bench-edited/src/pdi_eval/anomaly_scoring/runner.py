@@ -43,6 +43,8 @@ def prepare_selected(crop_root: Path, exclusions=DEFAULT_EXCLUSIONS):
                                    'selection_status': row['status']})
         if status != 'ready':
             continue
+        geometry_path = crop_root / video / 'pair_geometry.json'
+        geometry = json.loads(geometry_path.read_text()) if geometry_path.is_file() else None
         for frame in frames:
             directory = Path(video) / frame['crop_directory']
             reference = directory / 'frame0_shape_crop.png'
@@ -50,13 +52,30 @@ def prepare_selected(crop_root: Path, exclusions=DEFAULT_EXCLUSIONS):
             for path in (reference, query):
                 if not (crop_root / path).is_file():
                     raise FileNotFoundError(crop_root / path)
-            manifest['pairs'].append({
+            pair = {
                 'video_id': video, 'frame': frame['frame'],
                 'reference_crop': reference.as_posix(), 'query_crop': query.as_posix(),
                 'reference_sha256': sha256(crop_root / reference),
                 'query_sha256': sha256(crop_root / query),
                 'selection_reason': frame['reason'],
-                'occlusion_flagged': frame['occlusion_flagged']})
+                'occlusion_flagged': frame['occlusion_flagged']}
+            if geometry is not None:
+                from ..object_deformation_wrapper.paired_crops import METHOD
+                from PIL import Image
+                record = geometry['pairs'][frame['crop_directory']]
+                if geometry['method'] != METHOD or record['method'] != METHOD:
+                    raise ValueError(f'Unknown paired crop geometry: {video}')
+                for role in ('reference', 'query'):
+                    if record[role + '_sha256'] != pair[role + '_sha256']:
+                        raise ValueError(f'Paired crop changed: {video}, {frame["frame"]}')
+                    with Image.open(crop_root / pair[role + '_crop']) as image:
+                        if list(image.size) != record['canvas_size_wh']:
+                            raise ValueError(f'Paired canvas size differs: {video}, {frame["frame"]}')
+                pair['crop_geometry'] = METHOD
+                pair['canvas_size_wh'] = record['canvas_size_wh']
+            else:
+                pair['crop_geometry'] = 'legacy-independent-crops'
+            manifest['pairs'].append(pair)
     manifest['pair_count'] = len(manifest['pairs'])
     return manifest
 

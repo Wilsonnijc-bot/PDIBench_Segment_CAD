@@ -666,11 +666,26 @@ flowchart TD
     RANK --> FILL
     FILL --> SHORT{"Fewer than ten selected?"}
     SHORT -->|Yes, default| DONOR["Fill from latest allowed interval first"]
-    SHORT -->|No| SAVE["Save chronological crop pairs and full original frames"]
+    SHORT -->|No| SAVE["Render chronological native-pixel crop pairs"]
     DONOR --> SAVE
     ISSUE --> REPORT["Record selection completeness and recovery failures"]
-    SAVE --> REPORT
+    SAVE --> PAIR["Trim transparent margins; center both on identical canvases; no resampling"]
+    PAIR --> DINO["Gallery and AnomalyDINO consume the same normalized RGBA files"]
+    PAIR --> ORIGINAL["Full original frames remain click-through links"]
+    DINO --> REPORT
 ```
+
+### 9.6 Paired canvas normalization for display and AnomalyDINO
+
+`paired_crops.normalize_pair()` runs after available-pixel extraction and frame-0 shape mapping. For each RGBA crop, find the half-open bounding box of `alpha > 0` and remove only fully transparent exterior rows/columns. Let the two trimmed widths be `wq, wr` and heights be `hq, hr`. Both output canvases have `W=max(wq,wr)`, `H=max(hq,hr)`. Place each image at integer offset `((W-w)//2, (H-h)//2)`; padding is transparent black. There is no interpolation, additional geometric warp, equal-area fitting, or independent silhouette resize.
+
+Every visible RGB/alpha pixel and the complete binary shape, including holes, is preserved under integer translation. Native visible area and aspect ratio remain unchanged. Existing frame-0 region mapping remains an estimate; this operation does not establish material-point correspondence or normalize genuine viewpoint/physical size differences.
+
+The gallery displays these same `current_available.png` / `frame0_shape_crop.png` files that the native scorer receives. AnomalyDINO composites alpha on black and independently resizes each image's shorter edge to 448 pixels before patch extraction. Identical pair canvas dimensions therefore give both images the same resize factor and patch-grid dimensions. This removes unequal zoom caused by earlier asymmetric transparent margins. It changes model inputs, so old scores cannot be attached to the new files.
+
+Each case's `pair_geometry.json` records canvas dimensions, original content bounds, integer offsets, visible counts, and final PNG hashes. `prepare_selected()` verifies these hashes and both canvas sizes before inference. This stage changes neither the area values used for frame selection nor the selected source-frame indices. Original full RGB frames remain available only through the gallery's **Original frame** links.
+
+The controlled 45-case normalization run preserves the current 440 selected pairs and six score exclusions, rescoring the same 380 pairs in 38 videos with fixed AnomalyDINO settings. The [comparison](../../results/paired-crop-normalization-20261003/index.html) and [GPU ledger](../../experiment_GPU_record.md) record the measured effect; normalization alone is not evidence of improved anomaly detection.
 
 ## 10. Saved frame lineage and experiment evidence
 
@@ -768,6 +783,7 @@ COSMOS2.5_0005 required two same-frame attempts because its first candidate incl
 | Crop `masks.npz` | `available_pure_object`, `mask_valid`, `mapped_to_frame0`, `mapping_valid`, frame-0 mask and box |
 | Crop `manifest.json` | Per-frame available area, direct overlap, mapping geometry/status, selected input/audit hashes |
 | Crop `selection.json` | Eligible rankings, interval quotas, mandatory successors, final selected frames and reasons, shortfalls |
+| Crop `pair_geometry.json` | Shared canvas sizes, alpha-content bounds, integer placements, visible counts, normalized pair PNG hashes |
 | `selected/frame_XXXXX/` | `current_available.png`, `frame0_shape_crop.png`, `preview.png`, full unannotated `original_frame.png` |
 
 Current occlusion/crop consumers expect **task_object at channel 0 and link7 at channel 5** and check those names. VLM3 and the merge helper locate channels by name instead. A standalone link7 `masks.npz` therefore needs the named-archive handoff for these downstream entry points.
