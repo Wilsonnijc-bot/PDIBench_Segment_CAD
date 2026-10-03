@@ -14,7 +14,7 @@ from PIL import Image
 
 from pdi_eval.anomaly_scoring import AnomalyDINOScorer
 from pdi_eval.anomaly_scoring.anomalydino import load_upstream, rgb_array
-from pdi_eval.anomaly_scoring.runner import prepare_selected, run_pairs
+from pdi_eval.anomaly_scoring.runner import DEFAULT_EXCLUSIONS, prepare_selected, run_pairs
 
 UPSTREAM_COMMIT = 'b9d1c2648e3a5247437d4d953d907a8f3d994457'
 UPSTREAM = Path(__file__).resolve().parents[1] / 'third_party/AnomalyDINO'
@@ -116,6 +116,8 @@ class TestAnomalyDINO(unittest.TestCase):
             self.assertEqual(model.forward_count, 0)
 
     def test_selection_exclusions_and_unavailable(self):
+        self.assertEqual(set(DEFAULT_EXCLUSIONS), {
+            'COSMOS2.5_0001', 'COSMOS3_0001', 'LVP_ROBOWM_0001'})
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             (root / 'selection_index.json').write_text(json.dumps([

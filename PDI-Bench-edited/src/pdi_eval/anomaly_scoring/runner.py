@@ -8,8 +8,7 @@ from pathlib import Path
 import time
 
 DEFAULT_EXCLUSIONS = (
-    'COSMOS2.5_0001', 'COSMOS3_0001', 'LVP_ROBOWM_0001',
-    'COSMOS2.5_0065', 'COSMOS2.5_0010', 'COSMOS2.5_0005')
+    'COSMOS2.5_0001', 'COSMOS3_0001', 'LVP_ROBOWM_0001')
 
 
 def sha256(path):

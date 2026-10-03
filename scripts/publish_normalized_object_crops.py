@@ -26,7 +26,10 @@ def publish(run: Path):
     stats = json.loads((run / 'metadata/OBJECT_ANOMALY_STATISTICS.json').read_text())
     comparison = json.loads((run / 'metadata/comparison.json').read_text())
     assert comparison['settings_equal'] and comparison['selected_frames_equal']
-    assert comparison['pair_count'] == 380
+    expansion = comparison.get('comparison_type') == 'cohort-expansion'
+    pair_count = comparison['pair_count']
+    crop_count = comparison.get('crop_pair_count', 440)
+    assert pair_count == (420 if expansion else 380)
     before = (out / 'objects/selection_gallery.html').read_text()
     old_page = BeautifulSoup(before, 'html.parser')
     fresh = BeautifulSoup((run / 'crops/selection_gallery.html').read_text(), 'html.parser')
@@ -38,15 +41,32 @@ def publish(run: Path):
     old_manifest = json.loads(manifest_path.read_text())
     replacements = {}
     registered = {}
+    by_hash = {(v['sha256'], Path(k).suffix): v['url'] for k, v in manifest['files'].items()}
+    queue = []
     def register(path):
         path = path.resolve()
         raw = path.read_bytes()
         filename = sha(raw) + path.suffix
-        (out / 'assets' / filename).write_bytes(raw)
-        url = 'assets/' + filename
+        url = by_hash.get((sha(raw), path.suffix))
+        if url is None:
+            if path.suffix == '.html':
+                (out / 'assets' / (filename + '.gz')).write_bytes(gzip.compress(raw, mtime=0))
+                url = 'replay.html?asset=' + filename + '.gz'
+            elif path.suffix == '.mp4':
+                media = run / 'metadata/release-assets'
+                media.mkdir(exist_ok=True)
+                shutil.copy2(path, media / filename)
+                url = ('https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/'
+                       + run.name + '/' + filename)
+            else:
+                (out / 'assets' / filename).write_bytes(raw)
+                url = 'assets/' + filename
+            by_hash[sha(raw), path.suffix] = url
         key = path.relative_to(ROOT).as_posix()
         manifest['files'][key] = {'sha256': sha(raw), 'bytes': len(raw), 'url': url}
         registered[key] = manifest['files'][key]
+        if path.suffix == '.html' and path not in queue:
+            queue.append(path)
         return url
     for node in fresh.select('section.case'):
         name = node.h2.get_text(strip=True)
@@ -57,6 +77,11 @@ def publish(run: Path):
             if any('replay.html' in link.get('href', '') for link in paragraph.select('a')):
                 node.select_one('.case-head').insert_after(BeautifulSoup(str(paragraph), 'html.parser'))
         images = {}
+        originals = {}
+        if expansion and name == 'COSMOS2.5_0021':
+            url = register(run / 'inputs-object/cases' / name / 'occlusion/replay.html')
+            node.select_one('.case-head').insert_after(BeautifulSoup(
+                '<p class="muted"><a href="' + url + '">Synchronized occlusion replay</a></p>', 'html.parser'))
         for element in node.select('[src],[href]'):
             for attribute in ('src', 'href'):
                 value = element.get(attribute)
@@ -69,6 +94,8 @@ def publish(run: Path):
                     # unchanged full-frame PNGs in normalized crop packs.
                     if path.name == 'original_frame.png':
                         element['data-image-source'] = 'original'
+                        if name not in original_packs:
+                            originals[value] = base64.b64encode(path.read_bytes()).decode()
                     else:
                         images[value] = base64.b64encode(path.read_bytes()).decode()
                     element['data-image-path'] = value
@@ -83,6 +110,12 @@ def publish(run: Path):
             (ROOT / 'web-assets/object-image-packs' / filename).write_bytes(compressed)
             packs['image_packs'][name] = ('https://raw.githubusercontent.com/Wilsonnijc-bot/PDIBench_Segment_CAD/main/'
                                          'web-assets/object-image-packs/' + filename)
+        if originals:
+            compressed = gzip.compress(json.dumps(originals, separators=(',', ':')).encode(), mtime=0)
+            filename = sha(compressed) + '.json.gz'
+            (ROOT / 'web-assets/object-image-packs' / filename).write_bytes(compressed)
+            original_packs[name] = ('https://raw.githubusercontent.com/Wilsonnijc-bot/PDIBench_Segment_CAD/main/'
+                                    'web-assets/object-image-packs/' + filename)
         replacements[name.lower()] = str(node)
     def replace_section(match):
         name = BeautifulSoup(match.group(0), 'html.parser').section['data-name']
@@ -133,9 +166,13 @@ document.addEventListener('click',async event=>{
                                f'{stats["unscored_count"]} videos have no score.')
     for previous_note in summary.select('a[href="analysis/OBJECT_CROP_NORMALIZATION.html"]'):
         previous_note.find_parent('p').decompose()
+    report_name = 'OBJECT_CASE_INCLUSION' if expansion else 'OBJECT_CROP_NORMALIZATION'
+    for previous_note in summary.select('a[href="analysis/OBJECT_CASE_INCLUSION.html"]'):
+        previous_note.find_parent('p').decompose()
     note = BeautifulSoup('<p>Matched crop canvases preserve visible pixels and shapes while removing unequal transparent margins. '
                          f'Previous AUROC {comparison["baseline"]["binary_auroc"]:.3f} → current {stats["binary_auroc"]:.3f}. '
-                         '<a href="analysis/OBJECT_CROP_NORMALIZATION.html" target="_blank">Before/after score comparison</a></p>', 'html.parser')
+                         + ('All 42 cases are scored; only the three 0001 videos are excluded. The change reflects four added cases. ' if expansion else '')
+                         + f'<a href="analysis/{report_name}.html" target="_blank">Score history and exact case list</a></p>', 'html.parser')
     summary.append(note.p)
     assert gallery.count(str(old_summary)) == 1
     gallery = gallery.replace(str(old_summary), str(summary), 1)
@@ -152,24 +189,34 @@ document.addEventListener('click',async event=>{
     assert count == 1
     result_page = BeautifulSoup(gallery, 'html.parser')
     assert not result_page.select('img.original-frame')
-    assert len(result_page.select('a[data-image-path$="/original_frame.png"]')) == 440
+    assert len(result_page.select('a[data-image-path$="/original_frame.png"]')) == crop_count
     for old, new in zip(old_page.select('section.case'), result_page.select('section.case')):
         assert old['data-name'] == new['data-name']
-        assert [r.get_text() for r in old.select('.frame-title')] == [r.get_text() for r in new.select('.frame-title')]
+        if not (expansion and old['data-name'] == 'cosmos2.5_0021'):
+            assert [r.get_text() for r in old.select('.frame-title')] == [r.get_text() for r in new.select('.frame-title')]
+    gallery = re.sub(r'<p>\d+ scored pairs · \d+ scored videos · Higher scores mean more anomalous\.</p>',
+                     f'<p>{pair_count} scored pairs · {stats["scored_video_count"]} scored videos · Higher scores mean more anomalous.</p>', gallery)
     (out / 'objects/selection_gallery.html').write_text(gallery)
     packs['source_gallery'] = (run / 'crops/selection_gallery.html').relative_to(ROOT).as_posix()
     packs['crop_geometry'] = comparison['method']
     packs['original_image_packs'] = original_packs
     packs_path.write_text(json.dumps(packs, indent=2) + '\n')
     analysis = out / 'analysis'
+    if expansion:
+        historical_report = analysis / 'OBJECT_CROP_NORMALIZATION_REPORT.md'
+        if not historical_report.exists():
+            shutil.copy2(analysis / 'OBJECT_ANOMALY_REPORT.md', historical_report)
+            shutil.copy2(analysis / 'OBJECT_ANOMALY_STATISTICS.json', analysis / 'OBJECT_CROP_NORMALIZATION_STATISTICS.json')
+            previous = analysis / 'OBJECT_CROP_NORMALIZATION.html'
+            previous.write_text(previous.read_text().replace('OBJECT_ANOMALY_REPORT.md', 'OBJECT_CROP_NORMALIZATION_REPORT.md'))
     for filename in ('OBJECT_ANOMALY_REPORT.md', 'OBJECT_ANOMALY_STATISTICS.json'):
         shutil.copy2(run / 'metadata' / filename, analysis / filename)
-    shutil.copy2(run / 'metadata/comparison.json', analysis / 'OBJECT_CROP_NORMALIZATION.json')
+    shutil.copy2(run / 'metadata/comparison.json', analysis / (report_name + '.json'))
     report = (run / 'index.html').read_text()
     report = report.replace('crops/selection_gallery.html', '../objects/selection_gallery.html?v=' + run.name)
     report = report.replace('metadata/OBJECT_ANOMALY_REPORT.md', 'OBJECT_ANOMALY_REPORT.md')
-    report = report.replace('metadata/comparison.json', 'OBJECT_CROP_NORMALIZATION.json')
-    (analysis / 'OBJECT_CROP_NORMALIZATION.html').write_text(report)
+    report = report.replace('metadata/comparison.json', report_name + '.json')
+    (analysis / (report_name + '.html')).write_text(report)
     index_path = out / 'index.html'
     index = index_path.read_text()
     index, count = re.subn(r'src="objects/selection_gallery.html(?:\?[^\"]*)?"',
@@ -179,17 +226,45 @@ document.addEventListener('click',async event=>{
     assert index.count(heading) == 1
     note = '<p>Current crops use matched canvases with exact visible pixels preserved. <a href="analysis/OBJECT_CROP_NORMALIZATION.html">Compare AnomalyDINO before and after normalization</a>.</p>'
     index = index.replace(note, '')
-    index = index.replace(heading, heading + note)
+    new_note = ('<p>All 42 cases except the three 0001 videos are scored. '
+                '<a href="analysis/OBJECT_CASE_INCLUSION.html">Score history and newly included cases</a>. '
+                '<a href="analysis/OBJECT_CROP_NORMALIZATION.html">Earlier normalization comparison</a>.</p>') if expansion else note
+    index = index.replace(heading, heading + new_note)
     # Mask/occlusion/video outputs and every earlier manifest entry stay intact.
     old_occlusion = BeautifulSoup(index_path.read_text(), 'html.parser').select_one('#object-occlusion')
-    assert str(old_occlusion) == str(BeautifulSoup(index, 'html.parser').select_one('#object-occlusion'))
+    if expansion:
+        section = BeautifulSoup(str(old_occlusion), 'html.parser').section
+        info = json.loads((run / 'metadata/case0021_sync.json').read_text())['occlusion']
+        assert not any('COSMOS2.5_0021' in r.get_text() for r in section.select('tbody tr'))
+        url = register(run / 'inputs-object/cases/COSMOS2.5_0021/occlusion/replay.html')
+        section.select_one('tbody').append(BeautifulSoup(
+            f'<tr><td><a href="{url}">COSMOS2.5_0021</a></td><td>{info["flagged_frames"]} / {info["frame_count"]}</td>'
+            '<td>26–45, 53–92</td><td>0</td></tr>', 'html.parser').tr)
+        assert all(str(r) in str(section) for r in old_occlusion.select('tbody tr'))
+        index = index.replace(str(old_occlusion), str(section), 1)
+    else:
+        assert str(old_occlusion) == str(BeautifulSoup(index, 'html.parser').select_one('#object-occlusion'))
     index_path.write_text(index)
+    processed = set()
+    while queue:
+        source = queue.pop(0)
+        if source in processed:
+            continue
+        processed.add(source)
+        page = BeautifulSoup(source.read_text(), 'html.parser')
+        for element in page.select('[src],[href]'):
+            for attribute in ('src', 'href'):
+                value = element.get(attribute)
+                if value and not value.startswith(('http:', 'https:', '#', 'data:')):
+                    path = source.parent / value.split('#', 1)[0]
+                    assert path.is_file(), (source, value)
+                    register(path)
     for key, value in old_manifest['files'].items():
         assert manifest['files'][key] == value
     manifest['source_indexes'][(run / 'crops/selection_gallery.html').relative_to(ROOT).as_posix()] = sha((run / 'crops/selection_gallery.html').read_bytes())
     manifest_path.write_text(json.dumps(manifest, indent=2) + '\n')
-    writeout = {'case_count': 45, 'normalized_pairs': 440, 'scored_pairs': 380,
-                'frame_titles_unchanged': True, 'occlusion_section_unchanged': True,
+    writeout = {'case_count': 45, 'normalized_pairs': crop_count, 'scored_pairs': pair_count,
+                'existing_frame_titles_unchanged': True, 'existing_occlusion_rows_unchanged': True,
                 'prior_manifest_entries_unchanged': True, 'registered': registered,
                 'image_packs': packs['image_packs'], 'original_image_packs': original_packs}
     (run / 'metadata/publication.json').write_text(json.dumps(writeout, indent=2) + '\n')

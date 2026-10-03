@@ -6444,6 +6444,291 @@
       "sha256": "8137e5ce83523a27879f82c0d0ab404e64ca2cb1a80111c7385de4d7ed8f9c92",
       "bytes": 10504,
       "url": "assets/8137e5ce83523a27879f82c0d0ab404e64ca2cb1a80111c7385de4d7ed8f9c92.md"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS2.5_0001/selection.json": {
+      "sha256": "4c41cc634bde652ee228ef62c31d38526183eab9cc3ea2c10bb91d69c62038ca",
+      "bytes": 8082,
+      "url": "assets/4c41cc634bde652ee228ef62c31d38526183eab9cc3ea2c10bb91d69c62038ca.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS3_0001/selection.json": {
+      "sha256": "bcc98417425a7d6d31c46ff79dd6b433e1e9b59cfa34c5fb405ff38d516d53fe",
+      "bytes": 9328,
+      "url": "assets/bcc98417425a7d6d31c46ff79dd6b433e1e9b59cfa34c5fb405ff38d516d53fe.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/LVP_ROBOWM_0001/selection.json": {
+      "sha256": "c65dec120f4cf47a5860110609b613b63d94e3737e2bdd8592c24f93753a6dc6",
+      "bytes": 7546,
+      "url": "assets/c65dec120f4cf47a5860110609b613b63d94e3737e2bdd8592c24f93753a6dc6.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS2.5_0005/selection.json": {
+      "sha256": "19ab8c33dcd71e6a45fc123593860e1c40e27076e169cfc80620ee5f5b4337c3",
+      "bytes": 9617,
+      "url": "assets/19ab8c33dcd71e6a45fc123593860e1c40e27076e169cfc80620ee5f5b4337c3.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS3_0005/selection.json": {
+      "sha256": "947825fd63b3fb5fc11cd32ea77e5bc57547e22493657cda6d6736c35b6f60e2",
+      "bytes": 9469,
+      "url": "assets/947825fd63b3fb5fc11cd32ea77e5bc57547e22493657cda6d6736c35b6f60e2.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/LVP_ROBOWM_0005/selection.json": {
+      "sha256": "16e760f58c7a9cad5e32f18f17d0de192d7d58f645ca73a05be5ef67a495017b",
+      "bytes": 7827,
+      "url": "assets/16e760f58c7a9cad5e32f18f17d0de192d7d58f645ca73a05be5ef67a495017b.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS2.5_0010/selection.json": {
+      "sha256": "07913a21bc7740a146dcc87674b54ce2ca8866721444be1f364f65ba0ac7d597",
+      "bytes": 10312,
+      "url": "assets/07913a21bc7740a146dcc87674b54ce2ca8866721444be1f364f65ba0ac7d597.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS3_0010/selection.json": {
+      "sha256": "b9e8eddb6c763fcaf6532d8b593e486cde2d130b615f760143d356fb67bff3f1",
+      "bytes": 9681,
+      "url": "assets/b9e8eddb6c763fcaf6532d8b593e486cde2d130b615f760143d356fb67bff3f1.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/LVP_ROBOWM_0010/selection.json": {
+      "sha256": "8402706fac174b4a550337d2bebef967a378ed543a603f7febe6a58a3ac2cb9d",
+      "bytes": 9760,
+      "url": "assets/8402706fac174b4a550337d2bebef967a378ed543a603f7febe6a58a3ac2cb9d.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS2.5_0015/selection.json": {
+      "sha256": "28e68f7e99390e160eced5ebd30ea91e09f757d5f1d46623b3829515b16c0f84",
+      "bytes": 8671,
+      "url": "assets/28e68f7e99390e160eced5ebd30ea91e09f757d5f1d46623b3829515b16c0f84.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS3_0015/selection.json": {
+      "sha256": "d1c0890fb3ee41ca4acd98ec3633d5e8fea21fe527abeed90f2a6be2ec0f5d0d",
+      "bytes": 9929,
+      "url": "assets/d1c0890fb3ee41ca4acd98ec3633d5e8fea21fe527abeed90f2a6be2ec0f5d0d.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/LVP_ROBOWM_0015/selection.json": {
+      "sha256": "f805e6ab2bb6b6f2cafd580f4bf333e1eebce690c196b608b64c2b259e508b4f",
+      "bytes": 9615,
+      "url": "assets/f805e6ab2bb6b6f2cafd580f4bf333e1eebce690c196b608b64c2b259e508b4f.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/inputs-object/cases/COSMOS2.5_0021/occlusion/replay.html": {
+      "sha256": "f1f80e4187f93d623f839d3dcc1294204c841d0a3f78741e8816fef76aa3c22f",
+      "bytes": 1453598,
+      "url": "replay.html?asset=f1f80e4187f93d623f839d3dcc1294204c841d0a3f78741e8816fef76aa3c22f.html.gz"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS2.5_0021/selection.json": {
+      "sha256": "35ae50213a9abe539883d895062c836f19b460b1fdc9be50a45f59a781b3c2e1",
+      "bytes": 10485,
+      "url": "assets/35ae50213a9abe539883d895062c836f19b460b1fdc9be50a45f59a781b3c2e1.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS3_0021/selection.json": {
+      "sha256": "0238c7d895e483d0200fd8537ce53f2f9adc7172c1d75ba8b8c49604da95db6f",
+      "bytes": 9677,
+      "url": "assets/0238c7d895e483d0200fd8537ce53f2f9adc7172c1d75ba8b8c49604da95db6f.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/LVP_ROBOWM_0021/selection.json": {
+      "sha256": "2a0a07581c65658bc6c93a8c04c692fd80ecfa2e454aa02fc3ccb3c63d3d2e51",
+      "bytes": 7903,
+      "url": "assets/2a0a07581c65658bc6c93a8c04c692fd80ecfa2e454aa02fc3ccb3c63d3d2e51.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS2.5_0025/selection.json": {
+      "sha256": "eb5768e913b2443141ec2c0371cacba0bc561df8f273a990aa207a6ca7680ec5",
+      "bytes": 8416,
+      "url": "assets/eb5768e913b2443141ec2c0371cacba0bc561df8f273a990aa207a6ca7680ec5.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS3_0025/selection.json": {
+      "sha256": "c4c4cd4a5944d08dd2f83996d972130fa3364af2499413f7a6444cf42a8a1861",
+      "bytes": 10177,
+      "url": "assets/c4c4cd4a5944d08dd2f83996d972130fa3364af2499413f7a6444cf42a8a1861.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/LVP_ROBOWM_0025/selection.json": {
+      "sha256": "d53a69a39f93d8bc559cc94882a063016aad5264694fc3f5af19949e26e40005",
+      "bytes": 7891,
+      "url": "assets/d53a69a39f93d8bc559cc94882a063016aad5264694fc3f5af19949e26e40005.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS2.5_0030/selection.json": {
+      "sha256": "80649406c8ec11a086a1c13cd0ee0a32dd2b80e3f5655d35ae509e3ee8067891",
+      "bytes": 8423,
+      "url": "assets/80649406c8ec11a086a1c13cd0ee0a32dd2b80e3f5655d35ae509e3ee8067891.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS3_0030/selection.json": {
+      "sha256": "30c79542362d34b29928f5e9fbf8d77a684b2023ed471518d621bd9db4488d0d",
+      "bytes": 9680,
+      "url": "assets/30c79542362d34b29928f5e9fbf8d77a684b2023ed471518d621bd9db4488d0d.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/LVP_ROBOWM_0030/selection.json": {
+      "sha256": "ca2a5b9a9005091ab5df6cdb66a116be533e460ff1a8f3fb4bed2977691d4fb0",
+      "bytes": 8149,
+      "url": "assets/ca2a5b9a9005091ab5df6cdb66a116be533e460ff1a8f3fb4bed2977691d4fb0.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS2.5_0035/selection.json": {
+      "sha256": "a8db76ebda8a3a439529f30689587f75dfdab440ce60e519cc7a0c2fa0374a4a",
+      "bytes": 9151,
+      "url": "assets/a8db76ebda8a3a439529f30689587f75dfdab440ce60e519cc7a0c2fa0374a4a.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS3_0035/selection.json": {
+      "sha256": "654dd64fe07c484962f47b90aac3df65b0323f00051f48a0ff59593aa9e5f348",
+      "bytes": 9673,
+      "url": "assets/654dd64fe07c484962f47b90aac3df65b0323f00051f48a0ff59593aa9e5f348.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/LVP_ROBOWM_0035/selection.json": {
+      "sha256": "d8547d3e08ece3414ce21385db9be317d01adc53ee72655510d255b1247b5ae6",
+      "bytes": 7697,
+      "url": "assets/d8547d3e08ece3414ce21385db9be317d01adc53ee72655510d255b1247b5ae6.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS2.5_0040/selection.json": {
+      "sha256": "56047e1bad65336b614bd87386fe05166bd72ad61841c6b4ba518aae7db6b355",
+      "bytes": 8432,
+      "url": "assets/56047e1bad65336b614bd87386fe05166bd72ad61841c6b4ba518aae7db6b355.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS3_0040/selection.json": {
+      "sha256": "000a22e01fae46a91f1510a940e341da2662ce49cf4b0ab7469b436062dca8be",
+      "bytes": 9680,
+      "url": "assets/000a22e01fae46a91f1510a940e341da2662ce49cf4b0ab7469b436062dca8be.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/LVP_ROBOWM_0040/selection.json": {
+      "sha256": "6e7d0a520f6a6711847e21a294da45e5beab129797a8c3d7665968a1edbc50f5",
+      "bytes": 8153,
+      "url": "assets/6e7d0a520f6a6711847e21a294da45e5beab129797a8c3d7665968a1edbc50f5.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS2.5_0044/selection.json": {
+      "sha256": "8420d16efcdc2734e3fdf9e464f0e13a142ab0cefa4953d53defc29e80613924",
+      "bytes": 8589,
+      "url": "assets/8420d16efcdc2734e3fdf9e464f0e13a142ab0cefa4953d53defc29e80613924.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS3_0044/selection.json": {
+      "sha256": "50e653887f031e701b494e45d60538a3909aa87dc3473c299c14d0f03527d9bc",
+      "bytes": 9678,
+      "url": "assets/50e653887f031e701b494e45d60538a3909aa87dc3473c299c14d0f03527d9bc.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/LVP_ROBOWM_0044/selection.json": {
+      "sha256": "cde43c63e3edcf032bb5ebc17bf1006c14a9e8eb99faf6c0accf73687f2b2af8",
+      "bytes": 7904,
+      "url": "assets/cde43c63e3edcf032bb5ebc17bf1006c14a9e8eb99faf6c0accf73687f2b2af8.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS2.5_0046/selection.json": {
+      "sha256": "f98f4fdb0b10eac24c01f80ace0e8b96b0e52e6f991e39e56742bff44b8ecba5",
+      "bytes": 8591,
+      "url": "assets/f98f4fdb0b10eac24c01f80ace0e8b96b0e52e6f991e39e56742bff44b8ecba5.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS3_0046/selection.json": {
+      "sha256": "ab690ccebadb5128d23ba884bcc7093f7176b74db3f09da03c936f8d668afb45",
+      "bytes": 9681,
+      "url": "assets/ab690ccebadb5128d23ba884bcc7093f7176b74db3f09da03c936f8d668afb45.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/LVP_ROBOWM_0046/selection.json": {
+      "sha256": "c23c7a3c26b736a0953aca56b3d7c4e1f1efb9f39f5097ce15be619c2c6647de",
+      "bytes": 7901,
+      "url": "assets/c23c7a3c26b736a0953aca56b3d7c4e1f1efb9f39f5097ce15be619c2c6647de.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS2.5_0054/selection.json": {
+      "sha256": "fa037077b1b3334a09fd7c73471278860f43d36134c85631c27c891df70418b0",
+      "bytes": 8665,
+      "url": "assets/fa037077b1b3334a09fd7c73471278860f43d36134c85631c27c891df70418b0.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS3_0054/selection.json": {
+      "sha256": "7501a9ba8815a4ad1d12a5228c55aa5adea68f4db57b072404a16eeb2a9c7654",
+      "bytes": 9684,
+      "url": "assets/7501a9ba8815a4ad1d12a5228c55aa5adea68f4db57b072404a16eeb2a9c7654.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/LVP_ROBOWM_0054/selection.json": {
+      "sha256": "f9d9f96bf628ef39e923323f382aea9131002ef84ababd96ec1ad54e46f4a16d",
+      "bytes": 7721,
+      "url": "assets/f9d9f96bf628ef39e923323f382aea9131002ef84ababd96ec1ad54e46f4a16d.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS2.5_0056/selection.json": {
+      "sha256": "0bbe1b03ec7e6f886c7586c5a35b7c5e5c54d7a4bef4072cd6b38432e8971bd0",
+      "bytes": 10394,
+      "url": "assets/0bbe1b03ec7e6f886c7586c5a35b7c5e5c54d7a4bef4072cd6b38432e8971bd0.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS3_0056/selection.json": {
+      "sha256": "ff9c679e17a4cf9de2545e3b2b5ea045da3b065a1da54ea72328a7ba01edac86",
+      "bytes": 10093,
+      "url": "assets/ff9c679e17a4cf9de2545e3b2b5ea045da3b065a1da54ea72328a7ba01edac86.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/LVP_ROBOWM_0056/selection.json": {
+      "sha256": "df958c6eb67b5c3c484e1ed782814212b8825856ecbb817b6ea361979acac92d",
+      "bytes": 8334,
+      "url": "assets/df958c6eb67b5c3c484e1ed782814212b8825856ecbb817b6ea361979acac92d.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS2.5_0060/selection.json": {
+      "sha256": "c44b17423050a6764559753719368c8c1153a1ed3e0d1be8d2ae3008e95d6055",
+      "bytes": 8430,
+      "url": "assets/c44b17423050a6764559753719368c8c1153a1ed3e0d1be8d2ae3008e95d6055.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS3_0060/selection.json": {
+      "sha256": "c1a8c1401fc084bcdf5a8648667a08c068f6f4fd63b751d7e2bb0ecb01557463",
+      "bytes": 9682,
+      "url": "assets/c1a8c1401fc084bcdf5a8648667a08c068f6f4fd63b751d7e2bb0ecb01557463.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/LVP_ROBOWM_0060/selection.json": {
+      "sha256": "0d6d1f69e4cecfa9830cb43272931a644a422721e489427794b837dec3187dfb",
+      "bytes": 9376,
+      "url": "assets/0d6d1f69e4cecfa9830cb43272931a644a422721e489427794b837dec3187dfb.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS2.5_0065/selection.json": {
+      "sha256": "da25e897485e6fd0b5fd2cfd92bcb2ff0408351a0fe45d41ab212c5179e292cd",
+      "bytes": 10220,
+      "url": "assets/da25e897485e6fd0b5fd2cfd92bcb2ff0408351a0fe45d41ab212c5179e292cd.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/COSMOS3_0065/selection.json": {
+      "sha256": "4d4c5dac73f81ba1851f79fe46beeb4e864a6a080d46655f799c7492ada2b919",
+      "bytes": 9679,
+      "url": "assets/4d4c5dac73f81ba1851f79fe46beeb4e864a6a080d46655f799c7492ada2b919.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/LVP_ROBOWM_0065/selection.json": {
+      "sha256": "e09e12ffd602b2485714b55c6c2e5eeced2567eb2ce77dc0e0eaa0444a360b57",
+      "bytes": 7899,
+      "url": "assets/e09e12ffd602b2485714b55c6c2e5eeced2567eb2ce77dc0e0eaa0444a360b57.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/anomalydino_scores.json": {
+      "sha256": "d6453cedb56d97a26fb7d381b003dabb2708ef76baa0b23e5b34f621fa49a896",
+      "bytes": 310312,
+      "url": "assets/d6453cedb56d97a26fb7d381b003dabb2708ef76baa0b23e5b34f621fa49a896.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/anomalydino_videos.csv": {
+      "sha256": "c0671be73f30c720dd6ad2fee73a30f37ba6108e4f2139727a9e897bdface4a1",
+      "bytes": 2003,
+      "url": "assets/c0671be73f30c720dd6ad2fee73a30f37ba6108e4f2139727a9e897bdface4a1.csv"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/selection_index.json": {
+      "sha256": "b8affa96777118867a3b64609ac3ad1a1a2ec71a5dcbcce26a863b6df8ee0572",
+      "bytes": 413409,
+      "url": "assets/b8affa96777118867a3b64609ac3ad1a1a2ec71a5dcbcce26a863b6df8ee0572.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/crops/README.md": {
+      "sha256": "8137e5ce83523a27879f82c0d0ab404e64ca2cb1a80111c7385de4d7ed8f9c92",
+      "bytes": 10504,
+      "url": "assets/8137e5ce83523a27879f82c0d0ab404e64ca2cb1a80111c7385de4d7ed8f9c92.md"
+    },
+    "results/object-anomaly-all-except-0001-20261003/inputs-object/cases/COSMOS2.5_0021/replay/plotly.min.js": {
+      "sha256": "122e3be346d66616944d0b83eaaf7242581508c3c1cfa0995a17af0d83eff770",
+      "bytes": 4763993,
+      "url": "assets/122e3be346d66616944d0b83eaaf7242581508c3c1cfa0995a17af0d83eff770.js"
+    },
+    "results/object-anomaly-all-except-0001-20261003/inputs-object/occlusion/replay/index.html": {
+      "sha256": "f3287a8f0174976aafa3604378a4101f792134a3d4d0b7f005a39bdd5d0da6d5",
+      "bytes": 1264,
+      "url": "replay.html?asset=f3287a8f0174976aafa3604378a4101f792134a3d4d0b7f005a39bdd5d0da6d5.html.gz"
+    },
+    "results/object-anomaly-all-except-0001-20261003/inputs-object/cases/COSMOS2.5_0021/replay/task_object_exact-group.html": {
+      "sha256": "734fbd9dc0816006226b0bd681786f51a018d18a1bcda01f7507a87436e725fd",
+      "bytes": 8116822,
+      "url": "replay.html?asset=734fbd9dc0816006226b0bd681786f51a018d18a1bcda01f7507a87436e725fd.html.gz"
+    },
+    "results/object-anomaly-all-except-0001-20261003/inputs-object/cases/COSMOS2.5_0021/replay/source.mp4": {
+      "sha256": "add965fbd25aeed935f389d2721cfa5c815c58955ca8ac3824786a0291d0024f",
+      "bytes": 731500,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/selected-review-20261002/add965fbd25aeed935f389d2721cfa5c815c58955ca8ac3824786a0291d0024f.mp4"
+    },
+    "results/object-anomaly-all-except-0001-20261003/inputs-object/cases/COSMOS2.5_0021/occlusion/frames.csv": {
+      "sha256": "1daa773b6249c919d3a5806571382dd30503f7c64c0d2d055c32e8c80ad6f35b",
+      "bytes": 23456,
+      "url": "assets/1daa773b6249c919d3a5806571382dd30503f7c64c0d2d055c32e8c80ad6f35b.csv"
+    },
+    "results/object-anomaly-all-except-0001-20261003/inputs-object/cases/COSMOS2.5_0021/occlusion/detection.json": {
+      "sha256": "f77b0d623df6c0786e43af882f210225bf043b4cf94e78551112b1c703d265c4",
+      "bytes": 88092,
+      "url": "assets/f77b0d623df6c0786e43af882f210225bf043b4cf94e78551112b1c703d265c4.json"
+    },
+    "results/object-anomaly-all-except-0001-20261003/inputs-object/cases/COSMOS2.5_0021/replay/source.scrub.mp4": {
+      "sha256": "bc55f97fc8a4fb98f08fe326ecc420fcf32b0766eb542eea555e8c72e6156539",
+      "bytes": 35167901,
+      "url": "https://github.com/Wilsonnijc-bot/PDIBench_Segment_CAD/releases/download/object-anomaly-all-except-0001-20261003/bc55f97fc8a4fb98f08fe326ecc420fcf32b0766eb542eea555e8c72e6156539.mp4"
     }
   },
   "source_indexes": {
@@ -6453,7 +6738,8 @@
     "results/object-reference-crops-20261001/selection_gallery.html": "9590a6f4c6e644434dc163c774fab29f03287cbdd07fa42d45982e8b3ce67e91",
     "results/object-deformation-selected45-20260929/occlusion/replay/index.html": "8ac891c2abee22c3d8ed4f2e5e67b998728a695c05be2315cf5213534e5c57aa",
     "results/vlm3-seven-cases-20261003/crops/selection_gallery.html": "c33570c468688f91d3cbb670f9f0849f8a8287a5aa91e2302dc3947eaea4261c",
-    "results/paired-crop-normalization-20261003/crops/selection_gallery.html": "9cd98ca34f31917e52b767853eb3007c195d95802f17265aafae075e47d752a2"
+    "results/paired-crop-normalization-20261003/crops/selection_gallery.html": "9cd98ca34f31917e52b767853eb3007c195d95802f17265aafae075e47d752a2",
+    "results/object-anomaly-all-except-0001-20261003/crops/selection_gallery.html": "a7975827a7dcc591112cec26e3fb270e5399f8306f4b5316acecf5de12c9d39a"
   },
   "selection": {
     "selected45": [

@@ -1,57 +1,67 @@
-# AnomalyDINO with matched crop canvases
+# Object anomaly scores: all cases except the three 0001 videos
 
-Binary AUROC: **0.779720 → 0.779720**.
+Current binary AUROC: **0.795977**, using 12 deformed and 29 non-deformed videos.
 
-Controlled comparison: the same 380 selected pairs in 38 videos, the same model/checkpoint/settings, and the same revised labels and exclusions. Binary AUROC uses 37 videos (11 deformed, 26 non-deformed); one moderate label is omitted. No thresholds or parameters were fitted against these labels.
+All 42 requested videos are scored (420 pairs); one moderate label is omitted only from binary AUROC. The only exclusions are COSMOS2.5_0001, COSMOS3_0001 and LVP_ROBOWM_0001. No score is imputed or set to zero.
 
-The new inputs trim transparent margins, then use identical centered canvas sizes per pair. Every visible RGB/alpha pixel, silhouette and native pixel area is preserved exactly. There is no interpolation, warping, equal-area matching or physical-scale estimation. Existing frame-0 correspondence estimates are unchanged. Both images now receive the same DINO shorter-edge resize factor. Black alpha compositing, eight reference rotations and no PCA masking remain unchanged.
+| Stage | Scored videos | Binary AUROC |
+|---|---:|---:|
+| Original ten-frame scoring | 35 | 0.790514 |
+| Refresh COSMOS2.5_0056 on the original scored cohort | 35 | 0.802372 |
+| Add repaired LVP_ROBOWM_0010,0015,0060 | 38 | 0.779720 |
+| Matched-canvas normalization, same 38 videos | 38 | 0.779720 |
+| Include every case except the three 0001 videos | 42 | 0.795977 |
 
-Mean pair-score change: +0.002016; largest absolute pair-score change: 0.112511. A lower score is not itself evidence of improved anomaly detection. This is an evaluation on the existing selected dataset, not held-out validation.
+The original 0.790514 and later 0.779720 describe different scored cohorts. Refreshing COSMOS2.5_0056 alone gives 0.802372 on the old 35-video cohort; adding the three repaired LVP videos gives 0.779720 on 38 videos. Matched-canvas normalization leaves that 38-video AUROC unchanged. The new current value adds four videos, so it is a cohort expansion, not a controlled normalization-improvement claim.
 
-| Case | Label | Previous sum | Normalized sum | Change |
-|---|---:|---:|---:|---:|
-| COSMOS2.5_0001 | 0 | — | — | excluded_by_user |
-| COSMOS2.5_0005 | 1 | — | — | excluded_by_user |
-| COSMOS2.5_0010 | 0 | — | — | excluded_by_user |
-| COSMOS2.5_0015 | 0 | 5.273111 | 5.305735 | +0.032625 |
-| COSMOS2.5_0021 | 0 | — | — | unavailable_reference |
-| COSMOS2.5_0025 | 0 | 4.848323 | 5.005012 | +0.156689 |
-| COSMOS2.5_0030 | 0 | 5.876441 | 5.916475 | +0.040034 |
-| COSMOS2.5_0035 | 0 | 4.286703 | 4.365135 | +0.078432 |
-| COSMOS2.5_0040 | 1 | 4.999637 | 4.954908 | -0.044729 |
-| COSMOS2.5_0044 | 0 | 3.959054 | 3.940612 | -0.018442 |
-| COSMOS2.5_0046 | 0 | 4.374643 | 4.271148 | -0.103495 |
-| COSMOS2.5_0054 | 1 | 5.435957 | 5.586092 | +0.150135 |
-| COSMOS2.5_0056 | 1 | 5.378403 | 5.245839 | -0.132565 |
-| COSMOS2.5_0060 | 0 | 3.321624 | 3.391860 | +0.070235 |
-| COSMOS2.5_0065 | 0 | — | — | excluded_by_user |
-| COSMOS3_0001 | 0 | — | — | excluded_by_user |
-| COSMOS3_0005 | 0 | 4.907949 | 4.996481 | +0.088532 |
-| COSMOS3_0010 | 1 | 6.787095 | 6.465555 | -0.321540 |
-| COSMOS3_0015 | 1 | 4.310871 | 4.483101 | +0.172230 |
-| COSMOS3_0021 | 0 | 4.756233 | 4.651127 | -0.105106 |
-| COSMOS3_0025 | 0 | 4.208287 | 4.080461 | -0.127826 |
-| COSMOS3_0030 | 0.5 | 4.097289 | 4.131941 | +0.034652 |
-| COSMOS3_0035 | 0 | 4.487278 | 4.357846 | -0.129432 |
-| COSMOS3_0040 | 0 | 4.268938 | 4.474064 | +0.205126 |
-| COSMOS3_0044 | 0 | 3.977582 | 4.153672 | +0.176090 |
-| COSMOS3_0046 | 1 | 4.507823 | 4.510485 | +0.002662 |
-| COSMOS3_0054 | 0 | 2.615270 | 2.595174 | -0.020097 |
-| COSMOS3_0056 | 0 | 3.916096 | 3.826905 | -0.089191 |
-| COSMOS3_0060 | 0 | 4.208132 | 4.352711 | +0.144579 |
-| COSMOS3_0065 | 1 | 5.845632 | 5.936476 | +0.090845 |
-| LVP_ROBOWM_0001 | 0 | — | — | excluded_by_user |
-| LVP_ROBOWM_0005 | 1 | 4.581621 | 4.889268 | +0.307647 |
-| LVP_ROBOWM_0010 | 0 | 5.343803 | 5.513300 | +0.169497 |
-| LVP_ROBOWM_0015 | 0 | 3.940145 | 4.075227 | +0.135082 |
-| LVP_ROBOWM_0021 | 0 | 3.769806 | 3.804051 | +0.034244 |
-| LVP_ROBOWM_0025 | 0 | 3.843700 | 4.034555 | +0.190855 |
-| LVP_ROBOWM_0030 | 1 | 4.517562 | 4.644158 | +0.126596 |
-| LVP_ROBOWM_0035 | 0 | 4.084314 | 3.940649 | -0.143665 |
-| LVP_ROBOWM_0040 | 1 | 3.574843 | 3.558105 | -0.016738 |
-| LVP_ROBOWM_0044 | 0 | 3.301526 | 3.445367 | +0.143841 |
-| LVP_ROBOWM_0046 | 0 | 3.465355 | 3.448616 | -0.016739 |
-| LVP_ROBOWM_0054 | 0 | 4.894037 | 4.731437 | -0.162600 |
-| LVP_ROBOWM_0056 | 1 | 5.663350 | 5.417121 | -0.246229 |
-| LVP_ROBOWM_0060 | 0 | 5.185664 | 5.159581 | -0.026083 |
-| LVP_ROBOWM_0065 | 0 | 3.514031 | 3.434017 | -0.080014 |
+Newly included: COSMOS2.5_0005, COSMOS2.5_0010, COSMOS2.5_0065 and COSMOS2.5_0021. The first three already had valid normalized crop pairs. COSMOS2.5_0021 uses its hash-verified accepted VLM3 frame0 repair from the earlier GPU experiment; the default synchronized handoff refreshed occlusion detection, replay and V5 ten-frame crops. Its frame-0 reference now has zero link7 overlap. No new VLM points or mask inference were fabricated.
+
+Model/checkpoint/inference settings match the preceding normalized run. The 38 existing videos retain their exact crop files and scores. The 40 newly eligible pairs are scored using the same model. Visible pixels and contours are preserved through integer translation and shared-canvas padding; existing correspondence estimates remain estimated. No threshold or parameter was fitted against these labels.
+
+| Case | Label | Status | Pair count | Anomaly sum |
+|---|---:|---|---:|---:|
+| COSMOS2.5_0001 | 0 | excluded_by_user | 0 | — |
+| COSMOS2.5_0005 | 1 | newly included | 10 | 6.157103 |
+| COSMOS2.5_0010 | 0 | newly included | 10 | 4.419661 |
+| COSMOS2.5_0015 | 0 | scored | 10 | 5.305735 |
+| COSMOS2.5_0021 | 0 | newly included | 10 | 3.999616 |
+| COSMOS2.5_0025 | 0 | scored | 10 | 5.005012 |
+| COSMOS2.5_0030 | 0 | scored | 10 | 5.916475 |
+| COSMOS2.5_0035 | 0 | scored | 10 | 4.365135 |
+| COSMOS2.5_0040 | 1 | scored | 10 | 4.954908 |
+| COSMOS2.5_0044 | 0 | scored | 10 | 3.940612 |
+| COSMOS2.5_0046 | 0 | scored | 10 | 4.271148 |
+| COSMOS2.5_0054 | 1 | scored | 10 | 5.586092 |
+| COSMOS2.5_0056 | 1 | scored | 10 | 5.245839 |
+| COSMOS2.5_0060 | 0 | scored | 10 | 3.391860 |
+| COSMOS2.5_0065 | 0 | newly included | 10 | 5.001851 |
+| COSMOS3_0001 | 0 | excluded_by_user | 0 | — |
+| COSMOS3_0005 | 0 | scored | 10 | 4.996481 |
+| COSMOS3_0010 | 1 | scored | 10 | 6.465555 |
+| COSMOS3_0015 | 1 | scored | 10 | 4.483101 |
+| COSMOS3_0021 | 0 | scored | 10 | 4.651127 |
+| COSMOS3_0025 | 0 | scored | 10 | 4.080461 |
+| COSMOS3_0030 | 0.5 | scored | 10 | 4.131941 |
+| COSMOS3_0035 | 0 | scored | 10 | 4.357846 |
+| COSMOS3_0040 | 0 | scored | 10 | 4.474064 |
+| COSMOS3_0044 | 0 | scored | 10 | 4.153672 |
+| COSMOS3_0046 | 1 | scored | 10 | 4.510485 |
+| COSMOS3_0054 | 0 | scored | 10 | 2.595174 |
+| COSMOS3_0056 | 0 | scored | 10 | 3.826905 |
+| COSMOS3_0060 | 0 | scored | 10 | 4.352711 |
+| COSMOS3_0065 | 1 | scored | 10 | 5.936476 |
+| LVP_ROBOWM_0001 | 0 | excluded_by_user | 0 | — |
+| LVP_ROBOWM_0005 | 1 | scored | 10 | 4.889268 |
+| LVP_ROBOWM_0010 | 0 | scored | 10 | 5.513300 |
+| LVP_ROBOWM_0015 | 0 | scored | 10 | 4.075227 |
+| LVP_ROBOWM_0021 | 0 | scored | 10 | 3.804051 |
+| LVP_ROBOWM_0025 | 0 | scored | 10 | 4.034555 |
+| LVP_ROBOWM_0030 | 1 | scored | 10 | 4.644158 |
+| LVP_ROBOWM_0035 | 0 | scored | 10 | 3.940649 |
+| LVP_ROBOWM_0040 | 1 | scored | 10 | 3.558105 |
+| LVP_ROBOWM_0044 | 0 | scored | 10 | 3.445367 |
+| LVP_ROBOWM_0046 | 0 | scored | 10 | 3.448616 |
+| LVP_ROBOWM_0054 | 0 | scored | 10 | 4.731437 |
+| LVP_ROBOWM_0056 | 1 | scored | 10 | 5.417121 |
+| LVP_ROBOWM_0060 | 0 | scored | 10 | 5.159581 |
+| LVP_ROBOWM_0065 | 0 | scored | 10 | 3.434017 |

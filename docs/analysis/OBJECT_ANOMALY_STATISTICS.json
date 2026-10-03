@@ -1,33 +1,171 @@
 {
-  "binary_auroc": 0.7797202797202797,
-  "positive_count": 11,
-  "negative_count": 26,
+  "binary_auroc": 0.7959770114942529,
+  "positive_count": 12,
+  "negative_count": 29,
   "ambiguous_scored_count": 1,
-  "unscored_count": 7,
+  "unscored_count": 3,
   "partial_count": 0,
+  "scored_video_count": 42,
   "primary": {
-    "n": 38,
+    "n": 42,
     "pearson": {
-      "coefficient": 0.4274218672979956,
-      "p_two_sided": 0.007437959660640071
+      "coefficient": 0.4606907102272936,
+      "p_two_sided": 0.002139175216442588
     },
     "spearman": {
-      "coefficient": 0.4251958675031299,
-      "p_two_sided": 0.007787729911690245
+      "coefficient": 0.4478968370373555,
+      "p_two_sided": 0.0029354311393321652
     },
     "kendall_tau_b": {
-      "coefficient": 0.3504592663484903,
-      "p_two_sided": 0.009135633234429215
+      "coefficient": 0.3680469533549812,
+      "p_two_sided": 0.003943069148024233
     }
   },
   "label_column": "Object deformation (0/1)2",
   "label_cells": "Sheet1!AF2:AF46",
-  "score": "sum of ten unrounded paired-canvas AnomalyDINO scores",
+  "score": "sum of ten unrounded matched-canvas AnomalyDINO scores",
   "crop_geometry": "shared-canvas-native-pixels-v1",
+  "excluded_videos": [
+    "COSMOS2.5_0001",
+    "COSMOS3_0001",
+    "LVP_ROBOWM_0001"
+  ],
   "baseline_binary_auroc": 0.7797202797202797,
+  "history": [
+    {
+      "stage": "Original ten-frame scoring",
+      "scored_videos": 35,
+      "binary_auroc": 0.7905138339920948,
+      "positive_count": 11,
+      "negative_count": 23,
+      "ambiguous_scored_count": 1,
+      "unscored_count": 10,
+      "partial_count": 0,
+      "scored_video_count": 35,
+      "primary": {
+        "n": 35,
+        "pearson": {
+          "coefficient": 0.4515416578174572,
+          "p_two_sided": 0.006473205668253153
+        },
+        "spearman": {
+          "coefficient": 0.4546314273314334,
+          "p_two_sided": 0.006074057949771908
+        },
+        "kendall_tau_b": {
+          "coefficient": 0.37508721987088234,
+          "p_two_sided": 0.0074921906572205255
+        }
+      }
+    },
+    {
+      "stage": "Refresh COSMOS2.5_0056 on the original scored cohort",
+      "scored_videos": 35,
+      "binary_auroc": 0.8023715415019763,
+      "positive_count": 11,
+      "negative_count": 23,
+      "ambiguous_scored_count": 1,
+      "unscored_count": 10,
+      "partial_count": 0,
+      "scored_video_count": 35,
+      "primary": {
+        "n": 35,
+        "pearson": {
+          "coefficient": 0.4710312244673036,
+          "p_two_sided": 0.004290462251498918
+        },
+        "spearman": {
+          "coefficient": 0.47289786860814276,
+          "p_two_sided": 0.004119589013341325
+        },
+        "kendall_tau_b": {
+          "coefficient": 0.38960672515620676,
+          "p_two_sided": 0.005475328153176155
+        }
+      }
+    },
+    {
+      "stage": "Add repaired LVP_ROBOWM_0010,0015,0060",
+      "scored_videos": 38,
+      "binary_auroc": 0.7797202797202797,
+      "positive_count": 11,
+      "negative_count": 26,
+      "ambiguous_scored_count": 1,
+      "unscored_count": 7,
+      "partial_count": 0,
+      "scored_video_count": 38,
+      "primary": {
+        "n": 38,
+        "pearson": {
+          "coefficient": 0.42475841775395834,
+          "p_two_sided": 0.00785809964699298
+        },
+        "spearman": {
+          "coefficient": 0.4251958675031299,
+          "p_two_sided": 0.007787729911690245
+        },
+        "kendall_tau_b": {
+          "coefficient": 0.3504592663484903,
+          "p_two_sided": 0.009135633234429215
+        }
+      }
+    },
+    {
+      "stage": "Matched-canvas normalization, same 38 videos",
+      "scored_videos": 38,
+      "binary_auroc": 0.7797202797202797,
+      "positive_count": 11,
+      "negative_count": 26,
+      "ambiguous_scored_count": 1,
+      "unscored_count": 7,
+      "partial_count": 0,
+      "scored_video_count": 38,
+      "primary": {
+        "n": 38,
+        "pearson": {
+          "coefficient": 0.4274218672979956,
+          "p_two_sided": 0.007437959660640071
+        },
+        "spearman": {
+          "coefficient": 0.4251958675031299,
+          "p_two_sided": 0.007787729911690245
+        },
+        "kendall_tau_b": {
+          "coefficient": 0.3504592663484903,
+          "p_two_sided": 0.009135633234429215
+        }
+      }
+    },
+    {
+      "stage": "Include every case except the three 0001 videos",
+      "scored_videos": 42,
+      "binary_auroc": 0.7959770114942529,
+      "positive_count": 12,
+      "negative_count": 29,
+      "ambiguous_scored_count": 1,
+      "unscored_count": 3,
+      "partial_count": 0,
+      "scored_video_count": 42,
+      "primary": {
+        "n": 42,
+        "pearson": {
+          "coefficient": 0.4606907102272936,
+          "p_two_sided": 0.002139175216442588
+        },
+        "spearman": {
+          "coefficient": 0.4478968370373555,
+          "p_two_sided": 0.0029354311393321652
+        },
+        "kendall_tau_b": {
+          "coefficient": 0.3680469533549812,
+          "p_two_sided": 0.003943069148024233
+        }
+      }
+    }
+  ],
   "source_sha256": {
-    "results/paired-crop-normalization-20261003/metadata/baseline_scores.json": "00ff8fe31aadbf46c460e8c1e7b32160128e27154a3ad0510475aacc63149b25",
-    "results/paired-crop-normalization-20261003/crops/anomalydino_scores.json": "8a2a602d319878a3897c6659bb3a7f73cc316c20723fb4e4c6c2137239bee180",
+    "results/object-anomaly-all-except-0001-20261003/metadata/baseline_scores.json": "8a2a602d319878a3897c6659bb3a7f73cc316c20723fb4e4c6c2137239bee180",
+    "results/object-anomaly-all-except-0001-20261003/crops/anomalydino_scores.json": "d6453cedb56d97a26fb7d381b003dabb2708ef76baa0b23e5b34f621fa49a896",
     "selected_45_matched_videos_styledv2.xlsx": "f27b72b3e835f2ad85bdb17ec6f1ba81cba8b08bac73d73a66b6c8e174c8c0c5"
   }
 }

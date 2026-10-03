@@ -43,10 +43,11 @@
     "LVP_ROBOWM_0065": "https://raw.githubusercontent.com/Wilsonnijc-bot/PDIBench_Segment_CAD/main/web-assets/object-image-packs/cb649045341a9a3580b1d307aa8cc001bb9d6767c9d082d62693ca003d5c785e.json.gz",
     "LVP_ROBOWM_0010": "https://raw.githubusercontent.com/Wilsonnijc-bot/PDIBench_Segment_CAD/main/web-assets/object-image-packs/d89d09722506de68b1cc8ef5785584fd99eacfffbe2114f63de8684d8fd73d4d.json.gz",
     "LVP_ROBOWM_0015": "https://raw.githubusercontent.com/Wilsonnijc-bot/PDIBench_Segment_CAD/main/web-assets/object-image-packs/4aa6ba0304f147c33b2bf6918872cd947a80c77d963790107f61711faef03d05.json.gz",
-    "LVP_ROBOWM_0060": "https://raw.githubusercontent.com/Wilsonnijc-bot/PDIBench_Segment_CAD/main/web-assets/object-image-packs/21b4e82226d58c1a61ab63ab5a56eb6216f9f74e09e10b80e4467975cdc9c7b1.json.gz"
+    "LVP_ROBOWM_0060": "https://raw.githubusercontent.com/Wilsonnijc-bot/PDIBench_Segment_CAD/main/web-assets/object-image-packs/21b4e82226d58c1a61ab63ab5a56eb6216f9f74e09e10b80e4467975cdc9c7b1.json.gz",
+    "COSMOS2.5_0021": "https://raw.githubusercontent.com/Wilsonnijc-bot/PDIBench_Segment_CAD/main/web-assets/object-image-packs/092b047c2ff8205d9ccb002475899fb116d45a649d05ed351d14f76ea1ee9b06.json.gz"
   },
   "format": "gzip-compressed JSON mapping original relative image paths to exact base64 bytes",
-  "source_gallery": "results/paired-crop-normalization-20261003/crops/selection_gallery.html",
+  "source_gallery": "results/object-anomaly-all-except-0001-20261003/crops/selection_gallery.html",
   "case_updates": {
     "run": "vlm3-seven-cases-20261003",
     "cases": [
@@ -105,6 +106,7 @@
     "LVP_ROBOWM_0065": "https://raw.githubusercontent.com/Wilsonnijc-bot/PDIBench_Segment_CAD/main/web-assets/object-image-packs/8b1b38112ace0db8ee7d455bb2e59477d288ba083453087286f83796dc9f5a0c.json.gz",
     "LVP_ROBOWM_0010": "https://raw.githubusercontent.com/Wilsonnijc-bot/PDIBench_Segment_CAD/main/web-assets/object-image-packs/dda26201b8e6fc960e6d5cb2cbfb23054296a06b0c30d44400f1c3841afbcfa6.json.gz",
     "LVP_ROBOWM_0015": "https://raw.githubusercontent.com/Wilsonnijc-bot/PDIBench_Segment_CAD/main/web-assets/object-image-packs/24bb691775fc571765a7f53f95f1341571237c12898e0151b10d545460f945d2.json.gz",
-    "LVP_ROBOWM_0060": "https://raw.githubusercontent.com/Wilsonnijc-bot/PDIBench_Segment_CAD/main/web-assets/object-image-packs/56c52c108448d435b39de1a59c704adc6967b4a912eb8480370bdc047f957334.json.gz"
+    "LVP_ROBOWM_0060": "https://raw.githubusercontent.com/Wilsonnijc-bot/PDIBench_Segment_CAD/main/web-assets/object-image-packs/56c52c108448d435b39de1a59c704adc6967b4a912eb8480370bdc047f957334.json.gz",
+    "COSMOS2.5_0021": "https://raw.githubusercontent.com/Wilsonnijc-bot/PDIBench_Segment_CAD/main/web-assets/object-image-packs/86ade0742e96ba4526ca4f03cbdcd6e314c9f3e89153c18698485ce4c38576bb.json.gz"
   }
 }

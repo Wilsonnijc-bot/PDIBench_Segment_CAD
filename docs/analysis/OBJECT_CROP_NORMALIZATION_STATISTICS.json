@@ -1,0 +1,33 @@
+{
+  "binary_auroc": 0.7797202797202797,
+  "positive_count": 11,
+  "negative_count": 26,
+  "ambiguous_scored_count": 1,
+  "unscored_count": 7,
+  "partial_count": 0,
+  "primary": {
+    "n": 38,
+    "pearson": {
+      "coefficient": 0.4274218672979956,
+      "p_two_sided": 0.007437959660640071
+    },
+    "spearman": {
+      "coefficient": 0.4251958675031299,
+      "p_two_sided": 0.007787729911690245
+    },
+    "kendall_tau_b": {
+      "coefficient": 0.3504592663484903,
+      "p_two_sided": 0.009135633234429215
+    }
+  },
+  "label_column": "Object deformation (0/1)2",
+  "label_cells": "Sheet1!AF2:AF46",
+  "score": "sum of ten unrounded paired-canvas AnomalyDINO scores",
+  "crop_geometry": "shared-canvas-native-pixels-v1",
+  "baseline_binary_auroc": 0.7797202797202797,
+  "source_sha256": {
+    "results/paired-crop-normalization-20261003/metadata/baseline_scores.json": "00ff8fe31aadbf46c460e8c1e7b32160128e27154a3ad0510475aacc63149b25",
+    "results/paired-crop-normalization-20261003/crops/anomalydino_scores.json": "8a2a602d319878a3897c6659bb3a7f73cc316c20723fb4e4c6c2137239bee180",
+    "selected_45_matched_videos_styledv2.xlsx": "f27b72b3e835f2ad85bdb17ec6f1ba81cba8b08bac73d73a66b6c8e174c8c0c5"
+  }
+}
