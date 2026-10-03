@@ -1,0 +1,189 @@
+{
+  "decision": "PASS",
+  "original_points_xy": [
+    [
+      482,
+      69
+    ],
+    [
+      555,
+      69
+    ],
+    [
+      728,
+      44
+    ],
+    [
+      488,
+      35
+    ],
+    [
+      472,
+      72
+    ],
+    [
+      763,
+      83
+    ]
+  ],
+  "selected_points_xy": [
+    [
+      482,
+      69
+    ],
+    [
+      555,
+      69
+    ],
+    [
+      728,
+      44
+    ],
+    [
+      488,
+      35
+    ],
+    [
+      472,
+      72
+    ],
+    [
+      763,
+      83
+    ]
+  ],
+  "fallback_to_default": false,
+  "reviews": {
+    "negative": {
+      "decision": "PASS",
+      "original_points_xy": [
+        [
+          488,
+          35
+        ],
+        [
+          472,
+          72
+        ]
+      ],
+      "selected_points_xy": [
+        [
+          488,
+          35
+        ],
+        [
+          472,
+          72
+        ]
+      ],
+      "fallback_reason": null,
+      "reference_image": "link5_guard_negative_reference.png",
+      "current_image": "link5_guard_negative_current.png"
+    },
+    "positive": {
+      "decision": "PASS",
+      "original_points_xy": [
+        [
+          555,
+          69
+        ],
+        [
+          728,
+          44
+        ]
+      ],
+      "selected_points_xy": [
+        [
+          555,
+          69
+        ],
+        [
+          728,
+          44
+        ]
+      ],
+      "fallback_reason": null,
+      "reference_image": "link5_guard_positive_reference.png",
+      "current_image": "link5_guard_positive_current.png"
+    }
+  },
+  "attempts": [
+    {
+      "role": "link5_negative_guard",
+      "backend": "cloud_api",
+      "requested_model": "gemini-3.8-flash",
+      "system_prompt": "You review SAM3 point prompts for the robot's Link 5 forearm. Image 1 is a full-frame annotated example of ideal N1 and N2 placement; Image 2 is the current full frame with the proposed Link 5 box and N1 and N2. Both images show only these two red point markers. Reason carefully from the images, but return only the requested answer. Judge only the red negative points N1 and N2.",
+      "user_prompt": "Ideal Link 5 prompt: two red negative points lie INSIDE the adjacent left wrist housing, just outside the forearm's black edge. The wrist is the pale end-cap attached to the forearm, not the background, metal collar, or gripper.\nCheck ONLY N1 and N2 in Image 2 against Image 1: (1) are the centers of both points outside the forearm itself, including its black edge; (2) are the centers of both points on visible white wrist material rather than background? A point near the wrist silhouette still PASSES if its center is on wrist material. Do not reject merely because a point could be placed more centrally. If both checks pass for both points, reply with exactly PASS. Otherwise reply with exactly {\"decision\":\"REJECT\",\"negative_points_xy\":[[n1x,n1y],[n2x,n2y]]}, placing BOTH replacement points well inside the wrist. On REJECT, choose two clearly interior wrist points, not tiny edge nudges. Place N1 in the broad upper white wrist cap and N2 in the left white side housing, both LEFT of the black forearm rim; leave clear wrist material between each point and every outer silhouette or black forearm edge. Current N1=[488, 35], N2=[472, 72]. Coordinates are integer pixels of the FULL Image 2 frame before display enlargement, width=832, height=480; top-left is (0,0). If the anatomy is unclear, do not invent points; reply with exactly REJECT.",
+      "image_sha256": [
+        "b8418e8add02bddff3100530d38cbe00362c1f433a99c6a48270947c9f23789c",
+        "906c3546d3bb882c49848673e89f0d5e87774ba7d13eb930a74377bd0ea477f4"
+      ],
+      "id": "chatcmpl-20260930010722140825788268d9d6YbnHX0Wp",
+      "model": "gemini-3.8-flash",
+      "provider": null,
+      "status": null,
+      "usage": {
+        "prompt_tokens": 2621,
+        "completion_tokens": 1344,
+        "total_tokens": 3965,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "text_tokens": 2621,
+          "audio_tokens": 0,
+          "image_tokens": 0
+        },
+        "completion_tokens_details": {
+          "text_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 1343
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "input_tokens_details": null,
+        "claude_cache_creation_5_m_tokens": 0,
+        "claude_cache_creation_1_h_tokens": 0
+      },
+      "answer": "PASS"
+    },
+    {
+      "role": "link5_positive_guard",
+      "backend": "cloud_api",
+      "requested_model": "gemini-3.8-flash",
+      "system_prompt": "You review SAM3 point prompts for the robot's Link 5 forearm. Image 1 is a full-frame annotated example of ideal P2 and P3 placement; Image 2 is the current full frame with the proposed Link 5 box and P2 and P3. Both images show only these two green point markers. Reason carefully from the images, but return only the requested answer. Judge only the green positive points P2 and P3.",
+      "user_prompt": "Ideal Link 5 prompt: two green positive points lie INSIDE the white forearm link. P2 lies on the pale left inset enclosed by the black border; P3 lies on the right-hand white forearm panel, to the right of the black inset and left of the circular joint.\nCheck ONLY P2 and P3 in Image 2 against Image 1: (1) is P2's center on the visible pale inset rather than its black rim, wrist, or background; (2) is P3's center on the visible right-hand white panel rather than the black inset, dark joint rim, pale circular joint disk, or background? A point near a boundary still PASSES if its center is on the intended white link surface. Do not reject merely because a point could be placed more centrally. If both checks pass for both points, reply with exactly PASS. Otherwise reply with exactly {\"decision\":\"REJECT\",\"positive_points_xy\":[[p2x,p2y],[p3x,p3y]]}. Return both coordinates. Keep a valid point unchanged and move any invalid point clearly inside its intended white region, not a tiny edge nudge. Current P2=[555, 69], P3=[728, 44]. Coordinates are integer pixels of the FULL Image 2 frame before display enlargement, width=832, height=480; top-left is (0,0). If the anatomy is unclear, do not invent points; reply with exactly REJECT.",
+      "image_sha256": [
+        "4f99869d248dd4e89f7cc156773dbce9ec1722ce4546707cf04d31ed9a564604",
+        "c55d9bc1c7fdc165f0d796bddc73e6bfa883b490171f6a62d97e5bc9bec2465e"
+      ],
+      "id": "chatcmpl-20260930010807370273888268d9d6QJKSUbj6",
+      "model": "gemini-3.8-flash",
+      "provider": null,
+      "status": null,
+      "usage": {
+        "prompt_tokens": 2610,
+        "completion_tokens": 11308,
+        "total_tokens": 13918,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "text_tokens": 2610,
+          "audio_tokens": 0,
+          "image_tokens": 0
+        },
+        "completion_tokens_details": {
+          "text_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 11307
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "input_tokens_details": null,
+        "claude_cache_creation_5_m_tokens": 0,
+        "claude_cache_creation_1_h_tokens": 0
+      },
+      "answer": "PASS"
+    }
+  ],
+  "selected_image": "link5_guard_selected.png"
+}

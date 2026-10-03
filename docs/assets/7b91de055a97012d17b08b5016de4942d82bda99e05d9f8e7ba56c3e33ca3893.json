@@ -1,0 +1,331 @@
+{
+  "case": "LVP_ROBOWM_0054",
+  "method": "time-quintiles-with-post-occlusion-v3",
+  "target_count": 10,
+  "selected_count": 10,
+  "eligible_count": 29,
+  "shortfall": 0,
+  "status": "complete",
+  "ranking": "descending available_area within each time interval; earlier frame wins ties",
+  "interval_quotas": [
+    0,
+    2,
+    2,
+    2,
+    4
+  ],
+  "intervals": [
+    {
+      "interval": 1,
+      "percent_range": [
+        0,
+        20
+      ],
+      "start_frame": 0,
+      "end_frame_exclusive": 10,
+      "target_count": 0,
+      "eligible_count": 10,
+      "required_frames": [],
+      "area_ranked_frames": [
+        9,
+        7,
+        5,
+        2,
+        3,
+        4,
+        6,
+        8,
+        0,
+        1
+      ],
+      "unfilled_quota": 0,
+      "selected_count": 0
+    },
+    {
+      "interval": 2,
+      "percent_range": [
+        20,
+        40
+      ],
+      "start_frame": 10,
+      "end_frame_exclusive": 20,
+      "target_count": 2,
+      "eligible_count": 10,
+      "required_frames": [],
+      "area_ranked_frames": [
+        11,
+        10,
+        19,
+        18,
+        12,
+        13,
+        17,
+        15,
+        14,
+        16
+      ],
+      "unfilled_quota": 0,
+      "selected_count": 2
+    },
+    {
+      "interval": 3,
+      "percent_range": [
+        40,
+        60
+      ],
+      "start_frame": 20,
+      "end_frame_exclusive": 30,
+      "target_count": 2,
+      "eligible_count": 10,
+      "required_frames": [],
+      "area_ranked_frames": [
+        21,
+        20,
+        24,
+        22,
+        23,
+        25,
+        26,
+        29,
+        28,
+        27
+      ],
+      "unfilled_quota": 0,
+      "selected_count": 2
+    },
+    {
+      "interval": 4,
+      "percent_range": [
+        60,
+        80
+      ],
+      "start_frame": 30,
+      "end_frame_exclusive": 40,
+      "target_count": 2,
+      "eligible_count": 9,
+      "required_frames": [],
+      "area_ranked_frames": [
+        32,
+        31,
+        33,
+        36,
+        30,
+        34,
+        35,
+        37,
+        38
+      ],
+      "unfilled_quota": 0,
+      "selected_count": 6
+    },
+    {
+      "interval": 5,
+      "percent_range": [
+        80,
+        100
+      ],
+      "start_frame": 40,
+      "end_frame_exclusive": 49,
+      "target_count": 4,
+      "eligible_count": 0,
+      "required_frames": [],
+      "area_ranked_frames": [],
+      "unfilled_quota": 4,
+      "selected_count": 0
+    }
+  ],
+  "strict_bins": false,
+  "fallback_rule": "fill empty interval slots from latest available interval, excluding first 20%",
+  "eligibility": "valid mask, valid frame0 mapping, nonempty available and mapped masks",
+  "recovery_rule": "immediate unflagged, assessed, crop-valid successor of each flagged run",
+  "required_frames": [],
+  "selected_frames": [
+    {
+      "frame": 10,
+      "available_area": 690,
+      "interval": 2,
+      "percent_range": [
+        20,
+        40
+      ],
+      "video_position_percent": 20.408163265306122,
+      "interval_area_rank": 2,
+      "occlusion_flagged": false,
+      "reason": "largest_available_area_in_interval",
+      "crop_directory": "selected/frame_00010",
+      "anomalydino": {
+        "status": "scored",
+        "anomaly_score": 0.25016534626483916
+      }
+    },
+    {
+      "frame": 11,
+      "available_area": 707,
+      "interval": 2,
+      "percent_range": [
+        20,
+        40
+      ],
+      "video_position_percent": 22.448979591836736,
+      "interval_area_rank": 1,
+      "occlusion_flagged": false,
+      "reason": "largest_available_area_in_interval",
+      "crop_directory": "selected/frame_00011",
+      "anomalydino": {
+        "status": "scored",
+        "anomaly_score": 0.43172864615917206
+      }
+    },
+    {
+      "frame": 20,
+      "available_area": 609,
+      "interval": 3,
+      "percent_range": [
+        40,
+        60
+      ],
+      "video_position_percent": 40.816326530612244,
+      "interval_area_rank": 2,
+      "occlusion_flagged": false,
+      "reason": "largest_available_area_in_interval",
+      "crop_directory": "selected/frame_00020",
+      "anomalydino": {
+        "status": "scored",
+        "anomaly_score": 0.546299958229065
+      }
+    },
+    {
+      "frame": 21,
+      "available_area": 768,
+      "interval": 3,
+      "percent_range": [
+        40,
+        60
+      ],
+      "video_position_percent": 42.857142857142854,
+      "interval_area_rank": 1,
+      "occlusion_flagged": false,
+      "reason": "largest_available_area_in_interval",
+      "crop_directory": "selected/frame_00021",
+      "anomalydino": {
+        "status": "scored",
+        "anomaly_score": 0.6500657634301619
+      }
+    },
+    {
+      "frame": 30,
+      "available_area": 363,
+      "interval": 4,
+      "percent_range": [
+        60,
+        80
+      ],
+      "video_position_percent": 61.224489795918366,
+      "interval_area_rank": 5,
+      "occlusion_flagged": false,
+      "reason": "empty_interval_fallback",
+      "crop_directory": "selected/frame_00030",
+      "anomalydino": {
+        "status": "scored",
+        "anomaly_score": 0.5309761762619019
+      }
+    },
+    {
+      "frame": 31,
+      "available_area": 372,
+      "interval": 4,
+      "percent_range": [
+        60,
+        80
+      ],
+      "video_position_percent": 63.265306122448976,
+      "interval_area_rank": 2,
+      "occlusion_flagged": false,
+      "reason": "largest_available_area_in_interval",
+      "crop_directory": "selected/frame_00031",
+      "anomalydino": {
+        "status": "scored",
+        "anomaly_score": 0.5183386098254811
+      }
+    },
+    {
+      "frame": 32,
+      "available_area": 377,
+      "interval": 4,
+      "percent_range": [
+        60,
+        80
+      ],
+      "video_position_percent": 65.3061224489796,
+      "interval_area_rank": 1,
+      "occlusion_flagged": false,
+      "reason": "largest_available_area_in_interval",
+      "crop_directory": "selected/frame_00032",
+      "anomalydino": {
+        "status": "scored",
+        "anomaly_score": 0.5202249722047285
+      }
+    },
+    {
+      "frame": 33,
+      "available_area": 369,
+      "interval": 4,
+      "percent_range": [
+        60,
+        80
+      ],
+      "video_position_percent": 67.34693877551021,
+      "interval_area_rank": 3,
+      "occlusion_flagged": false,
+      "reason": "empty_interval_fallback",
+      "crop_directory": "selected/frame_00033",
+      "anomalydino": {
+        "status": "scored",
+        "anomaly_score": 0.5029418793591586
+      }
+    },
+    {
+      "frame": 34,
+      "available_area": 361,
+      "interval": 4,
+      "percent_range": [
+        60,
+        80
+      ],
+      "video_position_percent": 69.38775510204081,
+      "interval_area_rank": 6,
+      "occlusion_flagged": false,
+      "reason": "empty_interval_fallback",
+      "crop_directory": "selected/frame_00034",
+      "anomalydino": {
+        "status": "scored",
+        "anomaly_score": 0.5008891902186654
+      }
+    },
+    {
+      "frame": 36,
+      "available_area": 367,
+      "interval": 4,
+      "percent_range": [
+        60,
+        80
+      ],
+      "video_position_percent": 73.46938775510205,
+      "interval_area_rank": 4,
+      "occlusion_flagged": false,
+      "reason": "empty_interval_fallback",
+      "crop_directory": "selected/frame_00036",
+      "anomalydino": {
+        "status": "scored",
+        "anomaly_score": 0.442406103014946
+      }
+    }
+  ],
+  "occlusion_episodes": [],
+  "unsatisfied_recovery_count": 0,
+  "crop_manifest_sha256": "aeeaf7a2c035718d6021af4c6f2e003da0907eccd584bf5d0c283661b0159657",
+  "occlusion_detection_sha256": "8a787db1915bda8807f903ed0ff0afc4ecc4eee2c71b14470ca96bf06c21a1e5",
+  "anomalydino_status": "scored",
+  "anomalydino_sum": 4.89403664496812,
+  "anomalydino_pair_count": 10
+}

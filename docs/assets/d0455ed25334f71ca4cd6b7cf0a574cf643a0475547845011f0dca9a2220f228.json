@@ -1,0 +1,347 @@
+{
+  "case": "COSMOS2.5_0010",
+  "method": "time-quintiles-with-post-occlusion-v3",
+  "target_count": 10,
+  "selected_count": 10,
+  "eligible_count": 38,
+  "shortfall": 0,
+  "status": "incomplete",
+  "ranking": "descending available_area within each time interval; earlier frame wins ties",
+  "interval_quotas": [
+    0,
+    2,
+    2,
+    2,
+    4
+  ],
+  "intervals": [
+    {
+      "interval": 1,
+      "percent_range": [
+        0,
+        20
+      ],
+      "start_frame": 0,
+      "end_frame_exclusive": 19,
+      "target_count": 0,
+      "eligible_count": 17,
+      "required_frames": [],
+      "area_ranked_frames": [
+        1,
+        3,
+        4,
+        0,
+        5,
+        9,
+        8,
+        2,
+        7,
+        6,
+        10,
+        11,
+        12,
+        17,
+        16,
+        18,
+        13
+      ],
+      "unfilled_quota": 0,
+      "selected_count": 0
+    },
+    {
+      "interval": 2,
+      "percent_range": [
+        20,
+        40
+      ],
+      "start_frame": 19,
+      "end_frame_exclusive": 38,
+      "target_count": 2,
+      "eligible_count": 9,
+      "required_frames": [],
+      "area_ranked_frames": [
+        19,
+        26,
+        20,
+        22,
+        36,
+        23,
+        25,
+        21,
+        24
+      ],
+      "unfilled_quota": 0,
+      "selected_count": 2
+    },
+    {
+      "interval": 3,
+      "percent_range": [
+        40,
+        60
+      ],
+      "start_frame": 38,
+      "end_frame_exclusive": 56,
+      "target_count": 2,
+      "eligible_count": 16,
+      "required_frames": [],
+      "area_ranked_frames": [
+        53,
+        51,
+        55,
+        48,
+        52,
+        54,
+        49,
+        50,
+        38,
+        44,
+        39,
+        47,
+        41,
+        45,
+        43,
+        46
+      ],
+      "unfilled_quota": 0,
+      "selected_count": 2
+    },
+    {
+      "interval": 4,
+      "percent_range": [
+        60,
+        80
+      ],
+      "start_frame": 56,
+      "end_frame_exclusive": 75,
+      "target_count": 2,
+      "eligible_count": 11,
+      "required_frames": [],
+      "area_ranked_frames": [
+        57,
+        56,
+        58,
+        61,
+        66,
+        64,
+        63,
+        65,
+        62,
+        60,
+        59
+      ],
+      "unfilled_quota": 0,
+      "selected_count": 4
+    },
+    {
+      "interval": 5,
+      "percent_range": [
+        80,
+        100
+      ],
+      "start_frame": 75,
+      "end_frame_exclusive": 93,
+      "target_count": 4,
+      "eligible_count": 2,
+      "required_frames": [],
+      "area_ranked_frames": [
+        86,
+        82
+      ],
+      "unfilled_quota": 2,
+      "selected_count": 2
+    }
+  ],
+  "strict_bins": false,
+  "fallback_rule": "fill empty interval slots from latest available interval, excluding first 20%",
+  "eligibility": "valid mask, valid frame0 mapping, nonempty available and mapped masks",
+  "recovery_rule": "immediate unflagged, assessed, crop-valid successor of each flagged run",
+  "required_frames": [],
+  "selected_frames": [
+    {
+      "frame": 19,
+      "available_area": 5,
+      "interval": 2,
+      "percent_range": [
+        20,
+        40
+      ],
+      "video_position_percent": 20.43010752688172,
+      "interval_area_rank": 1,
+      "occlusion_flagged": true,
+      "reason": "largest_available_area_in_interval",
+      "crop_directory": "selected/frame_00019",
+      "anomalydino": {
+        "status": "excluded_by_user"
+      }
+    },
+    {
+      "frame": 26,
+      "available_area": 4,
+      "interval": 2,
+      "percent_range": [
+        20,
+        40
+      ],
+      "video_position_percent": 27.956989247311828,
+      "interval_area_rank": 2,
+      "occlusion_flagged": true,
+      "reason": "largest_available_area_in_interval",
+      "crop_directory": "selected/frame_00026",
+      "anomalydino": {
+        "status": "excluded_by_user"
+      }
+    },
+    {
+      "frame": 51,
+      "available_area": 75,
+      "interval": 3,
+      "percent_range": [
+        40,
+        60
+      ],
+      "video_position_percent": 54.83870967741935,
+      "interval_area_rank": 2,
+      "occlusion_flagged": true,
+      "reason": "largest_available_area_in_interval",
+      "crop_directory": "selected/frame_00051",
+      "anomalydino": {
+        "status": "excluded_by_user"
+      }
+    },
+    {
+      "frame": 53,
+      "available_area": 89,
+      "interval": 3,
+      "percent_range": [
+        40,
+        60
+      ],
+      "video_position_percent": 56.98924731182796,
+      "interval_area_rank": 1,
+      "occlusion_flagged": true,
+      "reason": "largest_available_area_in_interval",
+      "crop_directory": "selected/frame_00053",
+      "anomalydino": {
+        "status": "excluded_by_user"
+      }
+    },
+    {
+      "frame": 56,
+      "available_area": 50,
+      "interval": 4,
+      "percent_range": [
+        60,
+        80
+      ],
+      "video_position_percent": 60.215053763440864,
+      "interval_area_rank": 2,
+      "occlusion_flagged": true,
+      "reason": "largest_available_area_in_interval",
+      "crop_directory": "selected/frame_00056",
+      "anomalydino": {
+        "status": "excluded_by_user"
+      }
+    },
+    {
+      "frame": 57,
+      "available_area": 58,
+      "interval": 4,
+      "percent_range": [
+        60,
+        80
+      ],
+      "video_position_percent": 61.29032258064516,
+      "interval_area_rank": 1,
+      "occlusion_flagged": true,
+      "reason": "largest_available_area_in_interval",
+      "crop_directory": "selected/frame_00057",
+      "anomalydino": {
+        "status": "excluded_by_user"
+      }
+    },
+    {
+      "frame": 58,
+      "available_area": 38,
+      "interval": 4,
+      "percent_range": [
+        60,
+        80
+      ],
+      "video_position_percent": 62.365591397849464,
+      "interval_area_rank": 3,
+      "occlusion_flagged": true,
+      "reason": "empty_interval_fallback",
+      "crop_directory": "selected/frame_00058",
+      "anomalydino": {
+        "status": "excluded_by_user"
+      }
+    },
+    {
+      "frame": 61,
+      "available_area": 25,
+      "interval": 4,
+      "percent_range": [
+        60,
+        80
+      ],
+      "video_position_percent": 65.59139784946237,
+      "interval_area_rank": 4,
+      "occlusion_flagged": true,
+      "reason": "empty_interval_fallback",
+      "crop_directory": "selected/frame_00061",
+      "anomalydino": {
+        "status": "excluded_by_user"
+      }
+    },
+    {
+      "frame": 82,
+      "available_area": 22,
+      "interval": 5,
+      "percent_range": [
+        80,
+        100
+      ],
+      "video_position_percent": 88.17204301075269,
+      "interval_area_rank": 2,
+      "occlusion_flagged": true,
+      "reason": "largest_available_area_in_interval",
+      "crop_directory": "selected/frame_00082",
+      "anomalydino": {
+        "status": "excluded_by_user"
+      }
+    },
+    {
+      "frame": 86,
+      "available_area": 43,
+      "interval": 5,
+      "percent_range": [
+        80,
+        100
+      ],
+      "video_position_percent": 92.47311827956989,
+      "interval_area_rank": 1,
+      "occlusion_flagged": false,
+      "reason": "largest_available_area_in_interval",
+      "crop_directory": "selected/frame_00086",
+      "anomalydino": {
+        "status": "excluded_by_user"
+      }
+    }
+  ],
+  "occlusion_episodes": [
+    {
+      "start_frame": 12,
+      "last_occluded_frame": 82,
+      "immediate_successor_frame": 83,
+      "status": "successor_not_assessable",
+      "successor_detection_status": "insufficient_support",
+      "successor_mapping_status": "low_full_object_coverage"
+    }
+  ],
+  "unsatisfied_recovery_count": 1,
+  "crop_manifest_sha256": "d4bdc6b010011af8be4b527f8577ab8f16d92e6c82fb5677ea466b0fc0ce9b7e",
+  "occlusion_detection_sha256": "d58ebb30ab3e58d9832f32a1db1b22fbfdcd1fd362faebda1fe4b4d0a7374637",
+  "anomalydino_status": "excluded_by_user",
+  "anomalydino_sum": null,
+  "anomalydino_pair_count": 0
+}

@@ -1,0 +1,151 @@
+{
+  "vlm1_initial_frame": 20,
+  "earliest_deformed_frame": 25,
+  "vlm2_reseed_frame": 26,
+  "source_video": "/root/autodl-tmp/pdi/experiments/v1-v2-persistent-10-20260923/selected-45-v1/source_video_links/1irS6zoWSykw64DuaiwxyUVHdIffEo3Oa/0010.mp4",
+  "invariant": "vlm2_reseed_frame == selected_deformed_frame + 1; both VLM2 and SAM3 use this frame",
+  "fallback_rank": 0,
+  "points": [
+    [
+      227.13600000000002,
+      182.4
+    ],
+    [
+      243.77599999999998,
+      184.32
+    ],
+    [
+      234.62399999999997,
+      156.0
+    ],
+    [
+      407.68,
+      82.55999999999999
+    ],
+    [
+      228.8,
+      24.0
+    ]
+  ],
+  "labels": [
+    1,
+    1,
+    1,
+    0,
+    0
+  ],
+  "frame": 26,
+  "video": "/root/autodl-tmp/pdi/experiments/v1-v2-persistent-10-20260923/selected-45-v1/source_video_links/1irS6zoWSykw64DuaiwxyUVHdIffEo3Oa/0010.mp4",
+  "source_hw": [
+    480,
+    832
+  ],
+  "positive_count": 3,
+  "status": "ready",
+  "positive_points": [
+    [
+      273,
+      380
+    ],
+    [
+      293,
+      384
+    ],
+    [
+      282,
+      325
+    ]
+  ],
+  "negative_points": [
+    [
+      490,
+      172
+    ],
+    [
+      275,
+      50
+    ]
+  ],
+  "calls": [
+    {
+      "role": "positive_points",
+      "backend": "cloud_api",
+      "requested_model": "gemini-3.8-flash",
+      "system_prompt": "You are a SAM3 prompting expert. Your objective is to help SAM3\nmask the entire gripper correctly, starting from Image 1, the source-video frame\non which SAM3 will be seeded. Images 2,\n3, and 4 are annotated point-placement references. Inspect the images at original\ndetail, follow the requested anatomical roles exactly, and return only the JSON\nschema requested by the user task. Coordinates are integer x,y values normalized\nto 0 through 1000 relative to Image 1. Never infer points on invisible material.",
+      "user_prompt": "Place three positive SAM points. Return exactly THREE points in this order:\n(1) FIRST DARK POINT, strictly inside lower dark/black gripper material below the\nwhite palm and shiny collar, toward the hanging fingers; choose a broad interior\nand avoid rim, forearm trim, collar, wrist, white palm, background, thin outlines,\nand held objects. (2) SECOND DARK POINT, strictly inside a different, clearly\nspatially separated lower dark/black material region, with the same exclusions.\n(3) WHITE PALM POINT, at the center of the hanging WHITE gripper block below the\nshiny collar, away from collar, dark rim, fingers, wrist, held object, background,\nand boundaries. Return only JSON\n{\"positive_points\":[[dark1_x,dark1_y],[dark2_x,dark2_y],[white_x,white_y]]}.\nIf any required location is not visible, return {\"positive_points\":null}.",
+      "image_sha256": [
+        "427cab14445fccc9773fdb0ba8273c09a32e5fd7a1a25639da7580e9a7b82d4e",
+        "1acf2875be1f7faed7c666b3ef94df952dd370ad48ff2f0895e73a437004996b",
+        "0e47f546f96650f62e0ebeca9583907e76f4980ea82108d0480554cf19136fde",
+        "b4d745558fd4e73c93ff4dce4919e97e0600b61082b9b16b49894f23c9b47b6a"
+      ],
+      "id": "chatcmpl-202609250439393703446388268d9d6NisNphmq",
+      "model": "gemini-3.8-flash",
+      "provider": null,
+      "status": null,
+      "usage": {
+        "prompt_tokens": 4670,
+        "completion_tokens": 3500,
+        "total_tokens": 8170,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "text_tokens": 4670,
+          "audio_tokens": 0,
+          "image_tokens": 0
+        },
+        "completion_tokens_details": {
+          "text_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 3469
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "input_tokens_details": null,
+        "claude_cache_creation_5_m_tokens": 0,
+        "claude_cache_creation_1_h_tokens": 0
+      },
+      "answer": "{\"positive_points\":[[273,380],[293,384],[282,325]]}"
+    },
+    {
+      "role": "negative_points",
+      "backend": "cloud_api",
+      "requested_model": "gemini-3.8-flash",
+      "system_prompt": "You are a SAM3 prompting expert. Your objective is to help SAM3\nmask the entire gripper correctly, starting from Image 1, the source-video frame\non which SAM3 will be seeded. Images 2,\n3, and 4 are annotated point-placement references. Inspect the images at original\ndetail, follow the requested anatomical roles exactly, and return only the JSON\nschema requested by the user task. Coordinates are integer x,y values normalized\nto 0 through 1000 relative to Image 1. Never infer points on invisible material.",
+      "user_prompt": "Place two exclusion points for SAM. Return exactly TWO points in this order:\n(1) ARM NEGATIVE, well inside the long forearm link with black rim and white inset,\nbetween elbow and terminal wrist housing, in its elbow-side half; exclude outlines,\njoints, gripper, held object, and background. (2) WRIST NEGATIVE, well inside the\nwhite upright end-cap at the gripper-side end of the black-rimmed forearm, on its\nupper white surface near the dark top cap; exclude outlines, joints, gripper, held\nobject, and background. Return only JSON\n{\"negative_points\":[[arm_x,arm_y],[wrist_x,wrist_y]]}. If either location is\nnot identifiable, return {\"negative_points\":null}.",
+      "image_sha256": [
+        "427cab14445fccc9773fdb0ba8273c09a32e5fd7a1a25639da7580e9a7b82d4e",
+        "1acf2875be1f7faed7c666b3ef94df952dd370ad48ff2f0895e73a437004996b",
+        "0e47f546f96650f62e0ebeca9583907e76f4980ea82108d0480554cf19136fde",
+        "b4d745558fd4e73c93ff4dce4919e97e0600b61082b9b16b49894f23c9b47b6a"
+      ],
+      "id": "chatcmpl-202609250442209645874648268d9d6lkNTABp4",
+      "model": "gemini-3.8-flash",
+      "provider": null,
+      "status": null,
+      "usage": {
+        "prompt_tokens": 4632,
+        "completion_tokens": 4792,
+        "total_tokens": 9424,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "text_tokens": 4632,
+          "audio_tokens": 0,
+          "image_tokens": 0
+        },
+        "completion_tokens_details": {
+          "text_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 4762
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "input_tokens_details": null,
+        "claude_cache_creation_5_m_tokens": 0,
+        "claude_cache_creation_1_h_tokens": 0
+      },
+      "answer": "```json\n{\"negative_points\": [[490, 172], [275, 50]]}\n```"
+    }
+  ]
+}

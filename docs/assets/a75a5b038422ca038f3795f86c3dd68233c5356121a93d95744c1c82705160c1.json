@@ -1,0 +1,482 @@
+{
+  "case": "COSMOS3_0035",
+  "method": "time-quintiles-with-post-occlusion-v3",
+  "target_count": 10,
+  "selected_count": 10,
+  "eligible_count": 151,
+  "shortfall": 0,
+  "status": "complete",
+  "ranking": "descending available_area within each time interval; earlier frame wins ties",
+  "interval_quotas": [
+    0,
+    2,
+    2,
+    2,
+    4
+  ],
+  "intervals": [
+    {
+      "interval": 1,
+      "percent_range": [
+        0,
+        20
+      ],
+      "start_frame": 0,
+      "end_frame_exclusive": 38,
+      "target_count": 0,
+      "eligible_count": 38,
+      "required_frames": [],
+      "area_ranked_frames": [
+        0,
+        28,
+        30,
+        4,
+        5,
+        26,
+        27,
+        18,
+        34,
+        37,
+        3,
+        20,
+        33,
+        2,
+        6,
+        8,
+        19,
+        35,
+        7,
+        29,
+        9,
+        10,
+        11,
+        12,
+        17,
+        22,
+        31,
+        36,
+        21,
+        24,
+        13,
+        15,
+        16,
+        25,
+        14,
+        1,
+        23,
+        32
+      ],
+      "unfilled_quota": 0,
+      "selected_count": 0
+    },
+    {
+      "interval": 2,
+      "percent_range": [
+        20,
+        40
+      ],
+      "start_frame": 38,
+      "end_frame_exclusive": 76,
+      "target_count": 2,
+      "eligible_count": 38,
+      "required_frames": [],
+      "area_ranked_frames": [
+        63,
+        62,
+        61,
+        65,
+        74,
+        69,
+        70,
+        59,
+        67,
+        72,
+        52,
+        57,
+        64,
+        68,
+        71,
+        60,
+        66,
+        73,
+        58,
+        56,
+        51,
+        53,
+        54,
+        49,
+        55,
+        50,
+        75,
+        47,
+        48,
+        40,
+        38,
+        39,
+        41,
+        44,
+        43,
+        46,
+        42,
+        45
+      ],
+      "unfilled_quota": 0,
+      "selected_count": 2
+    },
+    {
+      "interval": 3,
+      "percent_range": [
+        40,
+        60
+      ],
+      "start_frame": 76,
+      "end_frame_exclusive": 114,
+      "target_count": 2,
+      "eligible_count": 38,
+      "required_frames": [],
+      "area_ranked_frames": [
+        106,
+        107,
+        110,
+        108,
+        109,
+        105,
+        112,
+        111,
+        104,
+        103,
+        113,
+        93,
+        94,
+        96,
+        95,
+        102,
+        97,
+        92,
+        91,
+        88,
+        76,
+        86,
+        98,
+        79,
+        87,
+        89,
+        77,
+        90,
+        80,
+        81,
+        82,
+        85,
+        78,
+        83,
+        84,
+        101,
+        99,
+        100
+      ],
+      "unfilled_quota": 0,
+      "selected_count": 2
+    },
+    {
+      "interval": 4,
+      "percent_range": [
+        60,
+        80
+      ],
+      "start_frame": 114,
+      "end_frame_exclusive": 152,
+      "target_count": 2,
+      "eligible_count": 38,
+      "required_frames": [],
+      "area_ranked_frames": [
+        114,
+        115,
+        116,
+        142,
+        143,
+        129,
+        130,
+        132,
+        134,
+        131,
+        133,
+        128,
+        117,
+        135,
+        136,
+        149,
+        127,
+        148,
+        151,
+        145,
+        146,
+        150,
+        138,
+        147,
+        141,
+        137,
+        139,
+        144,
+        140,
+        124,
+        120,
+        118,
+        126,
+        119,
+        121,
+        125,
+        123,
+        122
+      ],
+      "unfilled_quota": 0,
+      "selected_count": 2
+    },
+    {
+      "interval": 5,
+      "percent_range": [
+        80,
+        100
+      ],
+      "start_frame": 152,
+      "end_frame_exclusive": 189,
+      "target_count": 4,
+      "eligible_count": 37,
+      "required_frames": [],
+      "area_ranked_frames": [
+        174,
+        175,
+        176,
+        172,
+        173,
+        177,
+        171,
+        169,
+        178,
+        168,
+        170,
+        179,
+        180,
+        181,
+        157,
+        156,
+        167,
+        155,
+        164,
+        186,
+        154,
+        182,
+        158,
+        184,
+        187,
+        159,
+        160,
+        153,
+        166,
+        185,
+        188,
+        152,
+        161,
+        183,
+        165,
+        163,
+        162
+      ],
+      "unfilled_quota": 0,
+      "selected_count": 4
+    }
+  ],
+  "strict_bins": false,
+  "fallback_rule": "fill empty interval slots from latest available interval, excluding first 20%",
+  "eligibility": "valid mask, valid frame0 mapping, nonempty available and mapped masks",
+  "recovery_rule": "immediate unflagged, assessed, crop-valid successor of each flagged run",
+  "required_frames": [],
+  "selected_frames": [
+    {
+      "frame": 62,
+      "available_area": 735,
+      "interval": 2,
+      "percent_range": [
+        20,
+        40
+      ],
+      "video_position_percent": 32.804232804232804,
+      "interval_area_rank": 2,
+      "occlusion_flagged": false,
+      "reason": "largest_available_area_in_interval",
+      "crop_directory": "selected/frame_00062",
+      "anomalydino": {
+        "status": "scored",
+        "anomaly_score": 0.32943942546844485
+      }
+    },
+    {
+      "frame": 63,
+      "available_area": 739,
+      "interval": 2,
+      "percent_range": [
+        20,
+        40
+      ],
+      "video_position_percent": 33.333333333333336,
+      "interval_area_rank": 1,
+      "occlusion_flagged": false,
+      "reason": "largest_available_area_in_interval",
+      "crop_directory": "selected/frame_00063",
+      "anomalydino": {
+        "status": "scored",
+        "anomaly_score": 0.31892865598201753
+      }
+    },
+    {
+      "frame": 106,
+      "available_area": 854,
+      "interval": 3,
+      "percent_range": [
+        40,
+        60
+      ],
+      "video_position_percent": 56.08465608465608,
+      "interval_area_rank": 1,
+      "occlusion_flagged": false,
+      "reason": "largest_available_area_in_interval",
+      "crop_directory": "selected/frame_00106",
+      "anomalydino": {
+        "status": "scored",
+        "anomaly_score": 0.46271715380928735
+      }
+    },
+    {
+      "frame": 107,
+      "available_area": 827,
+      "interval": 3,
+      "percent_range": [
+        40,
+        60
+      ],
+      "video_position_percent": 56.613756613756614,
+      "interval_area_rank": 2,
+      "occlusion_flagged": false,
+      "reason": "largest_available_area_in_interval",
+      "crop_directory": "selected/frame_00107",
+      "anomalydino": {
+        "status": "scored",
+        "anomaly_score": 0.4894612193107605
+      }
+    },
+    {
+      "frame": 114,
+      "available_area": 780,
+      "interval": 4,
+      "percent_range": [
+        60,
+        80
+      ],
+      "video_position_percent": 60.317460317460316,
+      "interval_area_rank": 1,
+      "occlusion_flagged": false,
+      "reason": "largest_available_area_in_interval",
+      "crop_directory": "selected/frame_00114",
+      "anomalydino": {
+        "status": "scored",
+        "anomaly_score": 0.4040504157543182
+      }
+    },
+    {
+      "frame": 115,
+      "available_area": 768,
+      "interval": 4,
+      "percent_range": [
+        60,
+        80
+      ],
+      "video_position_percent": 60.84656084656085,
+      "interval_area_rank": 2,
+      "occlusion_flagged": false,
+      "reason": "largest_available_area_in_interval",
+      "crop_directory": "selected/frame_00115",
+      "anomalydino": {
+        "status": "scored",
+        "anomaly_score": 0.5236839473247528
+      }
+    },
+    {
+      "frame": 172,
+      "available_area": 699,
+      "interval": 5,
+      "percent_range": [
+        80,
+        100
+      ],
+      "video_position_percent": 91.005291005291,
+      "interval_area_rank": 4,
+      "occlusion_flagged": false,
+      "reason": "largest_available_area_in_interval",
+      "crop_directory": "selected/frame_00172",
+      "anomalydino": {
+        "status": "scored",
+        "anomaly_score": 0.4818122982978821
+      }
+    },
+    {
+      "frame": 174,
+      "available_area": 721,
+      "interval": 5,
+      "percent_range": [
+        80,
+        100
+      ],
+      "video_position_percent": 92.06349206349206,
+      "interval_area_rank": 1,
+      "occlusion_flagged": false,
+      "reason": "largest_available_area_in_interval",
+      "crop_directory": "selected/frame_00174",
+      "anomalydino": {
+        "status": "scored",
+        "anomaly_score": 0.4861105897209861
+      }
+    },
+    {
+      "frame": 175,
+      "available_area": 712,
+      "interval": 5,
+      "percent_range": [
+        80,
+        100
+      ],
+      "video_position_percent": 92.5925925925926,
+      "interval_area_rank": 2,
+      "occlusion_flagged": false,
+      "reason": "largest_available_area_in_interval",
+      "crop_directory": "selected/frame_00175",
+      "anomalydino": {
+        "status": "scored",
+        "anomaly_score": 0.4476799152114175
+      }
+    },
+    {
+      "frame": 176,
+      "available_area": 707,
+      "interval": 5,
+      "percent_range": [
+        80,
+        100
+      ],
+      "video_position_percent": 93.12169312169313,
+      "interval_area_rank": 3,
+      "occlusion_flagged": false,
+      "reason": "largest_available_area_in_interval",
+      "crop_directory": "selected/frame_00176",
+      "anomalydino": {
+        "status": "scored",
+        "anomaly_score": 0.5433948256752708
+      }
+    }
+  ],
+  "occlusion_episodes": [],
+  "unsatisfied_recovery_count": 0,
+  "crop_manifest_sha256": "8bf9062397727c158f2588d004ee0c44dc20b228cb8d34da77af3edc2d0b8c28",
+  "occlusion_detection_sha256": "573fe59f5be390fc2b9174c269213bbc8e0b274c0266a33fed41944580258b3f",
+  "anomalydino_status": "scored",
+  "anomalydino_sum": 4.487278446555138,
+  "anomalydino_pair_count": 10
+}

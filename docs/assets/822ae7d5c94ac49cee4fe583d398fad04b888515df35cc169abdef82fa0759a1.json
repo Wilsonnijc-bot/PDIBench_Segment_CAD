@@ -1,0 +1,190 @@
+[
+  {
+    "box_xyxy": [
+      1002,
+      227,
+      1280,
+      538
+    ],
+    "candidates": [
+      {
+        "area_pixels": 35373,
+        "box_iou": 0.4091350713641306,
+        "mask_inside_box": 1.0,
+        "object_id": 0,
+        "score": 0.9139785170555115,
+        "selected": true
+      }
+    ],
+    "selected_object_id": 0,
+    "status": "complete",
+    "target": "link2",
+    "text_prompt": "visual",
+    "tracking": {
+      "maximum_area_pixels": 41412,
+      "minimum_area_pixels": 28393,
+      "reidentifications": [],
+      "total_frames": 93,
+      "tracked_fraction": 1.0,
+      "tracked_frames": 93
+    }
+  },
+  {
+    "box_xyxy": [
+      1152,
+      16,
+      1280,
+      322
+    ],
+    "candidates": [
+      {
+        "area_pixels": 26371,
+        "box_iou": 0.6664717249796582,
+        "mask_inside_box": 0.9939327291342763,
+        "object_id": 0,
+        "score": 0.9375000596046448,
+        "selected": true
+      },
+      {
+        "area_pixels": 20733,
+        "box_iou": 0.0,
+        "mask_inside_box": 0.0,
+        "object_id": 1,
+        "score": 0.507692277431488,
+        "selected": false
+      }
+    ],
+    "selected_object_id": 0,
+    "status": "complete",
+    "target": "link3",
+    "text_prompt": "visual",
+    "tracking": {
+      "maximum_area_pixels": 43794,
+      "minimum_area_pixels": 6907,
+      "reidentifications": [],
+      "total_frames": 93,
+      "tracked_fraction": 1.0,
+      "tracked_frames": 93
+    }
+  },
+  {
+    "box_xyxy": [
+      1038,
+      0,
+      1251,
+      161
+    ],
+    "candidates": [
+      {
+        "area_pixels": 870,
+        "box_iou": 0.025369608958096406,
+        "mask_inside_box": 1.0,
+        "object_id": 0,
+        "score": 0.8202247023582458,
+        "selected": true
+      }
+    ],
+    "selected_object_id": 0,
+    "status": "complete",
+    "target": "link4",
+    "text_prompt": "entire white oval on top of the black circle",
+    "tracking": {
+      "maximum_area_pixels": 5159,
+      "minimum_area_pixels": 227,
+      "reidentifications": [],
+      "total_frames": 93,
+      "tracked_fraction": 0.7204301075268817,
+      "tracked_frames": 67
+    }
+  },
+  {
+    "box_xyxy": [
+      702,
+      0,
+      1113,
+      180
+    ],
+    "candidates": [
+      {
+        "area_pixels": 36332,
+        "box_iou": 0.47324278483379406,
+        "mask_inside_box": 0.9753110205879115,
+        "object_id": 0,
+        "score": 0.8904109597206116,
+        "selected": true
+      }
+    ],
+    "selected_object_id": 0,
+    "status": "complete",
+    "target": "link5",
+    "text_prompt": "entire white elongated robot arm link surrounding and to the right of the black inset",
+    "tracking": {
+      "maximum_area_pixels": 73639,
+      "minimum_area_pixels": 29199,
+      "reidentifications": [],
+      "total_frames": 93,
+      "tracked_fraction": 1.0,
+      "tracked_frames": 93
+    }
+  },
+  {
+    "box_xyxy": [
+      680,
+      8,
+      828,
+      203
+    ],
+    "candidates": [
+      {
+        "area_pixels": 7974,
+        "box_iou": 0.2762993762993763,
+        "mask_inside_box": 1.0,
+        "object_id": 0,
+        "score": 0.8750000596046448,
+        "selected": true
+      }
+    ],
+    "selected_object_id": 0,
+    "status": "complete",
+    "target": "link6",
+    "text_prompt": "visual",
+    "tracking": {
+      "maximum_area_pixels": 35546,
+      "minimum_area_pixels": 4295,
+      "reidentifications": [],
+      "total_frames": 93,
+      "tracked_fraction": 1.0,
+      "tracked_frames": 93
+    }
+  },
+  {
+    "box_xyxy": [
+      658,
+      168,
+      774,
+      280
+    ],
+    "candidates": [
+      {
+        "area_pixels": 6575,
+        "box_iou": 0.5060806650246306,
+        "mask_inside_box": 1.0,
+        "object_id": 0,
+        "score": 0.9532163739204407,
+        "selected": true
+      }
+    ],
+    "selected_object_id": 0,
+    "status": "complete",
+    "target": "link7",
+    "text_prompt": "entire white quadrangular robot gripper",
+    "tracking": {
+      "maximum_area_pixels": 26936,
+      "minimum_area_pixels": 3329,
+      "reidentifications": [],
+      "total_frames": 93,
+      "tracked_fraction": 0.3870967741935484,
+      "tracked_frames": 36
+    }
+  }
+]

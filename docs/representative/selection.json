@@ -1,0 +1,396 @@
+{
+  "persistent_cases": [
+    "Cosmos3_0065",
+    "Cosmos3_0015",
+    "LVP_0010"
+  ],
+  "link5_cases": [
+    "COSMOS3_0001",
+    "COSMOS2.5_0056",
+    "LVP_ROBOWM_0021"
+  ],
+  "records": [
+    {
+      "type": "persistent",
+      "case": "COSMOS3_0065",
+      "seed": "results/selected-45-v1/persistent_work/local/selected_45_v1/Cosmos3_0065/sam/Cosmos3_0065/seed.json",
+      "seed_sha256": "c5c58145fd4473901d87ed2174c8378dba21fe1b0270feb3464211a8c3791c3b",
+      "points": [
+        [
+          527.36,
+          291.6
+        ],
+        [
+          524.8,
+          244.8
+        ],
+        [
+          614.4,
+          266.4
+        ],
+        [
+          704.0,
+          138.24
+        ],
+        [
+          560.64,
+          100.80000000000001
+        ]
+      ],
+      "labels": [
+        1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "frame": 76,
+      "model": "gemini-3.8-flash",
+      "naive_sha256": "267b1353144ea0fce1249049e4f4d7ee425a356c654486277bd18fea8aa238ef",
+      "refined_sha256": "added76f009056982297600b4e52e9b3ec9cd6717162cdc802d01cb82ec37fe2"
+    },
+    {
+      "type": "persistent",
+      "case": "COSMOS3_0015",
+      "seed": "results/selected-45-v1/persistent_work/local/selected_45_v1/Cosmos3_0015/sam/Cosmos3_0015/seed.json",
+      "seed_sha256": "d2a02540a700f2d2d37f8028676bfaac9fa496d3f7d7dc6c30ca49164ecfb5e4",
+      "points": [
+        [
+          518.4000000000001,
+          279.36
+        ],
+        [
+          537.6,
+          313.2
+        ],
+        [
+          565.76,
+          298.8
+        ],
+        [
+          748.8,
+          180.0
+        ],
+        [
+          604.16,
+          164.16
+        ]
+      ],
+      "labels": [
+        1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "frame": 114,
+      "model": "gemini-3.8-flash",
+      "naive_sha256": "02630f976ac40290cabb972493cd1719b5c2287b88e3f089e49b30559e997301",
+      "refined_sha256": "84a770cdd14b47c7745d0339810c228ae2fdc4bd5ac85d74f4a80d08c40408e4"
+    },
+    {
+      "type": "persistent",
+      "case": "LVP_ROBOWM_0010",
+      "seed": "results/selected-45-v1/persistent_work/local/selected_45_v1/LVP_0010/sam/LVP_0010/seed.json",
+      "seed_sha256": "01cbec2c358980a7587ef62ed6a78a9be192283bd529290330749b60967797f6",
+      "points": [
+        [
+          227.13600000000002,
+          182.4
+        ],
+        [
+          243.77599999999998,
+          184.32
+        ],
+        [
+          234.62399999999997,
+          156.0
+        ],
+        [
+          407.68,
+          82.55999999999999
+        ],
+        [
+          228.8,
+          24.0
+        ]
+      ],
+      "labels": [
+        1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "frame": 26,
+      "model": "gemini-3.8-flash",
+      "naive_sha256": "6e39b1669bfb712f68184042acea390b30f0fa905fd34cd4654c37529df97f96",
+      "refined_sha256": "c7850acc165756bc84c0960f426e244bb8e960033166f5a7fbf358caecb2bdc7"
+    },
+    {
+      "case": "COSMOS3_0001",
+      "type": "link5_guard",
+      "model": "gemini-3.8-flash",
+      "source_record": "results/link5-only-selected45-updated-mask-20260929/cases/COSMOS3_0001/base_generation/link5_guard.json",
+      "source_record_sha256": "34d66a6104470c4590fd70b0738cdbdf33b999f168fa570a0651a0434dcc1e15",
+      "diagnostic_sha256": "5a3be721b3569852bdbc6edf8f7a9d9f72629dda03df2fc10f99567f10399cc1",
+      "source_video_sha256": "11f4a18778539385ca852a7aa1c5110a44c36656c7bff322f725e82cbf929be4",
+      "frame_index": 0,
+      "frame_sha256": "6a3cb88cfe30b87632ab488a78abb6d8173e16a9931f134a1bca8f67a83b3b3d",
+      "original_points_xy": [
+        [
+          746,
+          101
+        ],
+        [
+          860,
+          101
+        ],
+        [
+          1126,
+          64
+        ],
+        [
+          756,
+          51
+        ],
+        [
+          732,
+          104
+        ],
+        [
+          1180,
+          121
+        ]
+      ],
+      "selected_points_xy": [
+        [
+          746,
+          101
+        ],
+        [
+          860,
+          101
+        ],
+        [
+          1126,
+          64
+        ],
+        [
+          755,
+          50
+        ],
+        [
+          732,
+          138
+        ],
+        [
+          1180,
+          121
+        ]
+      ],
+      "point_labels": [
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "decisions": {
+        "negative": "REJECT",
+        "positive": "PASS"
+      },
+      "changed_point_indices": [
+        3,
+        4
+      ],
+      "gemini_answers": [
+        {
+          "role": "link5_negative_guard",
+          "answer": "{\"decision\":\"REJECT\",\"negative_points_xy\":[[755,50],[732,138]]}"
+        },
+        {
+          "role": "link5_positive_guard",
+          "answer": "PASS"
+        }
+      ]
+    },
+    {
+      "case": "COSMOS2.5_0056",
+      "type": "link5_guard",
+      "model": "gemini-3.8-flash",
+      "source_record": "results/link5-only-selected45-updated-mask-20260929/cases/COSMOS2.5_0056/base_generation/link5_guard.json",
+      "source_record_sha256": "774cab22aefdc3d3fb5c952f7e70b891b121ff33c573cd2062e7fbdb0f856870",
+      "diagnostic_sha256": "6b3482d2250f7694c248353a9a44f4a3a3cca05ccdffec5750e4c2972520e92c",
+      "source_video_sha256": "04b0e11655d573246218bb5d84770b219cc63f029cb8a916835d5ae7efa383e8",
+      "frame_index": 0,
+      "frame_sha256": "f46efedaee940a8ea5614801acf11d01a687d7d8f91f5341457b5c2336033a59",
+      "original_points_xy": [
+        [
+          746,
+          99
+        ],
+        [
+          860,
+          99
+        ],
+        [
+          1126,
+          63
+        ],
+        [
+          756,
+          50
+        ],
+        [
+          732,
+          103
+        ],
+        [
+          1180,
+          119
+        ]
+      ],
+      "selected_points_xy": [
+        [
+          746,
+          99
+        ],
+        [
+          915,
+          105
+        ],
+        [
+          1126,
+          63
+        ],
+        [
+          740,
+          45
+        ],
+        [
+          730,
+          130
+        ],
+        [
+          1180,
+          119
+        ]
+      ],
+      "point_labels": [
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "decisions": {
+        "negative": "REJECT",
+        "positive": "REJECT"
+      },
+      "changed_point_indices": [
+        1,
+        3,
+        4
+      ],
+      "gemini_answers": [
+        {
+          "role": "link5_negative_guard",
+          "answer": "{\"decision\":\"REJECT\",\"negative_points_xy\":[[740,45],[730,130]]}"
+        },
+        {
+          "role": "link5_positive_guard",
+          "answer": "{\"decision\":\"REJECT\",\"positive_points_xy\":[[915,105],[1126,63]]}"
+        }
+      ]
+    },
+    {
+      "case": "LVP_ROBOWM_0021",
+      "type": "link5_guard",
+      "model": "gemini-3.8-flash",
+      "source_record": "results/link5-only-selected45-updated-mask-20260929/cases/LVP_ROBOWM_0021/base_generation/link5_guard.json",
+      "source_record_sha256": "c9be800c6f759d4ea2d49112a35b34c49a839f7732dbafc89212c532759797a9",
+      "diagnostic_sha256": "01437da5d1ec6aac42b819cfc03bde98f0e1de5319e6a6c71e4e9d6e7c102c71",
+      "source_video_sha256": "ea2bb6bd732693f2b4deb61a3d4bf568f9b03ec15bcc8c285b1defbc982f4f1f",
+      "frame_index": 0,
+      "frame_sha256": "a3149b4b72a494838945cc9178c1ad9ed231f1f2d34c43fe63d910a2694b72e3",
+      "original_points_xy": [
+        [
+          482,
+          69
+        ],
+        [
+          555,
+          69
+        ],
+        [
+          728,
+          44
+        ],
+        [
+          488,
+          35
+        ],
+        [
+          472,
+          72
+        ],
+        [
+          763,
+          83
+        ]
+      ],
+      "selected_points_xy": [
+        [
+          482,
+          69
+        ],
+        [
+          555,
+          69
+        ],
+        [
+          728,
+          44
+        ],
+        [
+          488,
+          35
+        ],
+        [
+          472,
+          72
+        ],
+        [
+          763,
+          83
+        ]
+      ],
+      "point_labels": [
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "decisions": {
+        "negative": "PASS",
+        "positive": "PASS"
+      },
+      "changed_point_indices": [],
+      "gemini_answers": [
+        {
+          "role": "link5_negative_guard",
+          "answer": "PASS"
+        },
+        {
+          "role": "link5_positive_guard",
+          "answer": "PASS"
+        }
+      ]
+    }
+  ]
+}

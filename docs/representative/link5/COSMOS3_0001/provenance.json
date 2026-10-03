@@ -1,0 +1,89 @@
+{
+  "case": "COSMOS3_0001",
+  "type": "link5_guard",
+  "model": "gemini-3.8-flash",
+  "source_record": "results/link5-only-selected45-updated-mask-20260929/cases/COSMOS3_0001/base_generation/link5_guard.json",
+  "source_record_sha256": "34d66a6104470c4590fd70b0738cdbdf33b999f168fa570a0651a0434dcc1e15",
+  "diagnostic_sha256": "5a3be721b3569852bdbc6edf8f7a9d9f72629dda03df2fc10f99567f10399cc1",
+  "source_video_sha256": "11f4a18778539385ca852a7aa1c5110a44c36656c7bff322f725e82cbf929be4",
+  "frame_index": 0,
+  "frame_sha256": "6a3cb88cfe30b87632ab488a78abb6d8173e16a9931f134a1bca8f67a83b3b3d",
+  "original_points_xy": [
+    [
+      746,
+      101
+    ],
+    [
+      860,
+      101
+    ],
+    [
+      1126,
+      64
+    ],
+    [
+      756,
+      51
+    ],
+    [
+      732,
+      104
+    ],
+    [
+      1180,
+      121
+    ]
+  ],
+  "selected_points_xy": [
+    [
+      746,
+      101
+    ],
+    [
+      860,
+      101
+    ],
+    [
+      1126,
+      64
+    ],
+    [
+      755,
+      50
+    ],
+    [
+      732,
+      138
+    ],
+    [
+      1180,
+      121
+    ]
+  ],
+  "point_labels": [
+    1,
+    1,
+    1,
+    0,
+    0,
+    0
+  ],
+  "decisions": {
+    "negative": "REJECT",
+    "positive": "PASS"
+  },
+  "changed_point_indices": [
+    3,
+    4
+  ],
+  "gemini_answers": [
+    {
+      "role": "link5_negative_guard",
+      "answer": "{\"decision\":\"REJECT\",\"negative_points_xy\":[[755,50],[732,138]]}"
+    },
+    {
+      "role": "link5_positive_guard",
+      "answer": "PASS"
+    }
+  ]
+}

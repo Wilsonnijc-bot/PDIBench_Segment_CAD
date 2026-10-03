@@ -1,5 +1,27 @@
 # PDI-Bench Native Multi-Object Pipeline
 
+The current local pipeline, published review, and object image packs are all
+maintained on `main`:
+
+- Pipeline code: `PDI-Bench-edited/` and `scripts/`.
+- Published review: [`docs/`](docs/), served at
+  https://wilsonnijc-bot.github.io/PDIBench_Segment_CAD/.
+- Lossless object image packs: `web-assets/object-image-packs/`, loaded from
+  `main` through GitHub's raw-file URLs.
+
+GitHub Pages publishes from `main`, folder `/docs`. The image packs stay outside
+that folder to keep the published site below the Pages size limit. Existing
+video and image release assets remain the review's media sources.
+
+To regenerate the review from the local experiment results, run:
+
+```bash
+python3 scripts/build_selected_github_review.py
+rsync -a --delete .tmp/selected-review-site/ docs/
+```
+
+Review and commit changes in both `docs/` and `web-assets/` before pushing `main`.
+
 The active V1 tracking contract is in [D_PIPELINE_SPEC.md](D_PIPELINE_SPEC.md).
 The earlier A/B/C/D experiment proposal is archived at
 [archive/verification/ABCD_PIPELINE_VERIFICATION_PLAN.md](archive/verification/ABCD_PIPELINE_VERIFICATION_PLAN.md).

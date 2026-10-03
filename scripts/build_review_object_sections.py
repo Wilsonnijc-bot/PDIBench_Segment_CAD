@@ -19,7 +19,7 @@ def build(out, register, parse, remap):
  assert stats['binary_sensitivity']['n']==34
  page=parse(gallery)
  scored_cases_first(page)
- packs={};packdir=ROOT/'.tmp/object-image-packs';packdir.mkdir(exist_ok=True)
+ packs={};packdir=ROOT/'web-assets/object-image-packs';packdir.mkdir(parents=True,exist_ok=True)
  for el in page.select('[src],[href]'):
   for attr in ['src','href']:
    val=el.get(attr)
@@ -33,7 +33,7 @@ def build(out, register, parse, remap):
  urls={}
  for case,data in packs.items():
   raw=gzip.compress(json.dumps(data,separators=(',',':')).encode(),mtime=0);name=hashlib.sha256(raw).hexdigest()+'.json.gz';(packdir/name).write_bytes(raw)
-  urls[case]='https://raw.githubusercontent.com/Wilsonnijc-bot/PDIBench_Segment_CAD/review-object-assets/'+name
+  urls[case]='https://raw.githubusercontent.com/Wilsonnijc-bot/PDIBench_Segment_CAD/main/web-assets/object-image-packs/'+name
  script=page.new_tag('script');script.string='const imagePacks='+json.dumps(urls)+""";
  const imageJobs=new Map();async function loadImages(caseName){if(imageJobs.has(caseName))return imageJobs.get(caseName);const job=(async()=>{const r=await fetch(imagePacks[caseName]);if(!r.ok)throw Error('Image pack download failed');const compressed=await r.arrayBuffer();const digest=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',compressed))).map(b=>b.toString(16).padStart(2,'0')).join('');if(!imagePacks[caseName].endsWith(digest+'.json.gz'))throw Error('Image pack integrity check failed');const data=await new Response(new Blob([compressed]).stream().pipeThrough(new DecompressionStream('gzip'))).json();for(const el of document.querySelectorAll('[data-image-case]'))if(el.dataset.imageCase===caseName){const raw=atob(data[el.dataset.imagePath]);const bytes=Uint8Array.from(raw,c=>c.charCodeAt(0));const url=URL.createObjectURL(new Blob([bytes],{type:el.dataset.imagePath.endsWith('.jpg')?'image/jpeg':'image/png'}));el.setAttribute(el.tagName==='IMG'?'src':'href',url);}})();imageJobs.set(caseName,job);return job;}
  const imageObserver=new IntersectionObserver(entries=>{for(const e of entries)if(e.isIntersecting){loadImages(e.target.dataset.imageCase).catch(err=>{e.target.alt=err.message;imageJobs.delete(e.target.dataset.imageCase)});imageObserver.unobserve(e.target);}},{rootMargin:'600px'});document.querySelectorAll('img[data-image-case]').forEach(el=>imageObserver.observe(el));

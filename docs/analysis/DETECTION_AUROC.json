@@ -1,0 +1,170 @@
+{
+  "definition": "Label 1 versus 0; exclude 0.5; higher reported epsilon_rigidity predicts deformation; ties count as half",
+  "rows": [
+    {
+      "part": "Upper arm \u00b7 link2",
+      "method": "V1 + CoTracker3",
+      "statistics": {
+        "auroc": 0.9407114624505929,
+        "valid_pairs": 253,
+        "wins_with_half_ties": 238.0,
+        "ordered_concordance": 0.8095238095238095,
+        "ordered_pairs": 525,
+        "valid_score_cases": 42,
+        "counts": {
+          "0.0": 23,
+          "0.5": 8,
+          "1.0": 11
+        },
+        "missing_score_cases": [
+          "COSMOS2.5_0054"
+        ],
+        "missing_label_cases": [
+          "LVP_ROBOWM_0030",
+          "LVP_ROBOWM_0065"
+        ],
+        "missing_highest": false
+      },
+      "policy": "1 missing score; 2 nonnumeric labels excluded",
+      "source": "selected_v1",
+      "score_path": "v1/link2"
+    },
+    {
+      "part": "Forearm \u00b7 link5",
+      "method": "V1 + CoTracker3 \u00b7 updated mask",
+      "statistics": {
+        "auroc": 0.5384615384615384,
+        "valid_pairs": 286,
+        "wins_with_half_ties": 154.0,
+        "ordered_concordance": 0.5235849056603774,
+        "ordered_pairs": 636,
+        "valid_score_cases": 45,
+        "counts": {
+          "0.0": 13,
+          "0.5": 10,
+          "1.0": 22
+        },
+        "missing_score_cases": [],
+        "missing_label_cases": [],
+        "missing_highest": false
+      },
+      "policy": "45 measured scores",
+      "source": "updated_link5",
+      "score_path": "results/link5-only-selected45-updated-mask-20260929"
+    },
+    {
+      "part": "Gripper \u00b7 link7",
+      "method": "V1 + CoTracker3",
+      "statistics": {
+        "auroc": 0.8445378151260504,
+        "valid_pairs": 238,
+        "wins_with_half_ties": 201.0,
+        "ordered_concordance": 0.7769230769230769,
+        "ordered_pairs": 455,
+        "valid_score_cases": 38,
+        "counts": {
+          "0.0": 14,
+          "0.5": 7,
+          "1.0": 17
+        },
+        "missing_score_cases": [
+          "COSMOS2.5_0005",
+          "COSMOS3_0005",
+          "COSMOS2.5_0054",
+          "COSMOS3_0054",
+          "COSMOS2.5_0056",
+          "COSMOS3_0056",
+          "COSMOS3_0065"
+        ],
+        "missing_label_cases": [],
+        "missing_highest": false
+      },
+      "policy": "Measured only \u00b7 7 unavailable excluded",
+      "source": "four_way",
+      "score_path": "v1_cotracker3"
+    },
+    {
+      "part": "Gripper \u00b7 link7",
+      "method": "V1 + CoTracker3",
+      "statistics": {
+        "auroc": 0.8898809523809523,
+        "valid_pairs": 336,
+        "wins_with_half_ties": 299.0,
+        "ordered_concordance": 0.8313953488372093,
+        "ordered_pairs": 602,
+        "valid_score_cases": 45,
+        "counts": {
+          "0.0": 14,
+          "0.5": 7,
+          "1.0": 24
+        },
+        "missing_score_cases": [
+          "COSMOS2.5_0005",
+          "COSMOS3_0005",
+          "COSMOS2.5_0054",
+          "COSMOS3_0054",
+          "COSMOS2.5_0056",
+          "COSMOS3_0056",
+          "COSMOS3_0065"
+        ],
+        "missing_label_cases": [],
+        "missing_highest": true
+      },
+      "policy": "Sensitivity \u00b7 7 unavailable assigned the highest score",
+      "source": "four_way",
+      "score_path": "v1_cotracker3"
+    },
+    {
+      "part": "Gripper \u00b7 link7",
+      "method": "V2 + TAPIP3D",
+      "statistics": {
+        "auroc": 0.8422619047619048,
+        "valid_pairs": 336,
+        "wins_with_half_ties": 283.0,
+        "ordered_concordance": 0.7807308970099668,
+        "ordered_pairs": 602,
+        "valid_score_cases": 45,
+        "counts": {
+          "0.0": 14,
+          "0.5": 7,
+          "1.0": 24
+        },
+        "missing_score_cases": [],
+        "missing_label_cases": [],
+        "missing_highest": false
+      },
+      "policy": "45 measured scores",
+      "source": "four_way",
+      "score_path": "v2_tapip3d"
+    }
+  ],
+  "workbooks": {
+    "link2": "selected_45_matched_videos_styled.xlsx, AD",
+    "link5": "selected_45_matched_videos_styledv2.xlsx, AB",
+    "link7": "selected_45_matched_videos_styledv2.xlsx, AC"
+  },
+  "input_hashes": {
+    "results/selected-45-v1/DEFORMATION_LABEL_ANALYSIS.md": "a6aed7fed2c9871237ad38267f81412e62a32b025e0b23de9c20c1485dcbad0e",
+    "results/link5-only-selected45-updated-mask-20260929/LINK5_FOREARM_AUROC.md": "c8c06f6862720fb7a8fa4b5dca6e61529011d21c332a05c6bfa8dd01b97ff9bf",
+    "results/link5-link7-four-way-selected45-20260927/rigidity-vs-deformation-labels.md": "aac52684da48c04dec3768d4204d255ca259e65e433deecf0260ad41ea999af9",
+    "results/link5-link7-four-way-selected45-20260927/summary.json": "fe8ac0740cc017a01b84f8085bf9e73a09ab339e9b006929a83d25a42603b831",
+    "results/link5-link7-four-way-selected45-20260927/selection.json": "4f87276ab914c71674db61940514518ca7ea223cbfcc4bbff21b9caa6065c429"
+  },
+  "link5_precision_sensitivity": {
+    "auroc": 0.541958041958042,
+    "valid_pairs": 286,
+    "wins_with_half_ties": 155.0,
+    "ordered_concordance": 0.5235849056603774,
+    "ordered_pairs": 636,
+    "valid_score_cases": 45,
+    "counts": {
+      "0.0": 13,
+      "0.5": 10,
+      "1.0": 22
+    },
+    "missing_score_cases": [],
+    "missing_label_cases": [],
+    "missing_highest": false
+  },
+  "v1_link7_replays": "results/link5-link7-four-way-selected45-20260927/cases/*/v1_cotracker3/replay/interactive_exact-group/link7_exact-group.html"
+}

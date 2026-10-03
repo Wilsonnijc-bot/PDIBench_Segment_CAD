@@ -1,0 +1,9 @@
+{
+  "completed_at": "2026-09-25T20:19:32.442367+00:00",
+  "error": "SAM3 coverage below 80% for required links ('link7',): {'link2': 1.0, 'link3': 1.0, 'link4': 0.7204301075268817, 'link5': 1.0, 'link6': 1.0, 'link7': 0.3870967741935484}",
+  "sample_id": "COSMOS2.5_0054",
+  "source_sha256": "8f994a2c8b31df652f18a5e0cce6b8fb83809fc42a9ca3f044efcfed4e382f9f",
+  "started_at": "2026-09-25T20:17:19.607201+00:00",
+  "state": "failed",
+  "workbook_row": 36
+}

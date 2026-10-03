@@ -1,0 +1,86 @@
+{
+  "case": "LVP_ROBOWM_0021",
+  "type": "link5_guard",
+  "model": "gemini-3.8-flash",
+  "source_record": "results/link5-only-selected45-updated-mask-20260929/cases/LVP_ROBOWM_0021/base_generation/link5_guard.json",
+  "source_record_sha256": "c9be800c6f759d4ea2d49112a35b34c49a839f7732dbafc89212c532759797a9",
+  "diagnostic_sha256": "01437da5d1ec6aac42b819cfc03bde98f0e1de5319e6a6c71e4e9d6e7c102c71",
+  "source_video_sha256": "ea2bb6bd732693f2b4deb61a3d4bf568f9b03ec15bcc8c285b1defbc982f4f1f",
+  "frame_index": 0,
+  "frame_sha256": "a3149b4b72a494838945cc9178c1ad9ed231f1f2d34c43fe63d910a2694b72e3",
+  "original_points_xy": [
+    [
+      482,
+      69
+    ],
+    [
+      555,
+      69
+    ],
+    [
+      728,
+      44
+    ],
+    [
+      488,
+      35
+    ],
+    [
+      472,
+      72
+    ],
+    [
+      763,
+      83
+    ]
+  ],
+  "selected_points_xy": [
+    [
+      482,
+      69
+    ],
+    [
+      555,
+      69
+    ],
+    [
+      728,
+      44
+    ],
+    [
+      488,
+      35
+    ],
+    [
+      472,
+      72
+    ],
+    [
+      763,
+      83
+    ]
+  ],
+  "point_labels": [
+    1,
+    1,
+    1,
+    0,
+    0,
+    0
+  ],
+  "decisions": {
+    "negative": "PASS",
+    "positive": "PASS"
+  },
+  "changed_point_indices": [],
+  "gemini_answers": [
+    {
+      "role": "link5_negative_guard",
+      "answer": "PASS"
+    },
+    {
+      "role": "link5_positive_guard",
+      "answer": "PASS"
+    }
+  ]
+}

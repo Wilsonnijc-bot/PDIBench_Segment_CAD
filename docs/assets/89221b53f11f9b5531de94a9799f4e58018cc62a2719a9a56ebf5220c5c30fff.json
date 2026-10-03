@@ -1,0 +1,107 @@
+{
+  "case": "LVP_ROBOWM_0060",
+  "method": "time-quintiles-with-post-occlusion-v3",
+  "target_count": 10,
+  "selected_count": 0,
+  "eligible_count": 0,
+  "shortfall": 10,
+  "status": "incomplete",
+  "ranking": "descending available_area within each time interval; earlier frame wins ties",
+  "interval_quotas": [
+    0,
+    2,
+    2,
+    2,
+    4
+  ],
+  "intervals": [
+    {
+      "interval": 1,
+      "percent_range": [
+        0,
+        20
+      ],
+      "start_frame": 0,
+      "end_frame_exclusive": 10,
+      "target_count": 0,
+      "eligible_count": 0,
+      "required_frames": [],
+      "area_ranked_frames": [],
+      "unfilled_quota": 0,
+      "selected_count": 0
+    },
+    {
+      "interval": 2,
+      "percent_range": [
+        20,
+        40
+      ],
+      "start_frame": 10,
+      "end_frame_exclusive": 20,
+      "target_count": 2,
+      "eligible_count": 0,
+      "required_frames": [],
+      "area_ranked_frames": [],
+      "unfilled_quota": 2,
+      "selected_count": 0
+    },
+    {
+      "interval": 3,
+      "percent_range": [
+        40,
+        60
+      ],
+      "start_frame": 20,
+      "end_frame_exclusive": 30,
+      "target_count": 2,
+      "eligible_count": 0,
+      "required_frames": [],
+      "area_ranked_frames": [],
+      "unfilled_quota": 2,
+      "selected_count": 0
+    },
+    {
+      "interval": 4,
+      "percent_range": [
+        60,
+        80
+      ],
+      "start_frame": 30,
+      "end_frame_exclusive": 40,
+      "target_count": 2,
+      "eligible_count": 0,
+      "required_frames": [],
+      "area_ranked_frames": [],
+      "unfilled_quota": 2,
+      "selected_count": 0
+    },
+    {
+      "interval": 5,
+      "percent_range": [
+        80,
+        100
+      ],
+      "start_frame": 40,
+      "end_frame_exclusive": 49,
+      "target_count": 4,
+      "eligible_count": 0,
+      "required_frames": [],
+      "area_ranked_frames": [],
+      "unfilled_quota": 4,
+      "selected_count": 0
+    }
+  ],
+  "strict_bins": false,
+  "fallback_rule": "fill empty interval slots from latest available interval, excluding first 20%",
+  "eligibility": "valid mask, valid frame0 mapping, nonempty available and mapped masks",
+  "recovery_rule": "immediate unflagged, assessed, crop-valid successor of each flagged run",
+  "required_frames": [],
+  "selected_frames": [],
+  "occlusion_episodes": [],
+  "unsatisfied_recovery_count": 0,
+  "crop_manifest_sha256": "fee29f6dac50adccff88f20f9585d31501a54f4cd76ccd3978d567dbc60e16ac",
+  "occlusion_detection_sha256": "4c765d6fe83cb8f68f9e7f4de57a46257ecf20a13fe34585cbc0fa7ed3e22db8",
+  "anomalydino_status": "unavailable_reference",
+  "anomalydino_sum": null,
+  "anomalydino_pair_count": 0
+}
