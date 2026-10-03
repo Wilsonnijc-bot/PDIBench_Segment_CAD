@@ -38,7 +38,6 @@ header{margin-bottom:24px}.muted{color:#55655d;font-size:13px}
 .frame-title{display:flex;justify-content:space-between;gap:8px;font-weight:600;font-size:14px}.frame-title span:last-child{color:#55655d;font-size:12px;font-weight:400}
 .scores{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:4px 8px;border-top:1px solid #d5dbd2;border-bottom:1px solid #d5dbd2;padding:8px 0;margin:10px 0 12px;font-size:13px;font-variant-numeric:tabular-nums}.scores strong{font-size:25px;font-weight:700;line-height:1.2;color:#8b332d}
 .pair{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.pair span{font-size:12px}.pair img{width:100%;height:135px;display:block;object-fit:contain;background:repeating-conic-gradient(#d8ddd5 0% 25%,#e8ece5 0% 50%) 50% / 16px 16px;margin-top:5px}
-.original-frame{display:block;width:100%;height:auto;margin:8px 0 14px;border-radius:4px}
 .pair-details,.case-details{font-size:12px;line-height:1.7;color:#55655d;margin-top:8px}summary{cursor:pointer}.case-details{margin:0 0 16px}.empty{background:#ebeee7;padding:16px;font-size:14px}.footer{margin:32px 0;font-size:13px}
 @media(max-width:1100px){.crops{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:720px){.crops{grid-template-columns:repeat(2,minmax(0,1fr))}.case-head h2{font-size:18px}.video-total{margin-left:0;flex-basis:100%}.video-total .muted{text-align:left}}@media(max-width:420px){.crops{grid-template-columns:1fr}.pair img{height:180px}h1{font-size:27px}}
 </style></head><body><main><header>''']
@@ -120,7 +119,7 @@ header{margin-bottom:24px}.muted{color:#55655d;font-size:13px}
             flagged = 'Flagged occlusion' if row['occlusion_flagged'] else 'Unflagged'
             covered = manifest['frames'][t].get('link7_object_covered_fraction')
             coverage = f' · link7 overlap {covered:.1%}' if covered is not None else ''
-            parts.append(f'</div><p class="muted">{row["available_area"]:,} available pixels{coverage}</p><a href="{folder}/original_frame.png" target="_blank" rel="noopener"><span class="muted">Original frame</span><img class="original-frame" src="{folder}/original_frame.png" alt="{safe_name}, original frame {t}" loading="lazy"></a><details class="pair-details"><summary>Crop details</summary>Interval rank {row["interval_area_rank"]}<br>{flagged}<br>{reasons[row["reason"]]}<br><a href="{folder}/preview.png">Three-panel preview</a></details></figure>')
+            parts.append(f'</div><p class="muted">{row["available_area"]:,} available pixels{coverage}</p><a href="{folder}/original_frame.png" target="_blank" rel="noopener">Original frame</a><details class="pair-details"><summary>Crop details</summary>Interval rank {row["interval_area_rank"]}<br>{flagged}<br>{reasons[row["reason"]]}<br><a href="{folder}/preview.png">Three-panel preview</a></details></figure>')
         parts.append('</div></section>')
     parts.append('<p class="footer">')
     if score_data:

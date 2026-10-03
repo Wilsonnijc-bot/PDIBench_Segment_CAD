@@ -73,6 +73,13 @@ def publish(run: Path, cases: list[str]):
         node = fresh_page.select_one('section.case[data-name="'+case.lower()+'"]')
         if node is None:
             raise ValueError('Missing refreshed crop section: '+case)
+        # Keep original frames one click away, including older saved galleries.
+        for image in node.select('img.original-frame'):
+            anchor = image.find_parent('a')
+            if anchor is None:
+                raise ValueError('Original frame image is missing its link: '+case)
+            anchor.clear()
+            anchor.string = 'Original frame'
         # Current mask and occlusion reviews are available from the crop row too.
         links = fresh_page.new_tag('p',attrs={'class':'muted'})
         for label, source in [('VLM3 mask comparison',run/'index.html'),
