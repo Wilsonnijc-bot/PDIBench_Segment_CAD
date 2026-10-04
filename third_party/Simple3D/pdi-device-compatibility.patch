@@ -1,0 +1,15 @@
+--- a/feature_extractors/features.py
++++ b/feature_extractors/features.py
+@@ -205,7 +205,11 @@
+                 
+                 idx = idx + idx_base
+                 idx = idx.view(-1)
+-                neighborhood = s_map.reshape(batch_size * num_points, -1)[idx, :]
++                # Integration compatibility: upstream converts s_map to CPU in
++                # unorganized_data_to_organized(), while KNN indices are CUDA.
++                # PyTorch 2.1 requires matching devices for this indexing operation.
++                # Move scores only; preserve all neighborhood indices and arithmetic.
++                neighborhood = s_map.to(idx.device).reshape(batch_size * num_points, -1)[idx, :]
+                 neighborhood = neighborhood.reshape(batch_size, num_group, group_size, -1).contiguous()
+                 agg_s_map = torch.mean(neighborhood,-2).view(1, 1, -1)
+ 

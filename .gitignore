@@ -15,3 +15,6 @@ configs/*.local.env
 *.npz
 __pycache__/
 .pytest_cache/
+
+# Root-level generated batch diagnostics; keep run-specific result evidence separate.
+/diagnostics/
