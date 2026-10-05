@@ -2,7 +2,7 @@
 """Append the original crop gallery and occlusion catches to the review."""
 
 from pathlib import Path as _LayoutPath
-from infrastructure.pdibench.layout import root as _workspace_root
+from infrastructure.deformation_detect.layout import root as _workspace_root
 _SOURCE_PATH = _LayoutPath(__file__).resolve()
 
 import base64, gzip, hashlib, json, shutil

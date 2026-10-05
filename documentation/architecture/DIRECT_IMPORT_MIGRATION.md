@@ -1,6 +1,6 @@
 # Direct imports: audit and migration
 
-The maintained Python namespaces are now `robot`, `object`, and `infrastructure`. The coordinator, worker, run registry and deployment helpers remain in `infrastructure/pdibench/`. `python -m pdibench` is only a CLI shortcut; maintained modules import `infrastructure.pdibench` directly.
+The maintained Python namespaces are now `robot`, `object`, and `infrastructure`. The coordinator, worker, run registry and deployment helpers remain in `infrastructure/deformation_detect/`. `python -m deformation_detect` is only a CLI shortcut; maintained modules import `infrastructure.deformation_detect` directly.
 
 ## What was checked first
 
@@ -19,7 +19,7 @@ The initial vendor-only proposal was rolled back before this migration. It misse
 | Shared geometry, tracking, contracts, metrics and replay helpers | `infrastructure.shared.*` |
 | `generation.link_crop_wrapper` | `infrastructure.shared.inference.generation.link_crop_wrapper` |
 | Flat `experiments` and `scripts` imports | Concrete robot/object experiment modules, shared experiment modules, or publication builders |
-| `pdibench.*` library imports | `infrastructure.pdibench.*` |
+| Historical `pdibench.*` library imports | `infrastructure.deformation_detect.*` |
 
 The [module map](audits/direct-import-module-map.json) records individual destinations. It is audit evidence, not a runtime alias resolver. Imports, public package exports, dynamic imports, test patch targets, subprocess module arguments and launcher search paths were migrated together.
 

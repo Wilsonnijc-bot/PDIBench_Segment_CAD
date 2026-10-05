@@ -50,8 +50,8 @@ def pack(cases: Path, output: Path) -> None:
 
 
 def review(inputs: Path, output: Path) -> None:
-    from pdi_eval.v1.link7_depth_gate import link7_query_mask
-    from pdi_eval.v1.tracking import TrackWrapper
+    from robot.experiments.link7_depth_filter_v2.link7_depth_gate import link7_query_mask
+    from infrastructure.shared.inference.tracking import TrackWrapper
 
     output.mkdir(parents=True, exist_ok=True)
     sampler = TrackWrapper.__new__(TrackWrapper)

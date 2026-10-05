@@ -1,6 +1,6 @@
 """Simple check/run/status/export commands for the persistent masking pipeline."""
 
-from infrastructure.pdibench.layout import root as _workspace_root
+from infrastructure.deformation_detect.layout import root as _workspace_root
 import argparse
 import json
 import os

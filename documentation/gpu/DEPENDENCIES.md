@@ -28,9 +28,9 @@ Compiled dependencies and assets:
 - Simple3D/Open3D may need `libegl1`; video generation needs ffmpeg. Provide existing model checkpoints, SAM3 tokenizer assets and reference images separately.
 
 ```bash
-python -m pdibench env-check --profile geometry --python /path/to/geometry/bin/python --cuda
-python -m pdibench env-check --profile sam3 --python /path/to/sam3/bin/python --cuda
-python -m pdibench env-check --profile anomalydino --python /path/to/anomalydino/bin/python --cuda
+python -m deformation_detect env-check --profile geometry --python /path/to/geometry/bin/python --cuda
+python -m deformation_detect env-check --profile sam3 --python /path/to/sam3/bin/python --cuda
+python -m deformation_detect env-check --profile anomalydino --python /path/to/anomalydino/bin/python --cuda
 ```
 
 The checker reports installed versions, missing modules, Python/CUDA mismatches and optional CUDA tensor availability. It does not install packages, download checkpoints, connect to a host, or claim that unknown pins reproduce a historical run. `infrastructure/shared/experimental/simple3d/preflight_simple3d.py` retains the more specific native-operation validation for a prepared Simple3D experiment.

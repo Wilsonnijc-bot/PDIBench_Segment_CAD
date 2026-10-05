@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 import sys
 
-from infrastructure.pdibench.coordinator import read, write
+from infrastructure.deformation_detect.coordinator import read, write
 
 
 def configure(request):

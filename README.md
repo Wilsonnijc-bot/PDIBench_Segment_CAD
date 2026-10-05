@@ -22,7 +22,7 @@ object/
   archive/          Historical object batch and release scripts
 infrastructure/
   shared/           Reused inference, geometry, scoring, and replay components
-  pdibench/         Common run, analysis, and source-staging interface
+  deformation_detect/ Common run, analysis, and source-staging interface
   vendor/           Third-party implementations and pinned submodules
   tests/            Workspace interface tests
   archive/          Historical setup and diagnostic tools
@@ -44,29 +44,29 @@ The root `results/` directory preserves paths stored inside existing experiment 
 
 ## Run and analyze
 
-Use Python 3.10 or newer from this checkout. `pip install --no-deps -e .` optionally installs the `pdibench` command; it does not install GPU dependencies.
+Use Python 3.10 or newer from this checkout. `pip install --no-deps -e .` optionally installs the `deformation_detect` command; it does not install GPU dependencies.
 
 ```bash
-python -m pdibench list
-python -m pdibench run links.run -- --help
-python -m pdibench run objects.occlusion -- --help
-python -m pdibench run objects.score -- --help
-python -m pdibench run objects.replay -- --help
-python -m pdibench env-check --profile geometry --python /path/to/geometry/bin/python --cuda
+python -m deformation_detect list
+python -m deformation_detect run links.run -- --help
+python -m deformation_detect run objects.occlusion -- --help
+python -m deformation_detect run objects.score -- --help
+python -m deformation_detect run objects.replay -- --help
+python -m deformation_detect env-check --profile geometry --python /path/to/geometry/bin/python --cuda
 ```
 
 Select a model environment and record an invocation with explicit output arguments:
 
 ```bash
-python -m pdibench run --python /path/to/anomalydino/bin/python \
+python -m deformation_detect run --python /path/to/anomalydino/bin/python \
   --record object/results/my-run/execution objects.score -- --help
-python -m pdibench analyze --scores scores.csv --labels labels.csv \
+python -m deformation_detect analyze --scores scores.csv --labels labels.csv \
   --key case --score epsilon_rigidity --label deformation --output analysis.json
 ```
 
 Replace `--help` with the existing command's arguments. New outputs should use `robot/results/`, `object/results/`, or the owning experiment's results directory. Frozen historical defaults and configurations retain their recorded paths. CSV analysis reports missing values and excludes moderate labels; pipeline-specific analysis retains its existing aggregation policies.
 
-Code imports directly from `robot`, `object`, and `infrastructure`. The coordinator lives in `infrastructure/pdibench/`; `python -m pdibench` remains a CLI shortcut. The former compatibility namespaces are archived under `infrastructure/archive/compat/` and excluded from runtime and source staging.
+Code imports directly from `robot`, `object`, and `infrastructure`. The coordinator lives in `infrastructure/deformation_detect/`. Use `python -m deformation_detect` from the checkout, or the installed `deformation_detect` command. Both use the same dispatcher. The former compatibility namespaces are archived under `infrastructure/archive/compat/` and excluded from runtime and source staging.
 
 ## Context and verification
 
@@ -81,7 +81,7 @@ Code imports directly from `robot`, `object`, and `infrastructure`. The coordina
 ```bash
 python documentation/architecture/verify.py
 python documentation/publication/build.py
-python -m pdibench stage --output .tmp/source-copy
+python -m deformation_detect stage --output .tmp/source-copy
 python -m pytest -q
 ```
 

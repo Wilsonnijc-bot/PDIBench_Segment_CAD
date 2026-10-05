@@ -3,18 +3,21 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pdibench-workspace"
+name = "deformation-detect-workspace"
 version = "0.3.0"
-description = "PDI robot-link and object pipeline workspace interfaces"
+description = "Robot-link and object deformation detection workspace interfaces"
 requires-python = ">=3.10"
 dependencies = []
 
 [project.scripts]
-pdibench = "infrastructure.pdibench.__main__:main"
+deformation_detect = "infrastructure.deformation_detect.__main__:main"
+
+[tool.setuptools]
+py-modules = ["deformation_detect"]
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["robot*", "object*", "infrastructure.pdibench*", "infrastructure.shared*"]
+include = ["robot*", "object*", "infrastructure.deformation_detect*", "infrastructure.shared*"]
 exclude = ["*.results*", "*.archive*", "*.tests*"]
 
 [tool.pytest.ini_options]

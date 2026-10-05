@@ -10,7 +10,7 @@ mkdir -p "$BATCH_ROOT"
 exec >>"$BATCH_ROOT/batch.log" 2>&1
 echo "[$(date --iso-8601=seconds)] detached batch launcher started"
 PYTHONPATH="$CODE_ROOT/src" PYTHONUNBUFFERED=1 "$PDI_GPU_ROOT/env/pdi-bench/bin/python" \
-  -m pdi_eval.experiment batch-v1 \
+  -m robot.workflows batch-v1 \
   --gpu-root "$PDI_GPU_ROOT" \
   --code-root "$CODE_ROOT" \
   --batch-root "$BATCH_ROOT" \

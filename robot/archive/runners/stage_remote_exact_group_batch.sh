@@ -27,7 +27,7 @@ REMOTE_CODE="$PDI_GPU_ROOT/code/PDI-Bench-edited"
 REMOTE_BATCH="$PDI_GPU_ROOT/batches/$BATCH_ID"
 
 mkdir -p "$LOCAL_BATCH"
-PYTHONPATH="$EDITED_ROOT/src" python -m pdi_eval.experiment video-manifest \
+PYTHONPATH="$EDITED_ROOT/src" python -m robot.workflows video-manifest \
   --dataset "COSMOS2.5=$PROJECT_ROOT/.tmp/COSMOS2.5_Videos" \
   --dataset "COSMOS3=$PROJECT_ROOT/.tmp/COSMOS3/seed101" \
   --dataset "COSMOS3=$PROJECT_ROOT/.tmp/COSMOS3/seed101 2" \

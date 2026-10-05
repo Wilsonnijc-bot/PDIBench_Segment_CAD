@@ -66,7 +66,7 @@ def stage_and_launch() -> None:
     fingerprint = base.remote(
         "env", f"PYTHONPATH={base.CODE}/src:{base.CODE}",
         "/root/autodl-tmp/pdi/env/pdi-bench/bin/python", "-c",
-        "from pathlib import Path; from pdi_eval.experiment.score_v1 import _source_fingerprint; "
+        "from pathlib import Path; from robot.workflows.score_v1 import _source_fingerprint; "
         f"print(_source_fingerprint(Path('{base.CODE}')))",
     )
     if fingerprint != base.SCORER_FINGERPRINT:

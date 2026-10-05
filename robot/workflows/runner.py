@@ -7,7 +7,7 @@ can overlap the other worker's GPU work. Existing stage outputs are resumed.
 
 from __future__ import annotations
 
-from infrastructure.pdibench.layout import root as _workspace_root
+from infrastructure.deformation_detect.layout import root as _workspace_root
 
 import fcntl
 import json

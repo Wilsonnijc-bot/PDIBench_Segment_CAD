@@ -6,8 +6,8 @@ import sys
 
 import pytest
 
-from infrastructure.pdibench.analysis import analyze, auroc
-from infrastructure.pdibench.layout import root, manifest
+from infrastructure.deformation_detect.analysis import analyze, auroc
+from infrastructure.deformation_detect.layout import root, manifest
 
 
 def write_csv(path, rows):
@@ -40,7 +40,7 @@ def test_old_imports_use_single_canonical_scoring_function():
 
 def test_cli_records_exit_and_does_not_overwrite(tmp_path):
     record=tmp_path/'execution'
-    command=[sys.executable,'-m','pdibench','run','--record',str(record),'links.run','--','--help']
+    command=[sys.executable,'-m','deformation_detect','run','--record',str(record),'links.run','--','--help']
     done=subprocess.run(command,cwd=root(),capture_output=True,text=True)
     assert done.returncode==0,done.stderr
     payload=json.loads((record/'execution.json').read_text())
@@ -58,9 +58,9 @@ def test_archived_source_aliases_resolve_to_their_owner():
 
 def test_runtime_imports_are_direct_and_archives_are_not_on_pythonpath():
     import ast
-    from infrastructure.pdibench.layout import environment, interfaces
+    from infrastructure.deformation_detect.layout import environment, interfaces
     forbidden={'pdi_eval','persistent_masking','generation','experiments','scripts'}
-    owners=('robot','object','infrastructure/shared','infrastructure/pdibench','documentation/publication')
+    owners=('robot','object','infrastructure/shared','infrastructure/deformation_detect','documentation/publication')
     for owner in owners:
         for path in (root()/owner).rglob('*.py'):
             if {'archive','results','__pycache__'} & set(path.relative_to(root()).parts):continue
@@ -78,12 +78,33 @@ def test_runtime_imports_are_direct_and_archives_are_not_on_pythonpath():
 
 
 def test_canonical_asset_locations_and_coordinator_without_site_packages(tmp_path):
-    from infrastructure.pdibench.layout import environment
+    from infrastructure.deformation_detect.layout import environment
     from infrastructure.shared.replay.rigidity_replay import _SOURCE_PATH
     assert _SOURCE_PATH.with_name('rigidity_replay.html').is_file()
     assert (root()/'infrastructure/shared/replay/assets/plotly.min.js').is_file()
-    command=[sys.executable,'-S','-m','infrastructure.pdibench','coordinate','--manifest',
+    command=[sys.executable,'-S','-m','infrastructure.deformation_detect','coordinate','--manifest',
              str(root()/'documentation/pipeline/coordinator.example.json'),'--plan']
     result=subprocess.run(command,cwd=tmp_path,env=environment(),capture_output=True,text=True)
     assert result.returncode==0,result.stderr
     assert 'link2_masks' in json.loads(result.stdout)['stages']
+
+
+def test_staged_checkout_runs_new_cli_without_old_entry_points(tmp_path):
+    from infrastructure.deformation_detect.layout import environment
+    snapshot = tmp_path / 'source'
+    result = subprocess.run(
+        [sys.executable, '-m', 'deformation_detect', 'stage', '--output', str(snapshot)],
+        cwd=root(), env=environment(), capture_output=True, text=True)
+    assert result.returncode == 0, result.stderr
+    assert (snapshot / 'deformation_detect.py').is_file()
+    assert not (snapshot / 'pdibench.py').exists()
+    assert not (snapshot / 'infrastructure/pdibench').exists()
+    result = subprocess.run(
+        [sys.executable, '-S', '-m', 'deformation_detect', 'list'],
+        cwd=snapshot, capture_output=True, text=True)
+    assert result.returncode == 0, result.stderr
+    assert 'objects.score' in result.stdout and 'links.run' in result.stdout
+    result = subprocess.run(
+        [sys.executable, '-S', '-m', 'pdibench', 'list'],
+        cwd=snapshot, capture_output=True, text=True)
+    assert result.returncode != 0

@@ -80,7 +80,7 @@ for line in "${group_lines[@]}"; do
   echo "running $batch_id: ${samples[*]}"
   set +e
   PDI_RUN_ROOT="$run_root" PYTHONPATH=src:. \
-    /root/autodl-tmp/pdi/env/pdi-bench/bin/python -u -m pdi_eval.experiment resume \
+    /root/autodl-tmp/pdi/env/pdi-bench/bin/python -u -m robot.workflows resume \
       --spec configs/experiment_link5_link7_four_way_45.json "${sample_args[@]}" \
       2>&1 | tee "$log"
   rc="${PIPESTATUS[0]}"

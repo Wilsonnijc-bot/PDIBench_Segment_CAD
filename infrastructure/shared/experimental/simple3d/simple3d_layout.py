@@ -1,7 +1,7 @@
 """One result root per Simple3D run, with legacy paths retained as provenance."""
 
 from pathlib import Path as _LayoutPath
-from infrastructure.pdibench.layout import root as _workspace_root
+from infrastructure.deformation_detect.layout import root as _workspace_root
 _SOURCE_PATH = _LayoutPath(__file__).resolve()
 
 from pathlib import Path

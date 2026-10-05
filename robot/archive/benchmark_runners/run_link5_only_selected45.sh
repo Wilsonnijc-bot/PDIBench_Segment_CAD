@@ -23,7 +23,7 @@ cd "$project_root"
 printf 'STARTING_LINK5_WITH_TWO_WORKERS\n' | tee -a "$log"
 set +e
 PDI_RUN_ROOT="$run_root" PYTHONPATH=src:. \
-  /root/autodl-tmp/pdi/env/pdi-bench/bin/python -u -m pdi_eval.experiment run \
+  /root/autodl-tmp/pdi/env/pdi-bench/bin/python -u -m robot.workflows run \
   --spec configs/experiment_link5_only_selected45.json 2>&1 | tee -a "$log"
 rc="${PIPESTATUS[0]}"
 set -e

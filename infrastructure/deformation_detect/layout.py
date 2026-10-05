@@ -8,7 +8,7 @@ def root():
     for parent in Path(__file__).resolve().parents:
         if (parent / 'documentation/architecture/layout.json').is_file():
             return parent
-    raise RuntimeError('Use pdibench from the source checkout or an editable install')
+    raise RuntimeError('Use deformation_detect from the source checkout or an editable install')
 
 
 def manifest():

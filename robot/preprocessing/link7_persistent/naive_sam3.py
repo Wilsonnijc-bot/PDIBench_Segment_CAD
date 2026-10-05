@@ -3,7 +3,7 @@
 Default: existing DINO gripper-reference box. Text-only initialization is optional.
 """
 
-from infrastructure.pdibench.layout import root as _workspace_root
+from infrastructure.deformation_detect.layout import root as _workspace_root
 import argparse
 import hashlib
 import json

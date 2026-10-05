@@ -4,7 +4,7 @@
 backbone loads once per scorer. This module does not call the video pipeline.
 
 ```python
-from pdi_eval.anomaly_scoring import AnomalyDINOScorer
+from object.scoring.anomalydino import AnomalyDINOScorer
 
 scorer = AnomalyDINOScorer(model_name='dinov2_vitb14', device='cuda:0')
 scorer.precompute_reference('reference.png')  # optional
@@ -33,9 +33,9 @@ Changing crop geometry requires new scores; the controlled comparison is under
 ## Installation and upstream provenance
 
 ```sh
-git submodule update --init PDI-Bench-edited/third_party/AnomalyDINO
-python -m pip install -r PDI-Bench-edited/src/pdi_eval/anomaly_scoring/requirements.txt
-export PYTHONPATH=PDI-Bench-edited/src
+git submodule update --init infrastructure/vendor/AnomalyDINO
+python -m pip install -r object/scoring/anomalydino/requirements.txt
+export PYTHONPATH="$PWD"
 ```
 
 Official repository: <https://github.com/dammsi/AnomalyDINO>.
@@ -108,7 +108,7 @@ convention:
 ```
 
 ```sh
-PYTHONPATH=PDI-Bench-edited/src python -m pdi_eval.anomaly_scoring run \
+python -m object.scoring.anomalydino run \
   --pairs pairs.json --input-root /path/to/images --output-root /path/to/results \
   --model-name dinov2_vitb14
 ```
@@ -126,11 +126,11 @@ experiment remains preserved separately.
 For this project's frozen selected crops:
 
 ```sh
-PYTHONPATH=PDI-Bench-edited/src python -m pdi_eval.anomaly_scoring prepare \
+python -m object.scoring.anomalydino prepare \
   --crop-root results/object-reference-crops-20261001 \
   --output results/anomalydino-object-crops-10frames-20261002/metadata/pair_manifest.json
 
-PYTHONPATH=PDI-Bench-edited/src python -m pdi_eval.anomaly_scoring run \
+python -m object.scoring.anomalydino run \
   --pairs results/anomalydino-object-crops-10frames-20261002/metadata/pair_manifest.json \
   --input-root results/object-reference-crops-20261001 \
   --output-root results/anomalydino-object-crops-10frames-20261002 \
@@ -157,12 +157,12 @@ already installed on the supplied instance. It strictly loads all 175 tensors
 and checks actual patch features against the cached HF model.
 
 ```sh
-PYTHONPATH=PDI-Bench-edited/src python -m pdi_eval.anomaly_scoring smoke \
+python -m object.scoring.anomalydino smoke \
   --reference reference.png --query query.png --model-name dinov2_vitb14 \
   --dino-repo /path/to/official/dinov2 --checkpoint /path/to/converted.pth
 
-PYTHONPATH=PDI-Bench-edited/src python -m unittest discover \
-  -s PDI-Bench-edited/tests -p test_anomalydino.py -v
+python -m unittest discover \
+  -s object/tests -p test_anomalydino.py -v
 ```
 
 The smoke test checks self/query finite float scores, dense map shapes, and
@@ -194,7 +194,7 @@ calculation, feature extraction, and scalar aggregation are preserved.
 To attach a completed run directly to the existing crop gallery and selections:
 
 ```sh
-PYTHONPATH=PDI-Bench-edited/src python -m pdi_eval.anomaly_scoring.annotate_crops \
+python -m object.replay.annotate_crops \
   --crop-root results/object-reference-crops-20261001 \
   --results-root results/anomalydino-object-crops-10frames-20261002
 ```

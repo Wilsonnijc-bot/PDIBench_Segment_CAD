@@ -1,14 +1,14 @@
 # Resumable robot/object coordinator
 
-`python -m pdibench coordinate` replaces the validation-only `masking_driver.py`, `downstream_driver.py`, and `case_tasks.py`. The coordinator runs the existing numerical implementations in their own environments, with explicit inputs and immutable stage attempts. It does not publish the results website or run object geometry/rigidity.
+`python -m deformation_detect coordinate` replaces the validation-only `masking_driver.py`, `downstream_driver.py`, and `case_tasks.py`. The coordinator runs the existing numerical implementations in their own environments, with explicit inputs and immutable stage attempts. It does not publish the results website or run object geometry/rigidity.
 
 Copy [coordinator.example.json](coordinator.example.json) and fill in the installed environment, model, reference, video and output paths. Paths are relative to the manifest file unless absolute. Credentials belong in environment variables or the external `secrets_file`, never in this manifest. Environment variable names may be configured in public VLM role settings; their values are not serialized.
 
 ```bash
-python -m pdibench coordinate --manifest run.json --plan
-python -m pdibench coordinate --manifest run.json --preflight-only
-python -m pdibench coordinate --manifest run.json
-python -m pdibench run-status --output /path/to/runs/link7-object-run
+python -m deformation_detect coordinate --manifest run.json --plan
+python -m deformation_detect coordinate --manifest run.json --preflight-only
+python -m deformation_detect coordinate --manifest run.json
+python -m deformation_detect run-status --output /path/to/runs/link7-object-run
 ```
 
 Run the same command again to resume. A disabled case remains disabled with unchanged inputs; `--retry-disabled` explicitly grants it a new attempt budget. Changed inputs automatically invalidate the affected stage and its dependents. A run exits 0 when every case completes, 2 when some cases are disabled. A preflight/configuration failure stops the run before inference.
@@ -28,7 +28,7 @@ Use the existing job supervisor or a unique tmux session for a remote GPU run. T
 
 The DAG records dependencies even though the initial release executes sequentially on one GPU. Object CoTracker has no dependency on link7 masks. Occlusion/crops require the selected link7 mask. Numerical occlusion, tracking, crop selection, anomaly and rigidity functions remain shared with the existing interfaces.
 
-The owner adapters are [robot/workflows/coordination.py](../../robot/workflows/coordination.py) and [object/workflows/coordination.py](../../object/workflows/coordination.py); execution/state lives under [infrastructure/pdibench/](../../infrastructure/pdibench/coordinator.py). Legacy experiment entry points remain available.
+The owner adapters are [robot/workflows/coordination.py](../../robot/workflows/coordination.py) and [object/workflows/coordination.py](../../object/workflows/coordination.py); execution/state lives under [infrastructure/deformation_detect/](../../infrastructure/deformation_detect/coordinator.py). Legacy experiment entry points remain available.
 
 ## Inputs and portability
 
@@ -67,4 +67,4 @@ Current [integration verification](validation/integration-checks.json): 214 test
 
 The link2 extension has CPU scheduler, manifest and archive-merge coverage; fresh link2 model inference has not yet been run through this coordinator. Earlier GPU preflight and crop-parity evidence apply to the link7/object implementation before this extension.
 
-Runtime imports now use `robot`, `object`, and `infrastructure` directly. The coordinator remains `infrastructure.pdibench`; the root `pdibench` command is a CLI shortcut. See the [direct-import migration audit](../architecture/DIRECT_IMPORT_MIGRATION.md). Old compatibility namespaces are archived and excluded from source staging. Fresh GPU acceptance has not been repeated after this migration.
+Runtime imports now use `robot`, `object`, and `infrastructure` directly. The coordinator remains `infrastructure.deformation_detect`; the root `deformation_detect` command is a CLI shortcut. See the [direct-import migration audit](../architecture/DIRECT_IMPORT_MIGRATION.md). Old compatibility namespaces are archived and excluded from source staging. Fresh GPU acceptance has not been repeated after this migration.

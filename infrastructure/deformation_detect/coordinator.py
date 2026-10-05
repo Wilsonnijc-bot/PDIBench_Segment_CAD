@@ -13,7 +13,7 @@ import socket
 import threading
 import subprocess
 
-from infrastructure.pdibench.layout import environment, root
+from infrastructure.deformation_detect.layout import environment, root
 
 # Topological order. Tracking for the object is independent of mask synchronization.
 STAGES = {
@@ -191,7 +191,7 @@ def refuse_live_worker(entry):
 def execute(request_path, interpreter, timeout):
     folder=request_path.parent
     with (folder/'stage.log').open('w') as log:
-        process=subprocess.Popen([interpreter,'-u','-m','infrastructure.pdibench.worker',str(request_path)],
+        process=subprocess.Popen([interpreter,'-u','-m','infrastructure.deformation_detect.worker',str(request_path)],
             cwd=root(),env=environment(),stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
         receipt={'pid':process.pid,'host':socket.gethostname(),'started_at':now()}
         write(folder/'execution.json',receipt)
@@ -230,7 +230,7 @@ def preflight(config):
     with tempfile.TemporaryDirectory(prefix='pdi-preflight-') as temporary:
         request = Path(temporary)/'request.json'; write(request, {'config':config,'stage':'preflight'})
         for env, interpreter in config['environments'].items():
-            command = [interpreter, '-m', 'infrastructure.pdibench.worker', str(request), '--check-environment', env]
+            command = [interpreter, '-m', 'infrastructure.deformation_detect.worker', str(request), '--check-environment', env]
             result = subprocess.run(command, cwd=root(), env=environment(), capture_output=True, text=True, timeout=180)
             if result.returncode: raise RuntimeError(f'{env} preflight failed:\n{result.stderr[-2500:]}')
             reports[env] = json.loads(result.stdout.strip().splitlines()[-1])
@@ -279,7 +279,7 @@ def coordinate(config, *, retry_disabled=False, executor=execute, check=prefligh
         resources={k:resource_identity(v) for k,v in config['resources'].items()}
         # Scientific source changes conservatively invalidate the run. Model data and docs do not.
         source=source_identity if source_identity is not None else {
-            str(p.relative_to(root())):digest(p) for owner in ('robot','object','infrastructure/pdibench','infrastructure/shared/inference')
+            str(p.relative_to(root())):digest(p) for owner in ('robot','object','infrastructure/deformation_detect','infrastructure/shared/inference')
             for p in (root()/owner).rglob('*') if p.is_file() and p.suffix in {'.py','.html','.js'} and not {'results','tests','__pycache__','archive','experiments','experimental'} & set(p.relative_to(root()).parts)}
         write(output/'manifest.json',config)
         write(output/'preflight.json',environments)

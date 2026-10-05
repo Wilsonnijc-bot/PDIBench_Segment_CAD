@@ -7,7 +7,7 @@ import subprocess
 import sys
 from types import SimpleNamespace
 
-from infrastructure.pdibench.coordinator import digest, read, write
+from infrastructure.deformation_detect.coordinator import digest, read, write
 
 
 def clone_work(source, target):
@@ -159,7 +159,7 @@ def scoring_segmentation(request):
 
 
 def robot_score(request):
-    from infrastructure.pdibench.worker import isolate_mega
+    from infrastructure.deformation_detect.worker import isolate_mega
     out=Path(request['directory']);resources=request['config']['resources'];case=request['case']
     segmentation=scoring_segmentation(request)
     links=request['config'].get('robot_links',['link7'])

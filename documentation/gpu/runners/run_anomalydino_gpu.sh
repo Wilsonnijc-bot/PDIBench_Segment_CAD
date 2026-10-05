@@ -18,8 +18,8 @@ export OMP_NUM_THREADS=4
 "$anomaly_python" - "$anomaly_run_root" "$anomaly_dino_repo" "$anomaly_checkpoint" <<'PY'
 import hashlib, json, pathlib, socket, subprocess, sys
 import torch
-from pdi_eval.anomaly_scoring.anomalydino import load_upstream
-from pdi_eval.anomaly_scoring.runner import read_pairs, write_json
+from object.scoring.anomalydino.anomalydino import load_upstream
+from object.scoring.anomalydino.runner import read_pairs, write_json
 root, dino_repo, checkpoint = map(pathlib.Path, sys.argv[1:])
 assert root.is_dir() and dino_repo.is_dir() and checkpoint.is_file()
 assert (dino_repo / 'hubconf.py').is_file()
@@ -45,7 +45,7 @@ write_json(root / 'metadata/preflight.json', {
 print('PREFLIGHT PASSED', flush=True)
 PY
 "$anomaly_python" -m pip freeze > "$anomaly_run_root/metadata/environment.txt"
-"$anomaly_python" -m pdi_eval.anomaly_scoring run \
+"$anomaly_python" -m object.scoring.anomalydino run \
   --pairs "$anomaly_run_root/metadata/pair_manifest.json" \
   --input-root "$anomaly_run_root/inputs" \
   --output-root "$anomaly_run_root/outputs" \

@@ -23,14 +23,14 @@ from pathlib import Path
 BENCHMARK = _SOURCE_PATH.parents[1]
 sys.path.insert(0, str(BENCHMARK / "src"))
 
-from pdi_eval.experiment.contracts import (  # noqa: E402
+from infrastructure.shared.contracts.contracts import (  # noqa: E402
     checked_file, mask_is_valid, page_index, read_selection, sha256_file,
     video_path, write_json,
 )
-from pdi_eval.experiment.runner import (  # noqa: E402
+from robot.workflows.runner import (  # noqa: E402
     LINK_NAMES, command, ensure_video_alias, score_argv, v1_outputs_complete,
 )
-from pdi_eval.experiment.spec import load_spec  # noqa: E402
+from robot.workflows.spec import load_spec  # noqa: E402
 
 
 def frozen_cases(output_root: Path, selection: dict) -> list[tuple[str, dict]]:

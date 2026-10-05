@@ -2,7 +2,7 @@
 """Render exact recorded Gemini SAM points and representative mask comparisons."""
 
 from pathlib import Path as _LayoutPath
-from infrastructure.pdibench.layout import root as _workspace_root
+from infrastructure.deformation_detect.layout import root as _workspace_root
 _SOURCE_PATH = _LayoutPath(__file__).resolve()
 
 import base64, hashlib, html, json, subprocess, shutil

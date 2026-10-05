@@ -13,7 +13,7 @@ arguments=(
   --output-root "$run_root"
   --video-root /root/autodl-tmp/motionsmoothness-robot/videos
   --sam-python "$gpu_root/env/sam3/bin/python"
-  --pdi-python "$gpu_root/env/pdi-bench/bin/python"
+  --geometry-python "$gpu_root/env/pdi-bench/bin/python"
   --sam3-checkpoint "$gpu_root/models/sam3/sam3.pt"
   --sam3-bpe "$gpu_root/models/sam3/bpe_simple_vocab_16e6.txt.gz"
   --tracker-checkpoint "$gpu_root/models/tracker/scaled_offline.pth"
@@ -22,4 +22,4 @@ arguments=(
 if [[ $# -gt 0 ]]; then
   arguments+=(--case "$1")
 fi
-exec "$gpu_root/env/pdi-bench/bin/python" -u -m pdi_eval.object_deformation_wrapper run "${arguments[@]}"
+exec "$gpu_root/env/pdi-bench/bin/python" -u -m object.experiments.rigidity.workflows run "${arguments[@]}"

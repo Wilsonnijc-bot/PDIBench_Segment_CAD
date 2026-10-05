@@ -23,11 +23,11 @@ The coordinator runs object CoTracker directly for occlusion; it does not run ob
 
 ## Direct imports and deployment
 
-Canonical folders are now the Python namespaces: `robot`, `object`, and `infrastructure`. The coordinator and worker remain under `infrastructure.pdibench`. `python -m pdibench` is only a CLI shortcut. Source modules, subprocess `-m` commands, public package exports, model roots, reference defaults, replay assets and source fingerprints use the canonical layout.
+Canonical folders are now the Python namespaces: `robot`, `object`, and `infrastructure`. The coordinator and worker remain under `infrastructure.deformation_detect`. `python -m deformation_detect` is only a CLI shortcut. Source modules, subprocess `-m` commands, public package exports, model roots, reference defaults, replay assets and source fingerprints use the canonical layout.
 
-Use a full checkout, or `python -m pdibench stage --output NEW_DIRECTORY`. Staging excludes archives and compatibility packages. Vendor checkouts, reference images, model weights and run data remain separately provisioned assets. Use the coordinator's explicit manifest paths for hosted model environments.
+Use a full checkout, or `python -m deformation_detect stage --output NEW_DIRECTORY`. Staging excludes archives and compatibility packages. Vendor checkouts, reference images, model weights and run data remain separately provisioned assets. Use the coordinator's explicit manifest paths for hosted model environments.
 
-Editable installation exposes the canonical packages and CLI. The source checkout is still required for manifests and assets. Supported entry points appear in `python -m pdibench list`; use those or `python -m <canonical.module>`, rather than archived shell runners. The import regression tests and a staged-copy check run without the old compatibility tree. Fresh GPU acceptance after this import migration has not been run.
+Editable installation exposes the canonical packages and CLI. The source checkout is still required for manifests and assets. Supported entry points appear in `python -m deformation_detect list`; use those or `python -m <canonical.module>`, rather than archived shell runners. The import regression tests and a staged-copy check run without the old compatibility tree. Fresh GPU acceptance after this import migration has not been run.
 
 ## Results
 

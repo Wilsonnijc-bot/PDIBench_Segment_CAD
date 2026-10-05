@@ -17,9 +17,9 @@ from pathlib import Path
 import cv2
 import numpy as np
 from PIL import Image
-from pdi_eval.object_deformation_wrapper.frame_selection import select_frames
-from pdi_eval.object_deformation_wrapper.reference_visible_pixels import mask_bbox, rgba_crop
-from pdi_eval.object_deformation_wrapper.paired_crops import normalize_pair
+from object.preprocessing.crop_pairs.frame_selection import select_frames
+from object.preprocessing.crop_pairs.reference_visible_pixels import mask_bbox, rgba_crop
+from object.preprocessing.crop_pairs.paired_crops import normalize_pair
 
 ROOT=_SOURCE_PATH.parents[1]
 

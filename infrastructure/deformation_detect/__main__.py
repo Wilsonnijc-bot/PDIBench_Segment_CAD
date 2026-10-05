@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import sys
 
-from infrastructure.pdibench.layout import environment, interfaces, root
+from infrastructure.deformation_detect.layout import environment, interfaces, root
 
 
 def write(path, value):
@@ -37,7 +37,7 @@ def stage(output):
             for name in names:
                 if name.startswith('.env') or name.endswith(('.env', '.pyc', '.log')) or name == '.DS_Store':continue
                 files.add(str((Path(base)/name).relative_to(repo)))
-    for name in ('infrastructure.pdibench.py', 'pyproject.toml', 'README.md', '.gitignore', '.gitmodules'):
+    for name in ('deformation_detect.py', 'pyproject.toml', 'README.md', '.gitignore', '.gitmodules'):
         if (repo/name).is_file():files.add(name)
     output.mkdir(parents=True)
     records = {}
@@ -56,7 +56,7 @@ def stage(output):
 
 
 def main(argv=None):
-    p = argparse.ArgumentParser(description=__doc__)
+    p = argparse.ArgumentParser(prog='deformation_detect', description=__doc__)
     commands = p.add_subparsers(dest='command', required=True)
     coordinator = commands.add_parser('coordinate', help='Run or resume the autonomous link7/object pipeline')
     coordinator.add_argument('--manifest', type=Path, required=True)
@@ -92,7 +92,7 @@ def main(argv=None):
         print((args.output / 'run.json').read_text())
         return 0
     if args.command == 'coordinate':
-        from infrastructure.pdibench.coordinator import stages_for, coordinate, load_manifest, preflight
+        from infrastructure.deformation_detect.coordinator import stages_for, coordinate, load_manifest, preflight
         config = load_manifest(args.manifest)
         if args.plan:
             print(json.dumps({'cases': [c['id'] for c in config['cases']], 'output': config['output'],
@@ -112,7 +112,7 @@ def main(argv=None):
         return 0
     if args.command == 'stage':stage(args.output);return 0
     if args.command == 'analyze':
-        from infrastructure.pdibench.analysis import analyze
+        from infrastructure.deformation_detect.analysis import analyze
         result = analyze(args.scores, args.labels, key=args.key, score=args.score, label=args.label,
                          positive=args.positive, negative=args.negative, lower_is_anomalous=args.lower_is_anomalous)
         result['inputs'] = {role:{'path':str(path.absolute()),'sha256':hashlib.sha256(path.read_bytes()).hexdigest()}

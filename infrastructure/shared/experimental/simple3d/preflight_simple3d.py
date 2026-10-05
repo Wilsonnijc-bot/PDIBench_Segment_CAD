@@ -1,7 +1,7 @@
 """Validate native method, existing infrastructure, and all prepared source paths."""
 
 from pathlib import Path as _LayoutPath
-from infrastructure.pdibench.layout import root as _workspace_root
+from infrastructure.deformation_detect.layout import root as _workspace_root
 _SOURCE_PATH = _LayoutPath(__file__).resolve()
 
 import argparse

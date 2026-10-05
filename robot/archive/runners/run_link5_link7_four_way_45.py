@@ -35,7 +35,7 @@ SSH = ["ssh", "-i", str(KEY), "-o", "BatchMode=yes",
 RSYNC_SSH = (f"ssh -i {KEY} -o BatchMode=yes -o ConnectTimeout=15 "
              "-o ServerAliveInterval=20 -o ServerAliveCountMax=3 -p 26211")
 sys.path.insert(0, str(ROOT / "PDI-Bench-edited/src"))
-from pdi_eval.experiment.score_v1 import _source_fingerprint
+from robot.workflows.score_v1 import _source_fingerprint
 
 SCORER_FINGERPRINT = _source_fingerprint(ROOT / "PDI-Bench-edited")
 COMPATIBLE_SCORER_FINGERPRINTS = {
@@ -114,7 +114,7 @@ def remote_status(sample: str) -> str:
     case = f"{REMOTE}/cases/{sample}"
     script = """import json,sys
 from pathlib import Path
-from pdi_eval.experiment.link5_link7_four_way import PATHS, _complete, COMPATIBLE_SCORER_FINGERPRINTS
+from robot.experiments.link7_tracker_filter_comparison.link5_link7_four_way import PATHS, _complete, COMPATIBLE_SCORER_FINGERPRINTS
 case=Path(sys.argv[1]); expected_fingerprint=sys.argv[2]
 status_path=case/'status.json'
 if not status_path.is_file(): print('pending'); sys.exit()
@@ -236,7 +236,7 @@ def main() -> None:
     remote_fingerprint = remote(
         "env", f"PYTHONPATH={CODE}/src:{CODE}",
         "/root/autodl-tmp/pdi/env/pdi-bench/bin/python", "-c",
-        "from pathlib import Path; from pdi_eval.experiment.score_v1 import _source_fingerprint; "
+        "from pathlib import Path; from robot.workflows.score_v1 import _source_fingerprint; "
         "print(_source_fingerprint(Path('/root/autodl-tmp/pdi/code/PDI-Bench-edited')))",
     )
     if remote_fingerprint != SCORER_FINGERPRINT:

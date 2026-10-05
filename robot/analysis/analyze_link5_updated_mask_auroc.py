@@ -2,7 +2,7 @@
 """Audit displayed link5 rigidity against forearm labels, reusing rank analysis."""
 
 from pathlib import Path as _LayoutPath
-from infrastructure.pdibench.layout import root as _workspace_root
+from infrastructure.deformation_detect.layout import root as _workspace_root
 _SOURCE_PATH = _LayoutPath(__file__).resolve()
 
 import argparse, csv, hashlib, json, math, re

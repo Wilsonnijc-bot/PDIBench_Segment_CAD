@@ -17,4 +17,4 @@ The occlusion-filtered rigidity helper remains reusable by the retained rigidity
 
 `workflows/coordination.py` supplies the object stages of the [permanent resumable coordinator](../documentation/pipeline/COORDINATOR.md), without requiring old rigidity/occlusion outputs. `workflows/mask_sync.py` remains the historical artifact-based handoff for existing experiment entry points.
 
-Use the `objects.*` interfaces listed by `python -m pdibench list`. Python imports use `object.preprocessing`, `object.scoring.anomalydino`, and `object.replay` directly. Current publication includes 42 scored videos and 420 pairs; see `documentation/publication/release.json`.
+Use the `objects.*` interfaces listed by `python -m deformation_detect list`. Python imports use `object.preprocessing`, `object.scoring.anomalydino`, and `object.replay` directly. Current publication includes 42 scored videos and 420 pairs; see `documentation/publication/release.json`.

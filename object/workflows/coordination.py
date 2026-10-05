@@ -5,7 +5,7 @@ import io
 from pathlib import Path
 import shutil
 
-from infrastructure.pdibench.coordinator import digest, read, write
+from infrastructure.deformation_detect.coordinator import digest, read, write
 
 
 def named_masks(path, name):

@@ -25,15 +25,15 @@ import sys
 ROOT = _SOURCE_PATH.parents[1]
 sys.path.insert(0, str(ROOT / 'PDI-Bench-edited/src'))
 
-from pdi_eval.anomaly_scoring.runner import prepare_selected, sha256, write_json
+from object.scoring.anomalydino.runner import prepare_selected, sha256, write_json
 
 
 def prepare(run: Path):
     import numpy as np
     from PIL import Image
-    from pdi_eval.object_deformation_wrapper.paired_crops import METHOD, normalize_pair
-    from pdi_eval.object_deformation_wrapper.reference_visible_pixels import write_preview
-    from pdi_eval.object_deformation_wrapper.frame_selection_gallery import write_gallery
+    from object.preprocessing.crop_pairs.paired_crops import METHOD, normalize_pair
+    from object.preprocessing.crop_pairs.reference_visible_pixels import write_preview
+    from object.replay.frame_selection_gallery import write_gallery
 
     fresh = ROOT / 'results/vlm3-seven-cases-20261003'
     publication = fresh / 'metadata/publication'
@@ -124,7 +124,7 @@ def prepare(run: Path):
 def analyze(run: Path):
     from scipy.stats import pearsonr, spearmanr, kendalltau
     from analyze_object_occlusion_v2_auroc import workbook_labels
-    from pdi_eval.anomaly_scoring.annotate_crops import annotate
+    from object.replay.annotate_crops import annotate
 
     annotate(run / 'crops', run / 'outputs')
     old = json.loads((run / 'metadata/baseline_scores.json').read_text())

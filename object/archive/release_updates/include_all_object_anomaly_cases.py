@@ -24,7 +24,7 @@ import sys
 
 ROOT = _SOURCE_PATH.parents[1]
 sys.path.insert(0, str(ROOT / 'PDI-Bench-edited/src'))
-from pdi_eval.anomaly_scoring.runner import DEFAULT_EXCLUSIONS, prepare_selected, sha256, write_json
+from object.scoring.anomalydino.runner import DEFAULT_EXCLUSIONS, prepare_selected, sha256, write_json
 
 NEW_CASES = ['COSMOS2.5_0005', 'COSMOS2.5_0010', 'COSMOS2.5_0065', 'COSMOS2.5_0021']
 
@@ -39,8 +39,8 @@ def copy_owned(source, destination):
 
 def prepare(run):
     import numpy as np
-    from pdi_eval.object_deformation_wrapper.mask_sync import sync_case
-    from pdi_eval.object_deformation_wrapper.frame_selection_gallery import write_gallery
+    from object.workflows.mask_sync import sync_case
+    from object.replay.frame_selection_gallery import write_gallery
     baseline = ROOT / 'results/paired-crop-normalization-20261003'
     metadata = run / 'metadata'
     metadata.mkdir(parents=True)
@@ -104,7 +104,7 @@ def prepare(run):
 def analyze(run):
     from scipy.stats import pearsonr, spearmanr, kendalltau
     from analyze_object_occlusion_v2_auroc import workbook_labels
-    from pdi_eval.anomaly_scoring.annotate_crops import annotate
+    from object.replay.annotate_crops import annotate
     old = json.loads((run / 'metadata/baseline_scores.json').read_text())
     summary = json.loads((run / 'outputs/summary.json').read_text())
     new = [json.loads(line) for line in (run / 'outputs/pairs.jsonl').read_text().splitlines()]

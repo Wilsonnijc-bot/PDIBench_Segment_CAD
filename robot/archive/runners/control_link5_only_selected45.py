@@ -217,7 +217,7 @@ def main() -> None:
             time.sleep(20)
     import sys
     sys.path.insert(0, str(ROOT / "PDI-Bench-edited/src"))
-    from pdi_eval.experiment.link5_only import export_index
+    from robot.workflows.link5_only import export_index
     summary = export_index(LOCAL, selection)
     exit_path = f"{REMOTE}/run.exit"
     while True:

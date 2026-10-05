@@ -33,7 +33,7 @@ assert torch.cuda.is_available()
 assert (torch.ones(1, device='cuda') + 1).item() == 2
 print('PDI preflight OK:', torch.__version__, torch.cuda.get_device_name(0), flush=True)
 PY
-  PYTHONPATH="$project_root/src" "$gpu_root/env/pdi-bench/bin/python" -m pdi_eval.experiment score --help >/dev/null || exit 35
+  PYTHONPATH="$project_root/src" "$gpu_root/env/pdi-bench/bin/python" -m robot.workflows score --help >/dev/null || exit 35
   "$project_root/scripts/run_v1_replay_two.sh"
 } 2>&1 | tee "$log"
 status="${PIPESTATUS[0]}"

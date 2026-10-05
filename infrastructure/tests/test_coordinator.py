@@ -5,7 +5,7 @@ import sys
 
 import pytest
 
-from infrastructure.pdibench.coordinator import STAGES, coordinate, load_manifest, locked, read, write
+from infrastructure.deformation_detect.coordinator import STAGES, coordinate, load_manifest, locked, read, write
 
 
 @pytest.fixture
@@ -106,7 +106,7 @@ def test_lock_rejects_concurrent_driver(config):
 def test_named_single_link_crop_inputs(tmp_path):
     import numpy as np
     from object.preprocessing.crop_pairs.reference_visible_pixels import load_case
-    from infrastructure.pdibench.coordinator import digest
+    from infrastructure.deformation_detect.coordinator import digest
     folder=tmp_path/'arbitrary';(folder/'occlusion').mkdir(parents=True);(folder/'replay').mkdir()
     import cv2
     video=folder/'replay/source.mp4';writer=cv2.VideoWriter(str(video),cv2.VideoWriter_fourcc(*'mp4v'),10,(32,32))
@@ -122,7 +122,7 @@ def test_named_single_link_crop_inputs(tmp_path):
 
 def test_live_orphan_worker_blocks_resume(config):
     import os,socket
-    from infrastructure.pdibench.coordinator import refuse_live_worker
+    from infrastructure.deformation_detect.coordinator import refuse_live_worker
     folder=Path(config['output']);folder.mkdir()
     write(folder/'execution.json',{'pid':os.getpid(),'host':socket.gethostname()})
     with pytest.raises(RuntimeError,match='still alive'):
@@ -139,7 +139,7 @@ def test_missing_key_preflight_output_is_not_a_case_failure(config):
 def test_standalone_link7_mask_join_without_prior_experiment(tmp_path):
     import numpy as np
     import cv2
-    from infrastructure.pdibench.coordinator import digest
+    from infrastructure.deformation_detect.coordinator import digest
     from robot.workflows.coordination import mask_join
     name='newvideo';video=tmp_path/'source.mp4';writer=cv2.VideoWriter(str(video),cv2.VideoWriter_fourcc(*'mp4v'),10,(32,32))
     for _ in range(2):writer.write(np.zeros((32,32,3),np.uint8))
@@ -173,7 +173,7 @@ def test_interrupted_last_vlm_attempt_does_not_get_free_retries(config):
 
 def test_real_executor_timeout_terminates_worker_and_records_exit(tmp_path):
     import subprocess
-    from infrastructure.pdibench.coordinator import execute
+    from infrastructure.deformation_detect.coordinator import execute
     interpreter=tmp_path/'slow-python'
     interpreter.write_text(f'#!{sys.executable}\nimport time\ntime.sleep(30)\n')
     interpreter.chmod(0o700)
@@ -187,7 +187,7 @@ def test_vlm1_parse_failure_retries_only_failed_frame_and_never_means_normal(tmp
     from PIL import Image
     from robot.preprocessing.link7_persistent import pipeline
     from robot.workflows.coordination import persistent
-    from infrastructure.pdibench.coordinator import digest
+    from infrastructure.deformation_detect.coordinator import digest
     work=tmp_path/'initial/work';work.mkdir(parents=True)
     image=work/'frame.png';Image.new('RGB',(20,20)).save(image)
     calls=[{'frame':i,'crop':str(image),'sha256':digest(image)} for i in range(2)]
@@ -214,7 +214,7 @@ def test_vlm1_parse_failure_retries_only_failed_frame_and_never_means_normal(tmp
 
 
 def test_link2_resume_and_branch_invalidation(config):
-    from infrastructure.pdibench.coordinator import stages_for
+    from infrastructure.deformation_detect.coordinator import stages_for
     execute=Executor();run(config,execute);execute.calls.clear()
     config['robot_links']=['link2','link7']
     state=run(config,execute)
@@ -234,7 +234,7 @@ def test_link2_resume_and_branch_invalidation(config):
 def test_link2_merge_preserves_selected_link7_and_other_channels(tmp_path, existing_link2):
     import cv2
     import numpy as np
-    from infrastructure.pdibench.coordinator import digest
+    from infrastructure.deformation_detect.coordinator import digest
     from robot.workflows.coordination import scoring_segmentation
     video=tmp_path/'video.mp4';writer=cv2.VideoWriter(str(video),cv2.VideoWriter_fourcc(*'mp4v'),10,(32,32))
     for _ in range(2):writer.write(np.zeros((32,32,3),np.uint8))

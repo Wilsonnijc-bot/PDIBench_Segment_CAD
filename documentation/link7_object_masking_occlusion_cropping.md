@@ -1007,15 +1007,15 @@ After selecting and staging the final gripper archive, the existing CPU post-pro
 
 ```bash
 # Run from PDI-Bench-edited. Paths denote the coherently staged selected inputs.
-PYTHONPATH=.:src python -m pdi_eval.object_deformation_wrapper.occlusion \
+python -m object.preprocessing.occlusion.occlusion \
   --object-root /path/to/object-results \
   --gripper-root /path/to/selected-gripper-results
 
-PYTHONPATH=.:src python -m pdi_eval.object_deformation_wrapper.reference_visible_pixels \
+python -m object.preprocessing.crop_pairs.reference_visible_pixels \
   --object-root /path/to/object-results \
   --output-root /path/to/new-crop-results
 
-PYTHONPATH=.:src python -m pdi_eval.object_deformation_wrapper.frame_selection \
+python -m object.preprocessing.crop_pairs.frame_selection \
   --object-root /path/to/object-results \
   --crop-root /path/to/new-crop-results \
   --count 10

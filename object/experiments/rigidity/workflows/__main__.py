@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path as _LayoutPath
-from infrastructure.pdibench.layout import root as _workspace_root
+from infrastructure.deformation_detect.layout import root as _workspace_root
 _SOURCE_PATH = _LayoutPath(__file__).resolve()
 
 
@@ -167,7 +167,7 @@ def run(args) -> int:
                     scored.get("input", {}).get("segmentation_sha256") != state["segmentation_sha256"]):
                 with gpu_lock(args.gpu_lock):
                     code = _invoke([
-                        str(args.pdi_python), "-m", "object.experiments.rigidity.scoring.score",
+                        str(args.geometry_python), "-m", "object.experiments.rigidity.scoring.score",
                         "--video", str(alias), "--segmentation", str(segmentation),
                         "--output", str(score_dir), "--geometry-cache", str(folder / "geometry-cache"),
                         "--tracker-checkpoint", str(args.tracker_checkpoint),
@@ -177,7 +177,7 @@ def run(args) -> int:
                 scored = json.loads(score_path.read_text())
             if not _replay_ready(folder, scored):
                 code = _invoke([
-                    str(args.pdi_python), "-m", "object.experiments.rigidity.replay.replay",
+                    str(args.geometry_python), "-m", "object.experiments.rigidity.replay.replay",
                     "--score", str(score_path),
                     "--tracks", str(score_dir / "cotracker_exact-group.npz"),
                     "--segmentation", str(segmentation),
@@ -216,7 +216,7 @@ def main() -> int:
     running.add_argument("--output-root", type=Path, required=True)
     running.add_argument("--video-root", type=Path, required=True)
     running.add_argument("--sam-python", type=Path, required=True)
-    running.add_argument("--pdi-python", type=Path, default=Path(sys.executable))
+    running.add_argument("--geometry-python", type=Path, default=Path(sys.executable))
     running.add_argument("--sam3-checkpoint", type=Path, required=True)
     running.add_argument("--sam3-bpe", type=Path, required=True)
     running.add_argument("--tracker-checkpoint", type=Path, required=True)

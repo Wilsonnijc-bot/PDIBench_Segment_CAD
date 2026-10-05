@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 from pathlib import Path as _LayoutPath
-from infrastructure.pdibench.layout import root as _workspace_root
+from infrastructure.deformation_detect.layout import root as _workspace_root
 _SOURCE_PATH = _LayoutPath(__file__).resolve()
 
 
@@ -47,7 +47,7 @@ def _git_revision(path: Path) -> str | None:
 def _source_fingerprint(root: Path) -> str:
     digest = hashlib.sha256()
     sources = sorted(
-        path for owner in ("robot", "object", "infrastructure/shared", "infrastructure/pdibench")
+        path for owner in ("robot", "object", "infrastructure/shared", "infrastructure/deformation_detect")
         for path in (root / owner).rglob("*.py")
         if not {"archive", "results", "tests", "__pycache__"}.intersection(path.relative_to(root).parts)
     )

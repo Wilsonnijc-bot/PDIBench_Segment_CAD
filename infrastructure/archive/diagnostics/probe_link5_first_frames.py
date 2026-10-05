@@ -21,14 +21,14 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-from pdi_eval.perception.dinov2_reference_boxes import (
+from infrastructure.shared.inference.dinov2_reference_boxes import (
     Dinov2DenseEncoder,
     discover_reference_groups,
     load_prompt_frame,
     localize_reference_groups,
     xyxy_to_normalized_xywh,
 )
-from pdi_eval.perception.sam3_dinov2_segment import (
+from robot.preprocessing.segmentation.sam3_dinov2_segment import (
     LINK5_TEXT_PROMPT,
     _active_franka_groups,
     _link5_prompt_box,
@@ -144,7 +144,7 @@ def main() -> int:
                 seed_points, _, _ = _link5_seed_points(prompt_box, initial_mask.shape)
                 guarded_points = None
                 if args.vlm_guard:
-                    from pdi_eval.perception.link5_point_guard import review_link5_points
+                    from robot.preprocessing.link5_refinement.link5_point_guard import review_link5_points
 
                     guarded_points, guard_record = review_link5_points(
                         image, prompt_box, seed_points, case_dir

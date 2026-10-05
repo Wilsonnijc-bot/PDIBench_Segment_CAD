@@ -5,7 +5,7 @@ the project-root .env.vlm file, never in this file.
 """
 
 from pathlib import Path as _LayoutPath
-from infrastructure.pdibench.layout import root as _workspace_root
+from infrastructure.deformation_detect.layout import root as _workspace_root
 _SOURCE_PATH = _LayoutPath(__file__).resolve()
 
 from pathlib import Path

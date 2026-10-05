@@ -4,6 +4,6 @@ Main targets are link2–link7. Preprocessing owns segmentation, link5 refinemen
 
 Retained experiments: link5 Simple3D; link7 TAPIP3D, depth filter v2 and tracker/filter comparisons; masking-trial results. Historical palm trial code and obsolete fixed-batch launchers are under `robot/archive/`.
 
-Use `python -m pdibench list` and the `links.*` interfaces. Existing Python namespace: `pdi_eval`, plus `persistent_masking`. Current run selection remains in `documentation/publication/release.json`. Existing result replays can still be served through the original `results/<run-id>` URLs.
+Use `python -m deformation_detect list` and the `links.*` interfaces. Python imports use `robot.preprocessing`, `robot.scoring`, and `robot.workflows`. Current run selection remains in `documentation/publication/release.json`. Existing result replays can still be served through the original `results/<run-id>` URLs.
 
 Link7/VLM3 behavior has not been redesigned in this migration.
