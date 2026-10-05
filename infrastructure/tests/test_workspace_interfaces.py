@@ -97,6 +97,7 @@ def test_staged_checkout_runs_new_cli_without_old_entry_points(tmp_path):
         cwd=root(), env=environment(), capture_output=True, text=True)
     assert result.returncode == 0, result.stderr
     assert (snapshot / 'deformation_detect.py').is_file()
+    assert not (snapshot / 'documentation/website').exists()
     assert not (snapshot / 'pdibench.py').exists()
     assert not (snapshot / 'infrastructure/pdibench').exists()
     result = subprocess.run(

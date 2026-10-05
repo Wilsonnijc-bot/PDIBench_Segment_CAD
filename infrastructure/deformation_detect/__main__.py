@@ -30,7 +30,7 @@ def stage(output):
     files = set()
     excluded = {'results', 'results_v1', 'references', 'vendor', '__pycache__',
                 '.git', '.tmp', '.pytest_cache', 'previous_archive', 'pastresults',
-                'robot_link2_diagnostic', 'dino_refer_robot_link_first15', 'archive', 'compat'}
+                'robot_link2_diagnostic', 'dino_refer_robot_link_first15', 'archive', 'compat', 'website'}
     for folder in ('robot', 'object', 'infrastructure', 'documentation'):
         for base, dirs, names in os.walk(repo/folder):
             dirs[:] = [d for d in dirs if d not in excluded and not d.endswith('.egg-info')]

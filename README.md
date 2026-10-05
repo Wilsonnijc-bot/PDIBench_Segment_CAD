@@ -28,19 +28,19 @@ infrastructure/
   archive/          Historical setup and diagnostic tools
 documentation/
   publication/      Current website selection and publication tooling
+  website/          Published website pages, replays, and analysis
   gpu/              Dependency profiles, environment checks, and GPU ledger
   architecture/     Ownership inventory and migration verification
   data/             Shared labels and robot reference images
-docs/               Published GitHub Pages site
 web-assets/        Published site assets
-results/            Per-run aliases to pipeline-owned results
+results/            Local, Git-ignored links to pipeline-owned results
 ```
 
 Each pipeline also owns its tests; robot owns its configurations. Shared labels and robot reference images live under `documentation/data/`. Experiment outputs belong under the corresponding `experiments/<name>/results/` directory.
 
 **Occlusion is an active part of the object pipeline.** Its detection, analysis, tests, and interactive replay belong to `object/`. The existing link7/object interaction, including VLM1/VLM2 and optional VLM3 behavior, is preserved; redesign remains deferred.
 
-The root `results/` directory preserves paths stored inside existing experiment artifacts. Actual runs live under their owning pipeline. `docs/` and `web-assets/` retain their published URLs and content.
+The root `results/` directory holds local, Git-ignored links for paths stored inside existing experiment artifacts. Actual runs live under their owning pipeline. `documentation/website/` and `web-assets/` retain their published URLs and content.
 
 ## Run and analyze
 
@@ -71,7 +71,7 @@ Code imports directly from `robot`, `object`, and `infrastructure`. The coordina
 ## Context and verification
 
 - [Robot pipeline](robot/README.md) and [object pipeline, including occlusion](object/README.md)
-- [Latest robot results](docs/analysis/LATEST_LINK_RESULTS.md) and [object results](docs/analysis/OBJECT_ANOMALY_REPORT.md)
+- [Latest robot results](documentation/website/analysis/LATEST_LINK_RESULTS.md) and [object results](documentation/website/analysis/OBJECT_ANOMALY_REPORT.md)
 - [Existing link7/object interaction](documentation/link7_object_masking_occlusion_cropping.md)
 - [Third-party forks and upstream checkouts](documentation/THIRD_PARTY.md)
 - [GPU dependency profiles](documentation/gpu/DEPENDENCIES.md)

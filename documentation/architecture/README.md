@@ -2,7 +2,7 @@
 
 This migration establishes physical ownership and direct owner imports while preserving scientific behavior. `layout.json` records each original Git path (`old`), current canonical path (`new`), compatibility alias (`compat`), category, and pre-migration source hash. Historical aliases are archived under `infrastructure/archive/compat/`; they are not runtime dependencies. See [the direct-import audit](DIRECT_IMPORT_MIGRATION.md).
 
-The top level separates `robot/`, `object/`, shared runtime `infrastructure/`, and supporting `documentation/`. Publication tooling, GPU requirements, architecture records, labels, and reference images live under `documentation/`. Existing public `docs/` and `web-assets/` paths remain stable. The root `results/` directory preserves paths embedded in historical artifacts.
+The top level separates `robot/`, `object/`, shared runtime `infrastructure/`, and supporting `documentation/`. Publication tooling, GPU requirements, architecture records, labels, and reference images live under `documentation/`. Existing public `documentation/website/` and `web-assets/` paths remain stable. The root `results/` directory preserves paths embedded in historical artifacts as local, Git-ignored links.
 
 ## Pipeline boundaries
 

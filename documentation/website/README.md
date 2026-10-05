@@ -1,6 +1,6 @@
 # PDI selected review
 
-This folder is published by GitHub Pages from `main` at `/docs`. The object crop
+This folder is published by GitHub Pages through `.github/workflows/publish-website.yml` from `main` at `documentation/website/`. The object crop
 gallery loads its lossless image packs from `main/web-assets/object-image-packs/`
 through GitHub's raw-file URLs. All review files and image packs are maintained
 on `main`; separate deployment and image-asset branches are no longer required.
