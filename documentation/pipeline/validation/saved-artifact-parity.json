@@ -1,0 +1,36 @@
+[
+  {
+    "case": "COSMOS2.5_0005",
+    "detector_rows_identical": true,
+    "selected_frames": [
+      31,
+      42,
+      43,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62
+    ],
+    "identical_pngs": 20
+  },
+  {
+    "case": "LVP_ROBOWM_0005",
+    "detector_rows_identical": true,
+    "selected_frames": [
+      13,
+      14,
+      20,
+      23,
+      37,
+      38,
+      40,
+      41,
+      42,
+      43
+    ],
+    "identical_pngs": 20
+  }
+]

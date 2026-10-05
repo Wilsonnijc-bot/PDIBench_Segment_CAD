@@ -17,4 +17,4 @@ Current sources for the selected-45 review:
 
 **SAM tuning:** [link5-joint-prompt-20260929](results/link5-joint-prompt-20260929/SAM_TUNING_RESULTS.md) contains prompt-tuning experiments, not rigidity scores. Published link5 prompt replays come from the updated-mask run's guard records and diagnostics; link7 persistent-mask examples come from `selected-45-v1/persistent_work/`.
 
-[Published grouped videos and interactive point-cloud replays](https://wilsonnijc-bot.github.io/PDIBench_Segment_CAD/).
+[Published grouped videos and interactive point-cloud replays](https://wilsonnijc-bot.github.io/robot_object_deformation_detect/).

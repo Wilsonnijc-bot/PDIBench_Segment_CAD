@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pdibench-workspace"
+version = "0.3.0"
+description = "PDI robot-link and object pipeline workspace interfaces"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+pdibench = "infrastructure.pdibench.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["robot*", "object*", "infrastructure.pdibench*", "infrastructure.shared*"]
+exclude = ["*.results*", "*.archive*", "*.tests*"]
+
+[tool.pytest.ini_options]
+testpaths = ["infrastructure/tests", "robot/tests", "object/tests", "object/experiments/rigidity/tests", "robot/experiments/link7_depth_filter_v2/tests", "robot/experiments/link7_tapip3d/tests", "robot/experiments/link5_simple3d/test_simple3d_pair_visibility.py", "infrastructure/archive/simple3d/operations/test_simple3d_shutdown_after_completion.py"]
+pythonpath = ["."]

@@ -1,0 +1,1 @@
+../../../../../../robot/preprocessing/link7_persistent/interface/config.py

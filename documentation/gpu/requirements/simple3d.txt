@@ -1,0 +1,6 @@
+# Extracted requirements; see ../environments.json for compiled dependencies, pins and limitations.
+-r geometry.txt
+tifffile==2025.5.10
+trimesh==5.1.1
+pycollada==0.9.3
+ninja

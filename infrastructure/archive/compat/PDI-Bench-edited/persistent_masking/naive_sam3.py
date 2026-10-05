@@ -1,0 +1,1 @@
+../../../../../robot/preprocessing/link7_persistent/naive_sam3.py

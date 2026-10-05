@@ -1,0 +1,1 @@
+../../../../documentation/gpu/runners/run_anomalydino_gpu.sh

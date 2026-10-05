@@ -1,0 +1,1 @@
+../../diagnostics/prepare_smooth_replay_video.py

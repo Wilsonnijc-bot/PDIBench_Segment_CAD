@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "checked": {
+    "source_aliases": 391,
+    "python_semantic_comparisons": 198,
+    "shell_semantic_comparisons": 17,
+    "result_aliases": 18,
+    "artifact_files": 55687,
+    "artifact_bytes": 72307688632,
+    "artifact_symlinks": 179
+  },
+  "failures": [],
+  "final_layout_source_check": {
+    "status": "passed",
+    "checked": {
+      "source_aliases": 391,
+      "python_semantic_comparisons": 198,
+      "shell_semantic_comparisons": 17,
+      "result_aliases": 18
+    },
+    "failures": []
+  },
+  "artifact_check_note": "Full 72 GB hash check completed after robot/object consolidation. Documentation/data relocation subsequently passed all 391 source aliases, source equivalence and all 179 artifact symlink targets; scientific artifact bytes were not rewritten."
+}

@@ -1,0 +1,2026 @@
+{
+  "documentation/publication/build.py": {
+    "unchanged_functions": [
+      "verify",
+      "main"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "documentation/publication/builders/build_review_object_sections.py": {
+    "unchanged_functions": [
+      "scored_cases_first"
+    ],
+    "changed_functions": [
+      "build"
+    ],
+    "removed_functions": []
+  },
+  "documentation/publication/builders/build_review_auroc_summary.py": {
+    "unchanged_functions": [
+      "sha"
+    ],
+    "changed_functions": [
+      "build"
+    ],
+    "removed_functions": []
+  },
+  "documentation/publication/builders/build_selected_github_review.py": {
+    "unchanged_functions": [
+      "remap",
+      "parse",
+      "section",
+      "evidence"
+    ],
+    "changed_functions": [
+      "register",
+      "main"
+    ],
+    "removed_functions": []
+  },
+  "documentation/publication/builders/build_representative_mask_review.py": {
+    "unchanged_functions": [
+      "sha",
+      "raw_frame",
+      "figure_svg"
+    ],
+    "changed_functions": [
+      "build"
+    ],
+    "removed_functions": []
+  },
+  "robot/__init__.py": {
+    "unchanged_functions": [],
+    "changed_functions": [
+      "__getattr__"
+    ],
+    "removed_functions": []
+  },
+  "robot/analysis/export_v1_batch.py": {
+    "unchanged_functions": [
+      "read_json",
+      "metric_columns",
+      "export_batch_csv",
+      "main"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/analysis/batch_v1.py": {
+    "unchanged_functions": [
+      "now",
+      "read_json",
+      "write_json",
+      "sha256_file",
+      "valid_segmentation",
+      "valid_metrics",
+      "valid_replay",
+      "BatchRunner.__init__",
+      "BatchRunner.log",
+      "BatchRunner.export_csv",
+      "BatchRunner.command",
+      "BatchRunner.run",
+      "main"
+    ],
+    "changed_functions": [
+      "BatchRunner.clean_transient_geometry",
+      "BatchRunner.run_job"
+    ],
+    "removed_functions": []
+  },
+  "robot/analysis/analyze_selected45_deformation_labels.py": {
+    "unchanged_functions": [
+      "read_workbook_rows",
+      "fmt",
+      "display_label",
+      "label_value",
+      "values_for",
+      "ordered_concordance"
+    ],
+    "changed_functions": [
+      "main"
+    ],
+    "removed_functions": []
+  },
+  "robot/analysis/analyze_link5_updated_mask_auroc.py": {
+    "unchanged_functions": [
+      "sha",
+      "labels",
+      "metrics",
+      "replay_score"
+    ],
+    "changed_functions": [
+      "analyze"
+    ],
+    "removed_functions": []
+  },
+  "robot/experiments/link7_tracker_filter_comparison/link7_compare.py": {
+    "unchanged_functions": [
+      "_tracks",
+      "_retained_ids",
+      "_draw_video",
+      "_display_ids",
+      "_write_interactive_initial"
+    ],
+    "changed_functions": [
+      "main"
+    ],
+    "removed_functions": []
+  },
+  "robot/experiments/link7_tracker_filter_comparison/build_selected45_link7_comparison_index.py": {
+    "unchanged_functions": [],
+    "changed_functions": [
+      "main"
+    ],
+    "removed_functions": []
+  },
+  "robot/experiments/link7_tracker_filter_comparison/run_selected45_link7_comparison.py": {
+    "unchanged_functions": [
+      "_sha256",
+      "_ssh",
+      "_remote_exists",
+      "_rsync"
+    ],
+    "changed_functions": [
+      "_run_case",
+      "main"
+    ],
+    "removed_functions": []
+  },
+  "robot/experiments/link7_tracker_filter_comparison/link5_link7_four_way.py": {
+    "unchanged_functions": [
+      "_complete",
+      "_persistent_implementation_matches",
+      "export_index",
+      "export_index.result_cell",
+      "run_experiment"
+    ],
+    "changed_functions": [
+      "_score",
+      "run_case"
+    ],
+    "removed_functions": []
+  },
+  "robot/experiments/link7_tapip3d/tapip3d_link7.py": {
+    "unchanged_functions": [
+      "selected_link7_queries",
+      "save_initial_queries",
+      "_intrinsics_from_cached_pointmap",
+      "_input_geometry"
+    ],
+    "changed_functions": [
+      "replace_link7_with_tapip3d"
+    ],
+    "removed_functions": []
+  },
+  "robot/experiments/link7_tapip3d/tapip3d_worker.py": {
+    "unchanged_functions": [
+      "_load_official_checkpoint",
+      "main"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/experiments/link7_tapip3d/tests/test_tapip3d_link7.py": {
+    "unchanged_functions": [
+      "Tapip3DLink7InputTests.test_selected_ids_and_subpixel_locations_survive_world_lift"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/experiments/link5_simple3d/test_simple3d_pair_visibility.py": {
+    "unchanged_functions": [
+      "VisibilityTests.test_anchor_preserves_observed_edges_outside_sparse_track_hull",
+      "VisibilityTests.test_anchor_area_accounts_for_image_scale",
+      "VisibilityTests.test_boundary_cut_is_not_stretched_to_full_reference",
+      "VisibilityTests.test_spikes_rejected_but_supported_depth_step_preserved",
+      "VisibilityTests.test_sampling_ten_disjoint_later_bins",
+      "VisibilityTests.test_camera_edge_is_eroded",
+      "VisibilityTests.test_low_correspondence_never_falls_back",
+      "VisibilityTests.test_submajority_tracks_do_not_veto_usable_mask_mapping",
+      "VisibilityTests.test_unestimable_correspondence_still_has_no_full_mask_fallback",
+      "VisibilityTests.test_depth_grid_roundtrip_without_rejections_preserves_source",
+      "VisibilityTests.test_one_upsampled_depth_spike_still_rejects_a_source_pixel"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/experiments/link5_simple3d/verify_simple3d_pairs.py": {
+    "unchanged_functions": [
+      "verify"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/experiments/link5_simple3d/run_simple3d_link5_pairs.py": {
+    "unchanged_functions": [
+      "read_mask",
+      "save_mask",
+      "run_case",
+      "aggregate"
+    ],
+    "changed_functions": [
+      "pair_geometry",
+      "score_pair",
+      "main"
+    ],
+    "removed_functions": []
+  },
+  "robot/experiments/link5_simple3d/prepare_simple3d_pairs.py": {
+    "unchanged_functions": [],
+    "changed_functions": [
+      "prepare"
+    ],
+    "removed_functions": []
+  },
+  "robot/experiments/link5_simple3d/run_simple3d_link5.py": {
+    "unchanged_functions": [],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/experiments/link7_depth_filter_v2/link7_filter_comparison.py": {
+    "unchanged_functions": [
+      "_complete",
+      "main"
+    ],
+    "changed_functions": [
+      "_export_link7",
+      "run_case"
+    ],
+    "removed_functions": []
+  },
+  "robot/experiments/link7_depth_filter_v2/link7_depth_gate.py": {
+    "unchanged_functions": [
+      "camera_depth",
+      "link7_depth_keep",
+      "link7_depth_region",
+      "link7_query_mask"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/experiments/link7_depth_filter_v2/tests/test_link7_depth_gate.py": {
+    "unchanged_functions": [
+      "Link7DepthGateTests.test_smooth_far_sheet_inside_mask_is_removed",
+      "Link7DepthGateTests.test_invalid_lift_is_removed",
+      "Link7DepthGateTests.test_dense_region_is_filtered_before_query_sampling",
+      "Link7DepthGateTests.test_tracker_mask_excludes_bilinear_far_depth_bleed"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/tests/test_dinov2_reference_boxes.py": {
+    "unchanged_functions": [
+      "ReferenceDiscoveryTests.test_discovers_subdirectories_as_targets",
+      "ReferenceDiscoveryTests.test_parses_repeated_named_references",
+      "ReferenceDiscoveryTests.test_discovers_nested_franka_groups_and_ignores_contact_sheets",
+      "ReferenceDiscoveryTests.test_crops_black_reference_canvas_to_foreground",
+      "BoxExtractionTests.test_extracts_and_pads_high_similarity_component",
+      "BoxExtractionTests.test_falls_back_to_peak_when_component_minimum_is_unmet",
+      "BoxExtractionTests.test_box_normalization_matches_sam3_xywh_contract",
+      "BoxExtractionTests.test_patch_grid_preserves_aspect_and_patch_multiple",
+      "BoxExtractionTests.test_guided_box_stays_compact_around_reference_prior",
+      "Sam3PromptSelectionTests.test_link5_extends_box_right_and_seeds_joint_negative",
+      "Sam3PromptSelectionTests.test_parses_per_link_text_prompts",
+      "Sam3PromptSelectionTests.test_retires_link1_and_requires_active_franka_links",
+      "Sam3PromptSelectionTests.test_selects_precise_mask_with_box_support",
+      "Sam3PromptSelectionTests.test_rejects_inconsistent_sam3_candidate_arrays",
+      "Sam3PromptSelectionTests.test_tracking_prefers_the_current_sam3_identity",
+      "Sam3PromptSelectionTests.test_tracking_reassociates_a_replaced_identity_by_mask_overlap",
+      "Sam3PromptSelectionTests.test_tracking_rejects_an_unrelated_replacement"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/tests/test_vlm2_malformed_fallback.py": {
+    "unchanged_functions": [
+      "FakeRoute.__init__",
+      "FakeRoute.ask",
+      "VLM2FallbackTests.test_same_endpoint_and_key_with_high_reasoning",
+      "VLM2FallbackTests.test_luna_request_uses_high_reasoning_chat_payload.respond",
+      "VLM2FallbackTests.test_empty_visible_response_records_provider_diagnostic.respond",
+      "VLM2FallbackTests.test_malformed_response_calls_luna_once_and_records_both.make_fallback",
+      "VLM2FallbackTests.test_missing_primary_text_calls_luna_once.MissingText.ask"
+    ],
+    "changed_functions": [
+      "VLM2FallbackTests.test_luna_request_uses_high_reasoning_chat_payload",
+      "VLM2FallbackTests.test_empty_visible_response_records_provider_diagnostic",
+      "VLM2FallbackTests.test_malformed_response_calls_luna_once_and_records_both",
+      "VLM2FallbackTests.test_valid_points_and_explicit_null_do_not_use_luna",
+      "VLM2FallbackTests.test_missing_primary_text_calls_luna_once",
+      "VLM2FallbackTests.test_one_alternate_attempt_is_shared_across_both_point_requests",
+      "VLM2FallbackTests.test_validation_accepts_one_same_frame_alternate"
+    ],
+    "removed_functions": []
+  },
+  "robot/tests/test_video_batch_manifest.py": {
+    "unchanged_functions": [
+      "test_repeated_dataset_roots_deduplicate_identical_relative_paths",
+      "test_repeated_dataset_roots_reject_conflicting_duplicates"
+    ],
+    "changed_functions": [
+      "run_builder"
+    ],
+    "removed_functions": []
+  },
+  "robot/tests/test_persistent_refined_segmentation.py": {
+    "unchanged_functions": [
+      "PersistentMaskIntegrationTests.test_accepted_vlm3_mask_is_used_without_overwriting_original_seed",
+      "PersistentMaskIntegrationTests.test_replaces_only_named_link_and_updates_union",
+      "PersistentMaskIntegrationTests.test_rejects_different_source_video"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/tests/test_batch_metrics_export.py": {
+    "unchanged_functions": [
+      "PartialLinkMetricsExportTests.test_exports_failed_link_and_interpolation_counts"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/tests/test_link5_link7_four_way.py": {
+    "unchanged_functions": [
+      "FourWayRunnerTests._case",
+      "FourWayRunnerTests._run",
+      "FourWayRunnerTests.test_four_paths_share_mask_and_score_link5_once",
+      "FourWayRunnerTests.test_low_link7_keeps_link5_result_and_marks_four_failures"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/tests/test_v1_replay_contract.py": {
+    "unchanged_functions": [
+      "V1ReplayEvidenceTests.test_export_reconstructs_exact_scored_history_and_rejects_mismatch"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/tests/test_mega_sam_depth.py": {
+    "unchanged_functions": [
+      "_fixture",
+      "TargetDepthTests.test_interpolates_an_internal_invalid_frame",
+      "TargetDepthTests.test_fills_leading_and_trailing_gaps_with_nearest_depth",
+      "TargetDepthTests.test_rejects_a_link_with_fewer_than_two_valid_frames",
+      "TargetDepthTests.test_empty_mask_frames_are_interpolated",
+      "TargetDepthTests.test_rejects_when_fallback_would_replace_too_many_frames",
+      "SharedGeometryIsolationTests.test_insufficient_depth_fails_only_the_affected_link"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/tests/test_volume_audit.py": {
+    "unchanged_functions": [
+      "RigidityEvidenceTests.test_legacy_policy_preserves_maximum_sentinel",
+      "RigidityEvidenceTests.test_strict_policy_marks_insufficient_anchors_unavailable"
+    ],
+    "changed_functions": [
+      "RigidityEvidenceTests.test_v2_does_not_recheck_depth_or_gradient_after_tracking"
+    ],
+    "removed_functions": []
+  },
+  "robot/tests/test_vlm3_overmask.py": {
+    "unchanged_functions": [
+      "VLM3Tests.test_residual_overmask_excludes_frames_instead_of_rejecting_video",
+      "VLM3Tests.test_repair_uses_exact_first_gate_frame_and_keeps_original_masks.Client.ask",
+      "VLM3Tests.test_strict_gate_first_frame_including_zero_and_empty_objects",
+      "VLM3Tests.test_existing_area_guard_catches_table_mask_without_object_overlap",
+      "VLM3Tests.test_ratio_uses_object_area_not_image_area",
+      "VLM3Tests.test_six_points_require_object_negative_and_exclude_object_positives",
+      "VLM3Tests.test_invalid_grids_and_threshold_rejected"
+    ],
+    "changed_functions": [
+      "VLM3Tests.test_optional_gate_runs_even_when_qwen_finds_no_deformation",
+      "VLM3Tests.test_attached_accepted_repair_resumes_default_occlusion_and_crop_sync",
+      "VLM3Tests.test_repair_uses_exact_first_gate_frame_and_keeps_original_masks",
+      "VLM3Tests.test_no_trigger_calls_neither_cloud_nor_sam"
+    ],
+    "removed_functions": []
+  },
+  "robot/tests/test_link5_point_guard.py": {
+    "unchanged_functions": [
+      "Link5PointGuardTests.setUp",
+      "Link5PointGuardTests.parse",
+      "Link5PointGuardTests.test_pass_keeps_task_defaults",
+      "Link5PointGuardTests.test_each_reject_has_only_its_own_two_points",
+      "Link5PointGuardTests.test_rejects_cross_task_fields_and_invalid_coordinates",
+      "Link5PointGuardTests.test_two_independent_calls_apply_only_their_points_without_material_check.VLMRoute.__init__",
+      "Link5PointGuardTests.test_two_independent_calls_apply_only_their_points_without_material_check.VLMRoute.ask",
+      "Link5PointGuardTests.test_one_failed_call_does_not_discard_other_replacement.VLMRoute.__init__",
+      "Link5PointGuardTests.test_one_failed_call_does_not_discard_other_replacement.VLMRoute.ask"
+    ],
+    "changed_functions": [
+      "Link5PointGuardTests.test_two_independent_calls_apply_only_their_points_without_material_check",
+      "Link5PointGuardTests.test_one_failed_call_does_not_discard_other_replacement"
+    ],
+    "removed_functions": []
+  },
+  "robot/tests/test_multi_object_pipeline.py": {
+    "unchanged_functions": [
+      "MultiObjectSegmentationTests.test_loads_objects_without_collapsing_identity",
+      "MultiObjectSegmentationTests.test_rejects_duplicate_names",
+      "_CountingFeatures.__init__",
+      "_CountingFeatures.forward",
+      "_FakeCore.__init__",
+      "_FakePredictor.__init__",
+      "_FakePredictor.__call__",
+      "_ChunkedFakePredictor.__call__",
+      "_prepared",
+      "MultiObjectTrackingModeTests._wrapper",
+      "MultiObjectTrackingModeTests.test_uses_targeted_dense_query_budgets_for_links_2_to_4",
+      "MultiObjectTrackingModeTests.test_rejects_unknown_query_budget_override",
+      "MultiObjectTrackingModeTests.test_spatial_balancing_avoids_response_cluster",
+      "MultiObjectTrackingModeTests.test_grid_query_fallback_is_deterministic",
+      "MultiObjectTrackingModeTests.test_joint_query_runs_one_forward_and_splits_objects",
+      "MultiObjectTrackingModeTests.test_exact_group_reuses_backbone_across_isolated_forwards",
+      "MultiObjectTrackingModeTests.test_exact_group_replays_long_video_backbone_chunks",
+      "MultiObjectTrackingModeTests.test_track_archive_uses_offsets_instead_of_pickle",
+      "ModeComparisonTests.test_maps_video_track_endpoints_to_pointmap_grid",
+      "ModeComparisonTests.test_reports_metric_and_speed_deltas",
+      "ModeComparisonTests.test_reports_metric_and_speed_deltas.mode",
+      "ModeComparisonTests.test_marks_failed_link_comparison_unavailable",
+      "ModeComparisonTests.test_compares_only_queries_retained_by_both_modes"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/tests/test_link5_refinement_boundary.py": {
+    "unchanged_functions": [
+      "_Predictor.__init__",
+      "_Predictor.handle_request",
+      "Link5RefinementBoundaryTests.test_point_mismatch_and_low_shaft_retention_are_recorded_without_rejection"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/tests/test_reconstruct_replay.py": {
+    "unchanged_functions": [
+      "ResizeMaskTests.test_nearest_resize_preserves_regions",
+      "ResizeMaskTests.test_canonical_multi_object_archive_loads_as_union",
+      "CoordinateMappingTests.test_perspective_projection_matches_camera_image_plane",
+      "CoordinateMappingTests.test_endpoint_mapping_handles_resolution_mismatch",
+      "CoordinateMappingTests.test_lift_respects_visibility_bounds_and_zero_sentinel",
+      "CoordinateMappingTests.test_world_points_transform_into_reference_camera"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/tests/test_v1_only_experiment.py": {
+    "unchanged_functions": [
+      "V1OnlyExperimentTests.test_spec_rejects_old_version_list",
+      "V1OnlyExperimentTests.test_resume_requires_all_nonempty_v1_artifacts",
+      "V1OnlyExperimentTests.test_batch_selected_replay_needs_interactive_artifacts",
+      "V1OnlyExperimentTests.test_batch_resume_requires_final_manifest",
+      "V1OnlyExperimentTests.test_index_links_v1_even_when_historical_v2_files_exist"
+    ],
+    "changed_functions": [
+      "V1OnlyExperimentTests.test_old_versioned_commands_are_rejected",
+      "V1OnlyExperimentTests.test_runner_does_not_complete_when_scorer_writes_nothing",
+      "V1OnlyExperimentTests.test_low_base_link7_reaches_persistent_decision_before_failing_scoring_gate",
+      "V1OnlyExperimentTests.test_low_link7_is_deferred_only_before_persistent_masking"
+    ],
+    "removed_functions": []
+  },
+  "robot/tests/test_mask_quality.py": {
+    "unchanged_functions": [
+      "MaskQualityTests.test_area_cutoff_inclusive_and_resolution_independent",
+      "MaskQualityTests.test_counts_pixels_not_bounding_box_area",
+      "MaskQualityTests.test_configurable_cutoff_and_invalid_inputs"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/workflows/score_v1.py": {
+    "unchanged_functions": [
+      "_sha256",
+      "_git_revision"
+    ],
+    "changed_functions": [
+      "_source_fingerprint",
+      "build_parser",
+      "main"
+    ],
+    "removed_functions": []
+  },
+  "robot/workflows/runner.py": {
+    "unchanged_functions": [
+      "mask_coverage",
+      "validate_mask_coverage",
+      "gpu_lock",
+      "command",
+      "v1_outputs_complete",
+      "mask_work",
+      "ensure_video_alias"
+    ],
+    "changed_functions": [
+      "score_argv",
+      "clean_megasam_intermediates",
+      "ensure_base_segmentation",
+      "mask_environment",
+      "persistent_mask",
+      "run_case",
+      "run_experiment"
+    ],
+    "removed_functions": []
+  },
+  "robot/workflows/__init__.py": {
+    "unchanged_functions": [],
+    "changed_functions": [
+      "evaluate",
+      "__getattr__"
+    ],
+    "removed_functions": []
+  },
+  "robot/workflows/spec.py": {
+    "unchanged_functions": [
+      "ExperimentSpec.gpu_lock",
+      "load_spec",
+      "load_spec.location"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/workflows/pipeline.py": {
+    "unchanged_functions": [
+      "_jsonable",
+      "_read_lsd_frames",
+      "save_track_result",
+      "compare_mode_reports",
+      "_compare_track_group",
+      "_compare_track_group.query_key",
+      "compare_track_results",
+      "MultiObjectPDIEvaluationPipeline.__init__",
+      "write_report"
+    ],
+    "changed_functions": [
+      "MultiObjectPDIEvaluationPipeline.run"
+    ],
+    "removed_functions": []
+  },
+  "robot/workflows/link5_only.py": {
+    "unchanged_functions": [
+      "_complete",
+      "export_index",
+      "run_experiment"
+    ],
+    "changed_functions": [
+      "run_case"
+    ],
+    "removed_functions": []
+  },
+  "robot/workflows/coordination.py": {
+    "unchanged_functions": [
+      "clone_work",
+      "run_stage"
+    ],
+    "changed_functions": [
+      "persistent",
+      "mask_join",
+      "link2_masks",
+      "scoring_segmentation",
+      "robot_score"
+    ],
+    "removed_functions": []
+  },
+  "robot/workflows/__main__.py": {
+    "unchanged_functions": [
+      "build_parser"
+    ],
+    "changed_functions": [
+      "select",
+      "check",
+      "main"
+    ],
+    "removed_functions": []
+  },
+  "robot/scoring/metrics.py": {
+    "unchanged_functions": [
+      "_vp_in_object_bbox",
+      "_vp_epsilon",
+      "_map_tracks_between_grids",
+      "evaluate_object_metrics"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/preprocessing/link5_refinement/link5_point_guard.py": {
+    "unchanged_functions": [
+      "_annotate",
+      "_parse_decision"
+    ],
+    "changed_functions": [
+      "_review",
+      "review_link5_points"
+    ],
+    "removed_functions": []
+  },
+  "robot/preprocessing/segmentation/mask_merge.py": {
+    "unchanged_functions": [
+      "sha256_file",
+      "_union_measurements",
+      "build_refined_segmentation",
+      "_replace_named_mask",
+      "build_repaired_segmentation",
+      "main"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/preprocessing/segmentation/sam3_dinov2_segment.py": {
+    "unchanged_functions": [
+      "_video_metadata",
+      "_select_prompt_result",
+      "_prompt_diagnostics",
+      "_text_prompt_for_target",
+      "_link5_prompt_box",
+      "_link5_seed_points",
+      "_refine_link5_wrist_prompt",
+      "_prime_link5_tracker_cache",
+      "_select_tracking_result",
+      "_write_json",
+      "_validate_franka_groups",
+      "_active_franka_groups",
+      "_parse_named_text_prompts",
+      "_write_object_mask_preview",
+      "build_parser",
+      "main"
+    ],
+    "changed_functions": [
+      "run"
+    ],
+    "removed_functions": []
+  },
+  "robot/preprocessing/selection/manifest.py": {
+    "unchanged_functions": [
+      "sha256_file",
+      "normalize_dataset",
+      "normalize_video_number",
+      "optional_int",
+      "load_annotations",
+      "source_index",
+      "job_slug",
+      "build_manifest",
+      "main"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/preprocessing/selection/matched_selection.py": {
+    "unchanged_functions": [
+      "workbook_rows",
+      "build_selection"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/preprocessing/link7_persistent/v1_mask.py": {
+    "unchanged_functions": [
+      "frames",
+      "predictor.build_output_with_first_prompt",
+      "spread"
+    ],
+    "changed_functions": [
+      "predictor",
+      "initialize",
+      "track",
+      "guided"
+    ],
+    "removed_functions": []
+  },
+  "robot/preprocessing/link7_persistent/vlm_prompts.py": {
+    "unchanged_functions": [],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/preprocessing/link7_persistent/vlm2_interface.py": {
+    "unchanged_functions": [
+      "_save_png",
+      "write_interface"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/preprocessing/link7_persistent/gripper_review.py": {
+    "unchanged_functions": [
+      "point",
+      "load_frame",
+      "preview"
+    ],
+    "changed_functions": [
+      "ground",
+      "sam",
+      "check"
+    ],
+    "removed_functions": []
+  },
+  "robot/preprocessing/link7_persistent/vlm3_overmask.py": {
+    "unchanged_functions": [
+      "digest",
+      "save",
+      "canonical_case",
+      "named_masks",
+      "audit_gate",
+      "load_objects",
+      "load_existing_case",
+      "parse_points",
+      "draw_points",
+      "crop_policy",
+      "compare_video",
+      "repair_case",
+      "repair_persistent_run",
+      "export_review"
+    ],
+    "changed_functions": [
+      "propagate",
+      "_sync_persistent_case",
+      "main"
+    ],
+    "removed_functions": []
+  },
+  "robot/preprocessing/link7_persistent/palm_recovery.py": {
+    "unchanged_functions": [
+      "json_object",
+      "events",
+      "window",
+      "post_surge_window",
+      "crop_box",
+      "prepare",
+      "parse_localization"
+    ],
+    "changed_functions": [
+      "parse_palm_response",
+      "review",
+      "repair"
+    ],
+    "removed_functions": []
+  },
+  "robot/preprocessing/link7_persistent/__init__.py": {
+    "unchanged_functions": [],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/preprocessing/link7_persistent/naive_sam3.py": {
+    "unchanged_functions": [
+      "render"
+    ],
+    "changed_functions": [
+      "run"
+    ],
+    "removed_functions": []
+  },
+  "robot/preprocessing/link7_persistent/frame_lineage.py": {
+    "unchanged_functions": [
+      "earliest_deformed",
+      "read_original_frame",
+      "resolve_frames",
+      "validate_lineage"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/preprocessing/link7_persistent/gripper_negatives.py": {
+    "unchanged_functions": [
+      "dump",
+      "video_for",
+      "replay"
+    ],
+    "changed_functions": [
+      "parse",
+      "cases",
+      "ground",
+      "segment"
+    ],
+    "removed_functions": []
+  },
+  "robot/preprocessing/link7_persistent/vlm_client.py": {
+    "unchanged_functions": [
+      "MissingVLMTextError.__init__",
+      "_png",
+      "_response_text",
+      "VLMClient.ask",
+      "VLMClient._ask_cloud",
+      "VisionRoute.__init__",
+      "VisionRoute.ask"
+    ],
+    "changed_functions": [
+      "VLMClient.__init__",
+      "VLMClient._ask_local"
+    ],
+    "removed_functions": []
+  },
+  "robot/preprocessing/link7_persistent/pipeline.py": {
+    "unchanged_functions": [
+      "sha",
+      "validate_vlm2_call_images",
+      "save",
+      "load",
+      "commit",
+      "surge_windows",
+      "prompt_sam",
+      "mp4_faststart",
+      "validate"
+    ],
+    "changed_functions": [
+      "prepare",
+      "select_frames",
+      "segment",
+      "repair_overmask",
+      "main"
+    ],
+    "removed_functions": []
+  },
+  "robot/preprocessing/link7_persistent/vlm2_sam_prompting.py": {
+    "unchanged_functions": [
+      "answer",
+      "_explicit_null_positive",
+      "ask_point_response",
+      "to_pixels",
+      "run_case"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/preprocessing/link7_persistent/interface/config.py": {
+    "unchanged_functions": [
+      "role_config",
+      "public_config",
+      "run_config"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/preprocessing/link7_persistent/interface/__init__.py": {
+    "unchanged_functions": [],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/preprocessing/link7_persistent/interface/secrets.py": {
+    "unchanged_functions": [
+      "load_env_file"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/preprocessing/link7_persistent/interface/__main__.py": {
+    "unchanged_functions": [
+      "locations",
+      "video_path",
+      "ffmpeg_path",
+      "show",
+      "run_stage",
+      "status"
+    ],
+    "changed_functions": [
+      "preflight",
+      "export_review",
+      "run_foreground",
+      "run_detached",
+      "main"
+    ],
+    "removed_functions": []
+  },
+  "robot/preprocessing/link7_persistent/vlm_interface/__init__.py": {
+    "unchanged_functions": [],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "robot/replay/pair_export.py": {
+    "unchanged_functions": [],
+    "changed_functions": [
+      "refresh_pair_replays"
+    ],
+    "removed_functions": []
+  },
+  "robot/replay/build_selected45_review.py": {
+    "unchanged_functions": [
+      "link",
+      "failure_reason",
+      "score_cell",
+      "cloud_panel",
+      "base_comparison",
+      "mask_comparison"
+    ],
+    "changed_functions": [
+      "main"
+    ],
+    "removed_functions": []
+  },
+  "robot/replay/build_link7_mask_replay.py": {
+    "unchanged_functions": [
+      "sha256",
+      "npy_header",
+      "object_names",
+      "horizontal_runs",
+      "read_masks"
+    ],
+    "changed_functions": [
+      "main"
+    ],
+    "removed_functions": []
+  },
+  "robot/replay/build_selected45_rigidity_report.py": {
+    "unchanged_functions": [
+      "fmt",
+      "mean_median"
+    ],
+    "changed_functions": [
+      "main"
+    ],
+    "removed_functions": []
+  },
+  "robot/replay/persistent/restore_mask_replay.py": {
+    "unchanged_functions": [],
+    "changed_functions": [
+      "main"
+    ],
+    "removed_functions": []
+  },
+  "robot/replay/persistent/export_selected_replay.py": {
+    "unchanged_functions": [
+      "digest",
+      "export",
+      "_export_into",
+      "main"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "object/analysis/analyze_anomalydino_correlation.py": {
+    "unchanged_functions": [
+      "stats",
+      "main.cells"
+    ],
+    "changed_functions": [
+      "main"
+    ],
+    "removed_functions": []
+  },
+  "object/analysis/occlusion/occlusion_scores.py": {
+    "unchanged_functions": [
+      "filtered_score",
+      "main"
+    ],
+    "changed_functions": [
+      "patch_replay"
+    ],
+    "removed_functions": []
+  },
+  "object/analysis/occlusion/analyze_object_occlusion_v2_auroc.py": {
+    "unchanged_functions": [
+      "sha256",
+      "workbook_labels",
+      "workbook_labels.cells",
+      "auroc",
+      "main"
+    ],
+    "changed_functions": [
+      "analyze"
+    ],
+    "removed_functions": []
+  },
+  "object/experiments/simple3d/run_simple3d_object_deformation.py": {
+    "unchanged_functions": [],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "object/experiments/rigidity/tests/test_wrapper.py": {
+    "unchanged_functions": [
+      "WrapperContracts.test_box_and_point_use_full_frame_coordinates"
+    ],
+    "changed_functions": [
+      "WrapperContracts.test_selected_workbook_has_45_exact_prompt_matches",
+      "WrapperContracts.test_segment_stops_after_one_gemini_retry"
+    ],
+    "removed_functions": []
+  },
+  "object/experiments/rigidity/workflows/__init__.py": {
+    "unchanged_functions": [],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "object/experiments/rigidity/workflows/__main__.py": {
+    "unchanged_functions": [
+      "gpu_lock",
+      "prepare",
+      "_invoke",
+      "_summary",
+      "_write_summary",
+      "_replay_ready",
+      "main"
+    ],
+    "changed_functions": [
+      "run"
+    ],
+    "removed_functions": []
+  },
+  "object/experiments/rigidity/scoring/score.py": {
+    "unchanged_functions": [
+      "score",
+      "main"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "object/experiments/rigidity/replay/replay.py": {
+    "unchanged_functions": [
+      "main"
+    ],
+    "changed_functions": [
+      "export_replay"
+    ],
+    "removed_functions": []
+  },
+  "object/tests/test_object_occlusion.py": {
+    "unchanged_functions": [
+      "OcclusionTests.scene",
+      "OcclusionTests.test_substantial_replacement",
+      "OcclusionTests.test_small_contact_ignored",
+      "OcclusionTests.test_shrink_without_gripper_ignored",
+      "OcclusionTests.test_translation_ignored",
+      "OcclusionTests.test_one_frame_glitch_ignored",
+      "OcclusionTests.test_overlapping_segmentations",
+      "OcclusionTests.test_unaffected_tracks_ignored",
+      "OcclusionTests.test_established_episode_survives_mask_regrowth_then_releases",
+      "OcclusionTests.test_severity_waits_for_major_loss_then_continues_without_tracks",
+      "OcclusionTests.test_moderate_replacement_needs_reduced_track_corroboration",
+      "OcclusionTests.test_severity_requires_three_frames_independently_of_legacy",
+      "OcclusionTests.test_severity_cannot_seed_legacy_mask_regrowth_continuation",
+      "OcclusionTests.test_severity_requires_strong_attribution",
+      "OcclusionTests.test_unassessable_frame_resets_severity_episode",
+      "OcclusionTests.test_missing_reference_unknown",
+      "OcclusionTests.test_table_sized_masks_fail_before_reference_or_alignment",
+      "OcclusionTests.test_failed_first_frame_cannot_supply_reference",
+      "OcclusionTests.test_failed_frame_resets_both_episodes_without_mask_refresh",
+      "OcclusionTests.test_bad_alignment_rejected",
+      "OcclusionTests.test_out_of_bounds_not_clipped"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "object/tests/test_mask_sync.py": {
+    "unchanged_functions": [
+      "AcceptedMaskSyncTests.fixture",
+      "AcceptedMaskSyncTests.test_rejected_and_tampered_repairs_cannot_replace_link7"
+    ],
+    "changed_functions": [
+      "AcceptedMaskSyncTests.test_accepted_archive_is_identical_for_detector_viewer_and_crops"
+    ],
+    "removed_functions": []
+  },
+  "object/tests/test_anomalydino.py": {
+    "unchanged_functions": [
+      "TinyBackbone.__init__",
+      "TinyBackbone.prepare_image",
+      "TinyBackbone.extract_features",
+      "TinyBackbone.compute_background_mask",
+      "TestAnomalyDINO.setUpClass",
+      "TestAnomalyDINO.scorer",
+      "TestAnomalyDINO.test_parity_with_unmodified_upstream",
+      "TestAnomalyDINO.test_cache_and_input_types",
+      "TestAnomalyDINO.test_transparency_removes_hidden_scene_pixels",
+      "TestAnomalyDINO.test_modified_input_fails_before_inference",
+      "TestAnomalyDINO.test_selection_exclusions_and_unavailable"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "object/tests/test_object_occlusion_scores.py": {
+    "unchanged_functions": [
+      "OcclusionScoreTests.calc",
+      "OcclusionScoreTests.test_exclusion_preserves_naive",
+      "OcclusionScoreTests.test_no_exclusion",
+      "OcclusionScoreTests.test_all_excluded_is_null",
+      "OcclusionScoreTests.test_reference_never_counts",
+      "OcclusionScoreTests.test_failed_mask_is_excluded_without_being_called_occlusion",
+      "OcclusionScoreTests.test_all_failed_masks_produce_null_score"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "object/tests/test_paired_crops.py": {
+    "unchanged_functions": [
+      "PairedCropTests.test_unequal_margins_do_not_change_visible_pixels_or_holes",
+      "PairedCropTests.test_real_shape_and_size_difference_survives_normalization",
+      "PairedCropTests.test_empty_crop_is_not_invented",
+      "PairedCropTests.test_partial_alpha_is_preserved",
+      "PairedCropTests.test_scoring_manifest_checks_normalized_pair_hashes_and_dimensions"
+    ],
+    "changed_functions": [
+      "PairedCropTests.test_native_renderer_exports_the_same_normalized_model_pair"
+    ],
+    "removed_functions": []
+  },
+  "object/tests/test_reference_visible_pixels.py": {
+    "unchanged_functions": [
+      "ReferenceVisiblePixelsTests.test_translated_occlusion_keeps_exact_nonrectangular_shape",
+      "ReferenceVisiblePixelsTests.test_link7_overlap_is_excluded_even_if_object_sam3_includes_it",
+      "ReferenceVisiblePixelsTests.test_mapping_clips_to_frame0_object"
+    ],
+    "changed_functions": [
+      "ReferenceVisiblePixelsTests.test_failed_link7_frame_clears_old_reference_and_example_crops"
+    ],
+    "removed_functions": []
+  },
+  "object/tests/test_frame_selection.py": {
+    "unchanged_functions": [
+      "inputs",
+      "frames",
+      "FrameSelectionTests.test_final_area_collapse_overrides_recovery_and_keeps_latest_fallback",
+      "FrameSelectionTests.test_persistent_low_visibility_is_not_a_new_final_collapse",
+      "FrameSelectionTests.test_partial_final_disappearance_keeps_usable_early_final_frames",
+      "FrameSelectionTests.test_collapse_mean_counts_zero_frames_and_not_only_eligible_frames",
+      "FrameSelectionTests.test_collapse_threshold_is_strict_and_can_be_disabled",
+      "FrameSelectionTests.test_low_interval_mean_preserves_substantial_recovery_crops",
+      "FrameSelectionTests.test_frame_threshold_equality_is_preserved_after_collapse",
+      "FrameSelectionTests.test_collapsed_final_interval_cannot_return_through_fallback",
+      "FrameSelectionTests.test_collapse_preserves_quotas_for_all_supported_counts",
+      "FrameSelectionTests.test_already_empty_final_interval_keeps_the_existing_selection",
+      "FrameSelectionTests.test_no_positive_baseline_does_not_suppress_late_appearance",
+      "FrameSelectionTests.test_invalid_collapse_threshold_is_rejected",
+      "FrameSelectionTests.test_overmask_gate_excludes_high_area_and_recovery_frames",
+      "FrameSelectionTests.test_ten_frames_reserve_recovery_and_double_late_quota",
+      "FrameSelectionTests.test_ten_frame_shortfall_keeps_unique_valid_frames",
+      "FrameSelectionTests.test_interval_priority_excludes_first_quintile_and_breaks_ties",
+      "FrameSelectionTests.test_recovery_consumes_its_interval_slot_before_larger_frame",
+      "FrameSelectionTests.test_two_final_interval_recoveries_replace_both_area_choices",
+      "FrameSelectionTests.test_first_interval_recovery_overrides_exclusion",
+      "FrameSelectionTests.test_empty_interval_fallback_prefers_latest_then_previous",
+      "FrameSelectionTests.test_strict_empty_interval_is_not_backfilled",
+      "FrameSelectionTests.test_uneven_frame_count_uses_exact_fractional_boundaries",
+      "FrameSelectionTests.test_invalid_successor_is_reported_not_shifted",
+      "FrameSelectionTests.test_unknown_and_failed_successors_do_not_mean_clear",
+      "FrameSelectionTests.test_terminal_occlusion_has_no_successor",
+      "FrameSelectionTests.test_shortfall_and_empty_masks_are_not_padded",
+      "FrameSelectionTests.test_too_many_mandatory_frames_fails_explicitly"
+    ],
+    "changed_functions": [
+      "FrameSelectionTests.test_selection_checks_audit_and_removes_only_stale_owned_crops"
+    ],
+    "removed_functions": []
+  },
+  "object/workflows/mask_sync.py": {
+    "unchanged_functions": [
+      "sync_case"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "object/workflows/coordination.py": {
+    "unchanged_functions": [
+      "named_masks",
+      "run_stage"
+    ],
+    "changed_functions": [
+      "object_masks",
+      "object_tracks",
+      "object_crops",
+      "object_anomaly"
+    ],
+    "removed_functions": []
+  },
+  "object/scoring/anomalydino/runner.py": {
+    "unchanged_functions": [
+      "sha256",
+      "write_json",
+      "read_pairs",
+      "run_pairs"
+    ],
+    "changed_functions": [
+      "prepare_selected"
+    ],
+    "removed_functions": []
+  },
+  "object/scoring/anomalydino/__init__.py": {
+    "unchanged_functions": [],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "object/scoring/anomalydino/anomalydino.py": {
+    "unchanged_functions": [
+      "AnomalyScorer.score",
+      "rgb_array",
+      "AnomalyDINOScorer.__init__",
+      "AnomalyDINOScorer._reference",
+      "AnomalyDINOScorer.precompute_reference",
+      "AnomalyDINOScorer.clear_reference_cache",
+      "AnomalyDINOScorer.score"
+    ],
+    "changed_functions": [
+      "load_upstream"
+    ],
+    "removed_functions": []
+  },
+  "object/scoring/anomalydino/convert_checkpoint.py": {
+    "unchanged_functions": [
+      "convert_base",
+      "main"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "object/scoring/anomalydino/__main__.py": {
+    "unchanged_functions": [
+      "main"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "object/preprocessing/grounding/prompting.py": {
+    "unchanged_functions": [
+      "parse_grounding",
+      "call_302"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "object/preprocessing/segmentation/segment.py": {
+    "unchanged_functions": [
+      "_first_frame",
+      "_prompt_preview",
+      "_initialize_and_track",
+      "_replay",
+      "main"
+    ],
+    "changed_functions": [
+      "segment"
+    ],
+    "removed_functions": []
+  },
+  "object/preprocessing/occlusion/occlusion.py": {
+    "unchanged_functions": [
+      "sample",
+      "runs",
+      "align",
+      "crop",
+      "detect",
+      "sha256",
+      "atomic",
+      "process",
+      "main"
+    ],
+    "changed_functions": [
+      "write_report"
+    ],
+    "removed_functions": []
+  },
+  "object/preprocessing/selection/selection.py": {
+    "unchanged_functions": [
+      "sha256",
+      "write_json",
+      "workbook_prompts",
+      "workbook_prompts.values",
+      "build_manifest"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "object/preprocessing/crop_pairs/frame_selection.py": {
+    "unchanged_functions": [
+      "select_frames",
+      "main"
+    ],
+    "changed_functions": [
+      "select_case"
+    ],
+    "removed_functions": []
+  },
+  "object/preprocessing/crop_pairs/reference_visible_pixels.py": {
+    "unchanged_functions": [
+      "mask_bbox",
+      "available_pure_object",
+      "map_available_to_frame0",
+      "rgba_crop",
+      "read_frame",
+      "write_png",
+      "write_original_frame",
+      "write_preview",
+      "load_case",
+      "render_saved_examples",
+      "main"
+    ],
+    "changed_functions": [
+      "export_case"
+    ],
+    "removed_functions": []
+  },
+  "object/preprocessing/crop_pairs/paired_crops.py": {
+    "unchanged_functions": [
+      "normalize_pair"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "object/replay/annotate_crops.py": {
+    "unchanged_functions": [
+      "main"
+    ],
+    "changed_functions": [
+      "annotate"
+    ],
+    "removed_functions": []
+  },
+  "object/replay/frame_selection_gallery.py": {
+    "unchanged_functions": [
+      "write_gallery"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "object/replay/occlusion/occlusion_replay.py": {
+    "unchanged_functions": [
+      "write_index",
+      "main"
+    ],
+    "changed_functions": [
+      "export"
+    ],
+    "removed_functions": []
+  },
+  "infrastructure/tests/test_workspace_interfaces.py": {
+    "unchanged_functions": [
+      "write_csv",
+      "test_analysis_reports_missing_and_moderate_without_imputation",
+      "test_analysis_rejects_ambiguous_duplicate_cases",
+      "test_cli_records_exit_and_does_not_overwrite"
+    ],
+    "changed_functions": [
+      "test_old_imports_use_single_canonical_scoring_function"
+    ],
+    "removed_functions": [
+      "test_all_source_aliases_resolve_to_their_owner"
+    ]
+  },
+  "infrastructure/tests/test_coordinator.py": {
+    "unchanged_functions": [
+      "config",
+      "run",
+      "Executor.__init__",
+      "Executor.__call__",
+      "test_resume_reuses_verified_outputs_and_repairs_tampering",
+      "test_prompt_change_does_not_rerun_link7_masking",
+      "test_exhaustion_disables_case_preserves_evidence_and_continues_batch",
+      "test_interrupted_vlm_attempt_consumes_budget_and_resumes",
+      "test_required_repair_failure_never_reaches_scoring",
+      "test_nonvlm_failure_is_not_retried_four_times",
+      "test_preflight_fails_before_any_worker",
+      "test_preflight_fails_before_any_worker.fail",
+      "test_lock_rejects_concurrent_driver",
+      "test_missing_key_preflight_output_is_not_a_case_failure",
+      "test_missing_key_preflight_output_is_not_a_case_failure.check",
+      "test_interrupted_last_vlm_attempt_does_not_get_free_retries",
+      "test_vlm1_parse_failure_retries_only_failed_frame_and_never_means_normal.Client.__init__",
+      "test_vlm1_parse_failure_retries_only_failed_frame_and_never_means_normal.Client.ask",
+      "test_link2_manifest_requires_references_and_keeps_old_manifest_compatible"
+    ],
+    "changed_functions": [
+      "test_named_single_link_crop_inputs",
+      "test_live_orphan_worker_blocks_resume",
+      "test_standalone_link7_mask_join_without_prior_experiment",
+      "test_real_executor_timeout_terminates_worker_and_records_exit",
+      "test_vlm1_parse_failure_retries_only_failed_frame_and_never_means_normal",
+      "test_link2_resume_and_branch_invalidation",
+      "test_link2_merge_preserves_selected_link7_and_other_channels"
+    ],
+    "removed_functions": []
+  },
+  "infrastructure/shared/experimental/simple3d/verify_simple3d_outputs.py": {
+    "unchanged_functions": [
+      "verify"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/experimental/simple3d/simple3d_adapter.py": {
+    "unchanged_functions": [
+      "settings",
+      "provenance",
+      "_tensor",
+      "build_simple3d_reference",
+      "score_simple3d"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/experimental/simple3d/simple3d_pipeline.py": {
+    "unchanged_functions": [
+      "write_json",
+      "sha",
+      "plot_cloud",
+      "build_cad",
+      "run_case",
+      "distribution",
+      "write_csv",
+      "aggregate"
+    ],
+    "changed_functions": [
+      "preprocess",
+      "prepare_sequence",
+      "reconstruct",
+      "score_mode",
+      "main"
+    ],
+    "removed_functions": []
+  },
+  "infrastructure/shared/experimental/simple3d/collect_simple3d_pairs.py": {
+    "unchanged_functions": [
+      "main.run",
+      "main.sync"
+    ],
+    "changed_functions": [
+      "ledger",
+      "main"
+    ],
+    "removed_functions": []
+  },
+  "infrastructure/shared/experimental/simple3d/simple3d_layout.py": {
+    "unchanged_functions": [],
+    "changed_functions": [
+      "run_root",
+      "result_path",
+      "resolve_recorded_path"
+    ],
+    "removed_functions": []
+  },
+  "infrastructure/shared/experimental/simple3d/finalize_simple3d.py": {
+    "unchanged_functions": [
+      "cloud_audit",
+      "finalize"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/experimental/simple3d/collect_simple3d_results.py": {
+    "unchanged_functions": [],
+    "changed_functions": [
+      "update_ledger",
+      "main"
+    ],
+    "removed_functions": []
+  },
+  "infrastructure/shared/experimental/simple3d/preflight_simple3d.py": {
+    "unchanged_functions": [],
+    "changed_functions": [
+      "main"
+    ],
+    "removed_functions": []
+  },
+  "infrastructure/shared/experimental/simple3d/simple3d_pair_visibility.py": {
+    "unchanged_functions": [
+      "Config.validate",
+      "erode",
+      "select_frames",
+      "hull_mask",
+      "depth_filter",
+      "restore_cleaned_mask"
+    ],
+    "changed_functions": [
+      "common_visible"
+    ],
+    "removed_functions": []
+  },
+  "infrastructure/shared/experimental/simple3d/prepare_simple3d_inputs.py": {
+    "unchanged_functions": [
+      "sha"
+    ],
+    "changed_functions": [
+      "prepare"
+    ],
+    "removed_functions": []
+  },
+  "infrastructure/shared/experimental/simple3d/analysis/analyze_simple3d_pair_correlation.py": {
+    "unchanged_functions": [],
+    "changed_functions": [
+      "analyze"
+    ],
+    "removed_functions": []
+  },
+  "infrastructure/shared/experimental/simple3d/analysis/analyze_simple3d_correlation.py": {
+    "unchanged_functions": [
+      "read_json",
+      "sha256",
+      "write_json",
+      "write_csv",
+      "read_labels",
+      "distribution",
+      "correlation",
+      "auroc",
+      "metric"
+    ],
+    "changed_functions": [
+      "main"
+    ],
+    "removed_functions": []
+  },
+  "infrastructure/shared/experimental/simple3d/analysis/analyze_simple3d_aggregation.py": {
+    "unchanged_functions": [
+      "report",
+      "report.m",
+      "report.bm"
+    ],
+    "changed_functions": [
+      "analyze"
+    ],
+    "removed_functions": []
+  },
+  "infrastructure/shared/experimental/simple3d/replay/build_simple3d_pair_replay.py": {
+    "unchanged_functions": [
+      "packed",
+      "build",
+      "_build.recorded",
+      "_build.href",
+      "_build.cloud"
+    ],
+    "changed_functions": [
+      "_build"
+    ],
+    "removed_functions": []
+  },
+  "infrastructure/shared/experimental/simple3d/replay/build_simple3d_replay.py": {
+    "unchanged_functions": [
+      "read",
+      "packed",
+      "local",
+      "main.provenance",
+      "main.href",
+      "main.cloud"
+    ],
+    "changed_functions": [
+      "main"
+    ],
+    "removed_functions": []
+  },
+  "infrastructure/shared/contracts/mask_quality.py": {
+    "unchanged_functions": [
+      "link7_area_validity"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/contracts/segmentation_archive.py": {
+    "unchanged_functions": [
+      "frame_measurements",
+      "_validate_video_shape",
+      "load_multi_object_segmentation"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/contracts/contracts.py": {
+    "unchanged_functions": [
+      "sha256_file",
+      "write_json",
+      "checked_file",
+      "video_path",
+      "case_name",
+      "mask_is_valid",
+      "run_command",
+      "read_selection",
+      "status_summary",
+      "page_index"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/contracts/base.py": {
+    "unchanged_functions": [
+      "MultiObjectSegmentation.frames_count",
+      "MultiObjectSegmentation.object_count",
+      "BasePerceptor.__init__",
+      "BasePerceptor.infer",
+      "BasePerceptor.scale_coords"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/io/__init__.py": {
+    "unchanged_functions": [],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/io/logger.py": {
+    "unchanged_functions": [
+      "PDILogger.__init__",
+      "PDILogger.info",
+      "PDILogger.success",
+      "PDILogger.warning",
+      "PDILogger.error",
+      "PDILogger.pdi_report"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/scoring/rigidity/rigidity.py": {
+    "unchanged_functions": [
+      "InsufficientRigidityEvidenceError.__init__",
+      "audit_3d_rigidity_cv",
+      "audit_rigidity_stability",
+      "audit_3d_volume_stability"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/scoring/pdi/reconstruction_audit.py": {
+    "unchanged_functions": [
+      "_fit_plane_svd",
+      "audit_ground_flatness",
+      "audit_scale_jump",
+      "audit_reprojection_residual",
+      "audit_reconstruction_math",
+      "_build_colored_pointcloud",
+      "_render_views_matplotlib",
+      "_render_views_open3d",
+      "_render_views_open3d._build_pts",
+      "_encode_image_b64",
+      "audit_reconstruction_mllm",
+      "audit_reconstruction",
+      "_load_video_frames_ffmpeg",
+      "load_from_npz",
+      "render_three_views_white_bg"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/scoring/pdi/pdi_index.py": {
+    "unchanged_functions": [
+      "PDIIndexCalculator.__init__",
+      "PDIIndexCalculator._ensure_scalar",
+      "PDIIndexCalculator.compute_pdi",
+      "PDIIndexCalculator.assign_grade"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/scoring/pdi/__init__.py": {
+    "unchanged_functions": [],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/scoring/pdi/scale_audit.py": {
+    "unchanged_functions": [
+      "audit_scale_consistency"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/scoring/pdi/motion_audit.py": {
+    "unchanged_functions": [
+      "_medfilt1d",
+      "audit_3d_trajectory_consistency",
+      "audit_trajectory_consistency"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/inference/cotracker_core.py": {
+    "unchanged_functions": [
+      "_FeatureReplayNetwork.__init__",
+      "_FeatureReplayNetwork.begin_pass",
+      "_FeatureReplayNetwork.end_pass",
+      "_FeatureReplayNetwork.forward",
+      "CoTrackerCore.__init__",
+      "CoTrackerCore._load_model",
+      "CoTrackerCore._sync_cuda",
+      "CoTrackerCore._sample_region_queries",
+      "CoTrackerCore._spatially_balance_queries",
+      "CoTrackerCore._run_queries",
+      "CoTrackerCore._core_model_with_fnet",
+      "CoTrackerCore._sift_sample_queries",
+      "CoTrackerCore._shi_tomasi_sample_queries",
+      "CoTrackerCore._grid_sample_queries"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/inference/__init__.py": {
+    "unchanged_functions": [],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/inference/dinov2_reference_boxes.py": {
+    "unchanged_functions": [
+      "discover_reference_groups",
+      "reference_foreground_box",
+      "crop_reference_foreground",
+      "guided_box_from_similarity",
+      "parse_reference_arguments",
+      "load_prompt_frame",
+      "patch_grid_size",
+      "xyxy_to_normalized_xywh",
+      "box_from_similarity",
+      "Dinov2DenseEncoder.__init__",
+      "Dinov2DenseEncoder.encode",
+      "_reference_prototype",
+      "localize_reference_groups",
+      "write_box_preview",
+      "run",
+      "build_parser",
+      "main"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/inference/mega_sam_wrapper.py": {
+    "unchanged_functions": [
+      "_sha256_file",
+      "InsufficientTargetDepthError.__init__",
+      "_target_depth_from_world_pointmaps",
+      "target_depth_from_world_pointmaps",
+      "_masks_to_h_pixel_x_center",
+      "_extract_frames",
+      "MegaSamWrapper._file_identity",
+      "MegaSamWrapper._reconstruction_code_identity",
+      "MegaSamWrapper._geometry_cache_identity",
+      "MegaSamWrapper.infer_shared",
+      "MegaSamWrapper._parse_intrinsic",
+      "MegaSamWrapper._depth_to_pointmaps",
+      "MegaSamWrapper._mega_sam_env",
+      "MegaSamWrapper._fallback_result"
+    ],
+    "changed_functions": [
+      "MegaSamWrapper.__init__",
+      "MegaSamWrapper.infer"
+    ],
+    "removed_functions": []
+  },
+  "infrastructure/shared/inference/tracking.py": {
+    "unchanged_functions": [
+      "TrackWrapper._requested_object_query_counts",
+      "TrackWrapper.prepare_multi",
+      "TrackWrapper._scale_and_filter_group",
+      "TrackWrapper.track_prepared",
+      "TrackWrapper.infer_multi",
+      "TrackWrapper.infer",
+      "TrackWrapper._filter_tracks",
+      "TrackWrapper._track_keep_mask",
+      "TrackWrapper.calculate_breathing_artifact"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/inference/generation/__init__.py": {
+    "unchanged_functions": [],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/inference/generation/link_crop_wrapper/track_links_once.py": {
+    "unchanged_functions": [
+      "build_parser",
+      "main"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/inference/generation/link_crop_wrapper/run_segment_vlm.py": {
+    "unchanged_functions": [
+      "segment_focus",
+      "segment_focus_map",
+      "uses_black_padding_guidance",
+      "build_parser",
+      "read_csv",
+      "parse_response",
+      "build_messages",
+      "build_messages.padding_description",
+      "model_class_name",
+      "checkpoint_key_mapping",
+      "load_model",
+      "generate",
+      "write_csv",
+      "write_jsonl",
+      "read_jsonl",
+      "call_key",
+      "validate_call_manifest",
+      "shard_call_rows",
+      "main"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/inference/generation/link_crop_wrapper/segment_crops.py": {
+    "unchanged_functions": [
+      "mask_geometry",
+      "group_masks",
+      "_interpolate",
+      "_centered_box",
+      "fit_crop_box_to_image",
+      "build_crop_geometries",
+      "extract_centered_crop",
+      "black_padding_fraction",
+      "read_csv",
+      "write_csv",
+      "load_rgb",
+      "write_qa_overlay",
+      "geometry_to_row"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/inference/generation/link_crop_wrapper/__init__.py": {
+    "unchanged_functions": [],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/inference/generation/link_crop_wrapper/dinov2_reference_boxes.py": {
+    "unchanged_functions": [
+      "discover_reference_groups",
+      "reference_foreground_box",
+      "crop_reference_foreground",
+      "patch_grid_size",
+      "xyxy_to_normalized_xywh",
+      "box_from_similarity",
+      "guided_box_from_similarity",
+      "Dinov2DenseEncoder.__init__",
+      "Dinov2DenseEncoder.encode",
+      "_reference_prototype",
+      "localize_reference_groups",
+      "write_box_preview"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/inference/generation/link_crop_wrapper/sam3_link_tracker.py": {
+    "unchanged_functions": [
+      "video_metadata",
+      "load_video_frame",
+      "select_prompt_result",
+      "select_tracking_result",
+      "parse_named_text_prompts",
+      "prompt_diagnostics",
+      "frame_measurements",
+      "write_json",
+      "write_mask_preview",
+      "validate_franka_groups",
+      "load_link_archive",
+      "track_links"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/geometry/__init__.py": {
+    "unchanged_functions": [],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/geometry/camera.py": {
+    "unchanged_functions": [
+      "CameraModel.__init__",
+      "CameraModel.project_3d_to_2d",
+      "CameraModel.align_to_unit_scale",
+      "CameraModel.get_world_pcd"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/geometry/projection.py": {
+    "unchanged_functions": [
+      "ProjectionJudge.__init__",
+      "ProjectionJudge.calculate_hx_residue",
+      "ProjectionJudge._lines_from_tracks",
+      "ProjectionJudge._lines_from_tracks.to_h",
+      "ProjectionJudge._lines_from_lsd",
+      "ProjectionJudge._ransac_vp",
+      "ProjectionJudge._ransac_vp.dist",
+      "ProjectionJudge.estimate_vanishing_point",
+      "ProjectionJudge.estimate_vanishing_point_v2",
+      "ProjectionJudge.classify_fg_motion",
+      "ProjectionJudge.compute_universal_trajectory_epsilon",
+      "ProjectionJudge.check_scale_evolution"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/replay/reconstruct_replay.py": {
+    "unchanged_functions": [
+      "_FfmpegPipeWriter.__init__",
+      "_FfmpegPipeWriter.append_data",
+      "_FfmpegPipeWriter.close",
+      "_open_video_writer",
+      "resize_mask_nearest",
+      "map_xy_between_grids",
+      "lift_tracks_to_3d",
+      "_load_array",
+      "load_segmentation_union",
+      "_normalise_masks",
+      "_normalise_tracks",
+      "_normalise_visibility",
+      "_normalise_pointmaps",
+      "transform_world_to_camera",
+      "project_camera_points",
+      "masked_world_points",
+      "_iter_bounds_points",
+      "compute_camera_view",
+      "_render_orthographic_replay",
+      "_render_camera_pov_replay",
+      "build_parser",
+      "main"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/replay/link7_pair_replay.py": {
+    "unchanged_functions": [
+      "export_link7_pair_replay"
+    ],
+    "changed_functions": [
+      "main"
+    ],
+    "removed_functions": []
+  },
+  "infrastructure/shared/replay/rigidity_replay.py": {
+    "unchanged_functions": [
+      "_json",
+      "build_scene_context"
+    ],
+    "changed_functions": [
+      "export_v1_replay",
+      "main"
+    ],
+    "removed_functions": []
+  },
+  "infrastructure/shared/data/__init__.py": {
+    "unchanged_functions": [],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/shared/data/video_manifest.py": {
+    "unchanged_functions": [
+      "sha256_file",
+      "job_slug",
+      "main"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/pdibench/worker.py": {
+    "unchanged_functions": [
+      "isolate_mega",
+      "run",
+      "main"
+    ],
+    "changed_functions": [
+      "configure",
+      "check_environment"
+    ],
+    "removed_functions": []
+  },
+  "infrastructure/pdibench/coordinator.py": {
+    "unchanged_functions": [
+      "stages_for",
+      "now",
+      "write",
+      "read",
+      "digest",
+      "identity",
+      "load_manifest",
+      "load_manifest.location",
+      "locked",
+      "inventory",
+      "valid",
+      "termination_as_interrupt",
+      "termination_as_interrupt.stop",
+      "refuse_live_worker",
+      "stage_key",
+      "review",
+      "coordinate"
+    ],
+    "changed_functions": [
+      "execute",
+      "preflight"
+    ],
+    "removed_functions": []
+  },
+  "infrastructure/pdibench/analysis.py": {
+    "unchanged_functions": [
+      "read_unique",
+      "auroc",
+      "analyze"
+    ],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/pdibench/layout.py": {
+    "unchanged_functions": [
+      "root",
+      "manifest",
+      "interfaces"
+    ],
+    "changed_functions": [
+      "environment"
+    ],
+    "removed_functions": []
+  },
+  "infrastructure/pdibench/__init__.py": {
+    "unchanged_functions": [],
+    "changed_functions": [],
+    "removed_functions": []
+  },
+  "infrastructure/pdibench/__main__.py": {
+    "unchanged_functions": [
+      "write"
+    ],
+    "changed_functions": [
+      "stage",
+      "main"
+    ],
+    "removed_functions": []
+  }
+}

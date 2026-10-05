@@ -1,0 +1,1 @@
+../../../../../robot/tests/test_link5_link7_four_way.py

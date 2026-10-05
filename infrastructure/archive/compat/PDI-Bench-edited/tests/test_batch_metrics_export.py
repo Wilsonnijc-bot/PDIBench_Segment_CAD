@@ -1,0 +1,1 @@
+../../../../../robot/tests/test_batch_metrics_export.py

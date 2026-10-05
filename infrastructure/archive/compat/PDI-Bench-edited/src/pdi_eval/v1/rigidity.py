@@ -1,0 +1,1 @@
+../../../../../../shared/scoring/rigidity/rigidity.py

@@ -1,0 +1,1 @@
+../../../shared/experimental/simple3d/collect_simple3d_pairs.py

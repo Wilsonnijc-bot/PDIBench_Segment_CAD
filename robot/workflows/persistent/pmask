@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+workspace="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+python_binary="${PDI_SAM_PYTHON:-$workspace/infrastructure/environments/sam3/bin/python}"
+if [[ ! -x "$python_binary" ]]; then python_binary="$(command -v python3)"; fi
+cd "$workspace"
+export PYTHONPATH="$workspace${PYTHONPATH:+:$PYTHONPATH}"
+exec "$python_binary" -m robot.preprocessing.link7_persistent.interface "$@"

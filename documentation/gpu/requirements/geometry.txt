@@ -1,0 +1,16 @@
+# Extracted requirements; see ../environments.json for compiled dependencies, pins and limitations.
+torch==2.1.0
+torchvision==0.16.0
+torchaudio==2.1.0
+numpy==1.26.4
+transformers==4.41.2
+timm==0.9.16
+einops==0.8.0
+xformers==0.0.22.post7
+opencv-python>=4.8.0
+scipy
+scikit-learn
+open3d
+rich
+pyyaml
+torch-scatter

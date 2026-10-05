@@ -1,0 +1,14 @@
+# Extracted requirements; see ../environments.json for compiled dependencies, pins and limitations.
+torch
+torchvision
+numpy==1.26.4
+opencv-python<4.12
+matplotlib
+Pillow
+scipy
+scikit-learn
+faiss-cpu
+tqdm
+tifffile
+PyYAML
+pandas

@@ -1,0 +1,1 @@
+../../../gpu/setup/download_weights.sh

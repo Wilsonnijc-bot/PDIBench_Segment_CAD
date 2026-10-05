@@ -1,0 +1,68 @@
+[
+  {
+    "interface": "links.mask",
+    "module": "robot.preprocessing.segmentation.sam3_dinov2_segment",
+    "exit_code": 0,
+    "error": null
+  },
+  {
+    "interface": "links.persistent",
+    "module": "robot.preprocessing.link7_persistent.pipeline",
+    "exit_code": 0,
+    "error": null
+  },
+  {
+    "interface": "links.run",
+    "module": "robot.workflows",
+    "exit_code": 0,
+    "error": null
+  },
+  {
+    "interface": "links.score",
+    "module": "robot.workflows.score_v1",
+    "exit_code": 0,
+    "error": null
+  },
+  {
+    "interface": "links.replay",
+    "module": "infrastructure.shared.replay.rigidity_replay",
+    "exit_code": 0,
+    "error": null
+  },
+  {
+    "interface": "objects.mask",
+    "module": "object.preprocessing.segmentation.segment",
+    "exit_code": 0,
+    "error": null
+  },
+  {
+    "interface": "objects.occlusion",
+    "module": "object.preprocessing.occlusion.occlusion",
+    "exit_code": 0,
+    "error": null
+  },
+  {
+    "interface": "objects.crops",
+    "module": "object.preprocessing.crop_pairs.reference_visible_pixels",
+    "exit_code": 0,
+    "error": null
+  },
+  {
+    "interface": "objects.select",
+    "module": "object.preprocessing.crop_pairs.frame_selection",
+    "exit_code": 0,
+    "error": null
+  },
+  {
+    "interface": "objects.score",
+    "module": "object.scoring.anomalydino",
+    "exit_code": 0,
+    "error": null
+  },
+  {
+    "interface": "objects.replay",
+    "module": "object.replay.occlusion.occlusion_replay",
+    "exit_code": 0,
+    "error": null
+  }
+]

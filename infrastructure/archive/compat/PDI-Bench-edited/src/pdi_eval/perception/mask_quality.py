@@ -1,0 +1,1 @@
+../../../../../../shared/contracts/mask_quality.py

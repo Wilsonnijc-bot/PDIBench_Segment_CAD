@@ -1,0 +1,1 @@
+../../../../object/archive/release_updates/publish_normalized_object_crops.py

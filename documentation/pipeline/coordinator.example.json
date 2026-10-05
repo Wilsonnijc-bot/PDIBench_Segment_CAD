@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "run_id": "link7-object-run",
+  "output": "/path/to/runs/link7-object-run",
+  "secrets_file": "/path/to/.env.vlm",
+  "environments": {
+    "sam3": "/path/to/env/sam3/bin/python",
+    "vlm1": "/path/to/env/qwen/bin/python",
+    "geometry": "/path/to/env/pdi-bench/bin/python",
+    "anomaly": "/path/to/env/anomalydino/bin/python"
+  },
+  "resources": {
+    "sam3_checkpoint": "/path/to/models/sam3/sam3.pt",
+    "sam3_bpe": "/path/to/models/sam3/bpe_simple_vocab_16e6.txt.gz",
+    "dino_directory": "/path/to/models/dinov2",
+    "palm_references": "/path/to/references/by_link/palm",
+    "vlm2_examples": [
+      "/path/to/reference_1.png",
+      "/path/to/reference_2.png",
+      "/path/to/reference_3.png"
+    ],
+    "vlm3_reference": "/path/to/vlm3/reference.png",
+    "qwen_model": "/path/to/models/Qwen3.5-9B",
+    "tracker_checkpoint": "/path/to/models/tracker/scaled_offline.pth",
+    "robot_config": "/path/to/v1-config.yaml",
+    "mega_sam": "/path/to/vendor/mega_sam",
+    "anomaly_checkpoint": "/path/to/models/dinov2/anomalydino_vitb14_cached.pth",
+    "dino_repo": "/path/to/dinov2-source",
+    "ffmpeg": "/usr/bin/ffmpeg",
+    "robot_references": "/path/to/references/by_link"
+  },
+  "policy": {
+    "vlm_attempts": 4,
+    "vlm_stage_timeout_seconds": 3600,
+    "stage_timeout_seconds": 14400
+  },
+  "vlm": {
+    "object_models": [
+      "gpt-6-luna",
+      "gemini-3.8-flash",
+      "gemini-3.8-flash",
+      "gemini-3.8-flash"
+    ]
+  },
+  "cases": [
+    {
+      "id": "video_001",
+      "video": "/path/to/video.mp4",
+      "prompt_file": "/path/to/generation-prompt.txt",
+      "vlm1_reference": "/path/to/nondeformed-reference.png"
+    }
+  ],
+  "robot_links": [
+    "link2",
+    "link7"
+  ]
+}

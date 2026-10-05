@@ -1,0 +1,1 @@
+../../simple3d/operations/test_simple3d_shutdown_after_completion.py

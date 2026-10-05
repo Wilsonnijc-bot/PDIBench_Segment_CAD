@@ -1,0 +1,1 @@
+../../gpu/setup/prepare_dinov2_gpu.sh

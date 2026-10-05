@@ -1,0 +1,1 @@
+../../gpu/setup/install_sam3_gpu.sh

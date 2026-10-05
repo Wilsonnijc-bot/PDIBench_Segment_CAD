@@ -1,0 +1,116 @@
+{
+  "links.mask": {
+    "module": "robot.preprocessing.segmentation.sam3_dinov2_segment",
+    "category": "main",
+    "environment": "sam3",
+    "description": "Six-link SAM3 segmentation"
+  },
+  "links.persistent": {
+    "module": "robot.preprocessing.link7_persistent.pipeline",
+    "category": "main",
+    "environment": "sam3",
+    "description": "Existing link7 VLM1/VLM2 workflow, optional VLM3 unchanged"
+  },
+  "links.run": {
+    "module": "robot.workflows",
+    "category": "main",
+    "environment": "geometry",
+    "description": "Existing robot-link orchestration and resume interface"
+  },
+  "links.score": {
+    "module": "robot.workflows.score_v1",
+    "category": "main",
+    "environment": "geometry",
+    "description": "Existing geometry/tracking/scoring command; use --disable-replay for metrics only"
+  },
+  "links.replay": {
+    "module": "infrastructure.shared.replay.rigidity_replay",
+    "category": "main",
+    "environment": "analysis",
+    "description": "Interactive replay from saved evidence"
+  },
+  "objects.mask": {
+    "module": "object.preprocessing.segmentation.segment",
+    "category": "main",
+    "environment": "sam3",
+    "description": "Object grounding and SAM3 segmentation"
+  },
+  "objects.occlusion": {
+    "module": "object.preprocessing.occlusion.occlusion",
+    "category": "main",
+    "environment": "analysis",
+    "description": "Occlusion from saved masks and tracks"
+  },
+  "objects.crops": {
+    "module": "object.preprocessing.crop_pairs.reference_visible_pixels",
+    "category": "main",
+    "environment": "analysis",
+    "description": "Available-pixel crop pairs"
+  },
+  "objects.select": {
+    "module": "object.preprocessing.crop_pairs.frame_selection",
+    "category": "main",
+    "environment": "analysis",
+    "description": "Existing crop-frame selection"
+  },
+  "objects.score": {
+    "module": "object.scoring.anomalydino",
+    "category": "main",
+    "environment": "anomalydino",
+    "description": "AnomalyDINO prepare/run interface"
+  },
+  "objects.replay": {
+    "module": "object.replay.occlusion.occlusion_replay",
+    "category": "main",
+    "environment": "analysis",
+    "description": "Synchronized object occlusion replay"
+  },
+  "objects.rigidity": {
+    "module": "object.experiments.rigidity.workflows",
+    "category": "experiment",
+    "environment": "geometry",
+    "description": "Retained object rigidity experiment"
+  },
+  "links.simple3d": {
+    "module": "robot.experiments.link5_simple3d.run_simple3d_link5",
+    "category": "experiment",
+    "environment": "simple3d",
+    "description": "Link5 Simple3D experiment"
+  },
+  "links.simple3d-pairs": {
+    "module": "robot.experiments.link5_simple3d.run_simple3d_link5_pairs",
+    "category": "experiment",
+    "environment": "simple3d",
+    "description": "Link5 visible-pair Simple3D experiment"
+  },
+  "objects.simple3d": {
+    "module": "object.experiments.simple3d.run_simple3d_object_deformation",
+    "category": "experiment",
+    "environment": "simple3d",
+    "description": "Object Simple3D experiment"
+  },
+  "simple3d.prepare": {
+    "module": "infrastructure.shared.experimental.simple3d.prepare_simple3d_inputs",
+    "category": "experiment",
+    "environment": "analysis",
+    "description": "Prepare shared Simple3D inputs"
+  },
+  "simple3d.verify": {
+    "module": "infrastructure.shared.experimental.simple3d.verify_simple3d_outputs",
+    "category": "experiment",
+    "environment": "analysis",
+    "description": "Verify Simple3D output contracts"
+  },
+  "simple3d.collect": {
+    "module": "infrastructure.shared.experimental.simple3d.collect_simple3d_results",
+    "category": "experiment",
+    "environment": "analysis",
+    "description": "Collect Simple3D outputs"
+  },
+  "simple3d.analyze": {
+    "module": "infrastructure.shared.experimental.simple3d.analysis.analyze_simple3d_correlation",
+    "category": "experiment",
+    "environment": "analysis",
+    "description": "Retained workbook-based Simple3D analysis"
+  }
+}

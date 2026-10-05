@@ -10,3 +10,5 @@ on `main`; separate deployment and image-asset branches are no longer required.
 The representative mask section contains three Gemini 3.8 Flash persistent SAM prompts with synchronized naive/refined mask comparisons, and three link5 guard examples with exactly two pictures each: initial points and Gemini decisions with the exact points submitted to SAM3. Representative selection, exact coordinates, model identity, and source hashes are recorded in representative/selection.json. Point figures use the same extracted source frame and crop before and after; original source artifacts were not modified.
 
 Replay HTML is stored in lossless gzip; the loader verifies SHA-256 before rendering. Resource URLs resolve through manifest.json. Original videos and prompt images are unchanged release assets. The previous Pages content was replaced at the user's request and remains available in git history.
+
+Current site: https://wilsonnijc-bot.github.io/robot_object_deformation_detect/

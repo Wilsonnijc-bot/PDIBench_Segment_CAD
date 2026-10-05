@@ -1,0 +1,11 @@
+# Extracted requirements; see ../environments.json for compiled dependencies, pins and limitations.
+numpy
+scipy
+Pillow
+opencv-python
+matplotlib
+openpyxl
+beautifulsoup4
+pytest
+PyYAML
+rich

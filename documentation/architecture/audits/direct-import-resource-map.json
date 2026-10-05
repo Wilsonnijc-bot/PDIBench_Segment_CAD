@@ -1,0 +1,1382 @@
+[
+  {
+    "file": "documentation/publication/builders/build_review_object_sections.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "documentation/publication/builders/build_review_object_sections.py",
+    "old": "ROOT/'results/object-reference-crops-20261001/selection_gallery.html'",
+    "new": "_workspace_root() / 'results/object-reference-crops-20261001/selection_gallery.html'"
+  },
+  {
+    "file": "documentation/publication/builders/build_review_object_sections.py",
+    "old": "ROOT/'results/object-deformation-selected45-20260929/occlusion/replay/index.html'",
+    "new": "_workspace_root() / 'results/object-deformation-selected45-20260929/occlusion/replay/index.html'"
+  },
+  {
+    "file": "documentation/publication/builders/build_review_object_sections.py",
+    "old": "ROOT/'results/anomalydino-object-crops-10frames-20261002/correlation'",
+    "new": "_workspace_root() / 'results/anomalydino-object-crops-10frames-20261002/correlation'"
+  },
+  {
+    "file": "documentation/publication/builders/build_review_object_sections.py",
+    "old": "ROOT/'web-assets/object-image-packs'",
+    "new": "_workspace_root() / 'web-assets/object-image-packs'"
+  },
+  {
+    "file": "documentation/publication/builders/build_review_auroc_summary.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "documentation/publication/builders/build_review_auroc_summary.py",
+    "old": "ROOT/'results/selected-45-v1'",
+    "new": "_workspace_root() / 'results/selected-45-v1'"
+  },
+  {
+    "file": "documentation/publication/builders/build_review_auroc_summary.py",
+    "old": "ROOT/'results/link5-link7-four-way-selected45-20260927'",
+    "new": "_workspace_root() / 'results/link5-link7-four-way-selected45-20260927'"
+  },
+  {
+    "file": "documentation/publication/builders/build_review_auroc_summary.py",
+    "old": "ROOT/'results/link5-only-selected45-updated-mask-20260929'",
+    "new": "_workspace_root() / 'results/link5-only-selected45-updated-mask-20260929'"
+  },
+  {
+    "file": "documentation/publication/builders/build_review_auroc_summary.py",
+    "old": "ROOT/'selected_45_matched_videos_styledv2.xlsx'",
+    "new": "_workspace_root() / 'documentation/data/labels/selected_45_matched_videos_styledv2.xlsx'"
+  },
+  {
+    "file": "documentation/publication/builders/build_review_auroc_summary.py",
+    "old": "ROOT/'selected_45_matched_videos_styled.xlsx'",
+    "new": "_workspace_root() / 'documentation/data/labels/selected_45_matched_videos_styled.xlsx'"
+  },
+  {
+    "file": "documentation/publication/builders/build_selected_github_review.py",
+    "old": "_SOURCE_PATH.parents[1]/'.tmp/reviewdeps'",
+    "new": "_workspace_root() / '.tmp/reviewdeps'"
+  },
+  {
+    "file": "documentation/publication/builders/build_selected_github_review.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "documentation/publication/builders/build_selected_github_review.py",
+    "old": "ROOT/'.tmp/selected-review-site'",
+    "new": "_workspace_root() / '.tmp/selected-review-site'"
+  },
+  {
+    "file": "documentation/publication/builders/build_selected_github_review.py",
+    "old": "ROOT/'.tmp/selected-review-videos'",
+    "new": "_workspace_root() / '.tmp/selected-review-videos'"
+  },
+  {
+    "file": "documentation/publication/builders/build_selected_github_review.py",
+    "old": "OUT/'assets'",
+    "new": "_workspace_root() / '.tmp/selected-review-site/assets'"
+  },
+  {
+    "file": "documentation/publication/builders/build_selected_github_review.py",
+    "old": "OUT/'assets'",
+    "new": "_workspace_root() / '.tmp/selected-review-site/assets'"
+  },
+  {
+    "file": "documentation/publication/builders/build_selected_github_review.py",
+    "old": "OUT/'assets'",
+    "new": "_workspace_root() / '.tmp/selected-review-site/assets'"
+  },
+  {
+    "file": "documentation/publication/builders/build_selected_github_review.py",
+    "old": "ROOT/'results/selected-45-v1'",
+    "new": "_workspace_root() / 'results/selected-45-v1'"
+  },
+  {
+    "file": "documentation/publication/builders/build_selected_github_review.py",
+    "old": "ROOT/'results/link5-link7-four-way-selected45-20260927'",
+    "new": "_workspace_root() / 'results/link5-link7-four-way-selected45-20260927'"
+  },
+  {
+    "file": "documentation/publication/builders/build_selected_github_review.py",
+    "old": "ROOT/'results/link5-only-selected45-updated-mask-20260929'",
+    "new": "_workspace_root() / 'results/link5-only-selected45-updated-mask-20260929'"
+  },
+  {
+    "file": "documentation/publication/builders/build_selected_github_review.py",
+    "old": "OUT/'index.html'",
+    "new": "_workspace_root() / '.tmp/selected-review-site/index.html'"
+  },
+  {
+    "file": "documentation/publication/builders/build_selected_github_review.py",
+    "old": "OUT/'manifest.json'",
+    "new": "_workspace_root() / '.tmp/selected-review-site/manifest.json'"
+  },
+  {
+    "file": "documentation/publication/builders/build_selected_github_review.py",
+    "old": "OUT/'assets'",
+    "new": "_workspace_root() / '.tmp/selected-review-site/assets'"
+  },
+  {
+    "file": "documentation/publication/builders/build_selected_github_review.py",
+    "old": "OUT/'.nojekyll'",
+    "new": "_workspace_root() / '.tmp/selected-review-site/.nojekyll'"
+  },
+  {
+    "file": "documentation/publication/builders/build_selected_github_review.py",
+    "old": "OUT/'replay.html'",
+    "new": "_workspace_root() / '.tmp/selected-review-site/replay.html'"
+  },
+  {
+    "file": "documentation/publication/builders/build_representative_mask_review.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "documentation/publication/builders/build_representative_mask_review.py",
+    "old": "ROOT/'.tmp/selected-review-site/representative'",
+    "new": "_workspace_root() / '.tmp/selected-review-site/representative'"
+  },
+  {
+    "file": "documentation/publication/builders/build_representative_mask_review.py",
+    "old": "OUT/'link5'",
+    "new": "_workspace_root() / '.tmp/selected-review-site/representative/link5'"
+  },
+  {
+    "file": "documentation/publication/builders/build_representative_mask_review.py",
+    "old": "ROOT/'results/selected-45-v1/persistent_work/local/selected_45_v1'",
+    "new": "_workspace_root() / 'results/selected-45-v1/persistent_work/local/selected_45_v1'"
+  },
+  {
+    "file": "documentation/publication/builders/build_representative_mask_review.py",
+    "old": "ROOT/'results/link5-only-selected45-updated-mask-20260929/cases'",
+    "new": "_workspace_root() / 'results/link5-only-selected45-updated-mask-20260929/cases'"
+  },
+  {
+    "file": "documentation/publication/builders/build_representative_mask_review.py",
+    "old": "OUT/'link5'",
+    "new": "_workspace_root() / '.tmp/selected-review-site/representative/link5'"
+  },
+  {
+    "file": "documentation/publication/builders/build_representative_mask_review.py",
+    "old": "OUT/'selection.json'",
+    "new": "_workspace_root() / '.tmp/selected-review-site/representative/selection.json'"
+  },
+  {
+    "file": "robot/analysis/analyze_selected45_deformation_labels.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/analysis/analyze_selected45_deformation_labels.py",
+    "old": "PROJECT / \"results\" / \"selected-45-v1\"",
+    "new": "_workspace_root() / 'results/selected-45-v1'"
+  },
+  {
+    "file": "robot/analysis/analyze_selected45_deformation_labels.py",
+    "old": "PROJECT / \"selected_45_matched_videos_styled.xlsx\"",
+    "new": "_workspace_root() / 'documentation/data/labels/selected_45_matched_videos_styled.xlsx'"
+  },
+  {
+    "file": "robot/analysis/analyze_selected45_deformation_labels.py",
+    "old": "ROOT / \"selection.json\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/selection.json'"
+  },
+  {
+    "file": "robot/analysis/analyze_selected45_deformation_labels.py",
+    "old": "ROOT / \"summary.json\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/summary.json'"
+  },
+  {
+    "file": "robot/analysis/analyze_selected45_deformation_labels.py",
+    "old": "ROOT / \"cases\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/cases'"
+  },
+  {
+    "file": "robot/analysis/analyze_selected45_deformation_labels.py",
+    "old": "ROOT / \"DEFORMATION_LABEL_ANALYSIS.md\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/DEFORMATION_LABEL_ANALYSIS.md'"
+  },
+  {
+    "file": "robot/analysis/analyze_link5_updated_mask_auroc.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/analysis/analyze_link5_updated_mask_auroc.py",
+    "old": "ROOT/'results/link5-only-selected45-updated-mask-20260929'",
+    "new": "_workspace_root() / 'results/link5-only-selected45-updated-mask-20260929'"
+  },
+  {
+    "file": "robot/analysis/analyze_link5_updated_mask_auroc.py",
+    "old": "SCORES/'selection.json'",
+    "new": "_workspace_root() / 'results/link5-only-selected45-updated-mask-20260929/selection.json'"
+  },
+  {
+    "file": "robot/analysis/analyze_link5_updated_mask_auroc.py",
+    "old": "SCORES/'summary.json'",
+    "new": "_workspace_root() / 'results/link5-only-selected45-updated-mask-20260929/summary.json'"
+  },
+  {
+    "file": "robot/analysis/analyze_link5_updated_mask_auroc.py",
+    "old": "ROOT/'selected_45_matched_videos_styled.xlsx'",
+    "new": "_workspace_root() / 'documentation/data/labels/selected_45_matched_videos_styled.xlsx'"
+  },
+  {
+    "file": "robot/analysis/analyze_link5_updated_mask_auroc.py",
+    "old": "ROOT/'selected_45_matched_videos_styledv2.xlsx'",
+    "new": "_workspace_root() / 'documentation/data/labels/selected_45_matched_videos_styledv2.xlsx'"
+  },
+  {
+    "file": "robot/analysis/analyze_link5_updated_mask_auroc.py",
+    "old": "SCORES/'cases'",
+    "new": "_workspace_root() / 'results/link5-only-selected45-updated-mask-20260929/cases'"
+  },
+  {
+    "file": "robot/analysis/analyze_link5_updated_mask_auroc.py",
+    "old": "SCORES/'cases'",
+    "new": "_workspace_root() / 'results/link5-only-selected45-updated-mask-20260929/cases'"
+  },
+  {
+    "file": "robot/analysis/analyze_link5_updated_mask_auroc.py",
+    "old": "SCORES/'selection.json'",
+    "new": "_workspace_root() / 'results/link5-only-selected45-updated-mask-20260929/selection.json'"
+  },
+  {
+    "file": "robot/analysis/analyze_link5_updated_mask_auroc.py",
+    "old": "SCORES/'summary.json'",
+    "new": "_workspace_root() / 'results/link5-only-selected45-updated-mask-20260929/summary.json'"
+  },
+  {
+    "file": "robot/analysis/analyze_link5_updated_mask_auroc.py",
+    "old": "OUTPUT/'LINK5_FOREARM_AUROC.json'",
+    "new": "_workspace_root() / 'results/link5-only-selected45-updated-mask-20260929/LINK5_FOREARM_AUROC.json'"
+  },
+  {
+    "file": "robot/analysis/analyze_link5_updated_mask_auroc.py",
+    "old": "OUTPUT/'LINK5_FOREARM_AUROC.csv'",
+    "new": "_workspace_root() / 'results/link5-only-selected45-updated-mask-20260929/LINK5_FOREARM_AUROC.csv'"
+  },
+  {
+    "file": "robot/analysis/analyze_link5_updated_mask_auroc.py",
+    "old": "OUTPUT/'LINK5_FOREARM_AUROC.md'",
+    "new": "_workspace_root() / 'results/link5-only-selected45-updated-mask-20260929/LINK5_FOREARM_AUROC.md'"
+  },
+  {
+    "file": "robot/experiments/link7_tracker_filter_comparison/build_selected45_link7_comparison_index.py",
+    "old": "_SOURCE_PATH.parents[2] / \"results/selected-45-v1\"",
+    "new": "_workspace_root() / 'results/selected-45-v1'"
+  },
+  {
+    "file": "robot/experiments/link7_tracker_filter_comparison/build_selected45_link7_comparison_index.py",
+    "old": "ROOT / \"link7-tracker-comparison\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/link7-tracker-comparison'"
+  },
+  {
+    "file": "robot/experiments/link7_tracker_filter_comparison/build_selected45_link7_comparison_index.py",
+    "old": "OUTPUT / \"summary.json\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/link7-tracker-comparison/summary.json'"
+  },
+  {
+    "file": "robot/experiments/link7_tracker_filter_comparison/build_selected45_link7_comparison_index.py",
+    "old": "ROOT / \"cases\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/cases'"
+  },
+  {
+    "file": "robot/experiments/link7_tracker_filter_comparison/build_selected45_link7_comparison_index.py",
+    "old": "OUTPUT / \"cases\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/link7-tracker-comparison/cases'"
+  },
+  {
+    "file": "robot/experiments/link7_tracker_filter_comparison/build_selected45_link7_comparison_index.py",
+    "old": "OUTPUT / \"index.html\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/link7-tracker-comparison/index.html'"
+  },
+  {
+    "file": "robot/experiments/link7_tracker_filter_comparison/build_selected45_link7_comparison_index.py",
+    "old": "OUTPUT / \"index.html\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/link7-tracker-comparison/index.html'"
+  },
+  {
+    "file": "robot/experiments/link7_tracker_filter_comparison/run_selected45_link7_comparison.py",
+    "old": "_SOURCE_PATH.parents[2]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/experiments/link7_tracker_filter_comparison/run_selected45_link7_comparison.py",
+    "old": "ROOT / \"results/selected-45-v1\"",
+    "new": "_workspace_root() / 'results/selected-45-v1'"
+  },
+  {
+    "file": "robot/experiments/link7_tracker_filter_comparison/run_selected45_link7_comparison.py",
+    "old": "SELECTED / \"link7-tracker-comparison\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/link7-tracker-comparison'"
+  },
+  {
+    "file": "robot/experiments/link7_tracker_filter_comparison/run_selected45_link7_comparison.py",
+    "old": "OUTPUT / \"cases\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/link7-tracker-comparison/cases'"
+  },
+  {
+    "file": "robot/experiments/link7_tracker_filter_comparison/run_selected45_link7_comparison.py",
+    "old": "SELECTED / \"cases\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/cases'"
+  },
+  {
+    "file": "robot/experiments/link7_tracker_filter_comparison/run_selected45_link7_comparison.py",
+    "old": "OUTPUT / \"summary.json\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/link7-tracker-comparison/summary.json'"
+  },
+  {
+    "file": "robot/experiments/link7_tracker_filter_comparison/run_selected45_link7_comparison.py",
+    "old": "OUTPUT / \"cases\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/link7-tracker-comparison/cases'"
+  },
+  {
+    "file": "robot/experiments/link7_tracker_filter_comparison/run_selected45_link7_comparison.py",
+    "old": "OUTPUT / \"logs\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/link7-tracker-comparison/logs'"
+  },
+  {
+    "file": "robot/experiments/link7_tracker_filter_comparison/run_selected45_link7_comparison.py",
+    "old": "OUTPUT / \"logs\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/link7-tracker-comparison/logs'"
+  },
+  {
+    "file": "robot/experiments/link7_tracker_filter_comparison/link5_link7_four_way.py",
+    "old": "ROOT / \"src\"",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/experiments/link7_tapip3d/tapip3d_link7.py",
+    "old": "_SOURCE_PATH.parents[2]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/experiments/link5_simple3d/test_simple3d_pair_visibility.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/experiments/link5_simple3d/test_simple3d_pair_visibility.py",
+    "old": "ROOT/'PDI-Bench-edited/src'",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/experiments/link5_simple3d/verify_simple3d_pairs.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/experiments/link5_simple3d/verify_simple3d_pairs.py",
+    "old": "ROOT/'PDI-Bench-edited/src'",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/experiments/link5_simple3d/verify_simple3d_pairs.py",
+    "old": "ROOT/'results/simple3d-20261003-run2/link5_pair_visible_anchor'",
+    "new": "_workspace_root() / 'results/simple3d-20261003-run2/link5_pair_visible_anchor'"
+  },
+  {
+    "file": "robot/experiments/link5_simple3d/run_simple3d_link5_pairs.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/experiments/link5_simple3d/run_simple3d_link5_pairs.py",
+    "old": "ROOT/'PDI-Bench-edited/src'",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/experiments/link5_simple3d/run_simple3d_link5_pairs.py",
+    "old": "ROOT/'experiments/simple3d_pair_visibility.py'",
+    "new": "_workspace_root() / 'infrastructure/shared/experimental/simple3d/simple3d_pair_visibility.py'"
+  },
+  {
+    "file": "robot/experiments/link5_simple3d/run_simple3d_link5_pairs.py",
+    "old": "ROOT/'results/simple3d-20261003-run2/link5_pair_visible_anchor'",
+    "new": "_workspace_root() / 'results/simple3d-20261003-run2/link5_pair_visible_anchor'"
+  },
+  {
+    "file": "robot/experiments/link5_simple3d/run_simple3d_link5_pairs.py",
+    "old": "ROOT/'experiments/simple3d_pair_visibility.py'",
+    "new": "_workspace_root() / 'infrastructure/shared/experimental/simple3d/simple3d_pair_visibility.py'"
+  },
+  {
+    "file": "robot/experiments/link5_simple3d/run_simple3d_link5_pairs.py",
+    "old": "ROOT/'experiments/simple3d_pair_visibility.py'",
+    "new": "_workspace_root() / 'infrastructure/shared/experimental/simple3d/simple3d_pair_visibility.py'"
+  },
+  {
+    "file": "robot/experiments/link5_simple3d/run_simple3d_link5_pairs.py",
+    "old": "ROOT/'experiments/simple3d_adapter.py'",
+    "new": "_workspace_root() / 'infrastructure/shared/experimental/simple3d/simple3d_adapter.py'"
+  },
+  {
+    "file": "robot/experiments/link5_simple3d/prepare_simple3d_pairs.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/experiments/link5_simple3d/prepare_simple3d_pairs.py",
+    "old": "ROOT/'PDI-Bench-edited/src'",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/experiments/link5_simple3d/prepare_simple3d_pairs.py",
+    "old": "ROOT/'results/link5-only-selected45-updated-mask-20260929'",
+    "new": "_workspace_root() / 'results/link5-only-selected45-updated-mask-20260929'"
+  },
+  {
+    "file": "robot/experiments/link5_simple3d/run_simple3d_link5.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/experiments/link7_depth_filter_v2/link7_filter_comparison.py",
+    "old": "_SOURCE_PATH.parents[3] / \"assets/replay/plotly.min.js\"",
+    "new": "_workspace_root() / 'infrastructure/shared/replay/assets/plotly.min.js'"
+  },
+  {
+    "file": "robot/experiments/link7_depth_filter_v2/link7_filter_comparison.py",
+    "old": "_SOURCE_PATH.parents[3] / \"src\"",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/tests/test_video_batch_manifest.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/tests/test_video_batch_manifest.py",
+    "old": "ROOT / \"src\"",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/workflows/score_v1.py",
+    "old": "_SOURCE_PATH.parents[3]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/workflows/score_v1.py",
+    "old": "BENCHMARK_ROOT / \"src\"",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/workflows/score_v1.py",
+    "old": "BENCHMARK_ROOT / \"configs/default.yaml\"",
+    "new": "_workspace_root() / 'robot/configs/default.yaml'"
+  },
+  {
+    "file": "robot/workflows/score_v1.py",
+    "old": "BENCHMARK_ROOT / \"assets/replay/plotly.min.js\"",
+    "new": "_workspace_root() / 'infrastructure/shared/replay/assets/plotly.min.js'"
+  },
+  {
+    "file": "robot/workflows/runner.py",
+    "old": "ROOT / \"configs/default.yaml\"",
+    "new": "_workspace_root() / 'robot/configs/default.yaml'"
+  },
+  {
+    "file": "robot/workflows/runner.py",
+    "old": "ROOT / \"third_party/mega_sam\"",
+    "new": "_workspace_root() / 'infrastructure/vendor/mega_sam'"
+  },
+  {
+    "file": "robot/workflows/runner.py",
+    "old": "ROOT / \"src/pdi_eval/perception/sam3_dinov2_segment.py\"",
+    "new": "_workspace_root() / 'robot/preprocessing/segmentation/sam3_dinov2_segment.py'"
+  },
+  {
+    "file": "robot/workflows/runner.py",
+    "old": "ROOT / \"src/pdi_eval/perception/link5_point_guard.py\"",
+    "new": "_workspace_root() / 'robot/preprocessing/link5_refinement/link5_point_guard.py'"
+  },
+  {
+    "file": "robot/workflows/runner.py",
+    "old": "ROOT / \"src\"",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/workflows/runner.py",
+    "old": "ROOT / \"src/pdi_eval/perception/sam3_dinov2_segment.py\"",
+    "new": "_workspace_root() / 'robot/preprocessing/segmentation/sam3_dinov2_segment.py'"
+  },
+  {
+    "file": "robot/workflows/runner.py",
+    "old": "ROOT / \"src/pdi_eval/perception/link5_point_guard.py\"",
+    "new": "_workspace_root() / 'robot/preprocessing/link5_refinement/link5_point_guard.py'"
+  },
+  {
+    "file": "robot/workflows/runner.py",
+    "old": "ROOT / \".env.vlm\"",
+    "new": "_workspace_root() / '.env.vlm'"
+  },
+  {
+    "file": "robot/workflows/runner.py",
+    "old": "ROOT / \"src\"",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/workflows/runner.py",
+    "old": "ROOT / \"assets/replay/plotly.min.js\"",
+    "new": "_workspace_root() / 'infrastructure/shared/replay/assets/plotly.min.js'"
+  },
+  {
+    "file": "robot/workflows/runner.py",
+    "old": "ROOT / \"third_party/mega_sam/checkpoints/megasam_final.pth\"",
+    "new": "_workspace_root() / 'infrastructure/vendor/mega_sam/checkpoints/megasam_final.pth'"
+  },
+  {
+    "file": "robot/workflows/link5_only.py",
+    "old": "_SOURCE_PATH.parents[3] / \"src\"",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/workflows/__main__.py",
+    "old": "ROOT / \"assets/replay/plotly.min.js\"",
+    "new": "_workspace_root() / 'infrastructure/shared/replay/assets/plotly.min.js'"
+  },
+  {
+    "file": "robot/workflows/__main__.py",
+    "old": "ROOT / \"third_party/mega_sam/checkpoints/megasam_final.pth\"",
+    "new": "_workspace_root() / 'infrastructure/vendor/mega_sam/checkpoints/megasam_final.pth'"
+  },
+  {
+    "file": "robot/workflows/__main__.py",
+    "old": "ROOT / 'src'",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/preprocessing/link5_refinement/link5_point_guard.py",
+    "old": "_SOURCE_PATH.parents[3]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/preprocessing/link5_refinement/link5_point_guard.py",
+    "old": "PROJECT_ROOT / \"assets/link5_guard/lvp040_reference_frame.png\"",
+    "new": "_workspace_root() / 'documentation/data/references/link5_guard/lvp040_reference_frame.png'"
+  },
+  {
+    "file": "robot/preprocessing/link5_refinement/link5_point_guard.py",
+    "old": "PROJECT_ROOT / \".env.vlm\"",
+    "new": "_workspace_root() / '.env.vlm'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/v1_mask.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/v1_mask.py",
+    "old": "ROOT/'reg2inv_results_v1/LVP_0049'",
+    "new": "_workspace_root() / 'reg2inv_results_v1/LVP_0049'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/v1_mask.py",
+    "old": "ROOT/'reg2inv_results/LVP_0049'",
+    "new": "_workspace_root() / 'reg2inv_results/LVP_0049'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/v1_mask.py",
+    "old": "ROOT/'reg2inv_results_v1/references/by_link/palm'",
+    "new": "_workspace_root() / 'reg2inv_results_v1/references/by_link/palm'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/v1_mask.py",
+    "old": "ROOT/'reg2inv_results/diagnosis_LVP_0049/source.mp4'",
+    "new": "_workspace_root() / 'reg2inv_results/diagnosis_LVP_0049/source.mp4'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/v1_mask.py",
+    "old": "ROOT/'models/sam3/sam3.pt'",
+    "new": "_workspace_root() / 'infrastructure/models/sam3/sam3.pt'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/v1_mask.py",
+    "old": "ROOT/'models/sam3/bpe_simple_vocab_16e6.txt.gz'",
+    "new": "_workspace_root() / 'infrastructure/models/sam3/bpe_simple_vocab_16e6.txt.gz'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/v1_mask.py",
+    "old": "ROOT/'models/dinov2'",
+    "new": "_workspace_root() / 'infrastructure/models/dinov2'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/v1_mask.py",
+    "old": "ORIGINAL_CASE/'masks/links.npz'",
+    "new": "_workspace_root() / 'reg2inv_results/LVP_0049/masks/links.npz'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/v1_mask.py",
+    "old": "OUT/'seeds.npz'",
+    "new": "_workspace_root() / 'reg2inv_results_v1/LVP_0049/seeds.npz'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/v1_mask.py",
+    "old": "OUT/'initialization.json'",
+    "new": "_workspace_root() / 'reg2inv_results_v1/LVP_0049/initialization.json'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/v1_mask.py",
+    "old": "OUT/'sam_only_masks.npz'",
+    "new": "_workspace_root() / 'reg2inv_results_v1/LVP_0049/sam_only_masks.npz'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/v1_mask.py",
+    "old": "ROOT/'third_party/co-tracker-82e02e8029753ad4ef13cf06be7f4fc5facdda4d'",
+    "new": "_workspace_root() / 'infrastructure/vendor/co-tracker-82e02e8029753ad4ef13cf06be7f4fc5facdda4d'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/v1_mask.py",
+    "old": "OUT/'seeds.npz'",
+    "new": "_workspace_root() / 'reg2inv_results_v1/LVP_0049/seeds.npz'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/v1_mask.py",
+    "old": "ROOT/'models/cotracker3-offline.pth'",
+    "new": "_workspace_root() / 'infrastructure/models/cotracker3-offline.pth'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/v1_mask.py",
+    "old": "OUT/'tracks.npz'",
+    "new": "_workspace_root() / 'reg2inv_results_v1/LVP_0049/tracks.npz'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/v1_mask.py",
+    "old": "OUT/'tracks.npz'",
+    "new": "_workspace_root() / 'reg2inv_results_v1/LVP_0049/tracks.npz'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/v1_mask.py",
+    "old": "OUT/'guided_masks.npz'",
+    "new": "_workspace_root() / 'reg2inv_results_v1/LVP_0049/guided_masks.npz'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/v1_mask.py",
+    "old": "OUT/'tracking_quality.json'",
+    "new": "_workspace_root() / 'reg2inv_results_v1/LVP_0049/tracking_quality.json'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/gripper_review.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/gripper_review.py",
+    "old": "ROOT/'models/Qwen3.5-9B'",
+    "new": "_workspace_root() / 'infrastructure/models/Qwen3.5-9B'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/gripper_review.py",
+    "old": "ROOT/'negative_work'",
+    "new": "_workspace_root() / 'negative_work'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/gripper_review.py",
+    "old": "ROOT/'models/Qwen3.5-9B'",
+    "new": "_workspace_root() / 'infrastructure/models/Qwen3.5-9B'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/gripper_review.py",
+    "old": "ROOT/'negative_work'",
+    "new": "_workspace_root() / 'negative_work'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/gripper_review.py",
+    "old": "ROOT/'lasteset_qwen_results'",
+    "new": "_workspace_root() / 'robot/results/persistent_masking'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/vlm3_overmask.py",
+    "old": "_SOURCE_PATH.with_name('vlm3_interface') / 'reference.png'",
+    "new": "_workspace_root() / 'robot/preprocessing/link7_persistent/vlm3_interface/reference.png'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/vlm3_overmask.py",
+    "old": "PROJECT_ROOT/'.env.vlm'",
+    "new": "_workspace_root() / '.env.vlm'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/palm_recovery.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/palm_recovery.py",
+    "old": "ROOT/'reg2inv_results/diagnosis_LVP_0049/source.mp4'",
+    "new": "_workspace_root() / 'reg2inv_results/diagnosis_LVP_0049/source.mp4'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/palm_recovery.py",
+    "old": "ROOT/'reg2inv_results_v1/LVP_0049/guided_masks.npz'",
+    "new": "_workspace_root() / 'reg2inv_results_v1/LVP_0049/guided_masks.npz'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/palm_recovery.py",
+    "old": "ROOT/'results_palm_recovery/LVP_0049'",
+    "new": "_workspace_root() / 'results_palm_recovery/LVP_0049'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/naive_sam3.py",
+    "old": "ROOT/'results_v1/references/by_link/palm'",
+    "new": "_workspace_root() / 'documentation/data/references/palm'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/naive_sam3.py",
+    "old": "ROOT/'models/dinov2'",
+    "new": "_workspace_root() / 'infrastructure/models/dinov2'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/gripper_negatives.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/gripper_negatives.py",
+    "old": "ROOT/'qwen_results/provenance/manifest.json'",
+    "new": "_workspace_root() / 'qwen_results/provenance/manifest.json'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/gripper_negatives.py",
+    "old": "ROOT/'models/Qwen3.5-9B'",
+    "new": "_workspace_root() / 'infrastructure/models/Qwen3.5-9B'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/pipeline.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/pipeline.py",
+    "old": "ROOT/'persistent_masking/interface/config.py'",
+    "new": "_workspace_root() / 'robot/preprocessing/link7_persistent/interface/config.py'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/pipeline.py",
+    "old": "ROOT/'persistent_masking/vlm_interface/config.py'",
+    "new": "_workspace_root() / 'robot/preprocessing/link7_persistent/vlm_interface/config.py'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/pipeline.py",
+    "old": "ROOT/'persistent_masking/vlm_client.py'",
+    "new": "_workspace_root() / 'robot/preprocessing/link7_persistent/vlm_client.py'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/pipeline.py",
+    "old": "ROOT/'persistent_masking/vlm_prompts.py'",
+    "new": "_workspace_root() / 'robot/preprocessing/link7_persistent/vlm_prompts.py'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/pipeline.py",
+    "old": "ROOT/'persistent_masking/vlm2_sam_prompting.py'",
+    "new": "_workspace_root() / 'robot/preprocessing/link7_persistent/vlm2_sam_prompting.py'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/pipeline.py",
+    "old": "ROOT/'persistent_masking/vlm2_interface.py'",
+    "new": "_workspace_root() / 'robot/preprocessing/link7_persistent/vlm2_interface.py'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/pipeline.py",
+    "old": "ROOT/'persistent_masking/frame_lineage.py'",
+    "new": "_workspace_root() / 'robot/preprocessing/link7_persistent/frame_lineage.py'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/pipeline.py",
+    "old": "ROOT/'persistent_masking/naive_sam3.py'",
+    "new": "_workspace_root() / 'robot/preprocessing/link7_persistent/naive_sam3.py'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/pipeline.py",
+    "old": "ROOT/'persistent_masking/gripper_review.py'",
+    "new": "_workspace_root() / 'robot/preprocessing/link7_persistent/gripper_review.py'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/pipeline.py",
+    "old": "ROOT/'persistent_masking/v1_mask.py'",
+    "new": "_workspace_root() / 'robot/preprocessing/link7_persistent/v1_mask.py'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/pipeline.py",
+    "old": "ROOT/'generation/link_crop_wrapper/run_segment_vlm.py'",
+    "new": "_workspace_root() / 'infrastructure/shared/inference/generation/link_crop_wrapper/run_segment_vlm.py'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/pipeline.py",
+    "old": "ROOT/'models/sam3/sam3.pt'",
+    "new": "_workspace_root() / 'infrastructure/models/sam3/sam3.pt'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/pipeline.py",
+    "old": "ROOT/'lasteset_qwen_results/experiments/global/global_combined_lower_dark_20260912'",
+    "new": "_workspace_root() / 'robot/results/persistent_masking/experiments/global/global_combined_lower_dark_20260912'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/interface/config.py",
+    "old": "_SOURCE_PATH.parents[2]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/interface/config.py",
+    "old": "PROJECT_ROOT / \"lasteset_qwen_results/experiments\"",
+    "new": "_workspace_root() / 'robot/results/persistent_masking/experiments'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/interface/config.py",
+    "old": "PROJECT_ROOT / \"persistent_masking_results\"",
+    "new": "_workspace_root() / 'robot/results/persistent_masking_review'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/interface/config.py",
+    "old": "PROJECT_ROOT / \"models/Qwen3.5-9B\"",
+    "new": "_workspace_root() / 'infrastructure/models/Qwen3.5-9B'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/interface/config.py",
+    "old": "PROJECT_ROOT / \"env-qwen/bin/python\"",
+    "new": "_workspace_root() / 'infrastructure/environments/qwen/bin/python'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/interface/config.py",
+    "old": "PROJECT_ROOT / \"env-qwen/bin/python\"",
+    "new": "_workspace_root() / 'infrastructure/environments/qwen/bin/python'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/interface/__main__.py",
+    "old": "PROJECT_ROOT / \"env-sam/bin/python\"",
+    "new": "_workspace_root() / 'env-sam/bin/python'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/interface/__main__.py",
+    "old": "PROJECT_ROOT / \"models/sam3/sam3.pt\"",
+    "new": "_workspace_root() / 'infrastructure/models/sam3/sam3.pt'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/interface/__main__.py",
+    "old": "PROJECT_ROOT / \"models/dinov2\"",
+    "new": "_workspace_root() / 'infrastructure/models/dinov2'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/interface/__main__.py",
+    "old": "PROJECT_ROOT / \"results_v1/references/by_link/palm\"",
+    "new": "_workspace_root() / 'documentation/data/references/palm'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/interface/__main__.py",
+    "old": "PROJECT_ROOT / \"persistent_masking/vlm3_interface/reference.png\"",
+    "new": "_workspace_root() / 'robot/preprocessing/link7_persistent/vlm3_interface/reference.png'"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/interface/__main__.py",
+    "old": "PROJECT_ROOT / \"src\"",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/preprocessing/link7_persistent/interface/__main__.py",
+    "old": "PROJECT_ROOT / \".env.vlm\"",
+    "new": "_workspace_root() / '.env.vlm'"
+  },
+  {
+    "file": "robot/replay/pair_export.py",
+    "old": "ROOT / \"assets/replay/plotly.min.js\"",
+    "new": "_workspace_root() / 'infrastructure/shared/replay/assets/plotly.min.js'"
+  },
+  {
+    "file": "robot/replay/build_selected45_review.py",
+    "old": "_SOURCE_PATH.parents[1] / \"results/selected-45-v1\"",
+    "new": "_workspace_root() / 'results/selected-45-v1'"
+  },
+  {
+    "file": "robot/replay/build_selected45_review.py",
+    "old": "ROOT / \"summary.json\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/summary.json'"
+  },
+  {
+    "file": "robot/replay/build_selected45_review.py",
+    "old": "ROOT / \"selection.json\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/selection.json'"
+  },
+  {
+    "file": "robot/replay/build_selected45_review.py",
+    "old": "ROOT / \"base_comparison_selection.json\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/base_comparison_selection.json'"
+  },
+  {
+    "file": "robot/replay/build_selected45_review.py",
+    "old": "ROOT / \"cases\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/cases'"
+  },
+  {
+    "file": "robot/replay/build_selected45_review.py",
+    "old": "ROOT / \"review_sources\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/review_sources'"
+  },
+  {
+    "file": "robot/replay/build_selected45_review.py",
+    "old": "ROOT / \"run.exit\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/run.exit'"
+  },
+  {
+    "file": "robot/replay/build_selected45_review.py",
+    "old": "ROOT / \"review.html\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/review.html'"
+  },
+  {
+    "file": "robot/replay/build_link7_mask_replay.py",
+    "old": "_SOURCE_PATH.parents[1]\n               / \"results/selected-45-v1\"",
+    "new": "_workspace_root() / 'results/selected-45-v1'"
+  },
+  {
+    "file": "robot/replay/build_link7_mask_replay.py",
+    "old": "RESULT_ROOT / \"cases\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/cases'"
+  },
+  {
+    "file": "robot/replay/build_selected45_rigidity_report.py",
+    "old": "_SOURCE_PATH.parents[1] / \"results\" / \"selected-45-v1\"",
+    "new": "_workspace_root() / 'results/selected-45-v1'"
+  },
+  {
+    "file": "robot/replay/build_selected45_rigidity_report.py",
+    "old": "ROOT / \"selection.json\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/selection.json'"
+  },
+  {
+    "file": "robot/replay/build_selected45_rigidity_report.py",
+    "old": "ROOT / \"summary.json\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/summary.json'"
+  },
+  {
+    "file": "robot/replay/build_selected45_rigidity_report.py",
+    "old": "ROOT / \"cases\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/cases'"
+  },
+  {
+    "file": "robot/replay/build_selected45_rigidity_report.py",
+    "old": "ROOT / \"RIGIDITY_SCORES.md\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/RIGIDITY_SCORES.md'"
+  },
+  {
+    "file": "robot/replay/build_selected45_rigidity_report.py",
+    "old": "ROOT / \"RIGIDITY_SCORES.md\"",
+    "new": "_workspace_root() / 'results/selected-45-v1/RIGIDITY_SCORES.md'"
+  },
+  {
+    "file": "robot/replay/persistent/restore_mask_replay.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "robot/replay/persistent/restore_mask_replay.py",
+    "old": "ROOT/'qwen_results/Cosmos3_0048'",
+    "new": "_workspace_root() / 'qwen_results/Cosmos3_0048'"
+  },
+  {
+    "file": "object/analysis/analyze_anomalydino_correlation.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "object/analysis/analyze_anomalydino_correlation.py",
+    "old": "ROOT/'selected_45_matched_videos_styledv2.xlsx'",
+    "new": "_workspace_root() / 'documentation/data/labels/selected_45_matched_videos_styledv2.xlsx'"
+  },
+  {
+    "file": "object/analysis/analyze_anomalydino_correlation.py",
+    "old": "ROOT/'results/object-reference-crops-20261001'",
+    "new": "_workspace_root() / 'results/object-reference-crops-20261001'"
+  },
+  {
+    "file": "object/analysis/analyze_anomalydino_correlation.py",
+    "old": "ROOT/'results/anomalydino-object-crops-10frames-20261002'",
+    "new": "_workspace_root() / 'results/anomalydino-object-crops-10frames-20261002'"
+  },
+  {
+    "file": "object/analysis/analyze_anomalydino_correlation.py",
+    "old": "RUN/'correlation'",
+    "new": "_workspace_root() / 'results/anomalydino-object-crops-10frames-20261002/correlation'"
+  },
+  {
+    "file": "object/analysis/analyze_anomalydino_correlation.py",
+    "old": "CROPS/'anomalydino_scores.json'",
+    "new": "_workspace_root() / 'results/object-reference-crops-20261001/anomalydino_scores.json'"
+  },
+  {
+    "file": "object/analysis/analyze_anomalydino_correlation.py",
+    "old": "ROOT/'results/anomalydino-object-crops-20261002/pairs.jsonl'",
+    "new": "_workspace_root() / 'results/anomalydino-object-crops-20261002/pairs.jsonl'"
+  },
+  {
+    "file": "object/analysis/analyze_anomalydino_correlation.py",
+    "old": "CROPS/'anomalydino_scores.json'",
+    "new": "_workspace_root() / 'results/object-reference-crops-20261001/anomalydino_scores.json'"
+  },
+  {
+    "file": "object/analysis/analyze_anomalydino_correlation.py",
+    "old": "RUN/'pairs.jsonl'",
+    "new": "_workspace_root() / 'results/anomalydino-object-crops-10frames-20261002/pairs.jsonl'"
+  },
+  {
+    "file": "object/analysis/analyze_anomalydino_correlation.py",
+    "old": "OUT/'matched_videos.csv'",
+    "new": "_workspace_root() / 'results/anomalydino-object-crops-10frames-20261002/correlation/matched_videos.csv'"
+  },
+  {
+    "file": "object/analysis/analyze_anomalydino_correlation.py",
+    "old": "OUT/'statistics.json'",
+    "new": "_workspace_root() / 'results/anomalydino-object-crops-10frames-20261002/correlation/statistics.json'"
+  },
+  {
+    "file": "object/analysis/analyze_anomalydino_correlation.py",
+    "old": "OUT/'REPORT.md'",
+    "new": "_workspace_root() / 'results/anomalydino-object-crops-10frames-20261002/correlation/REPORT.md'"
+  },
+  {
+    "file": "object/analysis/occlusion/occlusion_scores.py",
+    "old": "_SOURCE_PATH.with_name('occlusion_indicator.js')",
+    "new": "_workspace_root() / 'object/replay/occlusion/occlusion_indicator.js'"
+  },
+  {
+    "file": "object/analysis/occlusion/analyze_object_occlusion_v2_auroc.py",
+    "old": "_SOURCE_PATH.parents[1] / \"PDI-Bench-edited/src/pdi_eval/object_deformation_wrapper/occlusion.py\"",
+    "new": "_workspace_root() / 'object/preprocessing/occlusion/occlusion.py'"
+  },
+  {
+    "file": "object/experiments/simple3d/run_simple3d_object_deformation.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "object/experiments/rigidity/tests/test_wrapper.py",
+    "old": "_SOURCE_PATH.parents[4]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "object/experiments/rigidity/workflows/__main__.py",
+    "old": "_SOURCE_PATH.parents[3]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "object/experiments/rigidity/workflows/__main__.py",
+    "old": "BENCHMARK / \"src\"",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "object/experiments/rigidity/replay/replay.py",
+    "old": "_SOURCE_PATH.parents[3] / \"assets/replay/plotly.min.js\"",
+    "new": "_workspace_root() / 'infrastructure/shared/replay/assets/plotly.min.js'"
+  },
+  {
+    "file": "object/tests/test_anomalydino.py",
+    "old": "_SOURCE_PATH.parents[1] / 'third_party/AnomalyDINO'",
+    "new": "_workspace_root() / 'infrastructure/vendor/AnomalyDINO'"
+  },
+  {
+    "file": "object/scoring/anomalydino/anomalydino.py",
+    "old": "_SOURCE_PATH.parents[3] / 'third_party/AnomalyDINO'",
+    "new": "_workspace_root() / 'infrastructure/vendor/AnomalyDINO'"
+  },
+  {
+    "file": "object/preprocessing/segmentation/segment.py",
+    "old": "_SOURCE_PATH.parents[3]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "object/replay/occlusion/occlusion_replay.py",
+    "old": "_SOURCE_PATH.with_name('occlusion_replay.html')",
+    "new": "_workspace_root() / 'object/replay/occlusion/occlusion_replay.html'"
+  },
+  {
+    "file": "object/replay/occlusion/occlusion_replay.py",
+    "old": "_SOURCE_PATH.parents[3]/'assets/replay/plotly.min.js'",
+    "new": "_workspace_root() / 'infrastructure/shared/replay/assets/plotly.min.js'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/verify_simple3d_outputs.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/simple3d_adapter.py",
+    "old": "_SOURCE_PATH.parents[1] / \"third_party/Simple3D\"",
+    "new": "_workspace_root() / 'infrastructure/vendor/Simple3D'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/simple3d_pipeline.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/simple3d_pipeline.py",
+    "old": "ROOT / \"PDI-Bench-edited/src\"",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/simple3d_pipeline.py",
+    "old": "ROOT / \"results\"",
+    "new": "_workspace_root() / 'results'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/collect_simple3d_pairs.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/collect_simple3d_pairs.py",
+    "old": "ROOT/'PDI-Bench-edited/src'",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/collect_simple3d_pairs.py",
+    "old": "ROOT/'experiment_GPU_record.md'",
+    "new": "_workspace_root() / 'experiment_GPU_record.md'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/collect_simple3d_pairs.py",
+    "old": "ROOT/'results/simple3d-20261003-run2/link5_pair_visible_anchor'",
+    "new": "_workspace_root() / 'results/simple3d-20261003-run2/link5_pair_visible_anchor'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/collect_simple3d_pairs.py",
+    "old": "ROOT/'.tmp/autodl_pdi_ed25519'",
+    "new": "_workspace_root() / '.tmp/autodl_pdi_ed25519'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/collect_simple3d_pairs.py",
+    "old": "ROOT/'.tmp/s3d-ssh'",
+    "new": "_workspace_root() / '.tmp/s3d-ssh'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/collect_simple3d_pairs.py",
+    "old": "ROOT/'experiment_GPU_record.md'",
+    "new": "_workspace_root() / 'experiment_GPU_record.md'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/collect_simple3d_pairs.py",
+    "old": "ROOT/'experiment_GPU_record.md'",
+    "new": "_workspace_root() / 'experiment_GPU_record.md'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/simple3d_layout.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/simple3d_layout.py",
+    "old": "ROOT / \"results\"",
+    "new": "_workspace_root() / 'results'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/simple3d_layout.py",
+    "old": "ROOT / \"results\"",
+    "new": "_workspace_root() / 'results'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/simple3d_layout.py",
+    "old": "ROOT / \"results\"",
+    "new": "_workspace_root() / 'results'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/finalize_simple3d.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/finalize_simple3d.py",
+    "old": "ROOT / \"results\"",
+    "new": "_workspace_root() / 'results'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/collect_simple3d_results.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/collect_simple3d_results.py",
+    "old": "ROOT / \"experiment_GPU_record.md\"",
+    "new": "_workspace_root() / 'experiment_GPU_record.md'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/collect_simple3d_results.py",
+    "old": "ROOT / \".tmp/autodl_pdi_ed25519\"",
+    "new": "_workspace_root() / '.tmp/autodl_pdi_ed25519'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/preflight_simple3d.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/preflight_simple3d.py",
+    "old": "ROOT / \"PDI-Bench-edited/src\"",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/prepare_simple3d_inputs.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/prepare_simple3d_inputs.py",
+    "old": "ROOT / \"PDI-Bench-edited/src\"",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/prepare_simple3d_inputs.py",
+    "old": "ROOT / \"results/anomalydino-object-crops-10frames-20261002\"",
+    "new": "_workspace_root() / 'results/anomalydino-object-crops-10frames-20261002'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/prepare_simple3d_inputs.py",
+    "old": "ROOT / \"results/link5-only-selected45-updated-mask-20260929\"",
+    "new": "_workspace_root() / 'results/link5-only-selected45-updated-mask-20260929'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/prepare_simple3d_inputs.py",
+    "old": "ROOT / \"results\"",
+    "new": "_workspace_root() / 'results'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/analysis/analyze_simple3d_pair_correlation.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/analysis/analyze_simple3d_pair_correlation.py",
+    "old": "ROOT/'selected_45_matched_videos_styledv2.xlsx'",
+    "new": "_workspace_root() / 'documentation/data/labels/selected_45_matched_videos_styledv2.xlsx'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/analysis/analyze_simple3d_pair_correlation.py",
+    "old": "ROOT/'results/link5-only-selected45-updated-mask-20260929/selection.json'",
+    "new": "_workspace_root() / 'results/link5-only-selected45-updated-mask-20260929/selection.json'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/analysis/analyze_simple3d_pair_correlation.py",
+    "old": "ROOT/'results/simple3d-20261003-run2/link5_pair_visible'",
+    "new": "_workspace_root() / 'results/simple3d-20261003-run2/link5_pair_visible'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/analysis/analyze_simple3d_correlation.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/analysis/analyze_simple3d_correlation.py",
+    "old": "ROOT / \"selected_45_matched_videos_styledv2.xlsx\"",
+    "new": "_workspace_root() / 'documentation/data/labels/selected_45_matched_videos_styledv2.xlsx'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/analysis/analyze_simple3d_correlation.py",
+    "old": "ROOT / \"results/link5-only-selected45-updated-mask-20260929/selection.json\"",
+    "new": "_workspace_root() / 'results/link5-only-selected45-updated-mask-20260929/selection.json'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/analysis/analyze_simple3d_aggregation.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/analysis/analyze_simple3d_aggregation.py",
+    "old": "ROOT/'selected_45_matched_videos_styledv2.xlsx'",
+    "new": "_workspace_root() / 'documentation/data/labels/selected_45_matched_videos_styledv2.xlsx'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/analysis/analyze_simple3d_aggregation.py",
+    "old": "ROOT/'results/link5-only-selected45-updated-mask-20260929/selection.json'",
+    "new": "_workspace_root() / 'results/link5-only-selected45-updated-mask-20260929/selection.json'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/analysis/analyze_simple3d_aggregation.py",
+    "old": "ROOT/'results/simple3d-20261003-run2/link5_pair_visible_anchor'",
+    "new": "_workspace_root() / 'results/simple3d-20261003-run2/link5_pair_visible_anchor'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/replay/build_simple3d_pair_replay.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/replay/build_simple3d_pair_replay.py",
+    "old": "ROOT/'PDI-Bench-edited/src'",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/replay/build_simple3d_pair_replay.py",
+    "old": "ROOT/'results/simple3d-20261003-run2/replay'",
+    "new": "_workspace_root() / 'results/simple3d-20261003-run2/replay'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/replay/build_simple3d_pair_replay.py",
+    "old": "ROOT/'results/link5-only-selected45-updated-mask-20260929/cases'",
+    "new": "_workspace_root() / 'results/link5-only-selected45-updated-mask-20260929/cases'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/replay/build_simple3d_pair_replay.py",
+    "old": "ROOT/'scripts/simple3d_pair_replay.html'",
+    "new": "_workspace_root() / 'infrastructure/shared/experimental/simple3d/replay/simple3d_pair_replay.html'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/replay/build_simple3d_pair_replay.py",
+    "old": "ROOT/'scripts/simple3d_replay.html'",
+    "new": "_workspace_root() / 'infrastructure/shared/experimental/simple3d/replay/simple3d_replay.html'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/replay/build_simple3d_pair_replay.py",
+    "old": "ROOT/'results/simple3d-20261003-run2/index.html'",
+    "new": "_workspace_root() / 'results/simple3d-20261003-run2/index.html'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/replay/build_simple3d_pair_replay.py",
+    "old": "ROOT/'results/simple3d-20261003-run2/link5_pair_visible_anchor'",
+    "new": "_workspace_root() / 'results/simple3d-20261003-run2/link5_pair_visible_anchor'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/replay/build_simple3d_replay.py",
+    "old": "_SOURCE_PATH.parents[1]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/replay/build_simple3d_replay.py",
+    "old": "ROOT / \"results/link5-only-selected45-updated-mask-20260929/selection.json\"",
+    "new": "_workspace_root() / 'results/link5-only-selected45-updated-mask-20260929/selection.json'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/replay/build_simple3d_replay.py",
+    "old": "ROOT / \"results/link5-only-selected45-updated-mask-20260929/cases/LVP_ROBOWM_0001/v1_cotracker3/replay/interactive_exact-group/plotly.min.js\"",
+    "new": "_workspace_root() / 'results/link5-only-selected45-updated-mask-20260929/cases/LVP_ROBOWM_0001/v1_cotracker3/replay/interactive_exact-group/plotly.min.js'"
+  },
+  {
+    "file": "infrastructure/shared/experimental/simple3d/replay/build_simple3d_replay.py",
+    "old": "_SOURCE_PATH.with_name(\"simple3d_replay.html\")",
+    "new": "_workspace_root() / 'infrastructure/shared/experimental/simple3d/replay/simple3d_replay.html'"
+  },
+  {
+    "file": "infrastructure/shared/contracts/contracts.py",
+    "old": "_SOURCE_PATH.parents[3]",
+    "new": "_workspace_root()"
+  },
+  {
+    "file": "infrastructure/shared/inference/mega_sam_wrapper.py",
+    "old": "_SOURCE_PATH.parent",
+    "new": "_workspace_root() / 'pdi_eval/perception'"
+  },
+  {
+    "file": "infrastructure/shared/replay/link7_pair_replay.py",
+    "old": "_SOURCE_PATH.parents[3] / \"assets/replay/plotly.min.js\"",
+    "new": "_workspace_root() / 'infrastructure/shared/replay/assets/plotly.min.js'"
+  },
+  {
+    "file": "infrastructure/shared/replay/rigidity_replay.py",
+    "old": "_SOURCE_PATH.with_name(\"rigidity_replay.html\")",
+    "new": "_workspace_root() / 'infrastructure/shared/replay/rigidity_replay.html'"
+  },
+  {
+    "file": "infrastructure/shared/replay/rigidity_replay.py",
+    "old": "_SOURCE_PATH.parents[3] / \"assets/replay/plotly.min.js\"",
+    "new": "_workspace_root() / 'infrastructure/shared/replay/assets/plotly.min.js'"
+  }
+]

@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "basis": "Recorded local source/install scripts; extracted requirements, not a freshly validated GPU lockfile.",
+  "profiles": {
+    "geometry": {
+      "python": "3.10",
+      "cuda": "11.8",
+      "packages": {
+        "torch": "==2.1.0",
+        "torchvision": "==0.16.0",
+        "torchaudio": "==2.1.0",
+        "numpy": "==1.26.4",
+        "transformers": "==4.41.2",
+        "timm": "==0.9.16",
+        "einops": "==0.8.0",
+        "xformers": "==0.0.22.post7",
+        "opencv-python": ">=4.8.0",
+        "scipy": "",
+        "scikit-learn": "",
+        "open3d": "",
+        "rich": "",
+        "pyyaml": "",
+        "torch-scatter": ""
+      },
+      "modules": [
+        "cotracker",
+        "droid_backends",
+        "lietorch"
+      ],
+      "source": [
+        "infrastructure/archive/gpu/setup/bootstrap_gpu.sh",
+        "documentation/gpu/requirements/requirements.txt",
+        "infrastructure/archive/gpu/setup/build_mega_sam.sh"
+      ],
+      "notes": [
+        "Preserve CUDA 11.8 compiler/toolkit for compiled extensions.",
+        "CoTracker commit 82e02e8029753ad4ef13cf06be7f4fc5facdda4d.",
+        "MegaSAM/DINO source commit 7764ea0f912e53c92e82eb78a2a1631e92725fc8."
+      ]
+    },
+    "sam3": {
+      "python": "3.12",
+      "cuda": "12.8",
+      "packages": {
+        "torch": "==2.10.0",
+        "torchvision": "",
+        "sam3": "==0.1.4",
+        "numpy": "==2.2.6",
+        "opencv-python-headless": "==4.12.0.88",
+        "pycollada": "==0.9.2",
+        "psutil": "==7.2.2",
+        "PyYAML": "==6.0.3",
+        "trimesh": "==4.8.3",
+        "transformers": "==4.41.2",
+        "huggingface-hub": ">=0.30,<1.0",
+        "safetensors": ">=0.4,<1.0"
+      },
+      "modules": [
+        "sam3"
+      ],
+      "source": [
+        "infrastructure/archive/gpu/setup/install_sam3_gpu.sh",
+        "infrastructure/archive/gpu/setup/install_dinov2_gpu.sh"
+      ],
+      "notes": [
+        "torchvision was unpinned in the installer; record the actual run environment before reproducing.",
+        "SAM3 checkpoint revision 96f3e1b404ba14f2cfac60ee6ae87c269a7b7923.",
+        "DINOv2 model revision f9e44c814b77203eaa57a6bdbbd535f21ede1415."
+      ]
+    },
+    "anomalydino": {
+      "python": null,
+      "cuda": null,
+      "packages": {
+        "torch": "",
+        "torchvision": "",
+        "numpy": "==1.26.4",
+        "opencv-python": "<4.12",
+        "matplotlib": "",
+        "Pillow": "",
+        "scipy": "",
+        "scikit-learn": "",
+        "faiss-cpu": "",
+        "tqdm": "",
+        "tifffile": "",
+        "PyYAML": "",
+        "pandas": ""
+      },
+      "modules": [
+        "faiss"
+      ],
+      "source": [
+        "object/scoring/anomalydino/requirements.txt",
+        "documentation/gpu/runners/run_anomalydino_gpu.sh"
+      ],
+      "notes": [
+        "CPU FAISS is supported while feature inference uses CUDA.",
+        "Exact Python, Torch and CUDA pins are not specified in these sources; use the selected run environment manifest."
+      ]
+    },
+    "simple3d": {
+      "extends": "geometry",
+      "python": "3.10",
+      "cuda": "11.8",
+      "packages": {
+        "tifffile": "==2025.5.10",
+        "trimesh": "==5.1.1",
+        "pycollada": "==0.9.3",
+        "ninja": ""
+      },
+      "modules": [
+        "pointnet2_ops",
+        "knn_cuda"
+      ],
+      "source": [
+        "infrastructure/archive/simple3d/operations/install_simple3d_gpu_dependencies.sh",
+        "infrastructure/shared/experimental/simple3d/preflight_simple3d.py"
+      ],
+      "notes": [
+        "Additional dependencies on the geometry environment, not the SAM3 environment.",
+        "Pointnet2_PyTorch b5ceb6d9ca0467ea34beb81023f96ee82228f626.",
+        "knn_cuda 8b21dbfc86988f56588a5ed8ca3cc354122c5656.",
+        "Original compile target TORCH_CUDA_ARCH_LIST=8.0; select a suitable target for the actual GPU.",
+        "OS packages include libegl1; native extensions need a compatible CUDA compiler."
+      ]
+    },
+    "vlm": {
+      "python": null,
+      "cuda": null,
+      "packages": {},
+      "modules": [],
+      "source": [
+        "robot/preprocessing/link7_persistent/interface/config.py"
+      ],
+      "notes": [
+        "VLM1 defaults to local Qwen3.5-9B in a separate environment; exact dependency pins were not recovered from the reviewed installers.",
+        "VLM2/VLM3 can use configured cloud APIs. Preserve existing role-specific configuration; no credentials are stored here."
+      ]
+    },
+    "tapip3d": {
+      "python": null,
+      "cuda": null,
+      "packages": {
+        "torch": "",
+        "numpy": "",
+        "opencv-python": ""
+      },
+      "modules": [],
+      "source": [
+        "robot/experiments/link7_tapip3d/tapip3d_worker.py"
+      ],
+      "notes": [
+        "Separate interpreter, official repository and checkpoint paths are required.",
+        "Exact environment pins are not established by the reviewed wrapper; retain the original experiment environment."
+      ]
+    },
+    "analysis": {
+      "python": null,
+      "cuda": null,
+      "packages": {
+        "numpy": "",
+        "scipy": "",
+        "Pillow": "",
+        "opencv-python": "",
+        "matplotlib": "",
+        "openpyxl": "",
+        "beautifulsoup4": "",
+        "pytest": "",
+        "PyYAML": "",
+        "rich": ""
+      },
+      "modules": [],
+      "source": [
+        "documentation/architecture/interfaces.json"
+      ],
+      "notes": [
+        "CPU analysis/replay/testing dependencies. The generic CSV AUROC command itself uses only the Python standard library."
+      ],
+      "alternatives": {
+        "opencv-python": [
+          "opencv-python-headless"
+        ]
+      }
+    }
+  }
+}

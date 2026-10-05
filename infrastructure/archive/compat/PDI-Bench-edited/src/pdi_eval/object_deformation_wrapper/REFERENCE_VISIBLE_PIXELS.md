@@ -1,0 +1,1 @@
+../../../../../notes/objects/REFERENCE_VISIBLE_PIXELS.md

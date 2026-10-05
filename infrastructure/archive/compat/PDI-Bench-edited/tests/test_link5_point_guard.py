@@ -1,0 +1,1 @@
+../../../../../robot/tests/test_link5_point_guard.py

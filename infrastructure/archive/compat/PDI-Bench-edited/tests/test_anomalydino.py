@@ -1,0 +1,1 @@
+../../../../../object/tests/test_anomalydino.py

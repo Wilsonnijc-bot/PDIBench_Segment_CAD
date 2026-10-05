@@ -1,0 +1,56 @@
+{
+  "checked_at": "2026-10-05T03:22:55.033546+00:00",
+  "status": "integration_checks_passed",
+  "tests": {
+    "passed": 214,
+    "subtests_passed": 19,
+    "command": "/private/tmp/pdi-overlap-review-env/bin/python -m pytest -q"
+  },
+  "gpu_host_preflight": {
+    "status": "passed",
+    "environments": [
+      "sam3",
+      "vlm1",
+      "geometry",
+      "anomaly"
+    ],
+    "note": "Fixed preflight import order to load torch before droid_backends, then all environments passed. No fresh model inference.",
+    "scope": "Earlier link7/object coordinator; not repeated after link2 extension"
+  },
+  "saved_artifact_parity": {
+    "status": "passed",
+    "evidence": "saved-artifact-parity.json",
+    "cases": 2,
+    "identical_crop_pngs": 40,
+    "detector_rows_identical": true,
+    "selected_frames_identical": true
+  },
+  "fresh_end_to_end_coordinator_acceptance": "not_run",
+  "source_sha256": {
+    "infrastructure/pdibench/coordinator.py": "45d9531222e569e3ca9d42c929fc7ee2ff3bafc22f4fec2195379869169bf668",
+    "infrastructure/pdibench/worker.py": "3e4b61bccb40d57c187d6ecc9e8db15dea65a6d0d89d5a25cc8ff5ee8a1274e9",
+    "infrastructure/pdibench/__main__.py": "24e4dcc07186026e869527b839366b35025d53806f30cc33aeeb9b13b590abbc",
+    "robot/workflows/coordination.py": "1cb02de4e300941365a81ad0f7a4525f3814a0f9bae5892c00d800975e299375",
+    "object/workflows/coordination.py": "7073a9b5a93e63c3d5e41a19298f8dbf5b3f1546902e87ad9a7d2ac74d7330c0",
+    "infrastructure/tests/test_coordinator.py": "72c54e9b275e84154bc1ed9d5d603628f30da922d19bf52b9aa3ec8bf0869790"
+  },
+  "link2_extension": {
+    "cpu_checks": "passed",
+    "native_worker_imports": "passed",
+    "fresh_gpu_inference": "not_run",
+    "coverage": [
+      "optional manifest and reference requirements",
+      "resume and link2-only invalidation",
+      "named mask append/replacement and immutable link7 handoff",
+      "video/mask identity rejection"
+    ]
+  },
+  "direct_import_migration": {
+    "status": "local_validation_passed",
+    "audit": "../../architecture/DIRECT_IMPORT_MIGRATION.md",
+    "gpu_acceptance": "not_run",
+    "publication_files_verified": 714,
+    "main_cli_help_checks": 11,
+    "compatibility_tree": "archived_not_on_runtime_path"
+  }
+}

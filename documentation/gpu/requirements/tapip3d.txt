@@ -1,0 +1,4 @@
+# Extracted requirements; see ../environments.json for compiled dependencies, pins and limitations.
+torch
+numpy
+opencv-python

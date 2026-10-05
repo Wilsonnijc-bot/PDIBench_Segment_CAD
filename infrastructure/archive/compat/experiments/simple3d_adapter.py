@@ -1,0 +1,1 @@
+../../../shared/experimental/simple3d/simple3d_adapter.py

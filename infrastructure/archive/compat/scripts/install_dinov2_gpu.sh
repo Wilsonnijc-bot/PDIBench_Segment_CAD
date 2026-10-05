@@ -1,0 +1,1 @@
+../../gpu/setup/install_dinov2_gpu.sh

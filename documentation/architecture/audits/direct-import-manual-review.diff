@@ -1,0 +1,268 @@
+
+### robot/analysis/batch_v1.py:clean_transient_geometry
+--- 
++++ 
+@@ -1,5 +1,5 @@
+ def clean_transient_geometry(self, job_id: str, job_root: Path) -> None:
+-    mega_root = self.code_root / 'third_party/mega_sam'
++    mega_root = Path(os.environ.get('PDI_MEGA_SAM_ROOT', str(self.code_root / 'infrastructure/vendor/mega_sam')))
+     directories = [job_root / 'geometry-cache', mega_root / 'work_space' / job_id, mega_root / 'outputs' / job_id, mega_root / 'outputs_cvd' / job_id, mega_root / 'reconstructions' / job_id, mega_root / 'cache_flow' / job_id]
+     files = [mega_root / 'outputs' / f'{job_id}_droid.npz', mega_root / 'outputs_cvd' / f'{job_id}_sgd_cvd_hr.npz']
+     for path in directories:
+
+
+### robot/analysis/batch_v1.py:run_job
+--- 
++++ 
+@@ -29,14 +29,14 @@
+         intermediate = job_root / 'intermediate'
+         segmentation = intermediate / 'segmentation.npz'
+         common_env = os.environ.copy()
+-        common_env['PYTHONPATH'] = str(self.code_root / 'src')
++        common_env['PYTHONPATH'] = str(self.code_root)
+         sam3_env = common_env.copy()
+         sam3_env.update(HF_HUB_OFFLINE='1', TRANSFORMERS_OFFLINE='1')
+         if not valid_segmentation(segmentation):
+             self.command([str(self.sam3_python), '-m', 'robot.preprocessing.segmentation.sam3_dinov2_segment', '--input', str(video_alias), '--reference-dir', str(self.reference_dir), '--output-npz', str(segmentation), '--dinov2-model', str(self.gpu_root / 'models/dinov2/base-f9e44c814b77203eaa57a6bdbbd535f21ede1415'), '--sam3-checkpoint', str(self.gpu_root / 'models/sam3/sam3.pt'), '--sam3-bpe', str(self.gpu_root / 'models/sam3/bpe_simple_vocab_16e6.txt.gz'), '--text-prompt', 'visual', '--require-franka-links', '--reference-spatial-priors', '--padding-fraction', '0.10', '--minimum-tracked-fraction', '0.0'], job_root / 'sam3.log', sam3_env)
+         if not valid_segmentation(segmentation):
+             raise RuntimeError('SAM3 output does not contain exactly links 2-7')
+-        pdi_command = [str(self.pdi_python), '-m', 'robot.workflows', 'score', '--config', str(self.code_root / 'configs/default.yaml'), '--input', str(video_alias), '--segmentation-npz', str(segmentation), '--output-dir', str(output_dir), '--geometry-cache-dir', str(job_root / 'geometry-cache'), '--tracker-checkpoint', str(self.gpu_root / 'models/tracker/scaled_offline.pth'), '--tracking-mode', 'exact-group']
++        pdi_command = [str(self.pdi_python), '-m', 'robot.workflows', 'score', '--config', str(self.code_root / 'robot/configs/default.yaml'), '--input', str(video_alias), '--segmentation-npz', str(segmentation), '--output-dir', str(output_dir), '--geometry-cache-dir', str(job_root / 'geometry-cache'), '--tracker-checkpoint', str(self.gpu_root / 'models/tracker/scaled_offline.pth'), '--tracking-mode', 'exact-group']
+         if not replay_selected:
+             pdi_command.append('--disable-replay')
+         self.command(pdi_command, job_root / 'pdi.log', common_env)
+
+
+### robot/experiments/link7_tracker_filter_comparison/run_selected45_link7_comparison.py:_run_case
+--- 
++++ 
+@@ -17,7 +17,7 @@
+     for (backend, folder, archive) in (('cotracker3', 'link7_cotracker3', 'cotracker_exact-group.npz'), ('tapip3d', 'link7_tapip3d', 'tapip3d_link7_exact-group.npz')):
+         remote_folder = f'{remote_v1}/{folder}'
+         if not (_remote_exists(f'{remote_folder}/manifest.json', log) and _remote_exists(f'{remote_folder}/{archive}', log) and _remote_exists(f'{remote_folder}/link7_initial_queries.npz', log)):
+-            command = ['env', 'PYTHONPATH=src', *common, '--link7-tracker', backend, '--output-dir', remote_folder]
++            command = ['env', 'PYTHONPATH=.', *common, '--link7-tracker', backend, '--output-dir', remote_folder]
+             if backend == 'tapip3d':
+                 command += ['--tapip3d-python', TAPIP_PYTHON, '--tapip3d-repository', TAPIP_REPO, '--tapip3d-checkpoint', TAPIP_CHECKPOINT]
+             _ssh(['bash', '-lc', 'cd ' + shlex.quote(REMOTE_CODE) + ' && ' + ' '.join((shlex.quote(arg) for arg in command))], log)
+@@ -27,7 +27,7 @@
+     replay_folder = f'{remote_v1}/link7_pair_replay'
+     if not _remote_exists(f'{replay_folder}/manifest.json', log):
+         command = [PDI_PYTHON, '-m', 'infrastructure.shared.replay.link7_pair_replay', '--video', remote_video, '--segmentation', f'{remote_v1}/segmentation.npz', '--pointmaps', remote_cache, '--cotracker-dir', f'{remote_v1}/link7_cotracker3', '--tapip3d-dir', f'{remote_v1}/link7_tapip3d', '--output-dir', replay_folder]
+-        _ssh(['bash', '-lc', 'cd ' + shlex.quote(REMOTE_CODE) + ' && PYTHONPATH=src ' + ' '.join((shlex.quote(arg) for arg in command))], log)
++        _ssh(['bash', '-lc', 'cd ' + shlex.quote(REMOTE_CODE) + ' && PYTHONPATH=. ' + ' '.join((shlex.quote(arg) for arg in command))], log)
+     local = _workspace_root() / 'results/selected-45-v1/link7-tracker-comparison/cases' / sample
+     for (remote_name, local_name, exclude) in (('link7_cotracker3', 'cotracker3', None), ('link7_tapip3d', 'tapip3d', 'link7_tapip3d_input.npz'), ('link7_pair_replay', 'replay', None)):
+         (local / local_name).mkdir(parents=True, exist_ok=True)
+
+
+### robot/workflows/score_v1.py:_source_fingerprint
+--- 
++++ 
+@@ -1,9 +1,7 @@
+ def _source_fingerprint(root: Path) -> str:
+     digest = hashlib.sha256()
+-    package_root = root / 'src/pdi_eval'
+-    compatibility_imports = {'multi_object_pipeline.py', 'perception/track_wrapper.py', 'evaluator/volume_audit.py'}
+-    sources = sorted((path for path in package_root.rglob('*.py') if path.relative_to(package_root).parts[0] != 'experiment' and path.relative_to(package_root).as_posix() not in compatibility_imports))
+-    sources.extend([root / 'src/pdi_eval/experiment/score_v1.py', root / 'configs/default.yaml'])
++    sources = sorted((path for owner in ('robot', 'object', 'infrastructure/shared', 'infrastructure/pdibench') for path in (root / owner).rglob('*.py') if not {'archive', 'results', 'tests', '__pycache__'}.intersection(path.relative_to(root).parts)))
++    sources.append(root / 'robot/configs/default.yaml')
+     for source in sources:
+         relative = source.relative_to(root).as_posix().encode()
+         digest.update(len(relative).to_bytes(4, 'big'))
+
+
+### robot/workflows/runner.py:persistent_mask
+--- 
++++ 
+@@ -5,7 +5,7 @@
+     ffmpeg = shutil.which('ffmpeg')
+     if not ffmpeg:
+         raise FileNotFoundError('ffmpeg is required for persistent masking')
+-    common = ['--work', str(work), '--cases', case, '--level', 'local', '--ffmpeg', ffmpeg, '--examples', *(str(ROOT / f'persistent_masking/vlm_interface/images/reference_{i}.png') for i in range(1, 4))]
++    common = ['--work', str(work), '--cases', case, '--level', 'local', '--ffmpeg', ffmpeg, '--examples', *(str(ROOT / f'documentation/data/references/vlm2/reference_{i}.png') for i in range(1, 4))]
+     provenance = work / 'provenance.json'
+     if not provenance.is_file():
+         naive = work / 'naive' / case / 'provenance.json'
+
+
+### robot/preprocessing/link7_persistent/pipeline.py:prepare
+--- 
++++ 
+@@ -9,7 +9,7 @@
+     for path in a.examples:
+         Image.open(path).convert('RGB').save(example_dir / path.name)
+     examples = [str((example_dir / p.name).resolve()) for p in a.examples]
+-    record = dict(level=a.level, status='running', cases=a.cases, results={}, config=dict(vlm1=public_config('vlm1'), vlm2=public_config('vlm2'), vlm2_malformed_fallback=public_config('vlm2_malformed_fallback'), vlm1_system_prompt=VLM1_SYSTEM_PROMPT, vlm1_response_request=VLM1_RESPONSE_REQUEST, vlm2_system_prompt=VLM2_SYSTEM_PROMPT, vlm2_positive_prompt=VLM2_POSITIVE_PROMPT, vlm2_negative_prompt=VLM2_NEGATIVE_PROMPT, vlm2_images='selected reseed frame + three annotated references', events='upward log area ratio >= 0.25; >=round(fps*0.5) separation; all events', windows='event_frame-4 through event_frame+5, clipped, deduplicated, sorted', vlm1_crop='recent 5 naive masks union, 2x extent, min160px, clamped source bounds', vlm1_reference='existing nondeformed reference crop; reference itself is not reclassified', reseed='earliest valid VLM1 deformed frame + 1', sam='new session, one five-point prompt, bidirectional full-video propagation', examples=examples, example_sha256=[sha(p) for p in examples], minimum_point_distance_px=5), environment=dict(host=os.uname().nodename, python=sys.version, implementation={str(p.relative_to(ROOT)): sha(p) for p in [_SOURCE_PATH, _workspace_root() / 'robot/preprocessing/link7_persistent/interface/config.py', _workspace_root() / 'robot/preprocessing/link7_persistent/vlm_interface/config.py', _workspace_root() / 'robot/preprocessing/link7_persistent/vlm_client.py', _workspace_root() / 'robot/preprocessing/link7_persistent/vlm_prompts.py', _workspace_root() / 'robot/preprocessing/link7_persistent/vlm2_sam_prompting.py', _workspace_root() / 'robot/preprocessing/link7_persistent/vlm2_interface.py', _workspace_root() / 'robot/preprocessing/link7_persistent/frame_lineage.py', _workspace_root() / 'robot/preprocessing/link7_persistent/naive_sam3.py', _workspace_root() / 'robot/preprocessing/link7_persistent/gripper_review.py', _workspace_root() / 'robot/preprocessing/link7_persistent/v1_mask.py', _workspace_root() / 'infrastructure/shared/inference/generation/link_crop_wrapper/run_segment_vlm.py']}, sam_checkpoint_sha256=sha(Path(os.environ.get('PDI_SAM3_CHECKPOINT', str(_workspace_root() / 'infrastructure/models/sam3/sam3.pt'))))))
++    record = dict(level=a.level, status='running', cases=a.cases, results={}, config=dict(vlm1=public_config('vlm1'), vlm2=public_config('vlm2'), vlm2_malformed_fallback=public_config('vlm2_malformed_fallback'), vlm1_system_prompt=VLM1_SYSTEM_PROMPT, vlm1_response_request=VLM1_RESPONSE_REQUEST, vlm2_system_prompt=VLM2_SYSTEM_PROMPT, vlm2_positive_prompt=VLM2_POSITIVE_PROMPT, vlm2_negative_prompt=VLM2_NEGATIVE_PROMPT, vlm2_images='selected reseed frame + three annotated references', events='upward log area ratio >= 0.25; >=round(fps*0.5) separation; all events', windows='event_frame-4 through event_frame+5, clipped, deduplicated, sorted', vlm1_crop='recent 5 naive masks union, 2x extent, min160px, clamped source bounds', vlm1_reference='existing nondeformed reference crop; reference itself is not reclassified', reseed='earliest valid VLM1 deformed frame + 1', sam='new session, one five-point prompt, bidirectional full-video propagation', examples=examples, example_sha256=[sha(p) for p in examples], minimum_point_distance_px=5), environment=dict(host=os.uname().nodename, python=sys.version, implementation={str(p.relative_to(ROOT)): sha(p) for p in [_SOURCE_PATH, _workspace_root() / 'robot/preprocessing/link7_persistent/interface/config.py', _workspace_root() / 'robot/preprocessing/link7_persistent/vlm_client.py', _workspace_root() / 'robot/preprocessing/link7_persistent/vlm_prompts.py', _workspace_root() / 'robot/preprocessing/link7_persistent/vlm2_sam_prompting.py', _workspace_root() / 'robot/preprocessing/link7_persistent/vlm2_interface.py', _workspace_root() / 'robot/preprocessing/link7_persistent/frame_lineage.py', _workspace_root() / 'robot/preprocessing/link7_persistent/naive_sam3.py', _workspace_root() / 'robot/preprocessing/link7_persistent/gripper_review.py', _workspace_root() / 'robot/preprocessing/link7_persistent/v1_mask.py', _workspace_root() / 'infrastructure/shared/inference/generation/link_crop_wrapper/run_segment_vlm.py']}, sam_checkpoint_sha256=sha(Path(os.environ.get('PDI_SAM3_CHECKPOINT', str(_workspace_root() / 'infrastructure/models/sam3/sam3.pt'))))))
+     commit(a, record)
+     for case in a.cases:
+         r = record['results'][case] = dict(status='preparing', case=case)
+
+
+### robot/preprocessing/link7_persistent/interface/__main__.py:preflight
+--- 
++++ 
+@@ -7,7 +7,7 @@
+             errors.append(f'Work directory already exists: {work}; choose a new RUN_NAME')
+         if review.exists():
+             errors.append(f'Review directory already exists: {review}; choose a new RUN_NAME')
+-    sam_python = _workspace_root() / 'env-sam/bin/python'
++    sam_python = _workspace_root() / 'infrastructure/environments/sam3/bin/python'
+     if not sam_python.is_file():
+         errors.append(f'Missing SAM environment: {sam_python}; see setup/README.md')
+     for role in ('vlm1', 'vlm2'):
+@@ -26,7 +26,7 @@
+     if not any(references.glob('*.png')):
+         errors.append(f'Missing naive-SAM reference images: {references}')
+     for number in range(1, 4):
+-        path = PROJECT_ROOT / f'persistent_masking/vlm_interface/images/reference_{number}.png'
++        path = PROJECT_ROOT / f'documentation/data/references/vlm2/reference_{number}.png'
+         if not path.is_file():
+             errors.append(f'Missing VLM2 reference image: {path}')
+     for case in config['cases']:
+
+
+### robot/preprocessing/link7_persistent/interface/__main__.py:run_foreground
+--- 
++++ 
+@@ -7,7 +7,7 @@
+         env['PYTHONPATH'] = str(_workspace_root()) + os.pathsep + env['PYTHONPATH']
+     env['PERSISTENT_MASKING_VIDEO_ROOT'] = str(config['video_root'])
+     env['FFMPEG_BINARY'] = str(ffmpeg)
+-    examples = [str(PROJECT_ROOT / f'persistent_masking/vlm_interface/images/reference_{n}.png') for n in range(1, 4)]
++    examples = [str(PROJECT_ROOT / f'documentation/data/references/vlm2/reference_{n}.png') for n in range(1, 4)]
+     cases = config['cases']
+     naive = [sys.executable, '-u', '-m', 'robot.preprocessing.link7_persistent.naive_sam3', '--work', str(work / 'naive'), '--cases', *cases, '--ffmpeg', str(ffmpeg)]
+     pipeline = [sys.executable, '-u', '-m', 'robot.preprocessing.link7_persistent.pipeline', 'continue', '--level', config['level'], '--work', str(work), '--cases', *cases, '--ffmpeg', str(ffmpeg), '--examples', *examples]
+
+
+### object/preprocessing/occlusion/occlusion.py:write_report
+--- 
++++ 
+@@ -7,5 +7,5 @@
+             continue
+         spans = ', '.join((f'{a}–{b}' for (a, b) in r['flagged_intervals'])) or 'none'
+         lines.append(f"| [{name}](../cases/{name}/replay/task_object_exact-group.html) | {r['flagged_frames']} / {r['frame_count']} | {spans} | {len(r.get('failed_mask_frames', []))} | [CSV](../cases/{name}/occlusion/frames.csv) · [JSON](../cases/{name}/occlusion/detection.json) |")
+-    lines += ['', '## Reproduce', '', '```sh', 'PYTHONPATH=PDI-Bench-edited/src /opt/homebrew/bin/python3 -m object.preprocessing.occlusion.occlusion --object-root results/object-deformation-selected45-20260929 --gripper-root results/link5-link7-four-way-selected45-20260927', '```', '', 'Optional: `--cases`, `--min-occluded-fraction` (shared replacement floor), `--min-explained-fraction`, `--min-track-fraction` (original branch), and `--severity-min-explained-fraction`, `--severity-min-track-fraction`, `--severity-min-occluded-fraction` (new branch). Requires NumPy and OpenCV. Source-video hashes, frame counts, mask dimensions, link identity, track coordinates, and score length are checked. Inputs and detector source are hashed in each detection.json.', '', 'Use `flagged` as an occlusion-risk annotation. Do not replace flagged scores with zero or silently average them away. `rigidity_carried` records a separate existing scorer limitation.', '']
++    lines += ['', '## Reproduce', '', '```sh', 'PYTHONPATH=. python3 -m object.preprocessing.occlusion.occlusion --object-root results/object-deformation-selected45-20260929 --gripper-root results/link5-link7-four-way-selected45-20260927', '```', '', 'Optional: `--cases`, `--min-occluded-fraction` (shared replacement floor), `--min-explained-fraction`, `--min-track-fraction` (original branch), and `--severity-min-explained-fraction`, `--severity-min-track-fraction`, `--severity-min-occluded-fraction` (new branch). Requires NumPy and OpenCV. Source-video hashes, frame counts, mask dimensions, link identity, track coordinates, and score length are checked. Inputs and detector source are hashed in each detection.json.', '', 'Use `flagged` as an occlusion-risk annotation. Do not replace flagged scores with zero or silently average them away. `rigidity_carried` records a separate existing scorer limitation.', '']
+     atomic(root / 'occlusion' / 'README.md', '\n'.join(lines))
+
+### infrastructure/shared/experimental/simple3d/collect_simple3d_pairs.py:ledger
+--- 
++++ 
+@@ -1,5 +1,5 @@
+ def ledger(state, summary, heading):
+-    path = _workspace_root() / 'experiment_GPU_record.md'
++    path = _workspace_root() / 'documentation/gpu/experiment_GPU_record.md'
+     body = path.read_text()
+     start = body.index(heading)
+     end = body.find('\n## ', start + len(heading))
+
+
+### infrastructure/shared/experimental/simple3d/collect_simple3d_pairs.py:main
+--- 
++++ 
+@@ -80,12 +80,12 @@
+                     preview.update(status='awaiting_user_review', successful_scores=sum((r['simple3d_status'] == 'complete' for r in preview_rows)), terminal_pairs=len(preview_rows), gpu_exit_status=state['exit'], remaining_videos_deferred=45 - len(preview['video_ids']))
+                     write_json(root / 'metadata/preview.json', preview)
+                     build(root)
+-                    body = (_workspace_root() / 'experiment_GPU_record.md').read_text()
++                    body = (_workspace_root() / 'documentation/gpu/experiment_GPU_record.md').read_text()
+                     start = body.index(heading)
+                     section = body[start:]
+                     section = re.sub('(?m)^- \\*\\*Status:\\*\\*.*$', '- **Status:** three-video preview complete; awaiting user refinement review.', section, count=1)
+                     section = re.sub('(?m)^- \\*\\*Results:\\*\\*.*$', f"- **Results:** User-requested three-video preview terminal: {preview['successful_scores']}/30 scores, 3/3 videos; GPU preview exit {state['exit']}; byte transfers/native evidence verified. Remaining 42 videos held for the user's refinement review; full 45-video experiment is unfinished.", section, count=1)
+-                    (_workspace_root() / 'experiment_GPU_record.md').write_text(body[:start] + section)
++                    (_workspace_root() / 'documentation/gpu/experiment_GPU_record.md').write_text(body[:start] + section)
+                     print('PREVIEW_READY', json.dumps(preview), flush=True)
+                     return 0 if state['exit'] == '0' else 1
+                 assert summary['videos_processed'] == 45 and summary['terminal_pairs'] == 450, 'incomplete batch'
+
+
+### infrastructure/shared/inference/mega_sam_wrapper.py:__init__
+--- 
++++ 
+@@ -1,6 +1,6 @@
+ def __init__(self, checkpoint=None, device='cuda'):
+     super().__init__(device)
+-    self.mega_sam_root = os.path.abspath(os.environ.get('PDI_MEGA_SAM_ROOT', os.path.join(str(_workspace_root() / 'pdi_eval/perception'), '../../../third_party/mega_sam')))
++    self.mega_sam_root = os.path.abspath(os.environ.get('PDI_MEGA_SAM_ROOT', str(_workspace_root() / 'infrastructure/vendor/mega_sam')))
+     self.da_ckpt = os.path.join(self.mega_sam_root, 'Depth-Anything', 'checkpoints', 'depth_anything_vitl14.pth')
+     self.megasam_weights = os.path.join(self.mega_sam_root, 'checkpoints', 'megasam_final.pth')
+     self.raft_weights = os.path.join(self.mega_sam_root, 'cvd_opt', 'raft-things.pth')
+
+### infrastructure/shared/inference/mega_sam_wrapper.py:infer
+--- 
++++ 
+@@ -43,7 +43,7 @@
+                 use_cvd = True
+                 pdi_logger.info('CVD depth refinement done; using temporally consistent depths')
+     else:
+-        pdi_logger.warning(f'RAFT weights missing ({self.raft_weights}); skip CVD. Download under third_party/mega_sam/cvd_opt/: gdown 1R8m_jMvCun-N45XkMvHlG0P38kXy-h6I')
++        pdi_logger.warning(f'RAFT weights missing ({self.raft_weights}); skip CVD. Download under infrastructure/vendor/mega_sam/cvd_opt/: gdown 1R8m_jMvCun-N45XkMvHlG0P38kXy-h6I')
+     npz_path = cvd_npz_path if use_cvd else os.path.join(self.mega_sam_root, 'outputs', f'{video_id}_droid.npz')
+     if not os.path.exists(npz_path):
+         return self._fallback_result(video_path, masks)
+
+
+### infrastructure/pdibench/coordinator.py:preflight
+--- 
++++ 
+@@ -11,7 +11,7 @@
+         raise ValueError('VLM2 example filenames must be distinct')
+     if not list(Path(config['resources']['palm_references']).glob('*.png')):
+         raise ValueError('No DINO palm reference PNGs')
+-    if not (root() / 'infrastructure/compat/PDI-Bench-edited/assets/replay/plotly.min.js').is_file():
++    if not (root() / 'infrastructure/shared/replay/assets/plotly.min.js').is_file():
+         raise ValueError('Missing bundled replay plotly.min.js')
+     if config.get('secrets_file') and (not Path(config['secrets_file']).is_file()):
+         raise ValueError('Missing secrets_file')
+
+
+### infrastructure/pdibench/layout.py:environment
+--- 
++++ 
+@@ -1,7 +1,6 @@
+ def environment():
+     repo = root()
+-    compat = repo / 'infrastructure/compat'
+     env = os.environ.copy()
+-    paths = [repo, compat, compat / 'PDI-Bench-edited/src', compat / 'PDI-Bench-edited', compat / 'scripts']
+-    env['PYTHONPATH'] = os.pathsep.join([*(str(p) for p in paths), env.get('PYTHONPATH', '')])
++    inherited = [p for p in env.get('PYTHONPATH', '').split(os.pathsep) if p and '/compat' not in p and ('/archive/' not in p)]
++    env['PYTHONPATH'] = os.pathsep.join([str(repo), *inherited])
+     return env
+
+### infrastructure/pdibench/__main__.py:stage
+--- 
++++ 
+@@ -1,11 +1,11 @@
+ def stage(output):
+-    """Materialize source aliases for remote copies that cannot preserve symlinks."""
++    """Stage canonical source owners without compatibility aliases or archived code."""
+     repo = root()
+     output = Path(output).absolute()
+     if output.exists():
+         raise FileExistsError(f'Stage destination must be new: {output}')
+     files = set()
+-    excluded = {'results', 'results_v1', 'references', 'vendor', '__pycache__', '.git', '.tmp', '.pytest_cache', 'previous_archive', 'pastresults', 'robot_link2_diagnostic', 'dino_refer_robot_link_first15'}
++    excluded = {'results', 'results_v1', 'references', 'vendor', '__pycache__', '.git', '.tmp', '.pytest_cache', 'previous_archive', 'pastresults', 'robot_link2_diagnostic', 'dino_refer_robot_link_first15', 'archive', 'compat'}
+     for folder in ('robot', 'object', 'infrastructure', 'documentation'):
+         for (base, dirs, names) in os.walk(repo / folder):
+             dirs[:] = [d for d in dirs if d not in excluded and (not d.endswith('.egg-info'))]
+
+
+### infrastructure/pdibench/__main__.py:main
+--- 
++++ 
+@@ -28,7 +28,7 @@
+     analysis.add_argument('--negative', type=float, default=0)
+     analysis.add_argument('--lower-is-anomalous', action='store_true')
+     analysis.add_argument('--output', type=Path)
+-    staging = commands.add_parser('stage', help='Create a portable source snapshot with materialized compatibility paths')
++    staging = commands.add_parser('stage', help='Create a portable snapshot of canonical source owners')
+     staging.add_argument('--output', type=Path, required=True)
+     args = p.parse_args(argv)
+     if args.command == 'run-status':

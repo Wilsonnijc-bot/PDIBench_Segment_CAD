@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "archive_excluded": true,
+  "compat_excluded": true,
+  "coordinator_plan_without_site_packages": true,
+  "cli_help_from_outside_checkout": [
+    "robot.workflows.score_v1",
+    "object.scoring.anomalydino",
+    "object.preprocessing.occlusion.occlusion",
+    "robot.preprocessing.link7_persistent.pipeline"
+  ],
+  "inference_run": false
+}

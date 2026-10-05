@@ -1,0 +1,1 @@
+../../../../../robot/tests/test_multi_object_pipeline.py

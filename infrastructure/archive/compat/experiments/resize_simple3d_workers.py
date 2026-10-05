@@ -1,0 +1,1 @@
+../../simple3d/operations/resize_simple3d_workers.py

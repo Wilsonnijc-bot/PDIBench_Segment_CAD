@@ -1,0 +1,1 @@
+../../../../../../../object/scoring/anomalydino/convert_checkpoint.py

@@ -1,0 +1,1 @@
+../../../gpu/setup/build_mega_sam.sh

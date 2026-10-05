@@ -1,0 +1,1 @@
+../../../../../object/tests/test_reference_visible_pixels.py

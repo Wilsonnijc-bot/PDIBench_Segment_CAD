@@ -1,0 +1,79 @@
+{
+  "date": "2026-10-04",
+  "status": "passed",
+  "link7_object_interaction": "Unchanged; redesign deferred.",
+  "scientific_tests": {
+    "passed": 190,
+    "subtests_passed": 19,
+    "command": "python -m pytest -q",
+    "environment": "Temporary local Python 3.12 CPU test environment; GPU inference was not executed."
+  },
+  "source_and_artifact_verification": {
+    "status": "passed",
+    "checked": {
+      "source_aliases": 391,
+      "python_semantic_comparisons": 198,
+      "shell_semantic_comparisons": 17,
+      "result_aliases": 18,
+      "artifact_files": 55687,
+      "artifact_bytes": 72307688632,
+      "artifact_symlinks": 179
+    },
+    "failures": [],
+    "final_layout_source_check": {
+      "status": "passed",
+      "checked": {
+        "source_aliases": 391,
+        "python_semantic_comparisons": 198,
+        "shell_semantic_comparisons": 17,
+        "result_aliases": 18
+      },
+      "failures": []
+    },
+    "artifact_check_note": "Full 72 GB hash check completed after robot/object consolidation. Documentation/data relocation subsequently passed all 391 source aliases, source equivalence and all 179 artifact symlink targets; scientific artifact bytes were not rewritten."
+  },
+  "interface_smoke": {
+    "passed": 19,
+    "total": 19
+  },
+  "shell_syntax": {
+    "status": "passed",
+    "scripts": 28
+  },
+  "publication": {
+    "files_verified": 714,
+    "status": "Frozen site hashes unchanged; public URLs preserved."
+  },
+  "http_replay": {
+    "status": "passed",
+    "paths": [
+      "docs/index.html",
+      "docs/manifest.json",
+      "docs/objects/selection_gallery.html",
+      "docs/assets/d0e0cfdbea8739eb7fd1365a2a542c291e932da6622ec33c518349f3e64db574.html.gz",
+      "results/selected-45-v1/cases/LVP_ROBOWM_0001/v1/replay/interactive_exact-group/link2_exact-group.html"
+    ],
+    "manifest_entries": 1346
+  },
+  "portable_stage": {
+    "status": "passed",
+    "files": 605,
+    "checks": [
+      "links.run --help",
+      "links.replay --help",
+      "objects.occlusion --help",
+      "objects.replay --help",
+      "analysis environment profile",
+      "no local environment files"
+    ]
+  },
+  "limitations": [
+    "CUDA/model inference and remote GPU launch were not run.",
+    "Cua browser integrations were unavailable; replay verification used the existing contract tests, HTTP transport, gzip integrity, and local asset resolution.",
+    "Future link7/object integration design and future-run publication promotion remain separate work."
+  ],
+  "git": "Uncommitted. Git submodule moves and .gitmodules were staged by git mv; remaining migration changes are unstaged.",
+  "layout": "robot/, object/, infrastructure/, documentation/; published docs/ and web-assets/ retained",
+  "editable_install": "Passed using uv in temporary test environment; installed CLI also works outside the repository.",
+  "third_party": "Direct and recursive submodule paths/revisions verified; standalone MegaSAM base remains uninitialized as before."
+}

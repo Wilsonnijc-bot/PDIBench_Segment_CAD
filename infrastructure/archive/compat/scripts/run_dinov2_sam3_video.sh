@@ -1,0 +1,1 @@
+../../../../robot/archive/runners/run_dinov2_sam3_video.sh

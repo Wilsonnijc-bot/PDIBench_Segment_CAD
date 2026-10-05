@@ -1,0 +1,1 @@
+../../../../../../../object/scoring/anomalydino/__main__.py

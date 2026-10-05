@@ -1,0 +1,1 @@
+../../../../compatibility/multi_object_pipeline.py
