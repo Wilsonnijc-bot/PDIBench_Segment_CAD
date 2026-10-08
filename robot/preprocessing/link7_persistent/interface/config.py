@@ -63,6 +63,7 @@ VLM2_MALFORMED_FALLBACK = {
     "backend": "cloud_api",
     "api_style": "chat_completions",
     "model": "gpt-6-luna",
+    "timeout_seconds": 600,
     "reasoning_effort": "high",
     "temperature": None,
     "max_completion_tokens": 4096,

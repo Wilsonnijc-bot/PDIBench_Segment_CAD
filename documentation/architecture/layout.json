@@ -3647,10 +3647,6 @@
       "new": "robot/experiments/link7_tracker_filter_comparison/results/link5-link7-four-way-selected45-20260927"
     },
     {
-      "old": "results/link5-only-selected45-updated-mask-20260929",
-      "new": "robot/results/link5-only-selected45-updated-mask-20260929"
-    },
-    {
       "old": "results/object-anomaly-all-except-0001-20261003",
       "new": "object/results/object-anomaly-all-except-0001-20261003"
     },
@@ -3681,6 +3677,10 @@
     {
       "old": "results/vlm3-seven-cases-20261003",
       "new": "object/results/vlm3-seven-cases-20261003"
+    },
+    {
+      "old": "results/link5_pair_selection_ablation_v1",
+      "new": "robot/experiments/link5_pair_selection_ablation/results/20261007"
     }
   ],
   "result_subtrees": [

@@ -6,10 +6,13 @@ from pathlib import Path
 import sys
 
 from infrastructure.deformation_detect.coordinator import read, write
+from infrastructure.shared.contracts.vlm_failure import failure_record
 
 
 def configure(request):
     config=request['config'];resources=config['resources']
+    if request.get('directory'):
+        os.environ['PDI_IMPORT_ORIGINS_DIR'] = str(Path(request['directory'])/'import-origins')
     from robot.preprocessing.link7_persistent.interface.secrets import load_env_file
     if config.get('secrets_file'):load_env_file(Path(config['secrets_file']))
     os.environ.update(PDI_SAM3_CHECKPOINT=resources['sam3_checkpoint'],PDI_SAM3_BPE=resources['sam3_bpe'],
@@ -19,11 +22,13 @@ def configure(request):
     os.environ['PATH']=str(Path(resources['ffmpeg']).parent)+os.pathsep+os.environ.get('PATH','')
     overrides={k:v for k,v in config['vlm'].items() if k!='object_models'}
     attempt=request.get('attempt',1)
-    if attempt>1:
+    if request.get('vlm_route', 'alternate' if attempt>1 else 'primary') == 'alternate':
         if overrides.get('vlm1_fallback'):overrides['vlm1']=overrides['vlm1_fallback']
         # Existing Gemini -> Luna alternate route, explicit rather than nested retries.
         from robot.preprocessing.link7_persistent.interface.config import role_config
-        overrides['vlm2']={**role_config('vlm2_malformed_fallback'),**overrides.get('vlm2_malformed_fallback',{})}
+        endpoint={key:value for key,value in overrides.get('vlm2',{}).items() if key in {'api_base','api_key_env'}}
+        overrides['vlm2']={**role_config('vlm2_malformed_fallback'),**endpoint,**overrides.get('vlm2_malformed_fallback',{})}
+        overrides['vlm2']['timeout_seconds']=max(600,int(overrides['vlm2'].get('timeout_seconds',600)))
     os.environ['PDI_VLM_ROLE_OVERRIDES']=json.dumps(overrides)
     if request.get('case'):
         os.environ['PDI_CASE_VIDEOS']=json.dumps({request['case']['id']:request['case']['video']})
@@ -41,10 +46,15 @@ def check_environment(config, name):
     if not torch.cuda.is_available():raise RuntimeError('CUDA is unavailable')
     assert (torch.ones(2,device='cuda')+1).sum().item()==4
     if name=='sam3':
-        if 'link2' in config.get('robot_links', []):
+        if set(config.get('robot_links', [])) & {'link2', 'link5'}:
             from robot.preprocessing.segmentation.sam3_dinov2_segment import _active_franka_groups, _validate_franka_groups
             from infrastructure.shared.inference.dinov2_reference_boxes import discover_reference_groups
             _validate_franka_groups(_active_franka_groups(discover_reference_groups(Path(config['resources']['robot_references']))))
+        if 'link5' in config.get('robot_links', []):
+            from PIL import Image
+            with Image.open(config['resources']['link5_guard_reference']) as image: image.verify()
+            from robot.preprocessing.link5_refinement.link5_point_guard import POSITIVE_REFERENCE_FRAME
+            with Image.open(config['resources'].get('link5_positive_guard_reference', POSITIVE_REFERENCE_FRAME)) as image: image.verify()
         from robot.preprocessing.link7_persistent.interface.config import role_config
         keys={'VLM2_API_KEY'}
         for role in ('vlm1','vlm2','vlm2_malformed_fallback'):
@@ -83,11 +93,13 @@ def isolate_mega(request):
 def run(request):
     configure(request)
     stage=request['stage']
-    if stage in {'link2_masks','link7_initial','vlm1','vlm2','link7_masks','mask_join','robot_score'}:
+    if stage in {'link2_masks','link5_masks','link7_initial','vlm1','vlm2','link7_masks','mask_join','robot_score'}:
         from robot.workflows.coordination import run_stage
     else:
         from object.workflows.coordination import run_stage
     result=run_stage(request)
+    from infrastructure.deformation_detect.runtime_isolation import record_origins
+    record_origins()
     write(Path(request['directory'])/'result.json',{'status':'complete',**result})
 
 
@@ -104,7 +116,7 @@ def main():
         message=str(exc)
         for name,value in os.environ.items():
             if value and any(token in name.upper() for token in ('API_KEY','TOKEN','PASSWORD','SECRET')):message=message.replace(value,'[REDACTED]')
-        if not args.check_environment:write(args.request.parent/'result.json',{'status':'failed','error_type':type(exc).__name__,'error':message})
+        if not args.check_environment:write(args.request.parent/'result.json',{'status':'failed','error_type':type(exc).__name__,'error':message,'failure':failure_record(exc)})
         print(type(exc).__name__+': '+message,file=sys.stderr)
         return 1
 

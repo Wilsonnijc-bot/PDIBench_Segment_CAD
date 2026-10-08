@@ -8,3 +8,9 @@
 	path = infrastructure/vendor/AnomalyDINO
 	url = https://github.com/Wilsonnijc-bot/AnomalyDINO.git
 	branch = integration/pdi-pairwise
+[submodule "FoundationPose"]
+	path = infrastructure/vendor/FoundationPose
+	url = https://github.com/NVlabs/FoundationPose
+[submodule "Shape-Anomaly-Codebook"]
+	path = infrastructure/vendor/Shape-Anomaly-Codebook
+	url = https://github.com/alexandor91/Shape-Anomaly-Codebook

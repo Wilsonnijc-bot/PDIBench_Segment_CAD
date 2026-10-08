@@ -1,0 +1,70 @@
+{
+  "checked_at": "2026-10-08",
+  "scope": "Local workspace cleanup and CPU validation; no GPU jobs, model inference, training or paid VLM calls",
+  "tests": {
+    "distinct_passed": 165,
+    "subtests_passed": 7,
+    "failed": 0,
+    "broad_suite_initial": {
+      "passed": 164,
+      "environment_failure": "missing rich/scikit-learn; resolved and failed test rerun passed"
+    },
+    "focused_final": {
+      "passed": 43,
+      "subtests_passed": 7
+    }
+  },
+  "checks": {
+    "architecture": {
+      "source_aliases": 391,
+      "result_aliases": 17,
+      "status": "passed"
+    },
+    "publication": {
+      "files": 714,
+      "status": "verified"
+    },
+    "review_links": {
+      "checked": 354,
+      "missing": 0
+    },
+    "diff_whitespace": "passed",
+    "object_diff": "empty",
+    "reference_bytes": "match original recorded hashes",
+    "shape_result_files_moved_without_change": 1237,
+    "guard_review_files_moved_without_change": 269
+  },
+  "decisions": {
+    "negative_guard": "three identical-input attempts; exhaustion is terminal for automatic coordinator retries",
+    "positive_guard": "VLM places P1/P2/P3; accepted initial reference fixed",
+    "video_coordination": "one independent end-to-end coordinator per video; existing GPU admission unchanged",
+    "vlm_failure_scope": "robot only; object edits reverted",
+    "removed": [
+      "Link5 pair-selection ablation code/scoring results",
+      "VLM finger route/references/tests/dated runners"
+    ],
+    "depth_filter_owner": "robot/preprocessing/depth/link5_depth_filter.py",
+    "failure_contract_owner": "infrastructure/shared/contracts/vlm_failure.py",
+    "guard_review": "robot/experiments/link5_guard_review/results/20261008/index.html",
+    "shape_results": "robot/experiments/link5_shape_codebook/results",
+    "deployment_tools": "infrastructure/deployment/eris"
+  },
+  "source_sha256": {
+    "infrastructure/deformation_detect/coordinator.py": "904637d22811853bf21d4b2286cc4788ee8ce0cdadb7a5bc002ad836fe8a3e33",
+    "infrastructure/deformation_detect/parallel.py": "5057408391d1a4caea05a6a942c028bb4d594cd127e1509421fcdff60f42f4ba",
+    "infrastructure/deformation_detect/worker.py": "741a43bb45f296e7b53da7d3a133bad295e67fb4b470c3bbafad64f39fac81b0",
+    "infrastructure/shared/contracts/vlm_failure.py": "60d5e86abb459418e4e6dd8e69f31baf1b7400040068b5bbc215d7f1d081df85",
+    "robot/preprocessing/link5_refinement/link5_point_guard.py": "2e0034f22ba611054f9f6118adc2b265b92c2288e474f41d7c88e1ab852f6e9a",
+    "robot/preprocessing/segmentation/sam3_dinov2_segment.py": "e4e86c72468db0a42d8c54ff97b09dee862eeeb1e4028d1ff28465715b0dc392",
+    "robot/preprocessing/depth/link5_depth_filter.py": "63ac47cbb5fb5e7bf8ebf36f6b52c92f8b2aa476488688c33e65260d45d8b095",
+    "robot/workflows/coordination.py": "67efdab0cfe17742a927b752286c5ad6db3e3504f32ae7f5725fc2f79074fe3b",
+    "robot/experiments/link5_shape_codebook/stage_eris.py": "af915e3eb61ccf9af356122a3d37cdae465a0246b9111d421a0146747b8715e1",
+    "infrastructure/tests/test_link5_coordinator.py": "74006e437a92dd7aa3294796892d0b55f6ad37c31f344cfe9155ae2d7bb6f515",
+    "robot/tests/test_link5_depth_filter.py": "a2d2ddb62ccffc8827b7b8a92ec2bd48a228673815dabe00bccae212e0edd3e4"
+  },
+  "subsequent_user_correction": {
+    "date": "2026-10-08",
+    "decision": "Restore and preserve the Link5 pair-selection ablation as a research experiment",
+    "restoration_receipt": "documentation/pipeline/validation/link5-pair-selection-restoration-20261008.json"
+  }
+}

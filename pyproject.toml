@@ -21,5 +21,5 @@ include = ["robot*", "object*", "infrastructure.deformation_detect*", "infrastru
 exclude = ["*.results*", "*.archive*", "*.tests*"]
 
 [tool.pytest.ini_options]
-testpaths = ["infrastructure/tests", "robot/tests", "object/tests", "object/experiments/rigidity/tests", "robot/experiments/link7_depth_filter_v2/tests", "robot/experiments/link7_tapip3d/tests", "robot/experiments/link5_simple3d/test_simple3d_pair_visibility.py", "infrastructure/archive/simple3d/operations/test_simple3d_shutdown_after_completion.py"]
+testpaths = ["infrastructure/tests", "robot/tests", "robot/experiments/link5_shape_codebook/tests", "robot/experiments/link5_pair_selection_ablation/tests", "object/tests", "object/experiments/rigidity/tests", "robot/experiments/link7_depth_filter_v2/tests", "robot/experiments/link7_tapip3d/tests", "robot/experiments/link5_simple3d/test_simple3d_pair_visibility.py", "infrastructure/archive/simple3d/operations/test_simple3d_shutdown_after_completion.py"]
 pythonpath = ["."]

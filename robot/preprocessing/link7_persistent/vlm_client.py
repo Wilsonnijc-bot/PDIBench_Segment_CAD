@@ -8,6 +8,8 @@ import time
 import urllib.error
 import urllib.request
 
+from infrastructure.shared.contracts.vlm_failure import VLMTimeoutError, is_request_timeout
+
 
 class MissingVLMTextError(ValueError):
     def __init__(self, diagnostic):
@@ -146,7 +148,9 @@ class VLMClient:
                         detail = "Request rejected"
                     detail = str(detail).replace(key, "[REDACTED]")
                     raise RuntimeError(f"VLM cloud API HTTP {error.code}: {detail}") from None
-            except (TimeoutError, urllib.error.URLError):
+            except (TimeoutError, urllib.error.URLError) as error:
+                if is_request_timeout(error):
+                    raise VLMTimeoutError("VLM request timed out without a response") from None
                 if attempt == attempts - 1:
                     raise RuntimeError("VLM cloud API request failed") from None
             time.sleep(2**attempt)

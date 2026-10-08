@@ -27,7 +27,8 @@
     "anomaly_checkpoint": "/path/to/models/dinov2/anomalydino_vitb14_cached.pth",
     "dino_repo": "/path/to/dinov2-source",
     "ffmpeg": "/usr/bin/ffmpeg",
-    "robot_references": "/path/to/references/by_link"
+    "robot_references": "/path/to/references/by_link",
+    "link5_guard_reference": "/path/to/references/link5_guard/lvp040_reference_frame.png"
   },
   "policy": {
     "vlm_attempts": 4,
@@ -52,6 +53,12 @@
   ],
   "robot_links": [
     "link2",
+    "link5",
     "link7"
-  ]
+  ],
+  "execution": {
+    "workers": 5,
+    "gpu_slots": 5,
+    "gpu_assignment": "shared"
+  }
 }

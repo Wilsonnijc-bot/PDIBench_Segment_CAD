@@ -1,0 +1,43 @@
+{
+  "primary_videos": 40,
+  "additional_videos": 1,
+  "successful_method_video_scores": 82,
+  "expected_method_video_scores": 82,
+  "excluded": {
+    "COSMOS2.5_0010": "Excluded by current HANDOFF.md",
+    "COSMOS3_0021": "Excluded by current HANDOFF.md",
+    "COSMOS3_0035": "Excluded by current HANDOFF.md",
+    "LVP_ROBOWM_0010": "Excluded by current HANDOFF.md",
+    "LVP_ROBOWM_0030": "Excluded by current HANDOFF.md"
+  },
+  "published": false,
+  "metric": "Mean per-frame MAD(distance ratio)/(median(distance ratio)+1e-6), excluding frame0",
+  "depth_filter": "refined ray-normalized 32NN density on all frames",
+  "interpretation": "Paired graph ablation with shared refined depth support;  no detection improvement inferred without labeled full-video validation.",
+  "cohorts": {
+    "selected45": {
+      "balanced_v0": {
+        "successful": 40,
+        "failed": 0,
+        "mean_score": 0.04701126865554792
+      },
+      "refine_v1": {
+        "successful": 40,
+        "failed": 0,
+        "mean_score": 0.056154210497576275
+      }
+    },
+    "additional": {
+      "balanced_v0": {
+        "successful": 1,
+        "failed": 0,
+        "mean_score": 0.0807821211014971
+      },
+      "refine_v1": {
+        "successful": 1,
+        "failed": 0,
+        "mean_score": 0.10627781935464913
+      }
+    }
+  }
+}

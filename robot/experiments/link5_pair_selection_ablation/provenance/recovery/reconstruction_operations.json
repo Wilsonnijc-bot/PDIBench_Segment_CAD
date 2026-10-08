@@ -1,0 +1,141 @@
+[
+  {
+    "call": 17,
+    "file": "robot/experiments/link5_pair_selection_ablation/stage_eris.py",
+    "sha256": "64f28d110b369f81cbb3d5b4956094e627b065fa1206b08127b7d9bf39a6a827"
+  },
+  {
+    "call": 36,
+    "file": "robot/experiments/link5_pair_selection_ablation/continue_eris.sh",
+    "sha256": "3a93c14bbd7234935914b61958a536a78501c23f9c9140dfe0660a82953fc80c"
+  },
+  {
+    "call": 103,
+    "transform": "reviewed local source-only Python transform"
+  },
+  {
+    "call": 123,
+    "file": "robot/experiments/link5_pair_selection_ablation/collect_eris_results.py",
+    "sha256": "43506e72af1f29959e0b4cc5c098aad14a9424be5a58bdf49c6bf8ae6cc6339a"
+  },
+  {
+    "call": 128,
+    "file": "robot/experiments/link5_pair_selection_ablation/passive_monitor.py",
+    "sha256": "eb2e45a25a0ec077eb6f988acdee8d2f18bb406fcd3b7531bc8bf972199594d2"
+  },
+  {
+    "call": 135,
+    "file": "robot/experiments/link5_pair_selection_ablation/tests/test_stream_scores.py",
+    "sha256": "28fda39140a0f6df9a149dff0a56d22ff8f8f6cfd4dd83a0d755d8614b9c19d4"
+  },
+  {
+    "call": 144,
+    "file": "robot/experiments/link5_pair_selection_ablation/collect_eris_results.py",
+    "sha256": "fa32eaa2869bd73f3777037c56f6f8f6b02f3e2ac3833a267f2e4b667748d927"
+  },
+  {
+    "call": 153,
+    "file": "robot/experiments/link5_pair_selection_ablation/prepare_playback.py",
+    "sha256": "a6fed7fc3fa97ce9bfc769d6c4feb2991cc2f0edf43912153dc864f04ab08690"
+  },
+  {
+    "call": 154,
+    "file": "robot/experiments/link5_pair_selection_ablation/build_report_v2.py",
+    "sha256": "3b7dcedc7413ee7be566da79a04de62c137e9c31e5cc261ad635085307e3e8e6"
+  },
+  {
+    "call": 156,
+    "file": "robot/experiments/link5_pair_selection_ablation/label_correlation.py",
+    "sha256": "3b344fa522e0ea06879d7e2e3f8bff1ae12e15829aeaa972bb0afeec78b05ef6"
+  },
+  {
+    "call": 161,
+    "file": "robot/experiments/link5_pair_selection_ablation/export_replay_context.py",
+    "sha256": "0036eec9d69a77b6be36d80e3c7619b49e51e7adff2517f30a8491619f5f8cef"
+  },
+  {
+    "call": 162,
+    "file": "robot/experiments/link5_pair_selection_ablation/export_replay_context.sh",
+    "sha256": "3bdd408ea9881e22e7fe2220678ff6281df0b06786d67ba7c3aae8589fe22626"
+  },
+  {
+    "call": 164,
+    "file": "robot/experiments/link5_pair_selection_ablation/build_previous_replay.py",
+    "sha256": "d6d38a4247448d6d7162ada29bce3dbbddd3e155fe9e84ee9fc1002db9805011"
+  },
+  {
+    "call": 165,
+    "file": "robot/experiments/link5_pair_selection_ablation/build_previous_replay.py",
+    "sha256": "be33a6a7c64848115ae06654286fc87d100c740d55cdd97d948fd96afddc2ff5"
+  },
+  {
+    "call": 168,
+    "file": "robot/experiments/link5_pair_selection_ablation/collect_replay_context.py",
+    "sha256": "1eda7e13862ef433a153f8c242172760b13be039f313d27b0a3a005de41311f0"
+  },
+  {
+    "call": 173,
+    "file": "robot/experiments/link5_pair_selection_ablation/build_report_v2.py",
+    "sha256": "e111c85018fd40046747b1278c284fad41338e16dec53471ac23eb16ca744409"
+  },
+  {
+    "call": 174,
+    "file": "robot/experiments/link5_pair_selection_ablation/prepare_playback.py",
+    "sha256": "9f261522fbed7f72740df9669ea5d11cb490773ba6736415a2cd4db255aa1c89"
+  },
+  {
+    "call": 176,
+    "file": "robot/experiments/link5_pair_selection_ablation/label_correlation.py",
+    "sha256": "a19605b26327402750878fdd51fa95e9b20ee5471580e37693d97c78512aa31e"
+  },
+  {
+    "call": 185,
+    "file": "robot/experiments/link5_pair_selection_ablation/build_excluded_mask_replays.py",
+    "sha256": "8ebefa06433890efbf080127d6b35f6c0870c090dde73dfc3dff8ca4f32bd5f1"
+  },
+  {
+    "call": 188,
+    "file": "robot/experiments/link5_pair_selection_ablation/add_excluded_guard_prompts.py",
+    "sha256": "36e6c035dbc21e9b72e75c7789913d3c2d703e45245e8b8ac154d4bbd8f57bfd"
+  },
+  {
+    "call": 189,
+    "file": "robot/experiments/link5_pair_selection_ablation/add_excluded_guard_prompts.py",
+    "sha256": "2dca2acd1e309e6b80799f20313541d7a21207ab7abb9c4f78a8587e007476fa"
+  },
+  {
+    "call": 196,
+    "file": "robot/experiments/link5_pair_selection_ablation/build_excluded_mask_replays.py",
+    "sha256": "ccca7d90e8f6394146d08ec47a258675e5671d91b0c276e47a8d949eb996ea7a"
+  },
+  {
+    "call": 196,
+    "file": "robot/experiments/link5_pair_selection_ablation/add_excluded_guard_prompts.py",
+    "sha256": "ef840b670645949867fcd6bd801f367d4d8a001c3fee8b5cfe74e607b4711063"
+  },
+  {
+    "call": 200,
+    "file": "robot/experiments/link5_pair_selection_ablation/test_guard_box_retry.py",
+    "sha256": "c1595b22090af7f1189714b940c4d65b80a6de12fcd4cb02af54c01c951745f2"
+  },
+  {
+    "call": 209,
+    "file": "robot/experiments/link5_pair_selection_ablation/test_guard_box_retry.py",
+    "sha256": "f8f85f69040d2cff9836f18914bab893ce059297fd40a621e24a09013f81e834"
+  },
+  {
+    "call": 212,
+    "file": "robot/experiments/link5_pair_selection_ablation/test_guard_box_retry.py",
+    "sha256": "bd627f8101cbe0edb679f5edf5a6d302fb97f6d2a98b00bb54c580efe21767ca"
+  },
+  {
+    "call": 213,
+    "file": "robot/experiments/link5_pair_selection_ablation/retest_negative_case.py",
+    "sha256": "fc4b3be7d5acddbc3d3012014b1498791e29247232e7ebb520c7f3f4bb7e2ee0"
+  },
+  {
+    "call": 217,
+    "file": "robot/experiments/link5_pair_selection_ablation/HANDOFF.md",
+    "sha256": "a8cb39bcac85c328e115590d0a46d3090e834ae7e3a1ef58fc35955961b5e798"
+  }
+]

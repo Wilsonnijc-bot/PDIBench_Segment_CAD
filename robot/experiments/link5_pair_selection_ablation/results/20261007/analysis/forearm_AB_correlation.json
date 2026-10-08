@@ -1,0 +1,770 @@
+{
+  "status": "complete",
+  "score": "frame0-excluded temporal mean of rigidity MAD/median",
+  "label_source": {
+    "path": "/Users/nijiachen/Downloads/deformationdetection/documentation/data/labels/selected_45_matched_videos_styledv2.xlsx",
+    "sha256": "f27b72b3e835f2ad85bdb17ec6f1ba81cba8b08bac73d73a66b6c8e174c8c0c5",
+    "sheet": "Selected 45",
+    "column": "AB2:AB46"
+  },
+  "score_source_sha256": "5da9303ac0fd2548ef5d27ac58b06413549579c4e682b2e3106746960849d57c",
+  "labeled_scored_videos": 40,
+  "unmatched_scored_videos": [
+    "COSMOS2.5_0018"
+  ],
+  "excluded_workbook_videos": [
+    "COSMOS2.5_0010",
+    "COSMOS3_0021",
+    "COSMOS3_0035",
+    "LVP_ROBOWM_0010",
+    "LVP_ROBOWM_0030"
+  ],
+  "policies": {
+    "exact_0_1": "Exclude 0.5",
+    "half_as_1": "0.5 -> 1",
+    "half_as_0": "0.5 -> 0",
+    "recorded_0_half_1": "Retain recorded 0, 0.5, 1"
+  },
+  "statistics": {
+    "exact_0_1": {
+      "all_labeled": {
+        "balanced_v0": {
+          "n": 32,
+          "label_counts": {
+            "0.0": 12,
+            "1.0": 20
+          },
+          "pearson_r": 0.27976733292325956,
+          "spearman_rho": 0.34955634498413923,
+          "auroc": 0.7083333333333334
+        },
+        "refine_v1": {
+          "n": 32,
+          "label_counts": {
+            "0.0": 12,
+            "1.0": 20
+          },
+          "pearson_r": 0.4589949113991149,
+          "spearman_rho": 0.4684055022787466,
+          "auroc": 0.7791666666666667
+        }
+      },
+      "LVP_ROBOWM": {
+        "balanced_v0": {
+          "n": 10,
+          "label_counts": {
+            "0.0": 8,
+            "1.0": 2
+          },
+          "pearson_r": 0.2561751509349181,
+          "spearman_rho": 0.26111648393354675,
+          "auroc": 0.6875
+        },
+        "refine_v1": {
+          "n": 10,
+          "label_counts": {
+            "0.0": 8,
+            "1.0": 2
+          },
+          "pearson_r": 0.0757773414733665,
+          "spearman_rho": 0.17407765595569785,
+          "auroc": 0.625
+        }
+      },
+      "COSMOS2.5": {
+        "balanced_v0": {
+          "n": 12,
+          "label_counts": {
+            "1.0": 12
+          },
+          "pearson_r": null,
+          "spearman_rho": null,
+          "auroc": null
+        },
+        "refine_v1": {
+          "n": 12,
+          "label_counts": {
+            "1.0": 12
+          },
+          "pearson_r": null,
+          "spearman_rho": null,
+          "auroc": null
+        }
+      },
+      "COSMOS3": {
+        "balanced_v0": {
+          "n": 10,
+          "label_counts": {
+            "1.0": 6,
+            "0.0": 4
+          },
+          "pearson_r": 0.08699648297809091,
+          "spearman_rho": 0.3553345272593508,
+          "auroc": 0.7083333333333334
+        },
+        "refine_v1": {
+          "n": 10,
+          "label_counts": {
+            "1.0": 6,
+            "0.0": 4
+          },
+          "pearson_r": 0.3192637162523778,
+          "spearman_rho": 0.4264014327112209,
+          "auroc": 0.75
+        }
+      }
+    },
+    "half_as_1": {
+      "all_labeled": {
+        "balanced_v0": {
+          "n": 40,
+          "label_counts": {
+            "0": 12,
+            "1": 28
+          },
+          "pearson_r": 0.28553069240085344,
+          "spearman_rho": 0.34500041110037827,
+          "auroc": 0.7172619047619048
+        },
+        "refine_v1": {
+          "n": 40,
+          "label_counts": {
+            "0": 12,
+            "1": 28
+          },
+          "pearson_r": 0.3658307778468996,
+          "spearman_rho": 0.37335660927301206,
+          "auroc": 0.7351190476190477
+        }
+      },
+      "LVP_ROBOWM": {
+        "balanced_v0": {
+          "n": 13,
+          "label_counts": {
+            "0": 8,
+            "1": 5
+          },
+          "pearson_r": 0.44034686590118954,
+          "spearman_rho": 0.42257712736425834,
+          "auroc": 0.75
+        },
+        "refine_v1": {
+          "n": 13,
+          "label_counts": {
+            "0": 8,
+            "1": 5
+          },
+          "pearson_r": 0.049432347466694525,
+          "spearman_rho": 0.1267731382092775,
+          "auroc": 0.575
+        }
+      },
+      "COSMOS2.5": {
+        "balanced_v0": {
+          "n": 14,
+          "label_counts": {
+            "1": 14
+          },
+          "pearson_r": null,
+          "spearman_rho": null,
+          "auroc": null
+        },
+        "refine_v1": {
+          "n": 14,
+          "label_counts": {
+            "1": 14
+          },
+          "pearson_r": null,
+          "spearman_rho": null,
+          "auroc": null
+        }
+      },
+      "COSMOS3": {
+        "balanced_v0": {
+          "n": 13,
+          "label_counts": {
+            "1": 9,
+            "0": 4
+          },
+          "pearson_r": 0.036491361494758505,
+          "spearman_rho": 0.31180478223116176,
+          "auroc": 0.6944444444444444
+        },
+        "refine_v1": {
+          "n": 13,
+          "label_counts": {
+            "1": 9,
+            "0": 4
+          },
+          "pearson_r": 0.16385236044307214,
+          "spearman_rho": 0.26726124191242434,
+          "auroc": 0.6666666666666666
+        }
+      }
+    },
+    "half_as_0": {
+      "all_labeled": {
+        "balanced_v0": {
+          "n": 40,
+          "label_counts": {
+            "0": 20,
+            "1": 20
+          },
+          "pearson_r": 0.1807471249023233,
+          "spearman_rho": 0.1689277519114419,
+          "auroc": 0.5975
+        },
+        "refine_v1": {
+          "n": 40,
+          "label_counts": {
+            "0": 20,
+            "1": 20
+          },
+          "pearson_r": 0.4277572374693642,
+          "spearman_rho": 0.4288166010059679,
+          "auroc": 0.7475
+        }
+      },
+      "LVP_ROBOWM": {
+        "balanced_v0": {
+          "n": 13,
+          "label_counts": {
+            "0": 11,
+            "1": 2
+          },
+          "pearson_r": 0.12558065567241208,
+          "spearman_rho": 0.11396057645963796,
+          "auroc": 0.5909090909090909
+        },
+        "refine_v1": {
+          "n": 13,
+          "label_counts": {
+            "0": 11,
+            "1": 2
+          },
+          "pearson_r": 0.07349271219362659,
+          "spearman_rho": 0.11396057645963796,
+          "auroc": 0.5909090909090909
+        }
+      },
+      "COSMOS2.5": {
+        "balanced_v0": {
+          "n": 14,
+          "label_counts": {
+            "1": 12,
+            "0": 2
+          },
+          "pearson_r": -0.11567261583966106,
+          "spearman_rho": -0.20254787341673333,
+          "auroc": 0.3333333333333333
+        },
+        "refine_v1": {
+          "n": 14,
+          "label_counts": {
+            "1": 12,
+            "0": 2
+          },
+          "pearson_r": -0.13539145356667465,
+          "spearman_rho": -0.20254787341673333,
+          "auroc": 0.3333333333333333
+        }
+      },
+      "COSMOS3": {
+        "balanced_v0": {
+          "n": 13,
+          "label_counts": {
+            "0": 7,
+            "1": 6
+          },
+          "pearson_r": 0.12807196926871084,
+          "spearman_rho": 0.28867513459481287,
+          "auroc": 0.6666666666666666
+        },
+        "refine_v1": {
+          "n": 13,
+          "label_counts": {
+            "0": 7,
+            "1": 6
+          },
+          "pearson_r": 0.42371453402635456,
+          "spearman_rho": 0.4123930494211613,
+          "auroc": 0.7380952380952381
+        }
+      }
+    },
+    "recorded_0_half_1": {
+      "all_labeled": {
+        "balanced_v0": {
+          "n": 40,
+          "label_counts": {
+            "0.0": 12,
+            "1.0": 20,
+            "0.5": 8
+          },
+          "pearson_r": 0.25375693085863776,
+          "spearman_rho": 0.26112476543822405,
+          "auroc": null
+        },
+        "refine_v1": {
+          "n": 40,
+          "label_counts": {
+            "0.0": 12,
+            "1.0": 20,
+            "0.5": 8
+          },
+          "pearson_r": 0.4376372872819749,
+          "spearman_rho": 0.44530367523007486,
+          "auroc": null
+        }
+      },
+      "LVP_ROBOWM": {
+        "balanced_v0": {
+          "n": 13,
+          "label_counts": {
+            "0.0": 8,
+            "0.5": 3,
+            "1.0": 2
+          },
+          "pearson_r": 0.3480039626443156,
+          "spearman_rho": 0.37928372474460836,
+          "auroc": null
+        },
+        "refine_v1": {
+          "n": 13,
+          "label_counts": {
+            "0.0": 8,
+            "0.5": 3,
+            "1.0": 2
+          },
+          "pearson_r": 0.0678003716217679,
+          "spearman_rho": 0.135910001366818,
+          "auroc": null
+        }
+      },
+      "COSMOS2.5": {
+        "balanced_v0": {
+          "n": 14,
+          "label_counts": {
+            "1.0": 12,
+            "0.5": 2
+          },
+          "pearson_r": -0.11567261583966104,
+          "spearman_rho": -0.20254787341673333,
+          "auroc": null
+        },
+        "refine_v1": {
+          "n": 14,
+          "label_counts": {
+            "1.0": 12,
+            "0.5": 2
+          },
+          "pearson_r": -0.13539145356667462,
+          "spearman_rho": -0.20254787341673333,
+          "auroc": null
+        }
+      },
+      "COSMOS3": {
+        "balanced_v0": {
+          "n": 13,
+          "label_counts": {
+            "0.5": 3,
+            "1.0": 6,
+            "0.0": 4
+          },
+          "pearson_r": 0.09344783911726447,
+          "spearman_rho": 0.33075929223788925,
+          "auroc": null
+        },
+        "refine_v1": {
+          "n": 13,
+          "label_counts": {
+            "0.5": 3,
+            "1.0": 6,
+            "0.0": 4
+          },
+          "pearson_r": 0.3322144709642679,
+          "spearman_rho": 0.3898234515660837,
+          "auroc": null
+        }
+      }
+    }
+  },
+  "rows": [
+    {
+      "video_id": "LVP_ROBOWM_0001",
+      "generator": "LVP_ROBOWM",
+      "cohort": "selected45",
+      "workbook_row": 2,
+      "forearm_AB": 0.0,
+      "balanced_v0": 0.04824488482455542,
+      "refine_v1": 0.04666297150562924
+    },
+    {
+      "video_id": "COSMOS2.5_0001",
+      "generator": "COSMOS2.5",
+      "cohort": "selected45",
+      "workbook_row": 3,
+      "forearm_AB": 1.0,
+      "balanced_v0": 0.0398845806262897,
+      "refine_v1": 0.06407386362456853
+    },
+    {
+      "video_id": "COSMOS3_0001",
+      "generator": "COSMOS3",
+      "cohort": "selected45",
+      "workbook_row": 4,
+      "forearm_AB": 0.5,
+      "balanced_v0": 0.04653994979578732,
+      "refine_v1": 0.04473297205864485
+    },
+    {
+      "video_id": "LVP_ROBOWM_0005",
+      "generator": "LVP_ROBOWM",
+      "cohort": "selected45",
+      "workbook_row": 5,
+      "forearm_AB": 0.5,
+      "balanced_v0": 0.04434022920715872,
+      "refine_v1": 0.05331029611122504
+    },
+    {
+      "video_id": "COSMOS2.5_0005",
+      "generator": "COSMOS2.5",
+      "cohort": "selected45",
+      "workbook_row": 6,
+      "forearm_AB": 1.0,
+      "balanced_v0": 0.04644460768310616,
+      "refine_v1": 0.06743589895579741
+    },
+    {
+      "video_id": "COSMOS3_0005",
+      "generator": "COSMOS3",
+      "cohort": "selected45",
+      "workbook_row": 7,
+      "forearm_AB": 1.0,
+      "balanced_v0": 0.0598161857755996,
+      "refine_v1": 0.07736426633673338
+    },
+    {
+      "video_id": "COSMOS3_0010",
+      "generator": "COSMOS3",
+      "cohort": "selected45",
+      "workbook_row": 10,
+      "forearm_AB": 1.0,
+      "balanced_v0": 0.04232292534168163,
+      "refine_v1": 0.045150410275248576
+    },
+    {
+      "video_id": "LVP_ROBOWM_0015",
+      "generator": "LVP_ROBOWM",
+      "cohort": "selected45",
+      "workbook_row": 11,
+      "forearm_AB": 0.0,
+      "balanced_v0": 0.032369322316690326,
+      "refine_v1": 0.03314367828047338
+    },
+    {
+      "video_id": "COSMOS2.5_0015",
+      "generator": "COSMOS2.5",
+      "cohort": "selected45",
+      "workbook_row": 12,
+      "forearm_AB": 1.0,
+      "balanced_v0": 0.057987889376799454,
+      "refine_v1": 0.08545746472763623
+    },
+    {
+      "video_id": "COSMOS3_0015",
+      "generator": "COSMOS3",
+      "cohort": "selected45",
+      "workbook_row": 13,
+      "forearm_AB": 0.5,
+      "balanced_v0": 0.05059355295823162,
+      "refine_v1": 0.045465692780763955
+    },
+    {
+      "video_id": "LVP_ROBOWM_0021",
+      "generator": "LVP_ROBOWM",
+      "cohort": "selected45",
+      "workbook_row": 14,
+      "forearm_AB": 0.0,
+      "balanced_v0": 0.03216007412932133,
+      "refine_v1": 0.029681944692906508
+    },
+    {
+      "video_id": "COSMOS2.5_0021",
+      "generator": "COSMOS2.5",
+      "cohort": "selected45",
+      "workbook_row": 15,
+      "forearm_AB": 0.5,
+      "balanced_v0": 0.05568074057891388,
+      "refine_v1": 0.07453289126986098
+    },
+    {
+      "video_id": "LVP_ROBOWM_0025",
+      "generator": "LVP_ROBOWM",
+      "cohort": "selected45",
+      "workbook_row": 17,
+      "forearm_AB": 0.0,
+      "balanced_v0": 0.0485002839202911,
+      "refine_v1": 0.05729821341710559
+    },
+    {
+      "video_id": "COSMOS2.5_0025",
+      "generator": "COSMOS2.5",
+      "cohort": "selected45",
+      "workbook_row": 18,
+      "forearm_AB": 1.0,
+      "balanced_v0": 0.0717278227372553,
+      "refine_v1": 0.06358560482767328
+    },
+    {
+      "video_id": "COSMOS3_0025",
+      "generator": "COSMOS3",
+      "cohort": "selected45",
+      "workbook_row": 19,
+      "forearm_AB": 0.0,
+      "balanced_v0": 0.07803497527130537,
+      "refine_v1": 0.06888779721038392
+    },
+    {
+      "video_id": "COSMOS2.5_0030",
+      "generator": "COSMOS2.5",
+      "cohort": "selected45",
+      "workbook_row": 21,
+      "forearm_AB": 1.0,
+      "balanced_v0": 0.05739567561289472,
+      "refine_v1": 0.08305878321636997
+    },
+    {
+      "video_id": "COSMOS3_0030",
+      "generator": "COSMOS3",
+      "cohort": "selected45",
+      "workbook_row": 22,
+      "forearm_AB": 0.0,
+      "balanced_v0": 0.0406349697576796,
+      "refine_v1": 0.039686760952894695
+    },
+    {
+      "video_id": "LVP_ROBOWM_0035",
+      "generator": "LVP_ROBOWM",
+      "cohort": "selected45",
+      "workbook_row": 23,
+      "forearm_AB": 1.0,
+      "balanced_v0": 0.05699990894856499,
+      "refine_v1": 0.060614508361898634
+    },
+    {
+      "video_id": "COSMOS2.5_0035",
+      "generator": "COSMOS2.5",
+      "cohort": "selected45",
+      "workbook_row": 24,
+      "forearm_AB": 1.0,
+      "balanced_v0": 0.04135661767449084,
+      "refine_v1": 0.05267074516391131
+    },
+    {
+      "video_id": "LVP_ROBOWM_0040",
+      "generator": "LVP_ROBOWM",
+      "cohort": "selected45",
+      "workbook_row": 26,
+      "forearm_AB": 0.5,
+      "balanced_v0": 0.05385484586272759,
+      "refine_v1": 0.04022929008408798
+    },
+    {
+      "video_id": "COSMOS2.5_0040",
+      "generator": "COSMOS2.5",
+      "cohort": "selected45",
+      "workbook_row": 27,
+      "forearm_AB": 0.5,
+      "balanced_v0": 0.05143337645557056,
+      "refine_v1": 0.06932273845108114
+    },
+    {
+      "video_id": "COSMOS3_0040",
+      "generator": "COSMOS3",
+      "cohort": "selected45",
+      "workbook_row": 28,
+      "forearm_AB": 0.0,
+      "balanced_v0": 0.029844402081482722,
+      "refine_v1": 0.04710813736733257
+    },
+    {
+      "video_id": "LVP_ROBOWM_0044",
+      "generator": "LVP_ROBOWM",
+      "cohort": "selected45",
+      "workbook_row": 29,
+      "forearm_AB": 0.0,
+      "balanced_v0": 0.039505164947918205,
+      "refine_v1": 0.04326082008145433
+    },
+    {
+      "video_id": "COSMOS2.5_0044",
+      "generator": "COSMOS2.5",
+      "cohort": "selected45",
+      "workbook_row": 30,
+      "forearm_AB": 1.0,
+      "balanced_v0": 0.04133069042405308,
+      "refine_v1": 0.048982295082590895
+    },
+    {
+      "video_id": "COSMOS3_0044",
+      "generator": "COSMOS3",
+      "cohort": "selected45",
+      "workbook_row": 31,
+      "forearm_AB": 0.0,
+      "balanced_v0": 0.033428526939442066,
+      "refine_v1": 0.041365403713385665
+    },
+    {
+      "video_id": "LVP_ROBOWM_0046",
+      "generator": "LVP_ROBOWM",
+      "cohort": "selected45",
+      "workbook_row": 32,
+      "forearm_AB": 0.0,
+      "balanced_v0": 0.023099077238830392,
+      "refine_v1": 0.03211774440805475
+    },
+    {
+      "video_id": "COSMOS2.5_0046",
+      "generator": "COSMOS2.5",
+      "cohort": "selected45",
+      "workbook_row": 33,
+      "forearm_AB": 1.0,
+      "balanced_v0": 0.03733561498977017,
+      "refine_v1": 0.08694997533237324
+    },
+    {
+      "video_id": "COSMOS3_0046",
+      "generator": "COSMOS3",
+      "cohort": "selected45",
+      "workbook_row": 34,
+      "forearm_AB": 0.5,
+      "balanced_v0": 0.033852434340733525,
+      "refine_v1": 0.04534270836132933
+    },
+    {
+      "video_id": "LVP_ROBOWM_0054",
+      "generator": "LVP_ROBOWM",
+      "cohort": "selected45",
+      "workbook_row": 35,
+      "forearm_AB": 0.5,
+      "balanced_v0": 0.05873467532980433,
+      "refine_v1": 0.04837825745000052
+    },
+    {
+      "video_id": "COSMOS2.5_0054",
+      "generator": "COSMOS2.5",
+      "cohort": "selected45",
+      "workbook_row": 36,
+      "forearm_AB": 1.0,
+      "balanced_v0": 0.04706476319930462,
+      "refine_v1": 0.08019861702757662
+    },
+    {
+      "video_id": "COSMOS3_0054",
+      "generator": "COSMOS3",
+      "cohort": "selected45",
+      "workbook_row": 37,
+      "forearm_AB": 1.0,
+      "balanced_v0": 0.047494225389209256,
+      "refine_v1": 0.051037034404005206
+    },
+    {
+      "video_id": "LVP_ROBOWM_0056",
+      "generator": "LVP_ROBOWM",
+      "cohort": "selected45",
+      "workbook_row": 38,
+      "forearm_AB": 0.0,
+      "balanced_v0": 0.061215628339613505,
+      "refine_v1": 0.07504788205236897
+    },
+    {
+      "video_id": "COSMOS2.5_0056",
+      "generator": "COSMOS2.5",
+      "cohort": "selected45",
+      "workbook_row": 39,
+      "forearm_AB": 1.0,
+      "balanced_v0": 0.07129241641145583,
+      "refine_v1": 0.061480310325272
+    },
+    {
+      "video_id": "COSMOS3_0056",
+      "generator": "COSMOS3",
+      "cohort": "selected45",
+      "workbook_row": 40,
+      "forearm_AB": 1.0,
+      "balanced_v0": 0.04410755829738757,
+      "refine_v1": 0.07067209747226504
+    },
+    {
+      "video_id": "LVP_ROBOWM_0060",
+      "generator": "LVP_ROBOWM",
+      "cohort": "selected45",
+      "workbook_row": 41,
+      "forearm_AB": 1.0,
+      "balanced_v0": 0.037745560076078,
+      "refine_v1": 0.03863866704844888
+    },
+    {
+      "video_id": "COSMOS2.5_0060",
+      "generator": "COSMOS2.5",
+      "cohort": "selected45",
+      "workbook_row": 42,
+      "forearm_AB": 1.0,
+      "balanced_v0": 0.043945728045349484,
+      "refine_v1": 0.06011664037291493
+    },
+    {
+      "video_id": "COSMOS3_0060",
+      "generator": "COSMOS3",
+      "cohort": "selected45",
+      "workbook_row": 43,
+      "forearm_AB": 1.0,
+      "balanced_v0": 0.05357477345179485,
+      "refine_v1": 0.05786126412605324
+    },
+    {
+      "video_id": "LVP_ROBOWM_0065",
+      "generator": "LVP_ROBOWM",
+      "cohort": "selected45",
+      "workbook_row": 44,
+      "forearm_AB": 0.0,
+      "balanced_v0": 0.035867287439233196,
+      "refine_v1": 0.05835509491799046
+    },
+    {
+      "video_id": "COSMOS2.5_0065",
+      "generator": "COSMOS2.5",
+      "cohort": "selected45",
+      "workbook_row": 45,
+      "forearm_AB": 1.0,
+      "balanced_v0": 0.044906197918177286,
+      "refine_v1": 0.053007708812165065
+    },
+    {
+      "video_id": "COSMOS3_0065",
+      "generator": "COSMOS3",
+      "cohort": "selected45",
+      "workbook_row": 46,
+      "forearm_AB": 1.0,
+      "balanced_v0": 0.03978260250736334,
+      "refine_v1": 0.04388096924257453
+    },
+    {
+      "video_id": "COSMOS2.5_0018",
+      "generator": "COSMOS2.5",
+      "cohort": "additional",
+      "workbook_row": null,
+      "forearm_AB": null,
+      "balanced_v0": 0.0807821211014971,
+      "refine_v1": 0.10627781935464913
+    }
+  ],
+  "notes": [
+    "AB only; no labels used in pair selection or score construction.",
+    "Additional COSMOS2.5_0018 has no workbook row and is excluded from correlation.",
+    "Spearman uses average ranks for ties. Binary Pearson is point-biserial correlation.",
+    "AUROC uses higher rigidity as the positive score, average ranks for ties, and is undefined for the ordinal policy.",
+    "Descriptive correlations on selected videos; matched tasks across generators are not independent observations."
+  ]
+}

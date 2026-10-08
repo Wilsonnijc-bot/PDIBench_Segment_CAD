@@ -1,6 +1,6 @@
 # Third-party forks and source checkouts
 
-These are the sources present in this workspace, checked locally on 2026-10-04. The three direct submodules retain their original revisions. No upstream source was modified during the move.
+These are the sources present in this workspace, checked locally on 2026-10-04. The original three direct submodules retain their revisions; the two Link5 research dependencies below are newly registered at their existing pinned revisions. No upstream source was modified during the move.
 
 | Component | Location from repository root | Source and local status |
 |---|---|---|
@@ -8,6 +8,8 @@ These are the sources present in this workspace, checked locally on 2026-10-04. 
 | MegaSAM | `infrastructure/vendor/mega_sam/` | Upstream `mega-sam/mega-sam`; clean submodule at `a27b4e633c5cc0828a62ed943ef9f6505705fd3f` |
 | Original PDI-Bench | `infrastructure/vendor/PDI-Bench-original/` | Upstream `AnteaWu/PDI-Bench`; clean submodule at `2433323453574abb3c41fe83ca19b968a54ce75a` |
 | Simple3D | `infrastructure/vendor/Simple3D/` | Vendored source tracked by this repository; its README identifies `hustCYQ/MiniShift-Simple3D`. No independent Git metadata is present, so an upstream revision is not inferred. |
+| FoundationPose | `infrastructure/vendor/FoundationPose/` | Upstream `NVlabs/FoundationPose`; pinned at `a1b694b83e633c2cb6115b9063d940a687759392` |
+| Shape-Anomaly-Codebook | `infrastructure/vendor/Shape-Anomaly-Codebook/` | Upstream `alexandor91/Shape-Anomaly-Codebook`; pinned at `1b8de121de8e8801dd99b796127026c7dd279a10` |
 | Edited PDI-Bench implementation | `robot/`, `object/`, and `infrastructure/shared/` | This workspace's adapted implementation, previously under `PDI-Bench-edited/`; preserved import namespaces and resource aliases now live under `infrastructure/compat/PDI-Bench-edited/`. It is not an additional standalone Git submodule. |
 
 The original PDI-Bench submodule also contains a populated dependency tree, preserved in place:
@@ -29,3 +31,5 @@ SAM3, CoTracker, TAPIP3D, and native extension sources are also referenced by th
 Use `git submodule status --recursive` to inspect populated and uninitialized submodules. `.gitmodules` records the relocated paths; historical submodule names remain unchanged.
 
 Maintained adapters now import directly from their owning workspace modules and locate vendor checkouts under `infrastructure/vendor/`. MegaSAM still honors the explicit `PDI_MEGA_SAM_ROOT` per-attempt override. AnomalyDINO retains its isolated upstream module namespace, and Simple3D retains the upstream import path its unmodified code requires. The old `third_party` and original-PDI aliases are confined to `infrastructure/archive/compat/`; runtime and staging exclude them. The original PDI checkout and nested build dependencies were not deleted or repinned.
+
+The Link5 source lock is `infrastructure/vendor/link5_sources.lock.json`. Existing native environment/dependency provisioning remains under `infrastructure/deployment/eris/`; Link5-specific pose/backbone provisioning remains owned by its experiment.

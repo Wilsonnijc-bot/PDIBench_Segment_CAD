@@ -8,7 +8,7 @@ robot/
   scoring/          Robot rigidity metrics
   workflows/        Existing geometry, tracking, and scoring orchestration
   replay/           Robot replay generation and review
-  experiments/      Link5 Simple3D; link7 TAPIP3D/depth filtering; comparisons
+  experiments/      Link5 pair-selection ablation, shape-codebook/guard review; link7 TAPIP3D/depth filtering; comparisons
   results/          Main robot run outputs
   archive/          Historical robot trials and fixed-batch runners
 object/
@@ -74,7 +74,7 @@ Code imports directly from `robot`, `object`, and `infrastructure`. The coordina
 - [Latest robot results](documentation/website/analysis/LATEST_LINK_RESULTS.md) and [object results](documentation/website/analysis/OBJECT_ANOMALY_REPORT.md)
 - [Existing link7/object interaction](documentation/link7_object_masking_occlusion_cropping.md)
 - [Third-party forks and upstream checkouts](documentation/THIRD_PARTY.md)
-- [GPU dependency profiles](documentation/gpu/DEPENDENCIES.md)
+- [GPU dependency profiles](documentation/gpu/DEPENDENCIES.md) and [ERIS server inventory](documentation/gpu/eris/WILSON_SERVER_INVENTORY.md)
 - [Architecture and ownership](documentation/architecture/README.md)
 - [Archive selection](infrastructure/archive/INDEX.md)
 

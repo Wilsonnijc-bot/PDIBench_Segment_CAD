@@ -8,6 +8,7 @@ import sys
 from types import SimpleNamespace
 
 from infrastructure.deformation_detect.coordinator import digest, read, write
+from infrastructure.shared.contracts.vlm_failure import raise_timeout
 
 
 def clone_work(source, target):
@@ -51,10 +52,13 @@ def persistent(request):
             r['status']='vlm1_pending'
             for d in r.get('diagnoses',[]):
                 if d.get('parse_error') or d.get('state')=='unclear':
-                    d.pop('raw_response',None);d.pop('parse_error',None)
+                    d['retry_feedback']={'error':d.get('parse_error','Previously unclear comparison'),
+                                         'answer':d.get('raw_response','')}
+                    d.pop('raw_response',None);d.pop('parse_error',None);d.pop('failure',None)
             pipeline.commit(args,record)
         pipeline.select_frames(args)
         r=pipeline.load(args)['results'][name]
+        for diagnosis in r.get('diagnoses',[]):raise_timeout(diagnosis)
         if any(d.get('parse_error') for d in r.get('diagnoses',[])):raise ValueError('VLM1 frame responses exhausted this attempt; invalid response is not no-deformation')
         if r.get('diagnoses') and not any(d.get('state') in {'normal','deformed'} for d in r['diagnoses']):
             raise ValueError('VLM1 has no assessable frames; unclear is not no-deformation')
@@ -65,6 +69,7 @@ def persistent(request):
     else:
         pipeline.segment(args);pipeline.validate(args);r=pipeline.load(args)['results'][name]
         allowed={'completed_checks','no_confirmed_deformation','no_naive_surge'}
+    raise_timeout(r)
     if r['status'] not in allowed:raise ValueError(f'{stage}: {r["status"]}: {r.get("error", "")}')
     return {'work':str(work),'native_status':r['status']}
 
@@ -96,11 +101,16 @@ def mask_join(request):
     feedback=''
     if request.get('previous_attempt'):
         old=Path(request['previous_attempt'])/'vlm3/repair.json'
-        if old.is_file():feedback='\nPrevious candidate failed validation. '+json.dumps((read(old).get('attempts') or [{}])[-1].get('error','Check all six point roles.'))
+        if old.is_file():
+            candidate=(read(old).get('attempts') or [{}])[-1]
+            if not candidate.get('failure',{}).get('defer'):
+                feedback='\nPrevious candidate failed validation. '+json.dumps(candidate.get('error','Check all six point roles.'))
     repair=repair_case(name,video,before,objects,object_input,out/'vlm3',max_attempts=1,
         reference=Path(request['config']['resources']['vlm3_reference']),initial_feedback=feedback)
     repair['link7_input']={'path':str(core),'sha256':digest(core),'video_sha256':digest(video)}
     write(out/'vlm3/repair.json',repair)
+    if not repair['accepted']:
+        for candidate in repair['attempts']:raise_timeout(candidate)
     if not repair['accepted'] and repair['status']!='not_triggered':raise ValueError('Required VLM3 repair failed; downstream disabled rather than using suspect core mask')
     selected=out/'segmentation.npz'
     if repair['accepted']:build_repaired_segmentation(video=video,base_segmentation=core,repair_record=out/'vlm3/repair.json',output_npz=selected)
@@ -109,25 +119,39 @@ def mask_join(request):
     return {'selected_segmentation':str(selected),'repair_status':repair['status']}
 
 
-def link2_masks(request):
-    """Use the established single-target robot segmenter, without persistent VLMs."""
+def single_link_masks(request, link):
+    """Use maintained single-target SAM3; Link5 adds its independent point guard."""
     from robot.preprocessing.segmentation.sam3_dinov2_segment import build_parser, run
     from infrastructure.shared.contracts.segmentation_archive import load_multi_object_segmentation
     out=Path(request['directory']);resources=request['config']['resources'];video=Path(request['case']['video'])
-    args=build_parser().parse_args([
+    command=[
         '--input',str(video),'--reference-dir',resources['robot_references'],
         '--output-npz',str(out/'segmentation.npz'),'--dinov2-model',resources['dino_directory'],
         '--sam3-checkpoint',resources['sam3_checkpoint'],'--sam3-bpe',resources['sam3_bpe'],
-        '--selected-target','link2','--text-prompt','visual','--require-franka-links',
-        '--reference-spatial-priors','--padding-fraction','0.10','--minimum-tracked-fraction','0.80'])
+        '--selected-target',link,'--text-prompt','visual','--require-franka-links',
+        '--reference-spatial-priors','--padding-fraction','0.10','--minimum-tracked-fraction','0.80']
+    if link=='link5':
+        command.extend(['--link5-vlm-guard','--link5-negative-points','2','--link5-guard-required',
+                        '--link5-guard-reference',resources['link5_guard_reference']])
+        if resources.get('link5_positive_guard_reference'):
+            command.extend(['--link5-positive-guard-reference',resources['link5_positive_guard_reference']])
+    args=build_parser().parse_args(command)
     metadata=run(args)
     archive=load_multi_object_segmentation(out/'segmentation.npz',video)
-    if archive.object_names != ('link2',) or not archive.object_masks.any():
-        raise ValueError('Link2 segmenter did not produce a usable named mask')
+    if archive.object_names != (link,) or not archive.object_masks.any():
+        raise ValueError(f'{link} segmenter did not produce a usable named mask')
     if metadata['targets'][0]['sam3_status'] != 'complete':
-        raise ValueError('Link2 SAM propagation was skipped')
+        raise ValueError(f'{link} SAM propagation was skipped')
     write(out/'provenance.json',{'video_sha256':digest(video),'segmentation_sha256':digest(out/'segmentation.npz')})
     return {'segmentation':str(out/'segmentation.npz')}
+
+
+def link2_masks(request):
+    return single_link_masks(request,'link2')
+
+
+def link5_masks(request):
+    return single_link_masks(request,'link5')
 
 
 def scoring_segmentation(request):
@@ -135,27 +159,48 @@ def scoring_segmentation(request):
     import numpy as np
     from infrastructure.shared.contracts.segmentation_archive import load_multi_object_segmentation, frame_measurements
     selected=Path(request['dependencies']['mask_join'])/'segmentation.npz'
-    if 'link2' not in request['config'].get('robot_links',['link7']):return selected
-    folder=Path(request['dependencies']['link2_masks']);video=Path(request['case']['video'])
-    provenance=read(folder/'provenance.json')
-    if provenance['video_sha256']!=digest(video) or provenance['segmentation_sha256']!=digest(folder/'segmentation.npz'):
-        raise ValueError('Link2 mask identity mismatch')
+    extras=[link for link in ('link2','link5') if link in request['config'].get('robot_links',['link7'])]
+    if not extras:return selected
+    video=Path(request['case']['video'])
     base=load_multi_object_segmentation(selected,video)
-    extra=load_multi_object_segmentation(folder/'segmentation.npz',video)
-    if extra.object_names != ('link2',):raise ValueError('Expected single-link2 segmentation')
     names=list(base.object_names);ids=list(base.object_ids);masks=base.object_masks.copy()
-    if 'link2' in names:
-        masks[:,names.index('link2')]=extra.object_masks[:,0]
-    else:
-        names.append('link2');ids.append(max(ids)+1)
-        masks=np.concatenate((masks,extra.object_masks),axis=1)
+    sources={}
+    for link in extras:
+        folder=Path(request['dependencies'][f'{link}_masks'])
+        provenance=read(folder/'provenance.json')
+        if provenance['video_sha256']!=digest(video) or provenance['segmentation_sha256']!=digest(folder/'segmentation.npz'):
+            raise ValueError(f'{link.capitalize()} mask identity mismatch')
+        extra=load_multi_object_segmentation(folder/'segmentation.npz',video)
+        if extra.object_names != (link,):raise ValueError(f'Expected single-{link} segmentation')
+        if link in names:
+            masks[:,names.index(link)]=extra.object_masks[:,0]
+        else:
+            names.append(link);ids.append(max(ids)+1)
+            masks=np.concatenate((masks,extra.object_masks),axis=1)
+        sources[f'{link}_sha256']=digest(folder/'segmentation.npz')
     union=masks.any(axis=1);heights,centers,truncated=frame_measurements(union)
     target=Path(request['directory'])/'segmentation.npz'
     np.savez_compressed(target,object_masks=masks,object_names=np.asarray(names),object_ids=np.asarray(ids),
         masks=union,h_pixel=heights,x_center=centers,is_truncated=truncated)
     write(target.with_suffix('.json'),{'video_sha256':digest(video),'selected_link7_sha256':digest(selected),
-        'link2_sha256':digest(folder/'segmentation.npz'),'segmentation_sha256':digest(target),'object_names':names})
+        **sources,'segmentation_sha256':digest(target),'object_names':names})
     return target
+
+
+
+def scoring_outcomes(metrics, links):
+    """Expected track insufficiency completes measurement with an unavailable score."""
+    outcomes = {}
+    for link in links:
+        item = metrics[link]
+        if item['status'] == 'complete':
+            outcomes[link] = {'outcome': 'scored', 'rigidity': item['breakdown']['epsilon_rigidity']}
+        elif item.get('error_type') == 'insufficient_cotracker_tracks':
+            outcomes[link] = {'outcome': 'insufficient_cotracker_tracks', 'rigidity': None,
+                              'tracking': item.get('tracking', {}), 'reason': item.get('error')}
+        else:
+            raise ValueError(f'{link} scoring unavailable: {item.get("error_type",item["status"])}')
+    return outcomes
 
 
 def robot_score(request):
@@ -174,20 +219,20 @@ def robot_score(request):
         '--segmentation-npz',str(segmentation),'--output-dir',str(out/'score'),
         '--geometry-cache-dir',str(out/'geometry-cache'),'--tracker-checkpoint',resources['tracker_checkpoint'],
         '--link7-tracker','cotracker3','--link7-point-filter','v1','--tracking-mode','exact-group',
-        '--mask-label','Coordinated persistent + selected VLM3; V1 CoTracker']
+        '--mask-label','Coordinated SAM masks + selected Link7 VLM3; V1 CoTracker']
     for link in links:command.extend(['--score-link',link])
     subprocess.run(command,check=True)
     metrics=read(out/'score/metrics.json')['modes']['exact-group']['objects']
-    for link in links:
-        if metrics[link]['status']!='complete':raise ValueError(f'{link} scoring unavailable: {metrics[link].get("error_type",metrics[link]["status"])}')
+    outcomes = scoring_outcomes(metrics, links)
     metric=metrics['link7']
     # Scratch is owned by this attempt; model symlinks are not result artifacts.
     shutil.rmtree(out/'mega_sam')
-    return {'metrics':str(out/'score/metrics.json'),'rigidity':metric['breakdown']['epsilon_rigidity'],'rigidity_by_link':{link:metrics[link]['breakdown']['epsilon_rigidity'] for link in links},'reconstruction_audit':metric.get('reconstruction_audit')}
+    return {'metrics':str(out/'score/metrics.json'),'rigidity':outcomes['link7']['rigidity'],'rigidity_by_link':{link:outcomes[link]['rigidity'] for link in links},'link_outcomes':outcomes,'reconstruction_audit':metric.get('reconstruction_audit')}
 
 
 def run_stage(request):
     if request['stage']=='link2_masks':return link2_masks(request)
+    if request['stage']=='link5_masks':return link5_masks(request)
     if request['stage']=='mask_join':return mask_join(request)
     if request['stage']=='robot_score':return robot_score(request)
     return persistent(request)

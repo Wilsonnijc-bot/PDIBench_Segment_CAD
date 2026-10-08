@@ -275,6 +275,7 @@ def repair_case(case, video, before, objects, object_input, output, *, threshold
     ref = Image.open(reference).convert('RGB');ref.save(inputs/'reference.png')
     result.update(frame=frame, input_hashes=[digest(inputs/'target.png'), digest(inputs/'reference.png')],
                   reference_annotation='manual sixth object-negative added to original VLM2 reference 3',
+                  prompts={'system': SYSTEM_PROMPT, 'point_template': POINT_PROMPT},
                   vlm_config=role_config('vlm2'), status='repair_pending')
     save(record_path, result)
     client = client or VLMClient('vlm3_overmask_repair', role_config('vlm2'))
@@ -319,10 +320,15 @@ def repair_case(case, video, before, objects, object_input, output, *, threshold
                         +'. Reconsider all six points on the SAME Image 1; use broad gripper interiors and a deep object exclusion. Return the same JSON schema.')
             attempt['error'] = 'SAM candidate failed membership, nonempty-mask, or post-gate validation'
         except Exception as exc:
+            from infrastructure.shared.contracts.vlm_failure import failure_record
             attempt['error'] = str(exc)
+            attempt['failure'] = failure_record(exc)
             if getattr(client, 'records', None) and 'vlm_call' not in attempt:
                 attempt['vlm_call'] = client.records[-1]
             feedback = '\nPrevious output was rejected: '+str(exc)+'. Correct the points on the SAME Image 1; return the requested six-point JSON.'
+            if attempt['failure'].get('defer'):
+                save(record_path, result)
+                break
             traceback.print_exc()
         save(record_path, result)
     if not result['accepted']:

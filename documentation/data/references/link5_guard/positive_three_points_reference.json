@@ -1,0 +1,11 @@
+{
+  "role": "annotated positive-point reference example; not a source video frame",
+  "source": "positive_three_points_user_markup.jpg",
+  "source_sha256": "218ae81654203d9e11955db59270da3d0313f49d88e5cc072a8680aa08186376",
+  "edited_reference": "positive_three_points_reference.png",
+  "edited_reference_sha256": "231a09f683b7c013f435fdf8ab02fc08f543738015b8ff4ada83bf8cd1f4d4ca",
+  "method": "built-in image_gen edit, inspected before use",
+  "purpose": "remove app chrome, replace handwritten P1 with a clean marker, retain P1 inside left pale rounded inset and P2/P3 placements",
+  "imagegen_prompt": "Use case: precise-object-edit. Asset: annotated computer-vision reference for robot Link5 positive SAM points. Edit only the annotation/presentation of this supplied image. Crop away the surrounding white notepad and ALL app toolbars, leaving the embedded rectangular robot photograph. Preserve the photographed robot geometry, pose, colors, background, camera perspective, black border and pale inset EXACTLY as in the original. Keep the green rectangular box. Replace the hand-drawn green dot and handwritten P1 label with one clean small lime-green circular point marker with a thin black outline and a legible white outlined label P1. Its CENTER must remain EXACTLY at the original hand-drawn green dot center, inside the LEFT interior edge of the pale rounded left lobe ENCLOSED by the black border, not on the wrist behind it and not on the black border. Preserve P2 and P3 point centers exactly; make their marker sizes and labels match P1 for a polished consistent scientific annotation. P2 stays on the middle pale inset, P3 on the right white panel. Exact labels: P1, P2, P3. Do not move any of the three points. Do not invent, repaint, reshape or restyle any robot parts. No new arrows, text, markers, watermark, UI or diagram. Output only the cleaned annotated robot photograph at high quality.",
+  "ground_truth_claim": false
+}

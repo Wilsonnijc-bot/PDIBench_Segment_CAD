@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-05T03:22:55.033546+00:00",
+  "checked_at": "2026-10-05T19:21:44.006927+00:00",
   "status": "integration_checks_passed",
   "tests": {
     "passed": 214,
@@ -25,7 +25,7 @@
     "detector_rows_identical": true,
     "selected_frames_identical": true
   },
-  "fresh_end_to_end_coordinator_acceptance": "not_run",
+  "fresh_end_to_end_coordinator_acceptance": "terminal_partial_9_complete_1_disabled",
   "source_sha256": {
     "infrastructure/deformation_detect/coordinator.py": "45d9531222e569e3ca9d42c929fc7ee2ff3bafc22f4fec2195379869169bf668",
     "infrastructure/deformation_detect/worker.py": "3e4b61bccb40d57c187d6ecc9e8db15dea65a6d0d89d5a25cc8ff5ee8a1274e9",
@@ -37,7 +37,7 @@
   "link2_extension": {
     "cpu_checks": "passed",
     "native_worker_imports": "passed",
-    "fresh_gpu_inference": "not_run",
+    "fresh_gpu_inference": "ten_link2_scores_produced; full_pipeline_9_of_10_complete",
     "coverage": [
       "optional manifest and reference requirements",
       "resume and link2-only invalidation",
@@ -48,9 +48,160 @@
   "direct_import_migration": {
     "status": "local_validation_passed",
     "audit": "../../architecture/DIRECT_IMPORT_MIGRATION.md",
-    "gpu_acceptance": "not_run",
+    "gpu_acceptance": "runtime_import_isolation_passed; pipeline_partial",
     "publication_files_verified": 714,
     "main_cli_help_checks": 11,
     "compatibility_tree": "archived_not_on_runtime_path"
-  }
+  },
+  "parallel_coordinator": {
+    "cpu_checks": "passed",
+    "tests": 27,
+    "command": "python -m pytest -q infrastructure/tests/test_coordinator.py infrastructure/tests/test_parallel_coordinator.py",
+    "coverage": [
+      "real per-video coordinator processes",
+      "GPU admission limits 1 and 2",
+      "resume with worker count change",
+      "single-case artifact corruption",
+      "crash releases GPU admission",
+      "SIGTERM cleans active and waiting children",
+      "archive import rejected before execution",
+      "nested interpreter import-origin receipts",
+      "allocated GPU pinning reaches every model subprocess",
+      "insufficient GPU allocation fails before case launch"
+    ],
+    "fresh_gpu_acceptance": "per_video_gpu_parallelism_observed; pipeline_partial"
+  },
+  "h200_production_validation": {
+    "status": "terminal_partial",
+    "host": "ERIS erishpc gpu-h200",
+    "cases": 10,
+    "complete": 9,
+    "disabled": 1,
+    "disabled_reason": {
+      "COSMOS3_0056": "robot_score: link7 scoring unavailable: insufficient_cotracker_tracks (2/100 foreground queries retained)"
+    },
+    "all_vlm_stages_recovered": true,
+    "final_jobs": {
+      "5577732": {
+        "exit_code": 0,
+        "status": "complete"
+      },
+      "5577733": {
+        "exit_code": 2,
+        "status": "completed_with_disabled_cases"
+      }
+    },
+    "quality_flags": [
+      "COSMOS2.5_0005 link7 scale-jump failed",
+      "LVP_ROBOWM_0005 link2 scale-jump failed",
+      "LVP_ROBOWM_0005 link7 scale-jump failed",
+      "COSMOS3_0010 link7 scale-jump failed",
+      "COSMOS2.5_0044 link7 scale-jump failed",
+      "LVP_ROBOWM_0060 link7 scale-jump failed"
+    ],
+    "retrieved_cases": 10,
+    "scored_object_pairs": 90,
+    "readability_checks": {
+      "hashed_files": 3097,
+      "png": 1364,
+      "npz": 172,
+      "embedded_scripts": 48
+    },
+    "pages": 68,
+    "missing_assets": 0,
+    "source_videos": 20,
+    "runtime_import_audit": {
+      "receipts": 408,
+      "module_origins": 689091,
+      "forbidden_origin_count": 0
+    },
+    "browser_interaction": {
+      "status": "selected_native_replays_verified",
+      "browser": "Chrome through authorized Computer Use",
+      "checked": [
+        "COSMOS2.5_0005 Link7: playback, seek, pair measurements and camera/orbit toggle",
+        "COSMOS2.5_0005: ten-pair scored crop gallery",
+        "COSMOS2.5_0005 object occlusion: rendered source, overlay, close-up and frame0\u21921 stepping"
+      ],
+      "scope": "Selected interactive checks; all exported pages have static asset/script checks; not exhaustive semantic review of every video",
+      "hosting_fix": "Plain Python HTTP server ignored byte Range and object frame stepping stayed at0. Local loopback server now returns206 ranges; original artifacts and MP4 hashes are unchanged."
+    },
+    "evidence": "../../../infrastructure/shared/experimental/migration_validation/results/h200-ten-video-20261005/index.html",
+    "reproduction_fidelity": "not_established: fresh masks/crop selection, quality failures, and geometry context differ"
+  },
+  "runtime_outcome_policy": {
+    "checked_at": "2026-10-05T19:47:19.659785+00:00",
+    "cpu_status": "passed",
+    "unique_tests_passed": 89,
+    "commands": [
+      "/private/tmp/pdi-overlap-review-env/bin/python -m pytest -q infrastructure/tests robot/tests/test_vlm2_malformed_fallback.py robot/tests/test_vlm3_overmask.py robot/tests/test_persistent_refined_segmentation.py robot/tests/test_multi_object_pipeline.py object/tests/test_mask_sync.py",
+      "/private/tmp/pdi-overlap-review-env/bin/python -m pytest -q infrastructure/tests/test_vlm_failure_policy.py"
+    ],
+    "test_receipts": {
+      "focused_suite": 87,
+      "expanded_failure_policy": 8,
+      "overlapping_tests": 6,
+      "existing_warning": "SyntaxWarning: invalid escape sequence in an existing parsed source"
+    },
+    "source_sha256": {
+      "infrastructure/deformation_detect/coordinator.py": "566931ecd2a7f7bf60dbed9b4e07effbd23949a3f4a9b834c7187b119c0082fd",
+      "infrastructure/deformation_detect/parallel.py": "5057408391d1a4caea05a6a942c028bb4d594cd127e1509421fcdff60f42f4ba",
+      "infrastructure/deformation_detect/failures.py": "60d5e86abb459418e4e6dd8e69f31baf1b7400040068b5bbc215d7f1d081df85",
+      "infrastructure/deformation_detect/worker.py": "999f7431b7e3fd3d90919a52cb444bedb1ea1a6d2266fc83bd03cf4c6c99e73d",
+      "robot/workflows/coordination.py": "cfdbe2879ecaac9308391b438c2f1f369ac9e462989acab83ed33c7f3245f5e2",
+      "object/workflows/coordination.py": "9ff17259d6552d2ab04d828d75c7ab948ceb1e7d025c5faa89acd4ef894886d4",
+      "robot/preprocessing/link7_persistent/vlm_client.py": "b59fb0787dbe422a67021c3ecc903df8f2f0d7100ee3a1ceebb615882b5d9d9a",
+      "robot/preprocessing/link7_persistent/pipeline.py": "ebe8d5b2de49acac71fcfebe2a1ac6b25abbabd5b2b6efb328a3d00463cdb2ba",
+      "robot/preprocessing/link7_persistent/vlm3_overmask.py": "2d944fe6b66aa587f2830c39b5fcc6fb45faf2eae8293bc3d1d8bbc92d9e0d33",
+      "robot/preprocessing/link7_persistent/interface/config.py": "845bed88bee63b411fff456a81d00c473954f9380a64a96a4c192417557eae8e",
+      "object/preprocessing/grounding/prompting.py": "80c27c7f1df42a27b3d418da69c187e72cac23da79b9b099b021fa8282a19422",
+      "object/preprocessing/segmentation/segment.py": "e0906b884f3a892f6e140046983eaf8b34c64ffe2e3ca558ec2a0991efdf4456"
+    },
+    "coverage": [
+      "serial timeout tail queue and same-model resume",
+      "real parallel child-process batch barrier and bounded exhaustion",
+      "four total attempts and preservation of consumed budgets",
+      "queue waiting excluded from active stage time",
+      "semantic Luna fallback and >=600 second request timeout",
+      "actual VLM1 partial-frame timeout provenance/resume",
+      "object timeout provenance persists and stops model loop",
+      "Link2/Link7/both insufficient tracks complete and object anomaly continues",
+      "unrelated scoring errors remain failures",
+      "review index labels unavailable scores"
+    ],
+    "gpu_acceptance": "not_run_for_this_revision",
+    "staged_workspace": "/PHShome/zy992/Wilson/deformationdetection/workspace-timeout-policy-20261005",
+    "scope": "per-allocation timeout queue; global two-Slurm-job controller remains proposed; historical ten-video source/results unchanged"
+  },
+  "link5_extension": {
+    "checked_at": "2026-10-05T20:09:11.710672+00:00",
+    "cpu_checks": "passed",
+    "tests": {
+      "distinct_tests_passed": 125,
+      "initial_suite_passed": 123,
+      "additional_command_passed": 15,
+      "overlapping_tests": 13,
+      "subtests_passed": 4
+    },
+    "coverage": [
+      "three-positive two-negative SAM prompt with unchanged native diagnostics",
+      "two independent VLM reviews; typed timeout and semantic failure evidence",
+      "configured overseas endpoint and Luna >=600-second route",
+      "optional Link5 stage, resume and resource invalidation",
+      "named Link5 append/replacement; immutable Link7/object handoff",
+      "three-link shared native scoring command, unavailable-track outcome and replay index"
+    ],
+    "source_sha256": {
+      "infrastructure/deformation_detect/coordinator.py": "2c55356a7efb5a8b9dde324b3f65e0cbb7e1ec45bfa3ab541fd1515a7f288a0d",
+      "infrastructure/deformation_detect/worker.py": "852a822438e020df13d1e8ef55675050f2847bedcfc02018bda01ec8dcab95fe",
+      "robot/workflows/coordination.py": "61215ab82d3eeac2e0a2c8df9d53927ba3f9810f2aa223fa524f780fa06db6bf",
+      "robot/preprocessing/link5_refinement/link5_point_guard.py": "c7845fc660251d9611b266ca66e47b126f7f22c29d6273b31e522ef5ebab62a3",
+      "robot/preprocessing/segmentation/sam3_dinov2_segment.py": "322f5a50494ce5ae6f2d6140cd4d67805cf5c4eb1f5d79d2920c32dbe2b109e2",
+      "infrastructure/tests/test_link5_coordinator.py": "43ac4eaf4acc2b961158f73b320c4bdb8039ad755cdc9b3f358daebcf3fc9d7e"
+    },
+    "fresh_gpu_inference": "not_run",
+    "deployment_workspace": "/PHShome/zy992/Wilson/deformationdetection/workspace-link5-20261005",
+    "scope": "CPU regression/integration verification; GPU acceptance remains pending"
+  },
+  "scope": "Historical October 5 revision receipts. Source hashes and acceptance results do not validate subsequent workspace edits. See workspace-cleanup-20261008.json for the current CPU checks."
 }

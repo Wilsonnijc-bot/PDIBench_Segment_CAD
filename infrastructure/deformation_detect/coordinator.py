@@ -1,6 +1,7 @@
 """Resumable, artifact-verified robot/object coordination. No model imports here."""
-from contextlib import contextmanager
-from datetime import datetime, timezone
+from contextlib import contextmanager, nullcontext
+from datetime import datetime, timedelta, timezone
+from collections import deque
 import fcntl
 import hashlib
 import html
@@ -29,23 +30,26 @@ STAGES = {
     'object_anomaly': ('anomaly', ('object_crops',), 'object'),
 }
 def stages_for(config):
-    """Link2 is independent of the object/link7 handoff; only robot scoring joins it."""
-    stages = dict(STAGES)
-    if 'link2' in config.get('robot_links', ['link7']):
-        stages = {}
-        for name, spec in STAGES.items():
-            if name == 'robot_score':
-                stages['link2_masks'] = ('sam3', (), 'robot')
-                spec = ('geometry', ('mask_join', 'link2_masks'), 'robot')
-            stages[name] = spec
+    """Independent Link2/Link5 masks join only the robot scoring branch."""
+    if config.get('mode', 'full') == 'masking':
+        return {name: STAGES[name] for name in ('link7_initial', 'vlm1', 'vlm2', 'link7_masks', 'object_masks', 'mask_join')}
+    extras = [f'{link}_masks' for link in ('link2', 'link5') if link in config.get('robot_links', ['link7'])]
+    stages = {}
+    for name, spec in STAGES.items():
+        if name == 'robot_score':
+            for stage in extras: stages[stage] = ('sam3', (), 'robot')
+            spec = ('geometry', ('mask_join', *extras), 'robot')
+        stages[name] = spec
     return stages
 
 
-VLM_STAGES = {'vlm1', 'vlm2', 'object_masks', 'mask_join'}
+VLM_STAGES = {'vlm1', 'vlm2', 'object_masks', 'mask_join', 'link5_masks'}
 RESOURCE_STAGES = {
-    'sam3_checkpoint': {'link2_masks', 'link7_initial', 'link7_masks', 'object_masks', 'mask_join'},
-    'sam3_bpe': {'link2_masks', 'link7_initial', 'link7_masks', 'object_masks', 'mask_join'},
-    'dino_directory': {'link7_initial', 'link2_masks'}, 'robot_references': {'link2_masks'}, 'palm_references': {'link7_initial'},
+    'sam3_checkpoint': {'link2_masks', 'link5_masks', 'link7_initial', 'link7_masks', 'object_masks', 'mask_join'},
+    'sam3_bpe': {'link2_masks', 'link5_masks', 'link7_initial', 'link7_masks', 'object_masks', 'mask_join'},
+    'dino_directory': {'link7_initial', 'link2_masks', 'link5_masks'}, 'robot_references': {'link2_masks', 'link5_masks'}, 'palm_references': {'link7_initial'},
+    'link5_guard_reference': {'link5_masks'},
+    'link5_positive_guard_reference': {'link5_masks'},
     'vlm2_examples': {'vlm1', 'vlm2'}, 'vlm3_reference': {'mask_join'},
     'qwen_model': {'vlm1'}, 'tracker_checkpoint': {'object_tracks', 'robot_score'},
     'robot_config': {'robot_score'}, 'mega_sam': {'robot_score'},
@@ -92,25 +96,36 @@ def identity(value):
 
 def load_manifest(path):
     path = Path(path).resolve(); config = read(path)
-    allowed = {'schema_version', 'run_id', 'output', 'environments', 'resources', 'cases', 'vlm', 'policy', 'secrets_file', 'robot_links'}
+    allowed = {'schema_version', 'run_id', 'output', 'environments', 'resources', 'cases', 'vlm', 'policy', 'secrets_file', 'robot_links', 'execution', 'mode'}
     if set(config) - allowed: raise ValueError(f'Unknown manifest fields: {set(config)-allowed}')
     if config.get('schema_version') != 1: raise ValueError('schema_version must be 1')
+    if config.get('mode', 'full') not in {'full', 'masking'}: raise ValueError('mode must be full or masking')
     def location(v):
         p = Path(v).expanduser()
         return str(p.absolute() if p.is_absolute() else (path.parent / p).absolute())
     if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]*', config.get('run_id', '')):
         raise ValueError('Invalid run_id')
     config['output'] = location(config['output'])
+    execution = {'workers': 1, 'gpu_slots': 1, 'gpu_assignment': 'shared'}
+    execution.update(config.get('execution', {}))
+    if set(execution) != {'workers', 'gpu_slots', 'gpu_assignment'} or any(type(execution[k]) is not int or execution[k] < 1 for k in ('workers', 'gpu_slots')):
+        raise ValueError('execution requires positive integer workers and gpu_slots')
+    if execution['gpu_assignment'] not in {'shared', 'per_video'}:
+        raise ValueError('gpu_assignment must be shared or per_video')
+    config['execution'] = execution
     config['environments'] = {k: location(v) for k, v in config['environments'].items()}
     if set(config['environments']) != {'sam3', 'vlm1', 'geometry', 'anomaly'}:
         raise ValueError('Provide sam3, vlm1, geometry, anomaly interpreters')
     links = config.setdefault('robot_links', ['link7'])
-    if not isinstance(links, list) or links not in (['link7'], ['link2', 'link7'], ['link7', 'link2']):
-        raise ValueError('robot_links must contain link7, optionally with link2')
+    if (not isinstance(links, list) or not all(isinstance(link, str) for link in links)
+            or 'link7' not in links or len(set(links)) != len(links)
+            or set(links) - {'link2', 'link5', 'link7'}):
+        raise ValueError('robot_links must contain link7, optionally with unique link2 and link5')
     config['robot_links'] = sorted(links)
     resources = config['resources']
-    required = set(RESOURCE_STAGES) - {'robot_references'}
-    if 'link2' in links: required.add('robot_references')
+    required = set(RESOURCE_STAGES) - {'robot_references', 'link5_guard_reference', 'link5_positive_guard_reference'}
+    if set(links) & {'link2', 'link5'}: required.add('robot_references')
+    if 'link5' in links: required.add('link5_guard_reference')
     if not required.issubset(resources) or set(resources) - set(RESOURCE_STAGES):
         raise ValueError('Required resource keys: ' + ', '.join(sorted(required)))
     for key, value in resources.items(): resources[key] = [location(x) for x in value] if isinstance(value, list) else location(value)
@@ -256,16 +271,29 @@ def review(output, state):
     rows=[]
     for name, case in state['cases'].items():
         links=[]
-        for stage, label, suffix in [('robot_score','Link2 replay','score/replay/interactive_exact-group/link2_exact-group.html'),('robot_score','Link7 replay','score/replay/interactive_exact-group/link7_exact-group.html'),('object_crops','Occlusion replay',f'cases/{name}/occlusion/replay.html'),('object_anomaly','Scored crop pairs','crops/selection_gallery.html')]:
+        for stage, label, suffix in [('robot_score','Link2 replay','score/replay/interactive_exact-group/link2_exact-group.html'),('robot_score','Link5 replay','score/replay/interactive_exact-group/link5_exact-group.html'),('robot_score','Link7 replay','score/replay/interactive_exact-group/link7_exact-group.html'),('object_crops','Occlusion replay',f'cases/{name}/occlusion/replay.html'),('object_anomaly','Scored crop pairs','crops/selection_gallery.html')]:
             r=case['stages'].get(stage,{})
             if case['status']=='complete' and r.get('status')=='complete':
                 target=Path(r['directory'])/suffix
                 if target.is_file():links.append(f'<a href="{html.escape(os.path.relpath(target,output),quote=True)}">{label}</a>')
-        rows.append(f'<tr><td>{html.escape(name)}</td><td>{html.escape(case["status"])}</td><td>{" · ".join(links)}</td><td>{html.escape(case.get("reason",""))}</td></tr>')
+        outcomes=case['stages'].get('robot_score',{}).get('link_outcomes',{})
+        notes=[f'{link}: score unavailable (insufficient CoTracker tracks)' for link,item in outcomes.items() if item.get('outcome')=='insufficient_cotracker_tracks']
+        if case.get('reason'):notes.append(case['reason'])
+        rows.append(f'<tr><td>{html.escape(name)}</td><td>{html.escape(case["status"])}</td><td>{" · ".join(links)}</td><td>{html.escape("; ".join(notes))}</td></tr>')
     (output/'index.html').write_text('<!doctype html><html lang="en"><meta charset="utf-8"><title>Pipeline run</title><style>body{font:16px system-ui;margin:40px}td,th{padding:12px;text-align:left}a{color:#246349}</style><h1>Robot and object pipeline</h1><p><a href="run.json">Run status and provenance</a></p><table><tr><th>Case</th><th>Status</th><th>Replay</th><th>Reason</th></tr>'+''.join(rows)+'</table></html>')
 
 
-def coordinate(config, *, retry_disabled=False, executor=execute, check=preflight, resource_identity=identity, source_identity=None):
+def scientific_source():
+    return {str(p.relative_to(root())):digest(p) for owner in ('robot','object','infrastructure/deformation_detect','infrastructure/shared/inference')
+            for p in (root()/owner).rglob('*') if p.is_file() and p.suffix in {'.py','.html','.js'} and not {'results','tests','__pycache__','archive','experiments','experimental'} & set(p.relative_to(root()).parts)}
+
+
+def coordinate(config, *, retry_disabled=False, executor=execute, check=preflight, resource_identity=identity, source_identity=None, resource_records=None, stage_admission=None, defer_timeouts_only=False):
+    previous = Path(config['output'])/'run.json'
+    if config.get('execution', {}).get('workers', 1) > 1 or (previous.is_file() and read(previous).get('layout') == 'per_video'):
+        from infrastructure.deformation_detect.parallel import coordinate_parallel
+        return coordinate_parallel(config, retry_disabled=retry_disabled, check=check,
+                                   resource_identity=resource_identity, source_identity=source_identity)
     output=Path(config['output'])
     stages=stages_for(config)
     with locked(output), termination_as_interrupt():
@@ -276,73 +304,98 @@ def coordinate(config, *, retry_disabled=False, executor=execute, check=prefligh
         for previous_case in state['cases'].values():
             for entry in previous_case['stages'].values():refuse_live_worker(entry)
         if state['run_id']!=config['run_id']: raise ValueError('Output belongs to a different run_id')
-        resources={k:resource_identity(v) for k,v in config['resources'].items()}
+        resources=resource_records if resource_records is not None else {k:resource_identity(v) for k,v in config['resources'].items()}
         # Scientific source changes conservatively invalidate the run. Model data and docs do not.
-        source=source_identity if source_identity is not None else {
-            str(p.relative_to(root())):digest(p) for owner in ('robot','object','infrastructure/deformation_detect','infrastructure/shared/inference')
-            for p in (root()/owner).rglob('*') if p.is_file() and p.suffix in {'.py','.html','.js'} and not {'results','tests','__pycache__','archive','experiments','experimental'} & set(p.relative_to(root()).parts)}
+        source=source_identity if source_identity is not None else scientific_source()
         write(output/'manifest.json',config)
         write(output/'preflight.json',environments)
         state.update(status='running', updated_at=now());write(output/'run.json',state)
-        for case in config['cases']:
+        pending=deque(sorted(config['cases'],key=lambda c:state['cases'].get(c['id'],{}).get('status')=='deferred'))
+        while pending:
+            case=pending.popleft()
             record=state['cases'].setdefault(case['id'], {'status':'pending','stages':{}})
             record.update(status='running');record.pop('reason',None)
             for inactive in set(record['stages']) - set(stages):
                 record.setdefault('history',[]).append(record['stages'].pop(inactive))
             for stage, (env, deps, owner) in stages.items():
-                key=stage_key(config,case,stage,record['stages'],source,resources,environments)
-                old=record['stages'].get(stage,{})
-                if old.get('key')==key and old.get('status')=='complete' and valid(old): continue
-                if old.get('key')==key and old.get('status')=='disabled' and not retry_disabled:
-                    record.update(status='disabled',reason=f'{stage}: retry budget exhausted; use --retry-disabled explicitly');break
-                # Remove dependent current records; keep their attempt directories/history.
-                invalid={stage}
-                for candidate,(_,parents,_) in stages.items():
-                    if invalid.intersection(parents): invalid.add(candidate)
-                for name in invalid:
-                    if name in record['stages']:
-                        record.setdefault('history',[]).append(record['stages'].pop(name))
-                max_attempts=config['policy']['vlm_attempts'] if stage in VLM_STAGES else 1
-                continuing = old.get('key')==key and old.get('status') in {'running','interrupted','failed'}
-                start_attempt = old.get('attempt',0)+1 if continuing and stage in VLM_STAGES else 1
-                previous = old.get('directory') if continuing else None
-                budget_started = old.get('budget_started_at',now()) if continuing else now()
-                entry = dict(old)
-                for attempt in range(start_attempt,max_attempts+1):
-                    timeout=config['policy']['vlm_stage_timeout_seconds' if stage in VLM_STAGES else 'stage_timeout_seconds']
-                    if stage in VLM_STAGES:
-                        timeout -= (datetime.now(timezone.utc)-datetime.fromisoformat(budget_started)).total_seconds()
-                        if timeout <= 0:
-                            entry.update(status='failed',error='VLM stage time budget exhausted');break
-                    base=output/owner/case['id']/stage;base.mkdir(parents=True,exist_ok=True)
-                    serial=max([int(p.name.split('-')[-1]) for p in base.glob('attempt-*') if p.is_dir()]+[0])+1
-                    folder=base/f'attempt-{serial:04d}';folder.mkdir()
-                    request={'config':config,'case':case,'stage':stage,'attempt':attempt,'directory':str(folder),
-                             'dependencies':{d:record['stages'][d]['directory'] for d in deps},'previous_attempt':previous}
-                    write(folder/'request.json',request)
-                    entry={'stage':stage,'status':'running','key':key,'attempt':attempt,'directory':str(folder),'started_at':now(),'budget_started_at':budget_started}
-                    record['stages'][stage]=entry;write(output/'run.json',state)
-                    print(f'{case["id"]}: {stage} attempt {attempt}/{max_attempts}',flush=True)
-                    try:
-                        code=executor(folder/'request.json',config['environments'][env],timeout)
-                        result=read(folder/'result.json') if (folder/'result.json').is_file() else {}
-                        if code or result.get('status')!='complete': raise RuntimeError(result.get('error',f'worker exit {code}, no complete result'))
-                        entry.update(status='complete',exit_code=code,files=inventory(folder),finished_at=now())
-                        if not entry['files']: raise RuntimeError('No output artifacts')
-                    except (KeyboardInterrupt, SystemExit):
-                        entry.update(status='interrupted',finished_at=now());state['status']='interrupted';write(output/'run.json',state);review(output,state);raise
-                    except Exception as exc:
-                        entry.update(status='failed',error=str(exc),finished_at=now())
-                    write(output/'run.json',state)
-                    if entry['status']=='complete': break
-                    record.setdefault('history',[]).append(dict(entry));previous=str(folder)
-                if entry['status']!='complete':
-                    entry.update(status='disabled',error=entry.get('error','VLM attempt budget exhausted'));record['stages'][stage]=entry;record.update(status='disabled',reason=f'{stage}: {entry["error"]}')
-                    for next_stage in stages:
-                        if next_stage not in record['stages']:record['stages'][next_stage]={'status':'skipped','reason':'case disabled'}
-                    break
+                with stage_admission() if stage_admission else nullcontext():
+                    key=stage_key(config,case,stage,record['stages'],source,resources,environments)
+                    old=record['stages'].get(stage,{})
+                    if old.get('key')==key and old.get('status')=='complete' and valid(old): continue
+                    if old.get('key')==key and old.get('status')=='disabled' and not retry_disabled:
+                        record.update(status='disabled',reason=f'{stage}: retry budget exhausted; use --retry-disabled explicitly');break
+                    # Remove dependent current records; keep their attempt directories/history.
+                    invalid={stage}
+                    for candidate,(_,parents,_) in stages.items():
+                        if invalid.intersection(parents): invalid.add(candidate)
+                    for name in invalid:
+                        if name in record['stages']:
+                            record.setdefault('history',[]).append(record['stages'].pop(name))
+                    max_attempts=config['policy']['vlm_attempts'] if stage in VLM_STAGES else 1
+                    continuing = old.get('key')==key and old.get('status') in {'running','interrupted','failed','deferred'}
+                    start_attempt = old.get('attempt',0)+1 if continuing and stage in VLM_STAGES else 1
+                    previous = old.get('directory') if continuing else None
+                    budget_started = old.get('budget_started_at',now()) if continuing else now()
+                    entry = dict(old)
+                    queue_wait=old.get('queue_wait_seconds',0.0)
+                    if continuing and old.get('status')=='deferred':
+                        waited=(datetime.now(timezone.utc)-datetime.fromisoformat(old['finished_at'])).total_seconds()
+                        queue_wait+=waited
+                        budget_started=(datetime.fromisoformat(budget_started)+timedelta(seconds=waited)).isoformat()
+                    route=old.get('next_vlm_route',old.get('vlm_route','primary')) if continuing else 'primary'
+                    model_attempt=old.get('next_model_attempt',old.get('model_attempt',1)) if continuing else 1
+                    for attempt in range(start_attempt,max_attempts+1):
+                        timeout=config['policy']['vlm_stage_timeout_seconds' if stage in VLM_STAGES else 'stage_timeout_seconds']
+                        if stage in VLM_STAGES:
+                            timeout -= (datetime.now(timezone.utc)-datetime.fromisoformat(budget_started)).total_seconds()
+                            if timeout <= 0:
+                                entry.update(status='failed',error='VLM stage time budget exhausted');break
+                        base=output/owner/case['id']/stage;base.mkdir(parents=True,exist_ok=True)
+                        serial=max([int(p.name.split('-')[-1]) for p in base.glob('attempt-*') if p.is_dir()]+[0])+1
+                        folder=base/f'attempt-{serial:04d}';folder.mkdir()
+                        request={'config':config,'case':case,'stage':stage,'attempt':attempt,'directory':str(folder),
+                                 'dependencies':{d:record['stages'][d]['directory'] for d in deps},'previous_attempt':previous,
+                                 'vlm_route':route,'model_attempt':model_attempt}
+                        write(folder/'request.json',request)
+                        entry={'stage':stage,'status':'running','key':key,'attempt':attempt,'directory':str(folder),'started_at':now(),'budget_started_at':budget_started,'vlm_route':route,'model_attempt':model_attempt,'queue_wait_seconds':queue_wait}
+                        record['stages'][stage]=entry;write(output/'run.json',state)
+                        print(f'{case["id"]}: {stage} attempt {attempt}/{max_attempts}',flush=True)
+                        result={}
+                        try:
+                            code=executor(folder/'request.json',config['environments'][env],timeout)
+                            result=read(folder/'result.json') if (folder/'result.json').is_file() else {}
+                            if code or result.get('status')!='complete': raise RuntimeError(result.get('error',f'worker exit {code}, no complete result'))
+                            entry.update(status='complete',exit_code=code,files=inventory(folder),finished_at=now())
+                            if stage=='robot_score' and result.get('link_outcomes'):
+                                entry['link_outcomes']=result['link_outcomes']
+                            if not entry['files']: raise RuntimeError('No output artifacts')
+                        except (KeyboardInterrupt, SystemExit):
+                            entry.update(status='interrupted',finished_at=now());state['status']='interrupted';write(output/'run.json',state);review(output,state);raise
+                        except Exception as exc:
+                            entry.update(status='failed',error=str(exc),finished_at=now(),failure=result.get('failure',{}))
+                            from infrastructure.shared.contracts.vlm_failure import failure_record
+                            entry['failure']=entry['failure'] or failure_record(exc)
+                        write(output/'run.json',state)
+                        if entry['status']=='complete': break
+                        if entry['failure'].get('retryable') is False: break
+                        if stage in VLM_STAGES and entry['failure'].get('category')=='vlm_timeout' and attempt<max_attempts:
+                            entry.update(status='deferred',next_vlm_route=route,next_model_attempt=model_attempt)
+                            record.setdefault('history',[]).append(dict(entry));write(output/'run.json',state)
+                            break
+                        route='alternate';model_attempt+=1
+                        entry.update(next_vlm_route=route,next_model_attempt=model_attempt)
+                        record.setdefault('history',[]).append(dict(entry));previous=str(folder)
+                    if entry['status']=='deferred':
+                        record.update(status='deferred',reason=f'{stage}: timeout; queued after other cases')
+                        if not defer_timeouts_only:pending.append(case)
+                        break
+                    if entry['status']!='complete':
+                        entry.update(status='disabled',error=entry.get('error','VLM attempt budget exhausted'));record['stages'][stage]=entry;record.update(status='disabled',reason=f'{stage}: {entry["error"]}')
+                        for next_stage in stages:
+                            if next_stage not in record['stages']:record['stages'][next_stage]={'status':'skipped','reason':'case disabled'}
+                        break
             else: record['status']='complete'
             write(output/'run.json',state);review(output,state)
-        state.update(status='complete' if all(state['cases'][c['id']]['status']=='complete' for c in config['cases']) else 'completed_with_disabled_cases',updated_at=now())
+        state.update(status='complete' if all(state['cases'][c['id']]['status']=='complete' for c in config['cases']) else 'deferred' if any(state['cases'][c['id']]['status']=='deferred' for c in config['cases']) else 'completed_with_disabled_cases',updated_at=now())
         write(output/'run.json',state);review(output,state)
         return state

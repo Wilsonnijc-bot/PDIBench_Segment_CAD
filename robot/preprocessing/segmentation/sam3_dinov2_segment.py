@@ -155,7 +155,11 @@ def _link5_prompt_box(
 
 def _link5_seed_points(
     box_xyxy: tuple[int, int, int, int], mask_shape: tuple[int, int],
+    negative_points: int = 3,
 ) -> tuple[np.ndarray, list[int], list[list[float]]]:
+    if negative_points not in (2, 3):
+        raise ValueError('Link5 needs two or three negative points')
+    ratios = LINK5_POINT_RATIOS[:3 + negative_points]
     height, width = mask_shape
     x1, y1, x2, y2 = box_xyxy
     points = np.asarray([
@@ -163,9 +167,9 @@ def _link5_seed_points(
             int(np.clip(round(x1 + rx * (x2 - x1)), 0, width - 1)),
             int(np.clip(round(y1 + ry * (y2 - y1)), 0, height - 1)),
         )
-        for rx, ry, _ in LINK5_POINT_RATIOS
+        for rx, ry, _ in ratios
     ], dtype=np.int32)
-    labels = [label for _, _, label in LINK5_POINT_RATIOS]
+    labels = [label for _, _, label in ratios]
     normalized = (points / np.asarray([width, height])).tolist()
     return points, labels, normalized
 
@@ -176,13 +180,14 @@ def _refine_link5_wrist_prompt(
     points_override: np.ndarray | None = None,
     allow_distal_positive_dropout: bool = False,
     diagnostic_allow_point_mismatch: bool = False,
+    negative_points: int = 3,
 ) -> tuple[np.ndarray, dict[str, Any]]:
     initial_mask = np.asarray(initial_mask, dtype=bool)
-    points, labels, normalized = _link5_seed_points(box_xyxy, initial_mask.shape)
+    points, labels, normalized = _link5_seed_points(box_xyxy, initial_mask.shape, negative_points)
     if points_override is not None:
         points = np.asarray(points_override, dtype=np.int32)
-        if points.shape != (len(LINK5_POINT_RATIOS), 2):
-            raise ValueError("Link 5 guard must provide six point coordinates")
+        if points.shape != (len(labels), 2):
+            raise ValueError(f"Link 5 guard must provide {len(labels)} point coordinates")
         height, width = initial_mask.shape
         if np.any(points < 0) or np.any(points[:, 0] >= width) or np.any(points[:, 1] >= height):
             raise ValueError("Link 5 guard point lies outside the frame")
@@ -220,7 +225,7 @@ def _refine_link5_wrist_prompt(
     )
     # Record point membership and shaft retention for review. The VLM-selected
     # prompt and SAM3 output are retained even when these diagnostics disagree.
-    distal_positive_dropped = refined_membership == [True, True, False, False, False, False]
+    distal_positive_dropped = refined_membership == [True, True, False] + [False] * negative_points
     distal_positive_initially_outside = not initial_membership[2]
     missing_positives = [index for index in range(3)
                          if not refined_membership[index]]
@@ -232,14 +237,15 @@ def _refine_link5_wrist_prompt(
     accepted_boundary_exception = (accepted_preexisting_positive_outside
                                    and missing_positives == [2])
     labels_accepted = (
-        refined_membership == [True, True, True, False, False, False]
+        refined_membership == [True, True, True] + [False] * negative_points
         or accepted_preexisting_positive_outside
         or (allow_distal_positive_dropout and distal_positive_dropped)
     )
     return refined, {
-        "method": "right_extended_box_three_positive_two_wrist_one_joint_negative",
+        "method": ("right_extended_box_three_positive_two_wrist_negative" if negative_points == 2
+                   else "right_extended_box_three_positive_two_wrist_one_joint_negative"),
         "frame_index": frame_index,
-        "point_ratios": [list(item) for item in LINK5_POINT_RATIOS],
+        "point_ratios": [list(item) for item in LINK5_POINT_RATIOS[:len(labels)]],
         "points_xy": points.tolist(),
         "points_normalized": normalized,
         "point_labels": labels,
@@ -581,11 +587,15 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                                     f"frame={prompt_image.size}, mask={mask.shape[::-1]}"
                                 )
                             default_points, _, _ = _link5_seed_points(
-                                prompt_box, mask.shape
+                                prompt_box, mask.shape, getattr(args, 'link5_negative_points', 3)
                             )
+                            default_points[0] = (-1, -1)  # VLM places P1; no box-relative default.
                             guarded_points, guard = review_link5_points(
                                 prompt_image, prompt_box, default_points,
                                 output_dir,
+                                reference_frame=getattr(args, 'link5_guard_reference', None),
+                                positive_reference_frame=getattr(args, 'link5_positive_guard_reference', None),
+                                required=getattr(args, 'link5_guard_required', False),
                             )
                             diagnostic["point_guard"] = {
                                 "decision": guard["decision"],
@@ -603,6 +613,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                             points_override=guarded_points,
                             allow_distal_positive_dropout=args.allow_link5_distal_positive_dropout,
                             diagnostic_allow_point_mismatch=args.link5_diagnostic_raw_mask,
+                            negative_points=getattr(args, 'link5_negative_points', 3),
                         )
                     except Exception as exc:
                         diagnostic.update(status="failed_point_refinement",
@@ -787,7 +798,15 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--require-franka-links", action="store_true")
     parser.add_argument("--link5-vlm-guard", action="store_true",
-                        help="Check the Link 5 wrist negative points with VLM2")
+                        help="Review Link5 wrist negatives and forearm positives with VLM2")
+    parser.add_argument("--link5-negative-points", type=int, choices=(2, 3), default=3,
+                        help="Two wrist negatives; optionally retain the standalone joint negative")
+    parser.add_argument("--link5-guard-reference", type=Path,
+                        help="Full-frame annotated-example source for the Link5 guard")
+    parser.add_argument("--link5-positive-guard-reference", type=Path,
+                        help="Prepared three-positive-point annotated reference for the Link5 guard")
+    parser.add_argument("--link5-guard-required", action="store_true",
+                        help="Use configured VLM2 route and fail with saved evidence if its review is unavailable")
     parser.add_argument("--allow-link5-distal-positive-dropout", action="store_true",
                         help="Legacy diagnostic flag; Link 5 refinement is retained regardless of point membership")
     parser.add_argument("--link5-diagnostic-raw-mask", action="store_true",

@@ -1,0 +1,31 @@
+{
+  "Shape-Anomaly-Codebook": {
+    "repository": "https://github.com/alexandor91/Shape-Anomaly-Codebook",
+    "commit": "1b8de121de8e8801dd99b796127026c7dd279a10",
+    "numerical_source_modifications": []
+  },
+  "FoundationPose": {
+    "repository": "https://github.com/NVlabs/FoundationPose",
+    "commit": "a1b694b83e633c2cb6115b9063d940a687759392",
+    "numerical_source_modifications": []
+  },
+  "FCGF": {
+    "repository": "https://github.com/chrischoy/FCGF",
+    "commit": "499813ea35f57d885cbc3458cd74fc57dae860c7",
+    "numerical_source_modifications": [],
+    "role": "pretrained Minkowski sparse U-Net backbone; explicit deviation from paper MinkUNet34C"
+  },
+  "MinkowskiEngine": {
+    "repository": "https://github.com/NVIDIA/MinkowskiEngine",
+    "commit": "02fc608bea4c0549b0a7b00ca1bf15dee4a0b228",
+    "numerical_source_modifications": [],
+    "role": "official sparse CUDA operators for FCGF"
+  },
+  "NVTX": {
+    "repository": "https://github.com/NVIDIA/NVTX",
+    "commit": "e170594ac7cf1dac584da473d4ca9301087090c1",
+    "tag": "v3.1.0",
+    "numerical_source_modifications": [],
+    "role": "NVTX3 compile headers missing from CUDA11.8 environment"
+  }
+}

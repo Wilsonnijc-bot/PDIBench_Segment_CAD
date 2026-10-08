@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Link5 · normal and test</title>
+<link rel="stylesheet" href="style.css">
+<script src="plotly.min.js"></script>
+</head>
+<body>
+<header><h1>Link5</h1><span id="checkpoint-status" role="status"></span><a id="checkpoint" download>Download checkpoint</a></header>
+<main>
+<div class="controls">
+<label for="test-choice">Test cloud</label><select id="test-choice"></select>
+<button id="previous" aria-label="Previous test cloud">←</button><button id="next" aria-label="Next test cloud">→</button>
+<label class="toggle"><input id="flagged-view" type="checkbox">Highlight flagged points</label>
+<button id="reset">Reset view</button>
+</div>
+<div class="views">
+<section aria-labelledby="normal-title"><div class="view-heading"><h2 id="normal-title">Normal reference</h2><span id="normal-info">Four frame0 clouds</span></div><div id="normal-cloud" class="cloud"></div></section>
+<section aria-labelledby="test-title"><div class="view-heading"><h2 id="test-title">Test · anomaly scores</h2><span id="test-info" aria-live="polite"></span></div><div id="test-cloud" class="cloud"></div></section>
+</div>
+<div class="caption"><span id="test-status" aria-live="polite"></span><span id="color-note">Gray: low score · orange: above normal threshold</span></div>
+<p id="load-error" role="alert" hidden></p>
+</main>
+<script src="data.js"></script><script src="app.js"></script>
+</body>
+</html>

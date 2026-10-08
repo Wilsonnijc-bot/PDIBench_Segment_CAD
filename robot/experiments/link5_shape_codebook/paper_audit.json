@@ -1,0 +1,104 @@
+{
+  "paper": "https://arxiv.org/html/2604.03972v1",
+  "repository": "https://github.com/alexandor91/Shape-Anomaly-Codebook",
+  "commit": "1b8de121de8e8801dd99b796127026c7dd279a10",
+  "paper_exact": false,
+  "preserved_directly_from_author_code": [
+    "NegativeAugmentation (paper_original mode only)",
+    "AdaptivePatchifier",
+    "MultiScaleCodebook",
+    "RoPECrossAttention",
+    "PatchScoreModulation",
+    "OffsetHead",
+    "HierarchicalAnomalyNet.forward",
+    "AnomalyLoss",
+    "offset_to_score"
+  ],
+  "findings": [
+    {
+      "component": "backbone",
+      "severity": "deviation",
+      "paper": "pretrained MinkUNet34C, 32-D features",
+      "repository": "randomly initialized PointNet++ stand-in; no MinkUNet source or checkpoint provided",
+      "adapter_policy": "User explicitly authorized FCGF backbone substitution. Import official FCGF pretrained32-D MinkowskiEngine ResUNetBN2C through author external_encoder interface, verify source revision and strict weights; record architecture/3DMatch checkpoint substitution; no PointNet or random fallback"
+    },
+    {
+      "component": "attention",
+      "severity": "runtime_error",
+      "repository": "config.yaml attention_head_dim=64 violates RoPECrossAttention assertion head_dim % 6 == 0",
+      "adapter_policy": "66 dimensions per head, the nearest compatible size; record explicitly as a deviation"
+    },
+    {
+      "component": "patch_feature_extraction",
+      "severity": "deviation",
+      "paper": "query pretrained encoder at patch mean coordinate",
+      "repository": "learned 3-D centroid MLP plus mean pooled point features",
+      "adapter_policy": "preserve author implementation; do not claim paper-exact"
+    },
+    {
+      "component": "missing_surface_augmentation",
+      "severity": "blocking_for_paper_exact",
+      "repository": "holes, angle_displacement, plane_missing return points.clone() unchanged but nonzero gt_offset and positive gt_mask",
+      "adapter_policy": "preserve author implementation, log runtime audit, never silently fix or describe as true surface removal"
+    },
+    {
+      "component": "loss",
+      "severity": "deviation",
+      "paper": "L1 vector norm averaged over N points; cosine averaged over points",
+      "repository": "L1 averaged over XYZ as well (factor 1/3), cosine excludes gt norm <= 1e-4",
+      "adapter_policy": "call original AnomalyLoss unchanged"
+    },
+    {
+      "component": "codebook",
+      "severity": "deviation",
+      "repository": "best cosine match rather than first above tau; merged feature renormalized; counts increment by 1; hash keys are Python sets omitted from state_dict; default hash grid32",
+      "adapter_policy": "preserve algorithm; checkpoint hash sets separately; configure hash grid256 and record cap4096"
+    },
+    {
+      "component": "normalization",
+      "severity": "requested_adaptation",
+      "adapter_policy": "single CAD-derived center/scale at one T_ref; upstream per-sample normalization disabled"
+    },
+    {
+      "component": "sampling",
+      "severity": "requested_adaptation",
+      "repository": "uniform_sample repeats points below target",
+      "adapter_policy": "sample at most10000 observed points without replacement; retain sparse observations and record counts"
+    },
+    {
+      "component": "training_harness",
+      "severity": "requested_adaptation",
+      "adapter_policy": "same author train.main two-phase warmup/negative-augmentation training, continuous normal-codebook updates, Adam/losses; add exact manifests, hash sets, RNG states, loss CSV/curves, final checkpoint"
+    },
+    {
+      "component": "scoring",
+      "severity": "requested_adaptation",
+      "adapter_policy": "save upstream offset_to_score map plus offset L1 * sigmoid(logit) before minmax; primary raw mean top80"
+    },
+    {
+      "component": "mask_policy",
+      "severity": "requested_adaptation",
+      "adapter_policy": "Guarded source masks are intact; no erosion or Simple3D mask mapping. Import only Config/depth_filter, and preserve original source_mask alongside nearest-neighbor depth-grid support."
+    },
+    {
+      "component": "robot_structural_augmentation",
+      "severity": "requested_ablation",
+      "adapter_policy": "Separate robot_structural run replaces only Phase2 NegativeAugmentation callable with correspondence-preserving longitudinal strain/circular-arc bending. Same20 inputs, split, normalization, frozen FCGF, native normal-only Phase1 and continuous Phase2 codebook updates, architecture/losses/Adam/1500 loop. Preserve paper_original baseline separately."
+    },
+    {
+      "component": "FoundationPose_CAD_material",
+      "severity": "runtime_compatibility",
+      "adapter_policy": "Use trimesh PBRMaterial.to_simple() for Link5 DAE appearance because native make_mesh_tensors expects material.image. Verify vertices and faces unchanged; preserve texture coordinates and native renderer/register code."
+    },
+    {
+      "component": "FoundationPose_native_dtype",
+      "severity": "runtime_compatibility",
+      "adapter_policy": "Cast native NumPy mesh-diameter scalar to Python float without changing its value, avoiding torch float64 crop offsets mixed with float32 poses/intrinsics. Pass full aligned scene depth and a separate unchanged mask as official run_demo does; Simple3D filter applies only to scored cloud."
+    },
+    {
+      "component": "FoundationPose_hypothesis_mask_QC",
+      "severity": "runtime_adapter_deviation",
+      "adapter_policy": "Keep native register at5 rigid-refinement steps and native top1 by default. When top1 CAD-mask IoU<0.1 and an existing native bank hypothesis has maxIoU>=0.5 with improvement>=0.4, select that existing mask-associated SE3 hypothesis. Record both transforms/IoUs, selected native rank and score. No new optimization/ICP/nonrigid registration; low fits without a qualifying alternative remain scoreable. Both detector modes share this pose policy."
+    }
+  ]
+}

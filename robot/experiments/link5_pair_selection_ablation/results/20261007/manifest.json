@@ -1,0 +1,1538 @@
+{
+  "source_manifest": "results/link5_shape_codebook/round_four_frame0/mask_cache_manifest.json",
+  "source_manifest_sha256": "6cf0c0b135beab0fe8cee0683e364266c3047cc66793631347ad66870b206918",
+  "excluded": {
+    "LVP_ROBOWM_0010": "User rejected mask",
+    "LVP_ROBOWM_0030": "User rejected mask",
+    "COSMOS3_0021": "User rejected mask",
+    "COSMOS3_0035": "User rejected mask",
+    "COSMOS2.5_0010": "Excluded by current HANDOFF.md"
+  },
+  "primary_count": 40,
+  "additional_count": 1,
+  "entries": [
+    {
+      "video_id": "LVP_ROBOWM_0001",
+      "source_video_sha256": "dfe4783670568aeec73d299e847432ff0c48fe66ea1f73ad6c5d0b02851fa37f",
+      "mask": "cases/LVP_ROBOWM_0001/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "9888746d363b5264743e33de0bfc2e776ca72bc600a1d7ec4cb29cf618276481",
+      "frame_count": 49,
+      "mask_shape": [
+        49,
+        1,
+        480,
+        832
+      ],
+      "selected_points_xy": [
+        [
+          499,
+          74
+        ],
+        [
+          559,
+          69
+        ],
+        [
+          733,
+          44
+        ],
+        [
+          488,
+          30
+        ],
+        [
+          466,
+          90
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS2.5_0001",
+      "source_video_sha256": "9473d3cfafd5bddda8af00edd34d87590cbe62a222460216134a2a6fa75e0f21",
+      "mask": "cases/COSMOS2.5_0001/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "83048d494b465f92a530cdf682fb9809ee8479c92b7f23956944275647062641",
+      "frame_count": 93,
+      "mask_shape": [
+        93,
+        1,
+        704,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          755,
+          143
+        ],
+        [
+          860,
+          99
+        ],
+        [
+          1126,
+          63
+        ],
+        [
+          756,
+          50
+        ],
+        [
+          732,
+          103
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS3_0001",
+      "source_video_sha256": "11f4a18778539385ca852a7aa1c5110a44c36656c7bff322f725e82cbf929be4",
+      "mask": "cases/COSMOS3_0001/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "3df62e2362f87f14d3b19828f4901599b916823f23729fdb4d4bee0493c025d0",
+      "frame_count": 189,
+      "mask_shape": [
+        189,
+        1,
+        720,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          760,
+          118
+        ],
+        [
+          860,
+          101
+        ],
+        [
+          1126,
+          64
+        ],
+        [
+          758,
+          45
+        ],
+        [
+          733,
+          137
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "LVP_ROBOWM_0005",
+      "source_video_sha256": "2745c1be797985d0330048f1006777cf25648de8326e97e50306646a4b1dedab",
+      "mask": "cases/LVP_ROBOWM_0005/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "1d6254d4c3e294127c7929f581be5ace0888260a509b26747245a904c877815a",
+      "frame_count": 49,
+      "mask_shape": [
+        49,
+        1,
+        480,
+        832
+      ],
+      "selected_points_xy": [
+        [
+          500,
+          75
+        ],
+        [
+          555,
+          69
+        ],
+        [
+          728,
+          44
+        ],
+        [
+          488,
+          35
+        ],
+        [
+          472,
+          72
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS2.5_0005",
+      "source_video_sha256": "109157f431908d9a509cf8561893332354755502f33b2c9fc58409b7de4ce720",
+      "mask": "cases/COSMOS2.5_0005/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "afa90b85cc0ffb2a1a47c6813e2e94db8a271e695c861bc885b08121b7027492",
+      "frame_count": 93,
+      "mask_shape": [
+        93,
+        1,
+        704,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          740,
+          102
+        ],
+        [
+          860,
+          99
+        ],
+        [
+          1126,
+          63
+        ],
+        [
+          735,
+          50
+        ],
+        [
+          725,
+          180
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS3_0005",
+      "source_video_sha256": "43b397e4de08007ce43418b84042a5db452c27f92ce6309788c1bd1bcf3a807f",
+      "mask": "cases/COSMOS3_0005/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "3a30d3771e9258fc275aac30563d1b18cddbaa1275a148050687843999903b1c",
+      "frame_count": 189,
+      "mask_shape": [
+        189,
+        1,
+        720,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          760,
+          140
+        ],
+        [
+          865,
+          101
+        ],
+        [
+          1132,
+          64
+        ],
+        [
+          735,
+          55
+        ],
+        [
+          712,
+          135
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS3_0010",
+      "source_video_sha256": "bee756c9e9b7ea7d9014389a2c8e76588f8fb546846425ce2b917b84c7b2deff",
+      "mask": "cases/COSMOS3_0010/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "0d7da9e8f7649713d2d07311f1b284ba9a355796122c07f161b59ae0a2583439",
+      "frame_count": 189,
+      "mask_shape": [
+        189,
+        1,
+        720,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          743,
+          145
+        ],
+        [
+          805,
+          138
+        ],
+        [
+          1126,
+          64
+        ],
+        [
+          735,
+          60
+        ],
+        [
+          715,
+          125
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "LVP_ROBOWM_0015",
+      "source_video_sha256": "c47e55fa351b9c302fba125edf9839efb57dd2985c08070f6ea455f2128ae7b0",
+      "mask": "cases/LVP_ROBOWM_0015/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "9bd2ac6242ce24483b95b6f23ec70e36bd5549033cb3377d189a1a00b242543b",
+      "frame_count": 49,
+      "mask_shape": [
+        49,
+        1,
+        480,
+        832
+      ],
+      "selected_points_xy": [
+        [
+          501,
+          67
+        ],
+        [
+          559,
+          67
+        ],
+        [
+          733,
+          43
+        ],
+        [
+          491,
+          34
+        ],
+        [
+          475,
+          70
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS2.5_0015",
+      "source_video_sha256": "10c80792567e7b7921493f81bb05dc88a88f5cf2a0be65845287d534196c9bb0",
+      "mask": "cases/COSMOS2.5_0015/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "078c9450eabb748f41da94441c5d061483cd99c54747c18024438d422595d0d6",
+      "frame_count": 93,
+      "mask_shape": [
+        93,
+        1,
+        704,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          755,
+          115
+        ],
+        [
+          865,
+          99
+        ],
+        [
+          1132,
+          63
+        ],
+        [
+          758,
+          37
+        ],
+        [
+          743,
+          130
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS3_0015",
+      "source_video_sha256": "e7fcb1812275e20869a2dcd8aa824bfff425cec47b1429e0e9e793ae8b63a2c5",
+      "mask": "cases/COSMOS3_0015/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "ec63c94da4d219d8124ca32d7fe3a5f69de4ce24e6c30f604ace322d300e6e34",
+      "frame_count": 189,
+      "mask_shape": [
+        189,
+        1,
+        720,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          760,
+          150
+        ],
+        [
+          870,
+          101
+        ],
+        [
+          1137,
+          64
+        ],
+        [
+          745,
+          65
+        ],
+        [
+          730,
+          180
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "LVP_ROBOWM_0021",
+      "source_video_sha256": "ea2bb6bd732693f2b4deb61a3d4bf568f9b03ec15bcc8c285b1defbc982f4f1f",
+      "mask": "cases/LVP_ROBOWM_0021/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "cf5b0453263c219b695a88920c73775a72ac69e507f35c32b303c34f30bdb71a",
+      "frame_count": 49,
+      "mask_shape": [
+        49,
+        1,
+        480,
+        832
+      ],
+      "selected_points_xy": [
+        [
+          503,
+          68
+        ],
+        [
+          555,
+          69
+        ],
+        [
+          728,
+          44
+        ],
+        [
+          488,
+          35
+        ],
+        [
+          472,
+          72
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS2.5_0021",
+      "source_video_sha256": "add965fbd25aeed935f389d2721cfa5c815c58955ca8ac3824786a0291d0024f",
+      "mask": "cases/COSMOS2.5_0021/masking/attempt-0002/segmentation.npz",
+      "mask_sha256": "13027dfbae02d6afcaf30847e2d0b0765e2be3b706f6f6ad2bb0fb5dea374953",
+      "frame_count": 93,
+      "mask_shape": [
+        93,
+        1,
+        704,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          750,
+          142
+        ],
+        [
+          860,
+          99
+        ],
+        [
+          1126,
+          63
+        ],
+        [
+          744,
+          46
+        ],
+        [
+          746,
+          112
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "LVP_ROBOWM_0025",
+      "source_video_sha256": "8d500bf59dd417b65e2e8d0adb502ecc1313c76855b9b22c87757fba42142d5f",
+      "mask": "cases/LVP_ROBOWM_0025/masking/attempt-0002/segmentation.npz",
+      "mask_sha256": "21cc1a6b0ebdee08bb2731bdb80f7f805668039ebe968ea73ff90f0441363ec3",
+      "frame_count": 49,
+      "mask_shape": [
+        49,
+        1,
+        480,
+        832
+      ],
+      "selected_points_xy": [
+        [
+          493,
+          77
+        ],
+        [
+          552,
+          69
+        ],
+        [
+          726,
+          44
+        ],
+        [
+          468,
+          25
+        ],
+        [
+          455,
+          90
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS2.5_0025",
+      "source_video_sha256": "6dffcc49190a7c00911de5c7d0295455d5174be80eac81103cd832a4eb0ae0ef",
+      "mask": "cases/COSMOS2.5_0025/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "8df0fc79a13c75939e828fe22aa6337cadbebbe5b2a32eb07018f9e722af3c97",
+      "frame_count": 93,
+      "mask_shape": [
+        93,
+        1,
+        704,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          745,
+          112
+        ],
+        [
+          860,
+          99
+        ],
+        [
+          1126,
+          63
+        ],
+        [
+          738,
+          40
+        ],
+        [
+          725,
+          120
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS3_0025",
+      "source_video_sha256": "7d9619c10a73e3a3dbb8107bea2b612d515510c1383f3a701f9d2c2553f7f15a",
+      "mask": "cases/COSMOS3_0025/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "dce9e36a238bf622d446b1e46edca4120b30b4b26a10635bbbfdd262042c5783",
+      "frame_count": 189,
+      "mask_shape": [
+        189,
+        1,
+        720,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          765,
+          135
+        ],
+        [
+          870,
+          101
+        ],
+        [
+          1137,
+          64
+        ],
+        [
+          765,
+          55
+        ],
+        [
+          735,
+          190
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS2.5_0030",
+      "source_video_sha256": "a6edd56d0d33e9b1ab6f35e38e1af82c4158a431b979f9f0b1e4b299776f7938",
+      "mask": "cases/COSMOS2.5_0030/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "51149fe40be6bf72468a81a3713138f2e3f0bc9365aa5df9b371bf06822f810e",
+      "frame_count": 93,
+      "mask_shape": [
+        93,
+        1,
+        704,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          735,
+          140
+        ],
+        [
+          854,
+          99
+        ],
+        [
+          1121,
+          63
+        ],
+        [
+          745,
+          50
+        ],
+        [
+          725,
+          185
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS3_0030",
+      "source_video_sha256": "7ab01df93d4414aaa5d0f161188c9fc5d35441654b8eef5c91a433608354cc40",
+      "mask": "cases/COSMOS3_0030/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "ee9c98c392d6e3377a476fa7311868799f94107698e5bbc7db6357b0d19f83e6",
+      "frame_count": 189,
+      "mask_shape": [
+        189,
+        1,
+        720,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          730,
+          116
+        ],
+        [
+          865,
+          101
+        ],
+        [
+          1132,
+          64
+        ],
+        [
+          755,
+          45
+        ],
+        [
+          735,
+          188
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "LVP_ROBOWM_0035",
+      "source_video_sha256": "d24fe73159f99aa47367d77208fe665bb124d0951ff28ab7b9987becba889678",
+      "mask": "cases/LVP_ROBOWM_0035/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "51e91f096fcdc0d67fe76c9b26d3302ce9a06109ee7afffe0496c3786af63ada",
+      "frame_count": 49,
+      "mask_shape": [
+        49,
+        1,
+        480,
+        832
+      ],
+      "selected_points_xy": [
+        [
+          512,
+          58
+        ],
+        [
+          566,
+          50
+        ],
+        [
+          740,
+          42
+        ],
+        [
+          488,
+          22
+        ],
+        [
+          473,
+          58
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS2.5_0035",
+      "source_video_sha256": "37c1adc4a14495cacdc626186ffc2706b356eb2bd93c5e11efb28ec242f3cbac",
+      "mask": "cases/COSMOS2.5_0035/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "d5eb342eb108a42617887ae8305978bd8d61e1152edb9bc4b6dfedd51d5dcf7d",
+      "frame_count": 93,
+      "mask_shape": [
+        93,
+        1,
+        704,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          742,
+          132
+        ],
+        [
+          854,
+          99
+        ],
+        [
+          1121,
+          63
+        ],
+        [
+          732,
+          48
+        ],
+        [
+          716,
+          138
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "LVP_ROBOWM_0040",
+      "source_video_sha256": "aa7b7d51a580c72618fc7aa28fa51e5e738952861303496c5e8e6342a211398f",
+      "mask": "cases/LVP_ROBOWM_0040/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "ed203b4619da0976d30e11346fde04866cd95e28ec95059583324e3bfe9f918d",
+      "frame_count": 49,
+      "mask_shape": [
+        49,
+        1,
+        480,
+        832
+      ],
+      "selected_points_xy": [
+        [
+          517,
+          77
+        ],
+        [
+          559,
+          69
+        ],
+        [
+          733,
+          44
+        ],
+        [
+          491,
+          35
+        ],
+        [
+          475,
+          72
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS2.5_0040",
+      "source_video_sha256": "7b682573602bf246ba3ceeb1e2022a4f2ff5b3598a0d03f3a0cb20c801554104",
+      "mask": "cases/COSMOS2.5_0040/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "0c13efc6cabfce70a8ff75149c24825c4ced31d859bb18011f7f939e68e062c6",
+      "frame_count": 93,
+      "mask_shape": [
+        93,
+        1,
+        704,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          740,
+          108
+        ],
+        [
+          854,
+          99
+        ],
+        [
+          1121,
+          63
+        ],
+        [
+          762,
+          43
+        ],
+        [
+          734,
+          147
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS3_0040",
+      "source_video_sha256": "0f2dbf28db016686db2f1deb043c025f2a6fa0507291d516d4a54fbc13f41aa9",
+      "mask": "cases/COSMOS3_0040/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "a4db7ae644f41b8d85c3c49f1a265e4088d925d8f0547820d06e900cd51b5d27",
+      "frame_count": 189,
+      "mask_shape": [
+        189,
+        1,
+        720,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          735,
+          110
+        ],
+        [
+          860,
+          101
+        ],
+        [
+          1126,
+          64
+        ],
+        [
+          760,
+          55
+        ],
+        [
+          734,
+          185
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "LVP_ROBOWM_0044",
+      "source_video_sha256": "a34f293436ed53b5480d588d919d0849f16b1ce8a067c501eeb6e48b9f15d41e",
+      "mask": "cases/LVP_ROBOWM_0044/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "7f56d28622204d702bca3d90cdc9effd50140329fac266cafbb46065c885a30f",
+      "frame_count": 49,
+      "mask_shape": [
+        49,
+        1,
+        480,
+        832
+      ],
+      "selected_points_xy": [
+        [
+          489,
+          69
+        ],
+        [
+          555,
+          69
+        ],
+        [
+          728,
+          44
+        ],
+        [
+          480,
+          38
+        ],
+        [
+          458,
+          75
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS2.5_0044",
+      "source_video_sha256": "f5a9dc726a1a0de658859d18a57323d1456d58a8a2056e46abbe6743b43149df",
+      "mask": "cases/COSMOS2.5_0044/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "8e1ebd5c1bcaefe11f9a00f7420775e2fc386a31959473066cbc029c4ae82859",
+      "frame_count": 93,
+      "mask_shape": [
+        93,
+        1,
+        704,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          742,
+          137
+        ],
+        [
+          854,
+          99
+        ],
+        [
+          1121,
+          63
+        ],
+        [
+          725,
+          42
+        ],
+        [
+          707,
+          105
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS3_0044",
+      "source_video_sha256": "bbdd826c75888280352ac124b8fc7b046f0d5bf428cedf0a0c2c3c2b5e7a7c41",
+      "mask": "cases/COSMOS3_0044/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "ae840de436d503caabf4e01c31898febdadbe7c366a742ad2195f8362b223b2c",
+      "frame_count": 189,
+      "mask_shape": [
+        189,
+        1,
+        720,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          740,
+          138
+        ],
+        [
+          860,
+          101
+        ],
+        [
+          1126,
+          64
+        ],
+        [
+          756,
+          51
+        ],
+        [
+          732,
+          104
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "LVP_ROBOWM_0046",
+      "source_video_sha256": "a78c869a3690e958ee6cca966f35ad40cfc5e26982d89644d749ce2b7cdde270",
+      "mask": "cases/LVP_ROBOWM_0046/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "ff3c34429010693dbed0117dc5a74ac5abc35bc53b1c98dc1f2de69053c2f7d2",
+      "frame_count": 49,
+      "mask_shape": [
+        49,
+        1,
+        480,
+        832
+      ],
+      "selected_points_xy": [
+        [
+          497,
+          75
+        ],
+        [
+          555,
+          69
+        ],
+        [
+          748,
+          44
+        ],
+        [
+          488,
+          35
+        ],
+        [
+          472,
+          72
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS2.5_0046",
+      "source_video_sha256": "584bcfe6cb6069f1740ed6558f690bb238eec0dd0cdf4b8f62cc13b14cd4d8ce",
+      "mask": "cases/COSMOS2.5_0046/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "71757203aa6a489a7853163a45dd34cc6763cb029ae47648ea9d3a8ba6c7c58c",
+      "frame_count": 93,
+      "mask_shape": [
+        93,
+        1,
+        704,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          754,
+          146
+        ],
+        [
+          860,
+          99
+        ],
+        [
+          1126,
+          63
+        ],
+        [
+          745,
+          45
+        ],
+        [
+          718,
+          145
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS3_0046",
+      "source_video_sha256": "3ce2f6a78393b634754ae2d4e75f9be53fe9f032a70d82956f83a2d4ee76c50a",
+      "mask": "cases/COSMOS3_0046/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "2ded1427e9e8e994d28d1fbaa665672653f25a5c4ccd6b545b6e278e541b62df",
+      "frame_count": 189,
+      "mask_shape": [
+        189,
+        1,
+        720,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          770,
+          130
+        ],
+        [
+          870,
+          101
+        ],
+        [
+          1137,
+          64
+        ],
+        [
+          765,
+          55
+        ],
+        [
+          725,
+          140
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "LVP_ROBOWM_0054",
+      "source_video_sha256": "814b8c47f033934c37d8b8850e36e780415dc5d377245987de5727070ef8ff62",
+      "mask": "cases/LVP_ROBOWM_0054/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "7379a29d40d0daeeead8576099744ad198da4d8604e5238b308375de9bb10d9d",
+      "frame_count": 49,
+      "mask_shape": [
+        49,
+        1,
+        480,
+        832
+      ],
+      "selected_points_xy": [
+        [
+          482,
+          85
+        ],
+        [
+          525,
+          72
+        ],
+        [
+          733,
+          42
+        ],
+        [
+          443,
+          28
+        ],
+        [
+          439,
+          72
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS2.5_0054",
+      "source_video_sha256": "8f994a2c8b31df652f18a5e0cce6b8fb83809fc42a9ca3f044efcfed4e382f9f",
+      "mask": "cases/COSMOS2.5_0054/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "ca952a2d75a395f159580b41b9df18e5fa95e9e8eee96abcd1267ff0ff7a8db6",
+      "frame_count": 93,
+      "mask_shape": [
+        93,
+        1,
+        704,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          745,
+          130
+        ],
+        [
+          860,
+          99
+        ],
+        [
+          1126,
+          63
+        ],
+        [
+          756,
+          50
+        ],
+        [
+          732,
+          103
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS3_0054",
+      "source_video_sha256": "3d4734673859182907ef6575be895c190a4f6121efe8aff65c5dda55b3e0d7de",
+      "mask": "cases/COSMOS3_0054/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "01eb90b829f3847b8b7ae13aa63e39f2e07b11da3f2a1aa35bc06cb76e985ff7",
+      "frame_count": 189,
+      "mask_shape": [
+        189,
+        1,
+        720,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          758,
+          117
+        ],
+        [
+          844,
+          104
+        ],
+        [
+          1110,
+          66
+        ],
+        [
+          740,
+          53
+        ],
+        [
+          716,
+          108
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "LVP_ROBOWM_0056",
+      "source_video_sha256": "8e7bcdcdacd48a8258a7e7c58b27de2f99f18a5d5d74753a39ce205677509c19",
+      "mask": "cases/LVP_ROBOWM_0056/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "f2e37f1a512a12ca4426efb9f6789ef06ffb15b505739e078d2d239cec9a86fd",
+      "frame_count": 49,
+      "mask_shape": [
+        49,
+        1,
+        480,
+        832
+      ],
+      "selected_points_xy": [
+        [
+          492,
+          87
+        ],
+        [
+          562,
+          67
+        ],
+        [
+          735,
+          43
+        ],
+        [
+          485,
+          25
+        ],
+        [
+          470,
+          135
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS2.5_0056",
+      "source_video_sha256": "04b0e11655d573246218bb5d84770b219cc63f029cb8a916835d5ae7efa383e8",
+      "mask": "cases/COSMOS2.5_0056/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "9f206b1d6d1f4c1f4763bb5b6f3dc810bbc7148bae2d9f1256be1f8f8973b435",
+      "frame_count": 93,
+      "mask_shape": [
+        93,
+        1,
+        704,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          742,
+          100
+        ],
+        [
+          860,
+          99
+        ],
+        [
+          1126,
+          63
+        ],
+        [
+          730,
+          45
+        ],
+        [
+          715,
+          100
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS3_0056",
+      "source_video_sha256": "65114e39bcb043ebaf0277128a95d50753eb419eb9b550b01eec13ed95d71424",
+      "mask": "cases/COSMOS3_0056/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "4e68b279b18d848ef011228231b47cf31995db2a5370eab82acb1eaef541b8a5",
+      "frame_count": 189,
+      "mask_shape": [
+        189,
+        1,
+        720,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          746,
+          115
+        ],
+        [
+          860,
+          101
+        ],
+        [
+          1126,
+          64
+        ],
+        [
+          750,
+          60
+        ],
+        [
+          710,
+          185
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "LVP_ROBOWM_0060",
+      "source_video_sha256": "814a47584e095768508a28bb046be988e65ce03eb98aaf7835d5bd581d57a6c2",
+      "mask": "cases/LVP_ROBOWM_0060/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "06167923326a6fdf85d0145c4a69723cc1c23ebd9a7a795770ab8602e630d651",
+      "frame_count": 49,
+      "mask_shape": [
+        49,
+        1,
+        480,
+        832
+      ],
+      "selected_points_xy": [
+        [
+          513,
+          69
+        ],
+        [
+          555,
+          69
+        ],
+        [
+          728,
+          44
+        ],
+        [
+          488,
+          35
+        ],
+        [
+          472,
+          72
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS2.5_0060",
+      "source_video_sha256": "27b12def2b851d2de59a36e30571c22c4f3958e81d26f36c38f1547b6c592d6e",
+      "mask": "cases/COSMOS2.5_0060/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "80b18cb955eb4e487afc113d621da597c9d9f829b35449058e054f1e5a9c107c",
+      "frame_count": 93,
+      "mask_shape": [
+        93,
+        1,
+        704,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          760,
+          97
+        ],
+        [
+          860,
+          99
+        ],
+        [
+          1126,
+          63
+        ],
+        [
+          750,
+          50
+        ],
+        [
+          735,
+          180
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS3_0060",
+      "source_video_sha256": "6864898f0f534f92950ee0f6ffe4ba538a7809b96f2b1f7959b28444b634699a",
+      "mask": "cases/COSMOS3_0060/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "c4b52e6d82553d1e2f4d9789a904f379d084797794010360c3c7ba465fafefec",
+      "frame_count": 189,
+      "mask_shape": [
+        189,
+        1,
+        720,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          760,
+          112
+        ],
+        [
+          865,
+          101
+        ],
+        [
+          1132,
+          64
+        ],
+        [
+          765,
+          55
+        ],
+        [
+          718,
+          105
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "LVP_ROBOWM_0065",
+      "source_video_sha256": "ed842dbf85de2971574b4cba1813ba8c0675794112b3ae8355486fd7ec718bc8",
+      "mask": "cases/LVP_ROBOWM_0065/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "1bd3c46ca107b3d9e7da3d2fba86ee3907920e5ba4c652b6c84efec98c9f6588",
+      "frame_count": 49,
+      "mask_shape": [
+        49,
+        1,
+        480,
+        832
+      ],
+      "selected_points_xy": [
+        [
+          526,
+          45
+        ],
+        [
+          570,
+          38
+        ],
+        [
+          728,
+          42
+        ],
+        [
+          492,
+          28
+        ],
+        [
+          488,
+          65
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS2.5_0065",
+      "source_video_sha256": "a49d33fbee362f8b3d82401c1a25b927fb24911e1e6b2f839aaa2e1b444ead0c",
+      "mask": "cases/COSMOS2.5_0065/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "af289dddd5113ccd1bae2811b410ba0fb1fcb10cdd1ed3cb7f3375fa3589d30e",
+      "frame_count": 93,
+      "mask_shape": [
+        93,
+        1,
+        704,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          753,
+          134
+        ],
+        [
+          854,
+          99
+        ],
+        [
+          1121,
+          63
+        ],
+        [
+          730,
+          45
+        ],
+        [
+          714,
+          95
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS3_0065",
+      "source_video_sha256": "a9567439a236474d86de3b482f993f143da354ad40a6a889a73ceca33e93ff49",
+      "mask": "cases/COSMOS3_0065/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "519bd8b3c6acba8a1a68b9b4924c9f4c97c433bad1936c40eb5c2bd1f2680491",
+      "frame_count": 189,
+      "mask_shape": [
+        189,
+        1,
+        720,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          752,
+          143
+        ],
+        [
+          860,
+          101
+        ],
+        [
+          1126,
+          64
+        ],
+        [
+          745,
+          50
+        ],
+        [
+          710,
+          115
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "selected45"
+    },
+    {
+      "video_id": "COSMOS2.5_0018",
+      "source_video_sha256": "18098cccfcab952245fac416f74243892993581bbfa712aa48956e89ef00e1a1",
+      "mask": "guides/cases/COSMOS2.5_0018/masking/attempt-0001/segmentation.npz",
+      "mask_sha256": "33535c9694e7098b7ca9c0001a3195daee63332cedd914d4d87dfb336f638b00",
+      "frame_count": 93,
+      "mask_shape": [
+        93,
+        1,
+        704,
+        1280
+      ],
+      "selected_points_xy": [
+        [
+          735,
+          135
+        ],
+        [
+          854,
+          99
+        ],
+        [
+          1121,
+          63
+        ],
+        [
+          730,
+          55
+        ],
+        [
+          720,
+          170
+        ]
+      ],
+      "positive_placement_policy": "vlm_places_all_three_no_default_p1",
+      "cohort": "additional"
+    }
+  ],
+  "methods": [
+    "balanced_v0",
+    "refine_v1"
+  ],
+  "gpu_count": 1,
+  "parallel_video_workers": 5
+}

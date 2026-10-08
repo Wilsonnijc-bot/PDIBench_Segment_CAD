@@ -63,6 +63,9 @@ def main(argv=None):
     coordinator.add_argument('--plan', action='store_true', help='Show stages without importing GPU libraries or running inference')
     coordinator.add_argument('--preflight-only', action='store_true')
     coordinator.add_argument('--retry-disabled', action='store_true', help='Explicitly grant a new retry budget to disabled stages')
+    coordinator.add_argument('--workers', type=int, help='Concurrent per-video coordinators; defaults to manifest execution.workers')
+    coordinator.add_argument('--gpu-slots', type=int, help='Maximum concurrent GPU stages across video coordinators')
+    coordinator.add_argument('--gpu-assignment', choices=['shared', 'per_video'], help='Share visible GPUs or pin each video to one allocated GPU')
     status = commands.add_parser('run-status', help='Read a coordinator run without launching any jobs')
     status.add_argument('--output', type=Path, required=True)
     commands.add_parser('list', help='List supported main and experimental interfaces')
@@ -94,10 +97,16 @@ def main(argv=None):
     if args.command == 'coordinate':
         from infrastructure.deformation_detect.coordinator import stages_for, coordinate, load_manifest, preflight
         config = load_manifest(args.manifest)
+        for key, value in [('workers', args.workers), ('gpu_slots', args.gpu_slots)]:
+            if value is not None:
+                if value < 1: p.error(f'{key} must be positive')
+                config['execution'][key] = value
+        if args.gpu_assignment:
+            config['execution']['gpu_assignment'] = args.gpu_assignment
         if args.plan:
             print(json.dumps({'cases': [c['id'] for c in config['cases']], 'output': config['output'],
                 'stages': {name: {'environment': env, 'depends_on': deps, 'owner': owner}
-                           for name, (env, deps, owner) in stages_for(config).items()}, 'policy': config['policy']}, indent=2))
+                           for name, (env, deps, owner) in stages_for(config).items()}, 'policy': config['policy'], 'execution': config['execution']}, indent=2))
             return 0
         if args.preflight_only:
             preflight(config)

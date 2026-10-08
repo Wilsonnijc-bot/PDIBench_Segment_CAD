@@ -18,9 +18,11 @@ def manifest():
 def environment():
     repo = root()
     env = os.environ.copy()
-    inherited = [p for p in env.get('PYTHONPATH', '').split(os.pathsep)
-                 if p and '/compat' not in p and '/archive/' not in p]
-    env['PYTHONPATH'] = os.pathsep.join([str(repo), *inherited])
+    # Every nested interpreter loads the import guard before model/vendor imports.
+    # Installed dependencies remain available through their isolated environments.
+    guard = repo/'infrastructure/deformation_detect/import_guard'
+    env['PYTHONPATH'] = os.pathsep.join([str(guard), str(repo)])
+    env['PYTHONNOUSERSITE'] = '1'
     return env
 
 

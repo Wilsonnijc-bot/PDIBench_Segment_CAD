@@ -1,0 +1,12 @@
+{
+  "sources": {
+    "documentation/website/analysis/link5-rigidity-20260929/provenance/pair_selection.py": "ad5519df4132c3c896da138bb93ed00a46c80cde5c925c679625034cbd99d161",
+    "robot/experiments/link5_shape_codebook/pair_initialization.py": "e8919f08e2e8174997a5f1e4a1d7228df1d66aa34140e8fbb2aa0124f36b7533",
+    "infrastructure/shared/scoring/rigidity/rigidity.py": "4ed96400aa7519078cc2f9310fe0f870257b528ac3822c2f2d7118a33f221d73"
+  },
+  "changes": {
+    "balanced_v0": "Exact earlier quota/objective logic; report deficits instead of asserting; optional no-depth preview",
+    "refine_v1": "Frozen current rule, with objective rounded to 12 decimals before ID tie-break to remove BLAS floating-point tie instability discovered on COSMOS3_0054 and COSMOS2.5_0018",
+    "score": "Frozen baseline anchor gating, baseline floor, MAD/median, visibility, carry-forward and aggregation; replace pair ranking with selected method"
+  }
+}

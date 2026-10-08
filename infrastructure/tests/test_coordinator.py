@@ -265,11 +265,104 @@ def test_link2_merge_preserves_selected_link7_and_other_channels(tmp_path, exist
 
 def test_link2_manifest_requires_references_and_keeps_old_manifest_compatible(tmp_path):
     template=Path(__file__).resolve().parents[2]/'documentation/pipeline/coordinator.example.json'
-    data=read(template);path=tmp_path/'manifest.json';write(path,data)
+    data=read(template);data['robot_links']=['link2','link7']
+    data['resources'].pop('link5_guard_reference')
+    path=tmp_path/'manifest.json';write(path,data)
     assert load_manifest(path)['robot_links']==['link2','link7']
     data['resources'].pop('robot_references');write(path,data)
     with pytest.raises(ValueError,match='robot_references'):load_manifest(path)
     data.pop('robot_links');write(path,data)
     assert load_manifest(path)['robot_links']==['link7']
     data['robot_links']=['link5','link7'];write(path,data)
+    with pytest.raises(ValueError,match='link5_guard_reference'):load_manifest(path)
+    data['resources']['robot_references']='/references'
+    data['resources']['link5_guard_reference']='/guard.png';write(path,data)
+    assert load_manifest(path)['robot_links']==['link5','link7']
+    data['robot_links']=['link2','link2','link7'];write(path,data)
     with pytest.raises(ValueError,match='robot_links'):load_manifest(path)
+
+
+def test_timeout_yields_to_later_cases_without_switching_model(config):
+    config['cases'].append({**config['cases'][0],'id':'two'})
+    requests=[];execute=Executor()
+    def worker(path,python,timeout):
+        request=read(path);requests.append(request)
+        if request['case']['id']=='one' and request['stage']=='vlm2' and request['attempt']==1:
+            write(path.parent/'result.json',{'status':'failed','failure':{'category':'vlm_timeout','defer':True}})
+            return 1
+        return execute(path,python,timeout)
+    state=run(config,worker)
+    assert state['status']=='complete'
+    attempts=[r for r in requests if r['case']['id']=='one' and r['stage']=='vlm2']
+    assert [r['attempt'] for r in attempts]==[1,2]
+    assert [r['vlm_route'] for r in attempts]==['primary','primary']
+    assert [r['model_attempt'] for r in attempts]==[1,1]
+    assert attempts[1]['previous_attempt']==attempts[0]['directory']
+    assert next(i for i,r in enumerate(requests) if r['case']['id']=='two' and r['stage']=='object_anomaly') < requests.index(attempts[1])
+    assert read(Path(attempts[0]['directory'])/'result.json')['status']=='failed'
+    assert state['cases']['one']['stages']['vlm2']['queue_wait_seconds']>0
+
+
+def test_semantic_failure_switches_to_luna_before_next_case(config):
+    config['cases'].append({**config['cases'][0],'id':'two'})
+    requests=[];execute=Executor()
+    def worker(path,python,timeout):
+        request=read(path);requests.append(request)
+        if request['case']['id']=='one' and request['stage']=='vlm2' and request['attempt']==1:
+            write(path.parent/'result.json',{'status':'failed','error':'positive_points are null'})
+            return 1
+        return execute(path,python,timeout)
+    assert run(config,worker)['status']=='complete'
+    attempts=[r for r in requests if r['case']['id']=='one' and r['stage']=='vlm2']
+    assert attempts[1]['vlm_route']=='alternate' and attempts[1]['model_attempt']==2
+    assert requests.index(attempts[1]) < next(i for i,r in enumerate(requests) if r['case']['id']=='two')
+
+
+def test_timeout_resume_preserves_budget_and_exhausts_after_four_calls(config):
+    from infrastructure.shared.contracts.vlm_failure import VLMTimeoutError
+    from datetime import datetime,timezone,timedelta
+    requests=[];execute=Executor()
+    def worker(path,python,timeout):
+        request=read(path);requests.append(request)
+        if request['stage']=='vlm2':raise VLMTimeoutError('no response')
+        return execute(path,python,timeout)
+    first=run(config,worker,defer_timeouts_only=True)
+    assert first['status']=='deferred'
+    path=Path(config['output'])/'run.json';saved=read(path)
+    entry=saved['cases']['one']['stages']['vlm2']
+    # Simulate a long wait between launches; it must not consume active VLM time.
+    entry['finished_at']=(datetime.now(timezone.utc)-timedelta(hours=2)).isoformat()
+    entry['budget_started_at']=(datetime.now(timezone.utc)-timedelta(hours=2,seconds=1)).isoformat()
+    write(path,saved)
+    final=run(config,worker)
+    assert final['cases']['one']['status']=='disabled'
+    assert [r['attempt'] for r in requests if r['stage']=='vlm2']==[1,2,3,4]
+    assert all(r['vlm_route']=='primary' for r in requests)
+    assert final['cases']['one']['stages']['vlm2']['queue_wait_seconds']>=7200
+    before=len(requests);run(config,worker);assert len(requests)==before
+
+
+@pytest.mark.parametrize('unavailable',['link2','link7','both'])
+def test_expected_track_insufficiency_completes_and_object_anomaly_runs(config,unavailable):
+    from robot.workflows.coordination import scoring_outcomes
+    config['robot_links']=['link2','link7'];execute=Executor();outcomes={}
+    def worker(path,python,timeout):
+        request=read(path)
+        if request['stage']=='robot_score':
+            metrics={link:({'status':'failed','error_type':'insufficient_cotracker_tracks','tracking':{'retained_tracks':2}}
+                          if unavailable in (link,'both') else {'status':'complete','breakdown':{'epsilon_rigidity':0.01}})
+                     for link in config['robot_links']}
+            outcomes.update(scoring_outcomes(metrics,config['robot_links']))
+            write(path.parent/'result.json',{'status':'complete','link_outcomes':outcomes})
+            return 0
+        return execute(path,python,timeout)
+    assert run(config,worker)['status']=='complete'
+    assert ('one','object_anomaly',1) in execute.calls
+    for link in config['robot_links']:
+        assert outcomes[link]['rigidity']==(None if unavailable in (link,'both') else 0.01)
+
+
+def test_other_scoring_errors_remain_failures():
+    from robot.workflows.coordination import scoring_outcomes
+    with pytest.raises(ValueError,match='depth_failed'):
+        scoring_outcomes({'link7':{'status':'failed','error_type':'depth_failed'}},['link7'])

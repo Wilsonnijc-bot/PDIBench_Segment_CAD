@@ -23,6 +23,7 @@ from PIL import Image
 
 from robot.preprocessing.link7_persistent.vlm2_sam_prompting import run_case
 from robot.preprocessing.link7_persistent.frame_lineage import read_original_frame, validate_lineage
+from infrastructure.shared.contracts.vlm_failure import failure_record
 from robot.preprocessing.link7_persistent.vlm_client import VLMClient
 from robot.preprocessing.link7_persistent.interface.config import public_config, role_config
 from robot.preprocessing.link7_persistent.vlm_prompts import VLM1_RESPONSE_REQUEST, VLM1_SYSTEM_PROMPT, VLM2_NEGATIVE_PROMPT, VLM2_POSITIVE_PROMPT, VLM2_SYSTEM_PROMPT
@@ -182,6 +183,19 @@ def prepare(a):
         commit(a,record)
 
 
+def vlm1_retry_feedback(previous):
+    """Ask the same model to correct invalid output; never rewrite its verdict."""
+    feedback=previous.get('retry_feedback') or {}
+    if not feedback:return ''
+    return ('\nYour previous response was rejected by the schema validator: '
+            +str(feedback.get('error',''))+'\nPrevious response: '+str(feedback.get('answer',''))
+            +'\nReassess the SAME two images. If the target is not visible, return '
+            +'state="unclear", issue="target_not_visible", severity="unclear", probability=null. '
+            +'A visibility skip cannot have state="normal" or state="deformed". '
+            +'For a visible, assessable target, use a numeric probability and consistent state/severity. '
+            +'Return exactly the requested JSON fields. Do not invent missing visual evidence.')
+
+
 def select_frames(a):
     from robot.preprocessing.link7_persistent.palm_recovery import parse_palm_response
     record=load(a)
@@ -201,15 +215,18 @@ def select_frames(a):
                 continue
             ref=Image.open(r['reference']['path']).convert('RGB');candidate=Image.open(call['crop']).convert('RGB')
             user_prompt=f"Image 1 is the nondeformed reference. Image 2 is source frame {call['frame']}. "+record['config']['vlm1_response_request']
+            if index < len(previous):user_prompt+=vlm1_retry_feedback(previous[index])
             entry=dict(call)
             try:
                 response=client.ask([ref,candidate],user_prompt,system_prompt=record['config']['vlm1_system_prompt'])
                 raw=response['answer'];entry['raw_response']=raw;entry['vlm_request']=response
                 entry.update(parse_palm_response(raw));entry['parse_error']=''
-            except Exception as error:entry.update(state='unclear',parse_error=str(error))
+            except Exception as error:entry.update(state='unclear',parse_error=str(error),failure=failure_record(error))
             r['diagnoses'].append(entry)
             commit(a,record)
             print(case,'VLM1',call['frame'],entry['state'],flush=True)
+            if entry.get('failure', {}).get('defer'):
+                break
         valid=[d['frame'] for d in r['diagnoses'] if d['state']=='deformed' and not d.get('parse_error')]
         r['status']='vlm2_pending' if valid else 'no_confirmed_deformation'
         if valid:
@@ -234,7 +251,7 @@ def prompt_sam(a):
             r['status']='sam_pending'
             save(a.work/'sam'/case/'seed.json',seed)
             print(case,'VLM2 frame',seed['frame'],'points',seed['points'],flush=True)
-        except Exception as error:r.update(status='failed_vlm2',error=str(error));traceback.print_exc()
+        except Exception as error:r.update(status='failed_vlm2',error=str(error),failure=failure_record(error));traceback.print_exc()
         finally:
             latest=a.work/'artifacts'/case/'vlm2_interface'
             if latest.exists():

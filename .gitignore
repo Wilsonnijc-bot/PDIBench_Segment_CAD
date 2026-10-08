@@ -30,16 +30,32 @@ dist/
 /infrastructure/compat/pastresults
 /infrastructure/compat/robot_link2_diagnostic
 
-# Preserve the four previously tracked reports in their owning pipeline.
-!/robot/results/
-/robot/results/*
-!/robot/results/link5-only-selected45-updated-mask-20260929/
-/robot/results/link5-only-selected45-updated-mask-20260929/*
-!/robot/results/link5-only-selected45-updated-mask-20260929/LINK5_FOREARM_AUROC.csv
-!/robot/results/link5-only-selected45-updated-mask-20260929/LINK5_FOREARM_AUROC.json
-!/robot/results/link5-only-selected45-updated-mask-20260929/LINK5_FOREARM_AUROC.md
+# Preserve the historical masking-trial report; retired AUROC copies remain in the publication.
 !/robot/experiments/masking_trials/results/
 /robot/experiments/masking_trials/results/*
 !/robot/experiments/masking_trials/results/link5-joint-prompt-20260929/
 /robot/experiments/masking_trials/results/link5-joint-prompt-20260929/*
 !/robot/experiments/masking_trials/results/link5-joint-prompt-20260929/SAM_TUNING_RESULTS.md
+
+# Retain the reinstated pair-selection experiment's compact scientific record.
+!/robot/experiments/link5_pair_selection_ablation/results/
+/robot/experiments/link5_pair_selection_ablation/results/*
+!/robot/experiments/link5_pair_selection_ablation/results/20261007/
+/robot/experiments/link5_pair_selection_ablation/results/20261007/*
+!/robot/experiments/link5_pair_selection_ablation/results/20261007/manifest.json
+!/robot/experiments/link5_pair_selection_ablation/results/20261007/REPORT.md
+!/robot/experiments/link5_pair_selection_ablation/results/20261007/rigidity/
+/robot/experiments/link5_pair_selection_ablation/results/20261007/rigidity/*
+!/robot/experiments/link5_pair_selection_ablation/results/20261007/rigidity/summary.json
+!/robot/experiments/link5_pair_selection_ablation/results/20261007/rigidity/rigidity_scores.csv
+!/robot/experiments/link5_pair_selection_ablation/results/20261007/rigidity/paired_scores.csv
+!/robot/experiments/link5_pair_selection_ablation/results/20261007/rigidity/paired_scores.json
+!/robot/experiments/link5_pair_selection_ablation/results/20261007/rigidity/comparison_summary.json
+!/robot/experiments/link5_pair_selection_ablation/results/20261007/analysis/
+/robot/experiments/link5_pair_selection_ablation/results/20261007/analysis/*
+!/robot/experiments/link5_pair_selection_ablation/results/20261007/analysis/forearm_AB_correlation.md
+!/robot/experiments/link5_pair_selection_ablation/results/20261007/analysis/forearm_AB_correlation.json
+!/robot/experiments/link5_pair_selection_ablation/results/20261007/analysis/forearm_AB_labels_scores.csv
+!/robot/experiments/link5_pair_selection_ablation/results/20261007/metadata/
+/robot/experiments/link5_pair_selection_ablation/results/20261007/metadata/*
+!/robot/experiments/link5_pair_selection_ablation/results/20261007/metadata/restoration.json
